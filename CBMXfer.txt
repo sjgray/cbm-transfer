@@ -1,0 +1,1042 @@
+CBM-Transfer (C)2007-2017 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
+============ V1.00 - Mar 31,2017 *** 10th Anniversary Edition ***
+
+   CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
+  transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
+  (OpenCBM compatible cable, including Zoom Floppy USB) or CBMLink cable. It is also a
+  full-featured Commodore file viewer.
+
+  CBM-Transfer is a front-end (GUI) to several command-line utilities including:
+
+    * OpenCBM.... Device driver and utilities to connect a Commodore IEC drive via "X-Cable"
+		  or USB (Zoom Floppy adapter)
+    * CBMLink.... Talks to a Commodore computer via serial cable
+    * Vice....... Emulators plus C1541 utility - Works with Commodore Disk Image files (like D64)
+    * NibTools... Low-level disk "nibbler" utilities using parallel port cables
+
+   CBM-Transfer will have limited use without at least one of the above utilties. Please see
+  below for installation instructions!
+
+  CBM-Transfer is based on GUI4CBM4WIN by Leif Bloomquist, Wolfgang Moser, and Spiro Trikaliotis.
+  GUI4CBM4WIN Version 0.4.1 sourcecode was used as the base. CBM-Transfer also includes portions
+  of CBM2BMP v1.1 by Peter Weighill.
+
+
+Introduction
+============
+
+   I purchased an XM1541 cable to backup my Commodore disk collection and preserve some of the
+  old software and files from the old days. I also have some 8050 and SFD disks that I want to
+  back up. Unfortunately, because these are IEEE devices they are not usable with the XM1541
+  cable and GUI4CBM4WIN ("G4C" from now on). 
+
+   I didn't want to mess around with DOS or DOS-based utilities like STAR COMMANDER and wanted
+  to do everything in Windows. I found G4C 0.4.1 and started playing with it. It was okay but
+  I found it lacking in some areas.
+
+   As a VB6 programmer I wanted to fix it up. Then I found it had been converted to VB.NET.
+  Unfortunately I do not have VB.NET and I also find it too different and bulky for my tastes,
+  so I decided to stay with VB6.
+
+   Having two different development forks for G4C makes no sense so I decided to rename mine
+  to CBM-Transfer, a much easier name. CBM-Transfer has additional features that set it apart
+  feature-wise from G4C. 
+
+   In 2011 I purchased a Zoom Floppy adapter with IEEE connector and parallel cable for the 1541.
+  The Zoom Floppy allows you to connect your drives via USB. For new computer users this might
+  be your only option. The parallel cable allows you to backup copy-protected disks very quickly.
+
+   I look forward to user feedback. Please email me your bug reports, and ideas to help me
+  improve the program! Enjoy!
+
+  Steve J. Gray
+	Email............: sjgray@rogers.com
+	Web..............: http://www.6502.org/users/sjgray/index.html
+	CBM-Transfer Page: http://www.6502.org/users/sjgray/software/CBMXfer/CBMXfer.html
+
+
+Installation
+============
+
+   CBM-Transfer is compatible with machines running Windows95 or later, and has been tested on
+  versions upto and including Windows 10. It is a 32-bit Windows app but will also run on
+  64-bit Windows.
+
+  Download the following additional programs, or read the documentation: 
+
+	OpenCBM  (For X cable or Zoom Floppy. ZF users make sure to use the correct version!
+		  Now includes 'ImgCopy') SEE NOTE BELOW
+		http://spiro.trikaliotis.net/opencbm-0.4.99.98/opencbm.html
+
+		http://www.trikaliotis.net/Download/opencbm-0.4.99.98/opencbm-0.4.99.98.zip
+		http://zadig.akeo.ie/         (USB Driver installer needed for Win7 or later)
+
+	WinVice  (2.3 or higher recommended. Version 3.0 is latest at the time of this document.
+                  Includes 'C1541.EXE' utility - SEE NOTES!)
+		http://vice-emu.sourceforge.net/
+
+  These downloads are optional depending on your equipment:
+
+	CBMLink  (If you want to use CBMLink Cables)
+		http://zimmers.net/anonftp/pub/cbm/crossplatform/transfer/CBM-to-PC/index.html
+
+	Nibtools (For ZF or X cable with parallel option)
+		http://c64preservation.com/files/nibtools/
+	
+
+   I recommend installing OpenCBM and WinVICE first, rebooting, and making sure they work properly.
+  Installation of OpenCBM may require administrative access to install correctly!
+
+     Note: The OpenCBM drivers are not signed which will cause issues in 64-bit versions of
+           Windows VISTA and higher. OpenCBM 4.99 now has special installation instructions.
+           Please refer to the OpenCBM documentation.
+
+   There is no special installer for CBM-Transfer. Simply unzip the files in the archive to the OpenCBM folder.
+  This will allow CBM-Transfer to find all the command-line utilities that are needed.
+
+  Now copy the "C1541.EXE" file from the WinVice directory to the same.
+
+     IMPORTANT!: For WinVICE 3 you will also need to copy the "libgcc_s_dw2-1.dll" file or it will not work!
+
+   If you want to use IEEE drives, copy the "CBMLINK.EXE" file there too. Finally, if you have a Zoom Floppy
+  with parallel cable copy the NibTools EXE files (nibread, nibwrite, nibconv) and/or the ImgCopy utility as well. 
+
+
+Troubleshooting installation problems
+=====================================
+
+   CBM-Transfer is written using VisualBASIC 6. I do not include the VB runtimes in the distribution 
+  archive since most releases of Windows already include them. However if you run into problems when
+  starting CBM-Transfer, such as "component not registered", or not found, then you may need to install
+  the runtimes to correct this. You can find them here:
+
+    https://www.microsoft.com/en-us/download/details.aspx?id=24417
+    https://www.microsoft.com/en-us/download/details.aspx?id=7030
+
+  For earlier OpenCBM versions there are workarounds. Please see:
+
+    http://www.techspot.com/community/topics/how-to-install-use-unsigned-drivers-in-windows-vista-7-x64.127187/
+  or
+    http://awesome.commodore.me/forum/showthread.php?672-GUIDE-How-to-install-ZoomFloppy-(Also-Win8)
+
+   I recommend that you install VICE 2.3 or later as the version 2.2 "C1541.EXE" utility seems to
+  have a bug. 
+
+   If you are having trouble reading from X-cable or Viewing Disk Images make sure that the required files
+  are in the directory, AND that they work on their own. Use the "RESULTS" button to view any error messages
+  that might be generated. This could indicate an improper installation of OpenCBM or VICE files.
+
+
+Program Configuration
+=====================
+
+   When you start the program for the first time you will be taken directly to the options
+  window where you can set the program options. On the left are the available option
+  categories. Selecting one will change which options are visible.
+
+   Click OK when you are done. The next time the program runs you will go to the main screen and won't
+  see the option screen unless you click the "Options" button.
+
+  General:
+
+    Default Destination Mode.. Selects which will be the default view in the right pane.
+    Log all commands.......... Writes exact command to logfile. Use the "Show Log" button to view the log.  
+    Check for EXE's........... Not implemented yet.  
+    Preview shell commands.... Display command-line before operation.
+    Write P00 files........... Determines if DOS filenames or P00 files are created when copying from
+                             within Disk Images.
+    Automatically refresh..... Normally checked.
+    Confirm D64 creation...... Asks confirmation.
+    Treat Dxx files........... Normally unchecked. Disables image writing.
+    For results button also... Opens the CBMXFERERR.TXT file when the results button is pressed. 
+    Start with DAD............ Opens the DAD window and minimizes the main window at startup.
+
+  Paths:
+
+    Remember PATHs............ Check to remember the last PATHs used, and restore then on startup.
+    Source Directory.......... Default folder of your files (probably images). Click "..." to select.
+    Destination Directory..... Default folder of right-side Local PC. Click "..." to select.
+    Use Current Button........ Take the current path as the default.
+    Clear History Button...... Clears the Path History drop-down menu.
+    Auto add to History....... Automatically adds new paths to the History drop-down.
+
+
+  X-Cable:
+
+    Default Device Number..... Usually 8.
+    Mode...................... The protocol used to communicate (see OpenCBM manual).
+    Disable warp mode......... Check if you have trouble (see opencbm manual).
+    Detect Drive Button....... Shows you the ID's of all connected drives.
+    Reset Bus Button ......... Does just that.
+
+  CBMLink:
+
+    Default Unit.............. Normally U8,D0 (Device 8, drive 0). Many IEEE drives are dual
+			       units, so you can select drive 1 if desired.
+    Connection String......... Specifies the port and speed, usually "serial 19200,com1".
+
+  VICE:
+
+    Enable for Dxx............ Enable if you want to run Vice for commodore files.
+    Path to Vice folder....... The path only, NOT to a specific emulator. Use the "..." button to select.
+    For D64/D71/D80 (3 items). Specifies the emulator to run for specific image types. For example,
+		       	       D64's are probably C64 disks, but D80's are probably PET disks. Use the
+			       drop-down menu to select the proper emulator from the list. Select "NONE"
+			       to disable, or select "ASK ME" to be prompted to select one manually.
+    For PRG Files............. For PRG file they could be for any machine. Select whether to always run
+			       a specific emulator (as above), or have the program read the
+                               load address of the file and select the matching emulation.
+
+  NibTools:
+
+    Enable NibTools........... You will need a parallel cable for these options
+    Create NIB / NBZ.......... These are ALWAYS created since NIBREAD does not create G64/D64 directly.
+ 			       If not selected the NIB/NBZ file will be deleted after conversion.
+    Create G64 / D64.......... These are created by NIBCONV using the NIB file.
+    Write D64................. Also uses NibWrite to write D64/D71 files.
+    Start/End Track........... Optional. Overrides defaults if selected.
+    Switches.................. Common NibTools option (see NibTools documentation for details).
+    Additional Options........ Optional. Specify addition switches here (not checked for validity).
+    Custom.................... Check to use custom option strings for NibRead, NibWrite, and NibConv. If this
+			       option is NOT checked then the switches above will be used.
+    NIBREAD................... Custom option string for NibRead
+    NIBWRITE.................. Custom option string for NibWrite
+    NIBCONV................... Custom option string for NibCon
+
+  Filenames:
+
+    When CBM filenames........ Commodore filenames can contain characters that are not allowed in
+                               the Windows file system. These must be fixed before saving to the local PC.
+	- Leave as-is......... Lets you edit the filename manually (forces Confirm/Edit filename)
+	- Remove invalid...... Removes all invalid characters (caution: May remove entire filename!)
+	- Replace invalid..... Replaces with specified character(s).
+	- Confirm/Edit........ Enable to allow additional editing after any substitutions above
+
+       NOTE: If the Commodore application requires specific filenames that contain invalid characters
+             it is recommended that you create a Disk Image rather than copying the files to the
+             local PC. Alternately you can enable the "Write P00" option to create P00 files. P00 files
+             contain a header that preserves the true CBM filename in the header but uses a
+	     file-system friendly filename on disk.
+
+  Batch Imaging:
+
+    Enable Batch Disk Imaging.. Enable Batch mode
+	- Manual Filename Entry.. Asks for label for each disk
+	- Use Disk Label......... Uses label from disk header...
+				  Caution: Duplicate headers will overwrite previous
+	- Numbered, Starting at.. Numbers the disk from starting number entered
+	- Double-sided........... Adds both sides of a "flippy disk". 
+	- Filename format........ The template for image names. Uses the following special characters
+				  for variables:
+				  #=Disk Number digit placeholder (If you want a 3-digit number use 3 #'s)
+				  %=Disk Side a or b (lowercase)
+				  ^=Disk Side A or B (uppercase)
+				  *=Disk Side 1 or 2
+
+    Log Disk Labels.......... Not Implemented. Looking for suggestions!
+    Log Disk Contents........ Not Implemented
+
+  Fonts:
+    Use 'C64..' font......... Uses alternate font. Must be installed in your system fonts directory
+
+
+PETSCII, ASCII, CBMDOS, MSDOS etc
+=================================
+
+ A few words about these different systems and how it affects what you can do. First some definitions:
+
+   * PETSCII...... The character encoding used on Commodore systems. A pre-ASCII variant that contains many
+                   unique symbols, glyphs (graphic symbols), plus re-ordered letters.
+   * ASCII........ The standard encoding system. Does not contain any special graphic symbols.
+   * CBMDOS....... The operating system of the Commodore disk drives.
+   * MSDOS........ The operating system for command-line utilities (opencbm, c1541, nibtools)
+   * FILE SYSTEM.. A system to store files, with folders (sub-directies) etc. A file system has limitations
+                   on what characters can be used in filenames.
+
+   There are fundamental differences between Commodore PETSCII vs ASII, and CBMDOS vs MSDOS. This means you
+  must be aware of how to handle these differences. Commodore disks use PETSCII and may contain files with
+  names that can not be represented using ASCII. Therefore, some translation may be necessary when
+  transfering files to MSDOS, which uses ASCII. The OpenCBM utilities, and C1541.EXE show these files using
+  ASCII so you may not be able to see the true filename or even transfer the file.
+
+
+Basic Operation
+===============
+
+  The main window is divided into three areas;
+
+   * Left/Local/Source (PC) pane.
+   * Centre area for mode and transfer operations.
+   * Right/Remote/Destination (Commodore) pane.
+
+   The LEFT side is where your "Local" PC files are, where you can work with Disk Image files,
+  and also to view files. The LEFT side can be expanded to show both files and Disk Image contents.
+
+   The RIGHT side displays the directories from remote Commodore drives that are connected via an X-Cable,
+  Zoom Floppy, CBMLink cable, and additionally Disk Images. You can view the local PC as well, for copying
+  files within Disk Images, or just for convenience.
+
+
+Centre Section
+--------------
+
+  The centre section contains the two main transfer buttons, and a few other buttons.
+
+    * Options button............. Brings up program options window (see above).
+    * Results button............. Displays output from last CMD operation.
+    * About button............... For program information etc. 
+    * Help button................ Displays this Help text file.
+    * DAD button................. Shows or Hides the "Drag And Drop" window.
+
+    * Right Arrow ("->") button.. Copies from the LEFT to the RIGHT.
+    * Left Arrow ("<-") button... Copies from the RIGHT to the LEFT.
+
+   Also at the top left and bottom right are two expander buttons (">>" and "<<") that expands or hides
+  elements on the left and right.
+
+
+Left Pane
+---------
+
+   The LEFT pane is your "Source" pane. At the top are two coloured buttons to select which information
+  is displayed:
+ 
+    * Local PC.... Standard PC files; Floppy, Hard drive, or Mapped Network drives. 
+    * Disk Image.. The contents of a Commodore Disk Image (D64, D80, NIB etc).
+
+   The selected button will have the name in bold white text. Un-selected buttons have black text. You
+  may also click the ">>" button in the top centre section to expand the left pane to dual view and show
+  BOTH local PC and Disk Image. Click "<<" to return to single view. You can still use the top buttons to
+  select the source when transferring to the right side pane.
+
+  NOTE: When in dual view, clicking on a supported image file on the left side listing will automatically
+        open it in the right side.
+
+  Local PC:
+
+   When "Local PC" is selected you will see the current directory. At the top is the directory path.
+  You can type here to change directly to a specific directory, then press ENTER. You can also drag and
+  drop a folder icon here. There is a drop-down list for "Favorites" or Path History (selectable in
+  options menu). To the left is an UP ARROW to change to the parent directory (one level UP).
+  Click the "..." button to select a new directory to view. The ">>"  control lets you toggle separate
+  drive and path controls. Click "<<" to hide them again.
+
+  The DOWN TRIANGLE button brings up a drop-down menu to work with the paths:
+
+  * Explore LEFT Directory........ Opens the LEFT directory in an explorer Window
+  * Explore RIGHT Directory....... Opens the RIGHT directory in an explorer Window
+  * Swap LEFT and RIGHT........... Swaps LEFT and RIGHT paths.
+  * Set LEFT...................... Makes LEFT path same as the RIGHT.
+  * Set RIGHT..................... Makes RIGHT path the same as the LEFT.
+  * Add Current Path to History... Adds the path
+  * Remove Current Path........... Removes the path
+  * Clear History................. Clears the Source Path history list.
+  * Create New Folder............. Prompts for new folder name and creates it in the current folder
+
+  NOTE: You can enable "Auto add Path" in the Options/path tab to automatically add new paths to the
+        drop-down menu. Paths will be saved on exit.
+
+  Below those buttons are the files from the selected directory. At the bottom are the file-related
+  buttons and totals KB and Blocks for any selected file(s).
+
+  * Refresh...... Refreshes the file list
+
+  * Rename....... Rename selected file(s). If multiple files are selected it will prompt for each file.
+                  To abort click the "Cancel All" button.
+
+  * Delete....... Delete selected file(s)
+  * New Dnn...... Creates a new, blank Disk Image. The extension determines the type.
+
+  * Run.......... Smart button. Runs EXE files, edits TXT files, or runs VICE
+  * View......... Smart button. View Commodore files.
+  * 2............ Smart button. Select Disk Image to be viewed in Destination (right pane).
+                  The Disk Image tab must be selected for this to work, otherwise it operates
+                  just like the "View" Button.
+
+   The "File Filter" lets you pick which types of files to view. So, for example, if you set it to
+  "D64" then you will only see files with an extension of "D64". Some options show files of a single
+  file type and others show groups of related files. For example, "Disk Images" shows you all image
+  types such as D64,G64,D71,D80,NIB etc. Picking "CUSTOM..." prompts for your own filter string.
+  For example "*.PNG;*.PDF" will display only PNG or PDF files.
+
+   You can select one or more files in the usual Windows method (SHIFT/CTRL). The size and "blocks"
+  (Commodore drive blocks) will be shown for all selected to help you figure out how much will fit on
+  a disk when copied.
+
+  If you click on a file with the extension "PRG","SEQ" or NO EXTENSION you can view the file on the
+  built-in CBM Viewer. See "File Viewer" below.
+
+  If you click on a "Dxx" or "G64" image file then click "Run", you can load the image into a specific
+  VICE emulation chosen for that image type. The emulator will load and attach the image and autorun
+  the first file inside the image.
+
+  Disk Image:
+
+  This tab lets you view the contents of any supported Disk Image file.
+
+  If you click on a "Dxx" image file then click "View" the Dxx file will be opened and you can view
+  the contents of the disk on the LEFT side. When you are viewing an image file you can copy files
+  from inside the image to the RIGHT pane or view files in the file viewer! Clicking "Run", loads
+  VICE, attaches the image, and runs the selected file.
+
+  If you click on a "NIB" or "NBZ" image file then "View" you will be prompted to convert the file
+  to D64 first before viewing.
+
+  You may also view an Image File by first clicking on the Disk Image button at the top, then dragging
+  and dropping the file to the file list area. Only one file may be dropped at a time.
+
+  The following buttons are available:
+
+  * Refresh........ Re-read the image file.
+  * ++/-- ......... Selects ALL files in the list, or deselect ALL files.
+  * Del............ Deletes selected file(s) file from the image.
+  * Ren............ Renames selected file(s) in the image.
+  * View........... Displays the file in the File Viewer. Files are extracted to a temporary file
+                    in order to be viewed.
+  * Run............ Starts the appropriate Vice emulator, attaches the current image and autoruns
+		    the selected PRG file. 
+  * DOWN TRIANGLE.. Drop-down menu with options to save the disk directory as a text file, add it to the
+                    Catalog, and to view the Catalog.
+
+   To return to the normal PC directory click on the "Local PC" button at the top. You can freely
+  swap between the Local PC directory and the Disk Image.
+
+  NOTE: PETSII as used by Commodore contains many special symbols and graphics characters that have no
+        equivilent in ASCII and therefor are "non-printable". The "C1541.EXE" program that allows
+        CBMXfer to view disk images, will display any non-printable characters as PERIODS. Most likely
+        you will not be able to copy these files to the LocalPC directory, however when disk images are
+        written to real CBM disk drives these files will appear as normal.
+
+
+Right Pane
+----------
+
+   This lets you view directories on Commodore drives connected via OpenCBM or CBMLink. Click on the
+  coloured button at the top to select which to view.
+
+
+  CBM Drive on X-Cable / Zoom Floppy (USB):
+
+  There are two different interfaces you can use to connect drives to your computer:
+
+    * Zoom Floppy
+    * X-Cable
+
+   For most computers a Zoom Floppy adapter is recommended. It is a modern USB interface to both IEC and
+  IEEE devices. The ZF adapter might be your only option if you have a newer computer with no
+  printer/parallel port. The ZF adapter also supports  "parallel cable", which is a modification to the
+  Commodore drive to add a fast parallel data connection. With the parallel cable you can backup many
+  protected or non-standard disks using the NibTools utilities.
+
+	Note: Make sure you are using the latest release of OpenCBM that includes
+	      Zoom Floppy support! Version 4.99 is current as of this writing.
+
+
+   For older computer without USB your computer will need a printer/parallel port in order to use an
+  "X-cable". The X-cable connects a Commodore IEC drive (1541, 1571, 1581 etc) or other drive (1541-III,
+  uIEC) to the PC via the printer port and uses OpenCBM for communication.
+
+	IMPORTANT!: There are several different types of X-Cables. I recommend you use an "XM"
+		    or "XA" type for use with windows. Other types may not work.
+
+   At the top is the device# drop-down menu, and to its right is the disk drive model name or names.
+  Below in blue, are the Disk Title and ID, the Files, Blocks free, and drive status. On the right edge are 
+  action buttons.
+
+  Generally you will first select the device to use from the device# menu, then press the DIRECTORY button
+  to read the directory from the disk. If you have multiple drives attached you can click on the model# box
+  to scan the devices on the bus.  If a 1571 drive is detected as the current device it will ask
+  you if you want to use double-sided mode.
+
+  * Directory......... reads the disk from on the currently selected drive unit
+  * Format............ Formats the disk
+  * Init.............. Initializes the disk (like re-reading)
+  * Val............... Validate the disk (re-calculate BAM)
+  * Rename............ Rename files
+  * Scratch........... Delete files
+  * View.............. Display the File Viewer window.
+	         	Supports BASIC, SEQ, BINARY, CHRSET and ML files.
+  * Root.............. Return to Root partition of 1581 disk (*)
+  * Sel............... Enter/Select highlighted 1581 disk partition (*)
+  * All............... Select ALL files
+  * None.............. De-select ALL files.
+
+  Note: (*) these buttons are only visible when a 1581 drive is selected.
+
+
+  CBM Drive via CBMLink:
+  
+   The CBMLink (or PRLink) cable connects a PC to a Commodore computer via the PC's serial port.
+  This cable usually attaches to the Commodore machine's cassete port, but may also be connected to
+  a serial port if available. The Commodore drives are connected to the Commodore computer as usual.
+  The CBMLink program must be loaded on the Commodore computer. There is a version specific to each
+  Commodore machine.
+
+  Once CBMLink is running, any drive that is attached can be accessed. CBMLink is commonly used on
+  the older PET machines to access IEEE drives (4040, 8050 etc).
+
+  At the top is a drop-down menu to select the device number and drive number (to accomodate dual
+  drive units).
+
+  Make sure that the correct speed and COM port are set in the CBM-Transfer options!
+
+  The layout is very similar to the X-Cable, minus the 1581 buttons. The drive selector
+  drop-down menu has additional options for dual drive units.
+
+
+  Local PC:
+
+  Same as the LocalPC tab on the LEFT.
+
+  Disk Image:
+
+  Same as the Disk Image tab on the LEFT.
+
+
+DAD Window
+==========
+
+   The DAD (Drag And Drop) window can be opened and closed by clicking the "DAD" button on the main screen.
+  It can be opened automatically when the program starts by setting the "Show DAD.." option. The DAD window
+  allows you to use Windows Explorer as your interface for Image file creation, disk imaging, and file
+  viewing. You can Drop any supported image file or files to this window and the image will be written to
+  the currently selected drive on the X-cable interface. If you drop a supported PRG, SEQ, or picture file
+  then it will be viewed (if multiple files are dropped only the first will be viewed).
+
+   By clicking in this window you are prompted to Create an Image File from the current disk in the
+  selected drive. Images are saved to the currently selected path on the left side (source).
+
+
+File Transfer
+=============
+
+   Basically, you select the file or files you want to copy and click the "->" or "<-" button in the
+  centre section that points in the direction you want to copy. To select multiple files use the standard
+  windows convention of SHIFT to select a range, or CTRL to select individual files.
+
+   To write D64 images (and others) to disk, select the image file in the LEFT pane and Commodore drive
+  in the RIGHT (ie: X-Cable or CBMLink cable) then click the "->" button. If you select multiple images
+  on the left then you will enable BATCH mode. You will be prompted to insert a new disk for each image.
+
+	IMPORTANT: Writing images will ERASE any data you have on the disk!!!
+
+   To make a D64 image from a disk, make sure NO files are selected in the RIGHT pane then click the
+  "<-" button. You will be asked for a name to save the image (the Disk Title will be the default).
+  If you have a 1571 dual-sided floppy, simply change the extension to D71.
+
+   If you have a parallel connection in your Commodore drive you can enable the "Use NibTools"
+  option and create additional image types NIB, NBZ or G64 in a similar fashion. NibTools has many options,
+  so please refer to the Nibtools documentation for correct usage of the various switches.
+
+   When transfering files from Commodore disk, PRG and SEQ extensions will added automatically to the
+  filename on the PC. When PRG and SEQ files are written to Commodore disk the PRG and SEQ will be
+  removed but will appear properly as PRG or SEQ in the directory listing.
+
+  NOTE:	Commodore uses PETSCII characters. This is a different standard than ASCII on the PC!
+	Some Commodore characters or symbols do not have a matching ASCII equivilent and you may
+	be asked to enter a new filename when transferring files to the PC. If you wish to preserve the
+	Commodore filename then you can enable the "Write P00" option.
+
+
+File Viewer
+===========
+
+   The file viewer is designed to view various Commodore files. Since Commodore DOS doesn't use EXTENSIONS
+  like the PC, there are only two Commodore file types you can view... PRG and SEQ (USR and REL are not
+  supported at this time). You can also view BIN files, which are commonly used for ROM contents. We can
+  assume SEQ files are plain data, probably text. However, without an extension we don't know what
+  type of file a PRG might be. There must be a way for the user to change how the file is viewed. At the
+  top of the viewer window are coloured buttons to select the VIEW MODE. You can select:
+
+    * BASIC... Displays tokenized Commodore BASIC files.  Most dialects and versions are supported.
+    * SEQ..... Displays as text.
+    * HEX..... Displays Binary file as HEX values plus Text (non-printing characters are shown as ".")
+    * FONT.... Displays as 8x8 (normal) or 8x16 (CBM-II) format FONT file
+    * ASM..... Displays 6502 Assembly code with various formatting options.
+    * BITMAP.. Displays supported CBM format picture formats such as KoalaPainter and GeoPaint files.
+
+   The file viewer window is scalable. It can also be left open while you work on the main window. Clicking
+  the "VIEW" button in the main window will update the view in the Viewer window.
+
+   You can enable DUAL VIEW by clicking on the "+" button to the right of the VIEW MODE buttons. The button
+  will change to "-". Press the "-" button to return to SINGLE VIEW.
+
+   When DUAL VIEW is enable you can view the same file two different ways at the same time. Several new
+  buttons will appear. The ">" button shows which side (left or right) will be changed when a VIEW MODE
+  button is clicked. Clicking this button toggles it between "<" and ">".  To swap left and right views,
+  look at this button then click on the tab for the opposite view.
+
+   There will also be a set of three buttons ( "<<" "|" and ">>" ) that change the sizing of the left and
+  right frames from 20% to 80%. The "|" button returns it to 50%.
+
+   Normally when viewing PRG, SEQ or BIN fles the view will change to BASIC, SEQ or BIN automatically. The
+  "Lock View" option overrides this behaviour. You can also view "P00" files. The header will be skipped
+  automatically. If you select a file that is not recognized you will be prompted to choose either the
+  CBM-Transfer built-in viewer, or the application associated with the file extension.
+
+   You may also drag and drop a file into the viewer window. Drag to an empty area of the viewer window
+  until the pointer shows the drop symbol.
+
+  The different views are:
+
+BASIC:
+------
+
+   Takes a tokenized Commodore BASIC file in any CBM dialect. The default mode is "Auto", which
+  reads the load address from the file to determine which dialect to use. Most common load addresses
+  are supported, but if the basic file has been relocated you may need to select the dialect manually
+  from the drop-down menu. The load address is displayed along with the target machine name. There
+  are several formatting options:
+
+    * Reverse Text.......... Switches upper and lower case (needed for some early PET files)
+    * Use CBM Font.......... Switches to either "CBM 64" font or "CBM FONTS" Windows font. These
+				must be installed in the system fonts folder.
+    * Expand Special........ Converts 'special' formatting characters to readable descriptions.
+				IE: Reverse R =  {rvs}, Reverse Heart = {cls}
+		             	Use the UCase option to make them Uppercase, ie: {RVS} {CLS}		
+    * Break Multi........... Breaks multiple statements to separate lines
+    * Pad Tokens............ Adds additional spaces between tokens to improve readability
+  
+    * To Clipboard Button... pastes the listing to the clipboard.
+    * Export................ saves the listing to a text file.
+
+   The "<<" Button hides the options. Click ">>" to re-show them. There are also two colour boxes to
+  manually set the listing colours.
+
+
+SEQ:
+----
+
+   Displays the file as a data file, and assumes it is readable text. Non-printable text is not
+  displayed. If the file contains non-printable text you might consider changing to the "BIN"
+  view below.
+
+    * Use 'SEQ Viewer' C64 Font... Uses a font called "SEQ Viewer".
+    * Ignore LF................... Ignores LineFeed characters
+
+  There are also two colour boxes to manually set the listing colours.
+
+
+HEX:
+----
+
+   Displays the file as binary, using four-digit hex offset and two-digit hex values (with 16 bytes
+  per line). Options are:
+
+    * Load Address..... Uses Load Address from file.
+    * Wide............. Displays 16 bytes per line
+    * Show Printable... Display the ASCII/CBM equivilent characters. Unprintable characters are
+                        represented with a "." character. If you de-select "Show Printable" then
+                        only the hex values will be shown (with 32 bytes per line).
+    * 7-bit View....... Masks off the upper bit which will allow "RVS" CBM text to be seen.
+    * Show CBM......... Translates 0-31 (ASCII control codes) to Letters (CBM Screen Codes).
+    * Sync with ASM.... Uses the Load Address from the ASM project setting for files with no load
+                        address. Allows the Hex view to sync with selected line in the ASM listing.
+
+  At the very top left is the Black/White toggle button to change the listing colours.
+
+
+FONT:
+-----
+
+   For viewing Character Set FONT files or ROMs (no checking is done to verify the file contents). The file may
+  contain more than one font set. For CBM machines one set could contain either 128 or 256 characters depending on
+  if the "reverse" characters are included. PET/CBM machines generate the "reverse" characters with hardware, so
+  they are not included. Commodore C64/VIC have all 256.
+
+   At the top left are three boxes to change the foreground, background, and character border colours. To the
+  right is the colour theme menu which sets colours based on the default screens on various machines.
+  Next are "1x" to "5x" buttons to set the zoom factor for the displayed character sets. The "32" option shows
+  32 characters across when selected, or 16 if not. The "Border" checkbox adds a border around each character.
+
+   The Skip Bytes field lets you start from an offset which may help when trying to view character sets
+  embedded in programs or other binary files. To the right of the offset are six buttons that adjust the offset
+  by -256,-8,-1,+1,+8, or +256.
+
+   Below the top line and on the left we have the selected character controls. At the top is the currently
+  selected character. You can click on a character in the set to select it, or use the "<" and ">" buttons. The
+  set# and character# plus hex value are shown. Below that is the selected character with 10x zoom. You can also
+  select between '8x8' or '8x16' pixel format. Most characters are 8x8 pixels, however CBM-II machines used
+  8x16 format. 
+
+  Click the "Save BMP..." button to save the current view, including colour scheme and zoom to a BMP file.
+
+    TIP: BMP files are quite big. You might like to load the BMP file into a paint program and re-save it
+         as PNG or JPG to reduce the size.
+
+
+ASM:
+----
+
+   This is an interactive 6502 machine code symbolic disassembler. It has grown to a full-featured
+  disassembler with many features. There is now a separate help file for it. Open the side panel with
+  the ">" button then click on the "Project" tab button, then click on HELP for more info.
+
+
+BITMAP:
+-------
+
+   Displays supported CBM picture files. Pictures are automatically identified and displayed. If the
+  file is not known, a generic B/W 320x200 pixel image will be shown. Currently supported formats are:
+
+	* Art Studio (ART)
+	* Doodle
+	* Image System
+	* Advanced Art Studio
+	* Artist 64
+	* Blazing Paddles
+	* Koala Painter (KOA)
+	* Vidcom 64
+	* CDU Paint (CDU)
+	* GeoPaint (GEO)
+
+   CBM-Transfer recognizes files with an ART, KOA, CDU or GEO extension in the LocalPC directory. If
+  a format is recognized the name will be displayed, as well as any internal comments. To save the
+  currently displayed image to a Windows BMP file, click the "SAVE..." button.
+ 
+	NOTE: The bitmap viewer contains portions of code from CBM2BMP by Peter Weighill.
+ 
+
+VICE Support
+============
+
+   CBM-Transfer supports the VICE emulator (as of VICE 2.4 - available at VICETEAM.ORG). CBM-Transfer can
+  be a convenient front-end for running the various machine emulators. There are three ways this can work.
+
+    * Disk Images:
+	Any D64, G64, D71, D80, D81 (and others) contain the data for a complete Commodore floppy
+	disk in various formats for various disk drives. Inside the Disk Images can be one or more
+	files in Commodore format. Clicking a Disk Image from the Local PC list and then clicking
+	"Run" will run the emulator specified (you may be prompted), attach the Disk Image then run
+	the first file in the directory (as if you typed LOAD "*",8,1:RUN).
+
+	You can select which emulation is run for various Disk Images by clicking "Options", then
+	"Vice" and picking the one you want from the drop-down menu. If you prefer to select the
+	emulator manually then choose the "ASK ME" option.
+
+    * Selected File in Disk Image:
+	As above, but instead of clicking "Run" you click "View". The Disk Image will be loaded and
+	displayed. You can then select the file you want to run then click the "Run" button.
+
+    * PRG File:
+	In the Local PC view, if you have Commodore files with a PRG extension (ie: NOT inside a disk
+	image) you can click on it and select "Run". Since the PRG file is not inside a Disk Image
+	it could be for ANY system. So there are two choices:
+	
+		* Run specified emulator..... Selected from drop-down list. The "ASK ME" option
+						probably makes the most sense.
+		* Use Load Address........... Probably an even better option. Reads the file and
+						calculates the Load Address from the first two
+						bytes. This will determine which machine it is for.
+
+   If you select "ASK ME" then a window will be displayed with the various emulators listed. Click the
+  one you wish to use. Note: You will need Vice 2.3 or higher to select the "C64 sc" emulation, and
+  Vice 2.4 or higher to select the "P500" emulation.
+
+
+Tips and Tricks
+===============
+
+  * For parallel port use an XM or XA cable, as these are the only cables supported by OpenCBM.
+  * For USB use the Zoom Floppy adapter (recommended)
+  * Make sure the X-Cable is plugged in and the drive ON before turning on your PC!
+  * Check for the latest releases of Vice, OpenCBM and CBMLink
+  * Set your paths to your Commodore files in the options
+
+
+Drive Compatibility Notes
+=========================
+
+   These are some notes about compatibility with specific drives. Please contact me if you discover
+  any problems that can be added here.
+
+DRIVE     	NOTES
+--------  	-----
+MSD SD-2  	Not recognized by OpenCBM. Seems to function with IEC cable, but not IEEE.
+Excelerator	Untested
+Blue Chip	Untested
+
+
+Change Log
+==========
+1.00 - Mar 31,2017
+   *** The "Xfer" in "CBMXfer" has always been short for "Transfer". So, to avoid any confusion with
+       pronunciation or what the program does, I am updating the wording in both the program and
+       documentation to "CBM-Transfer". The executable file will remain "CBMXfer.exe".
+
+   *** 2017 marks the 10th Anniversary of this program, and to acknowledge it this will be Version 1.00!
+       It's about time I consider this a "real" program! ;-) To mark the Anniversary I am releasing this
+       as Open Source. Complete source-code can be found on GitHub:  www.github.com/sjgray/cbm-transfer
+   * New button graphics, and general GUI layout tweaking.
+   * Improved Error checking.
+   * Improved Prompting for file deletion.
+   * Added additional checking and prompting to overwrite existing files.
+   * Path history now sorted and duplicates removed.
+   * Left and Right LocalPC views now have identical functions.
+   * Add Custom Filter for LocalPC views.
+   * Add Disk Image tab to right side. New "2" button to select image.
+   * New copy options for image-to-image and LocalPC-to-image.
+   * Improved Drag and Drop file/directory recognition.
+   * Improved CBM Filename detection (,P ,S etc) for transfers.
+   * Add Remame files and Validate options for Disk Image files.
+   * Fixed/added some tooltips.
+   * Fixed crash when trying to rename LocalPC restricted files.
+   * DAD button now shows or hides the DAD window.
+   * Add Custom option strings for NibRead, NibWrite, NibConv.
+   * Add ABORT button when imaging disks. May require reset of zoom floppy.
+   * Viewer:
+     * Add drag and drop.
+     * Add "Dual-view" sizing buttons.
+     * BAS:  Add option pane toggle.
+     * SEQ:  Add "Ignore LF" (linefeed character) option. 
+     * ASM:  Much Faster.
+     *	     New Project options, with load/save.
+     *       New Help file.
+     *	     Improved layout with restructured sidebar with tab buttons.
+     *       Improved output listing, with spacing options.
+     *       New data block types: "D","T","V" and "R".
+     *       New options for multiple Platforms, CPU's, and Prefix's. Supports all "Illegal" opcodes.
+     *       New support for comments with single or double dividers, or just dividers.
+     *       Added ability to load "Regenerator" label and comment files from systems folder.
+     *       New SYMBOL import from comma-delimited, tab-delimited, or fixed-width text files.
+     *       Improved-Find/FindAll.
+     *       New lists for Labels and Comments.
+     *       New lists for Generated-Labels and External JSR.
+     *       New Quick Label, Block and Comment buttons along top.
+     *       Add listing Black/White toggle button.
+     * HEX:  Added ability to sync with selected lines in ASM view when Dual-View is enabled.
+     *       Add Show CBM option.
+     *       Add listing Black/White toggle button.
+     * FONT: Border/Divider lines - Add Top/Left to Set, plus pixel lines in Selected when border is on.
+     *       Add Border/Divider lines to Colour selection.
+     *       Add skip-bytes buttons.
+     *       Add 4x and 5x Zoom buttons.
+     *       Fix "Save BMP" to remove extra black area.
+   * Source code has been cleaned up, organized, and commented.
+
+
+0.41.1 Mar 15,2016
+   * Added support for copying .P00 files to/from Disk Images. Check "Write P00" option to enable
+     P00 creation.
+   * P00 files can now be viewed.
+   * Removed "show CMD window" option.
+   * Add "Create new folder" option in drop-down menu.
+   * Enable "Cancel All" option for multi-file rename.
+   * Fix "Lock View" in viewer.
+   * Add 16/32 character wide font view option.
+   * Temp fix for TRUE/FALSE settings in INI not recognized in non-english Windows
+     (German,French,Spanish now recognized - Will need to properly change INI save/load routines at
+     some point).
+   * Add option to remember/use SRC/DEST paths .
+   * Config options/settings are now automatically saved when you click OK and when you exit the app
+     (removed "Save as Default" button).
+   * Window layout (sized using ">>" buttons) are now remembered.
+   * Fix for "1571 (XM1541)" return string.
+   * Viewer: fixed dual view refresh.
+   * Fix for copying files into images.
+   
+0.40 Aug 12,2014
+   * Added DAD window and option.
+   * ML: Add "Find" buttons to SYM and DT lists. Select an entry then click to find the next occurence.
+   * ML: Click status box to find next "???" (unknown instruction).
+   * Changed directory listings to lowercase so graphics characters now appear as uppercase letters.
+   * Changed Default fonts in lister to be courier fixed-width.
+   * Click drive model box to detect drives. If 1571 is found will ask if you want double-sided mode.
+   * Re-wrote progress bar code to parse output file. Shows track details.
+   * Fixed not checking for existing image file. now asks if you want to overwrite.
+   * BIN: Added checkbox to view as "7-bit". Strips off top bit in printable area.
+   * Fix "Preview Commands" option not being saved/restored.
+   * Fix transfers from inside Disk Images.
+   * Fix scratch and rename via x-cable.
+   * Added option to use 'C64 USER MONO' truetype font in cbm file lists. Download from:
+	http://style64.org/release/c64-truetype-v1.0-style#attachments
+   * Improved support for CMD FD drive images (D1M, D2M, D4M).
+   * CSET: Added Save as BMP function.
+   * Add ability to switch 8250/SFD-1001 to single-sided mode.
+   * Fix "Help" button.
+   * Added ">>" button to expand left side to show both LocalPC and selected Disk Image.
+   	When expanded clicking a supported image file automatically views it
+   * Added catalog file.
+   * Added drop-down menu to allow saving Disk Image as text file, adding to catalog, or viewing catalog
+   * Viewer: Added dual view mode.
+   * Add ">>" to display Drive and Path elements to change directory in both LocalPC panes.
+   * Re-arranged some buttons so that path and file lists are wider.
+   * Implemented "Delete" from image file.
+   * Implemented "Rename" and "Make Dir" on Destination PC pane.
+   * Add Filter to Dest LocalPC pane.
+   * Implement Operation 9 of 12 - Copy file from LocalPC to inside Disk Image file.
+   * Better handling of large files in viewer (no overflow errors).
+   * VICE emulator selector is now closable.
+   * Reading Disk Images no longer shows progress window, which is good for dual-view mode.
+
+0.32.2 Feb 12,2013
+   * Fix Path History saving bug.
+   * Updated documentation to match new features.
+
+0.32.1 Feb 11,2013
+   * Add UP button to Source Path.
+   * Update viewer top-row button behaviour to match main form.
+   * Add Path History option, Add/Remove options from dropdown.
+   * Add BATCH image writing.
+   * Add NIB writing for D64 and NBZ.
+
+0.32 Feb 8,2013
+   * Change check for disk type. Allow non-standard disks to be imaged with nibtools if enabled.
+   * Better 1581 progress bar.
+   * Fix Hex viewer missing bytes.
+   * Fix ASM calculating wrong relative branch address, Added Symbol Table.
+   * Formatting single-sided on 1571 drive now uses fast format again. Double-sided uses cbmdos command.
+   * Handle unknown disk ID's with prompt.
+   * ASM-Loads faster, bug fixes.
+   * ASM-Adding Load/Save/Add/Delete and Edit for tables.
+   * ASM-Now shows SYM and DT on left, disassembly on right when ">" clicked.
+   * ASM-First tries to load matching SYM and DT files (ie: filename.sym and filename.dt)
+           If not found then "default.sym" and "default.dt" from CBM-Transfer directory.
+   * ASM-Added Status box (Yellow=problems, Green=good).
+   * ASM-Fix overflow with large files.
+   * BIN Viewer-Added "Load Address in file" option.
+   * Double-click on Source file entry defaults to VIEW the file.
+   * Double-click on Disk Image file entry defaults to VIEW the file.
+   * Add support for CMD floppy images (D1M,D2M,D4M) in file filter.
+   * Add support for VICE xcbm5x0 emulator.
+   * You can now drag and drop a folder to the Source or Destination Path to change to it.
+   * Fix bug causing crash if you click on a file in source directory that was renamed or
+     deleted (refreshes list).
+   * Added Source Directory dropdown menu for path history.
+   * CHRSET-rearranged elements, Added Zoom buttons.
+   * CHRSET-fixed color picker not recognizing CANCEL button.
+   * Top mode-selector buttons now have white text when selected and black when not selected.
+   * Replace EXPLORE,SAME,SWAP buttons with drop-down menu.
+
+0.31 Jan 18,2012
+   * Added Batch Disk Image creation. New options frame.
+   * Fixed bug in options, not saving x-cable transfer mode (always returned to 'auto').
+   * Added main window right pane hide/show button ("<<").
+   * Added refresh button to Disk Image view (by request).
+   * Made progress window movable.
+   * Added check for TMP environment variable if TEMP does not exist.
+   * Added color schemes to chrset viewer plus grid lines option.
+   * Added support for IMGCOPY (beta release) for Zoom Floppy adapters with IEEE option.
+   * Added Help button to display "CBMXfer.txt" file.
+   * Added Drag and Drop of Image files to Disk Image Viewer.
+   * Added Nibtools "-s" option for 1571 fast serial mode.
+   * Enhanced Drive Detection.
+   * Added drive model# for XCable.
+   * Supports 1571 dual-sided formatting.
+   * Supports formatting on non-1541 drives.
+
+0.30 Mar 20,2011
+   * Removing the "BETA" tag. I don't want to discourage use of the program because it's "BETA".
+   * Expanded documentation.
+   * New look, cleaner more functional layout.
+   * Add support for NIBTOOLS:
+	* Support for NBZ.
+	* Create G64 and/or D64.
+	* Support Track start/end, Error Retries, and most common switches.
+	* Prompt to convert NIB to D64 for viewing.
+   * Re-work source directory filter.
+   * Add command Logging, EXE Check disable (for people with binaries in $PATH).
+   * Additional filename conversion options for illegal MS-DOS filenames.
+   * Re-work text/options for Zoom Floppy.
+   * Reorganize Config window - Now with selector on left side. Now opens centered on main window..
+   * Enhanced VICE support - Multiple machine selection options, including prompting to select.
+   * Viewer:
+	* Fixed viewer not clearing lists, implemented binary view.
+    	* Fixed SEQ viewer not handling characters in $C0-$DA range.
+	* Added BITMAP viewer (using code from CBM2BMP by Peter Weighill).
+	   
+   * Additional ToolTips and fixes to some.
+   * Added option to treat image files as normal file (allows copying D64 files to large media
+	ie: 1581 or uIEC disk).
+   * Additional checks to make sure files transferred properly from images.
+   * Added support in X-Cable for selecting 1581 Partitions and returning to the root partition.
+   * Added support for Vice 2.3 x64sc emulator.
+ 
+
+0.28 BETA (Apr 28,2010... Released to web Nov 14,2010)
+   * Fix Dxx creation path problem.
+
+
+0.27 BETA (Nov 30,2009)
+   * Added additional ALT+key shortcuts to buttons.
+   * Split "View/Run" into two buttons.
+   * Source window "Run" button now can run Disk Images using VICE.
+   * Disk Image Viewer now has "Run" button to run PRG files INSIDE images using VICE.
+
+
+0.26 BETA (work in progress)
+   * Improved support for D71 files.
+   * ML Viewer:
+       * Fix addresses >$8000.
+       * Add missing space after branch instructions.
+       * Add copy to clipboard button.
+
+
+0.25 BETA (Nov 30,2008)
+    * Version Number format change.. I don't need so many digits ;-)
+    * Added "Open Directory" button in Explorer to Src and Dest folders.
+    * Added X-cable and CBMLINK enable checkboxes to options.
+    * Improved error handling (still needs work. Thanks to Kees Zaaijer for feedback!).
+    * Changed Basic Lister to Multi-format viewer.
+	 - View as: BASIC, Font, SEQ, Disassembler.
+	 - Not Working: Binary viewer.
+    * Changelog file now in this readme    .
+    * Preliminary Documentation - Let me know what topics need more attention ;-)
+
+
+0.0.1 BETA (Feb 17,2007) Initial Release
+
+    * Fix INI Options not saved or loaded (PreviewCheck).
+    * Added Confirm D64 Creation option.
+    * New layout for Options window.
+    * Changed Dir load so "blocks free" is in separate area.
+    * Added Select All/None buttons.
+    * D64 creation filename defaults to name of CBM disk header string.
+    * Added D71 image writing to X-Device (real drive on X cable).
+    * Added "clear" box to prompt.
+    * Removed message to check options.. it goes there anyway.
+    * Removed startup check for EXE's. Changed to when called.
+	(so users are not forced to download EXE files they don't need)
+    * Added Drag-and-Drop copy to CBM drive.
+    * Fixed Blocks-free/KB overflow error on large files.
+    * Cleaned up source to make more readable.
+    * Renamed GUI elements to conform to VB naming convention.
+      (ie: Labels start with lbl, Buttons with cmd)
+    * Fixed operations so Current Directory is not changed every time.
+    * Added File Filter menu.
+    * Added separate SOURCE and DESTINATION directories.
+    	* Path Swap/Copy functions.
+    * Added support for Vice Team's C1541 commandline utility to work with Disk Images.
+	* View Image Directory.
+	* Create new Image.
+	* Copy files from Image to Local PC or X-Device.
+    * Added support for CBMLink command to talk to Commodore Machines via serial port link.
+    * Reword Frame header text since there is more than one "CBM Drive".
+	(ie: Distinguish drives on "X-Cable" or via "CBMLink")
+    * Toggle between X/CBM/LocalPC destinations.
+    * Added Tooltips.
+    * Added Keyboard shortcuts to some buttons.
+    * Added function to convert CBM filenames to PC-friendly filenames.
+    * Added CBM BASIC Lister.
+	* Requires "tokens.dat" data file.
+	* Supports all released version Tokens.
+	* Autodetect correct BASIC version (override with dropdown menu).
+	* Displays Load Address and Best-guess of target Machine.
+	* List Formatting options.
+		* Select Text/Graphic mode.
+		* Use CBM font if available (must be in system fonts dir).
+		* Expands special characters (ie: {RVS} ).
+		* Break multi-statement lines.
+		* Pad tokens with spaces.
+	* Resizable window.
+	* Export to clipboard.
+	* Export to text File.
+	* View with PRG files on LocalPC,inside Image or on X-drive.
+    * This release 8 of 12 possible copy operations are complete (The others display a "sorry" message).
+
+
+To-Do and Requested Features
+============================
+
+* Better support for C64 fonts for disk listings etc.
+

@@ -1,0 +1,488 @@
+; CBMXfer Disassembler, Platform File
+; For C264 (TED) family computers C16, C116, C232, C264, Plus/4
+;------------------------------------------------------------------
+; This file was by cleaning up and importing the file:
+; "http://www.zimmers.net/anonftp/pub/cbm/maps/C16.MemoryMap"
+; Chip registers were then added. The Kernal jump table from C128 was used.
+;------------------------------------------------------------------
+0000,PDIR,PDIR    7501 on-chip data-direction register
+0001,PORT,PORT    7501 on-chip 8-bit Input/Output register
+0002,SRCHTK,SRCHTK  Token 'search' looks for (run-time stack)
+0003,ZPVEC1,ZPVEC1  Temp (renumber)
+0005,ZPVEC2,ZPVEC2  Temp (renumber)
+0007,CHARAC,CHARAC  Search character
+0008,ENDCHR,ENDCHR  Flag: scan for quote at end of string
+0009,TRMPOS,TRMPOS  Screen column from last TAB
+000A,VERCK,VERCK Flag: 0 = load 1 - verify
+000B,COUNT,COUNT Input buffer pointer / No. of subsctipts
+000C,DIMFLG,DIMFLG  Flag: Default Array DIMension
+000D,VALTYP,VALTYP  Data type: $FF = string   $00 = numeric
+000E,INTFLG,INTFLG  Data type: $80 = integer, $00 = floating
+000F,DORES,DORES   Flag: DATA scan/LIST quote/garbage coll
+0010,SUBFLG,SUBFLG  Flag: subscript ref / user function coll
+0011,INPFLG,INPFLG  Flag: $00 = INPUT, $43 = GET, $98 = READ
+0012,TANSGN,TANSGN  Flag TAN siqn / comparison result
+0013,CHANNL,CHANNL  Flag: INPUT prompt
+0014,LINNUM,LINNUM  Temp: integer value
+0016,TEMPPT,TEMPPT  Pointer: temporary string stack
+0019,TEMPST,TEMPST  Stack for temporary strings
+0022,INDEX1,INDEX1  Utility pointer area
+0024,INDEX2,INDEX2  Utility pointer area
+0026,RESHO,RESHO
+0027,RESMOH,RESMOH
+0028,RESMO,RESMO
+0029,RESLO,RESLO
+002B,TXTTAB,TXTTAB  Pointer: start of BASIC text
+002D,VARTAB,VARTAB  Pointer: start of BASIC variables
+002E,ARYTAB,ARYTAB  Pointer: start of BASIC arrays
+0031,STREND,STREND  Pointer: end of BASIC arrays (+1)
+0033,FRFTOP,FRFTOP  Pointer: bottom of string storage
+0035,FRESPC,FRESPC  Utility string pointer
+0037,MEMSIZ,MEMSIZ  Pointer: highest address used by BASIC
+0039,CURLIN,CURLIN  Current BASIC line number
+003B,TXTPTR,TXTPTR
+003D,FNDPNT,FNDPNT
+003F,DATLIN,DATLIN  Current DATA line number
+0041,DATPTR,DATPTR  Pointer: Current DATA item address
+0043,INPPTR,INPPTR  Vector: INPUT routine
+0045,VARNAM,VARNAM  Current BASIC variable name
+0047,VARPNT,VARPNT  Pointer: Current BASIC variable data
+0048,OPPTR,OPPTR
+0049,FORPNT,FORPNT  Pointer: Index variable for FOR/NEXT
+004D,OPMASK,OPMASK
+004E,DEFPNT,DEFPNT
+0050,DSCPNT,DSCPNT
+0053,HELPER,HELPER
+0054,JMPER,JMPER
+0055,SIZE,SIZE
+0056,OLDOV,OLDOV
+0057,TEMPF1,TEMPF1
+0058,HIGHDS,HIGHDS
+005A,HIGHTR,HIGHTR
+005D,LOWDS,LOWDS
+005F,LoWTR,LoWTR
+0060,EXPSGN,EXPSGN
+0061,FACEXP,FACEXP  Floating-point accumulator #1: exponent
+0062,FACHO,FACHO   Floating accum. #1: mantissa
+0063,FACMOH,FACMOH
+0064,FACMO,FACMO
+0065,FACLo,FACLo
+0066,FACSGN,FACSGN  Floating accum. #1: sign
+0067,SGNFLG,SGNFLG  Pointer: series evaluation constant
+0068,BITS,BITS    Floating accum. #1: overflow digit
+0069,ARGEXP,ARGEXP  Floating-point accumulator #2: exponent
+006A,ARGHO,ARGHO   Floating accum. #2: mantissa
+006B,ARGMOH,ARGMOH
+006C,ARGMO,ARGMO
+006D,ARGLO,ARGLO
+006E,ARGSGN,ARGSGN  Floating accum. #2: sign
+006F,ARISGN,ARISGN  Sign comparison result: accum. #1 vs #2
+0070,FACOV,FACOV   Floating accum. #1. low-order (rounding)
+0071,FBUFPT,FBUFPT  Pointer: cassette buffer
+0073,AUTINC,AUTINC  Increment value for auto (0 = off)
+0075,MVDFLG,MVDFLG  Flag if 10K hires allocated
+0076,KEYNUM,KEYNUM
+0077,KEYSIZ,KEYSIZ
+0078,SYNTMP,SYNTMP  Used as temp Eor indirect loads
+0079,DSDESC,DSDESC  Descriptor for DSS
+007C,TOS,TOS     Top of run time stack
+007E,TMPTON,TMPTON  Temps used by music (tone & volume)
+0080,VOICNO,VOICNO
+0081,RUNMOD,RUNMOD
+0082,POINT,POINT
+0083,GRAPHM,GRAPHM  Current graphic mode
+0084,COLSEL,COLSEL  Current color selected
+0085,MC1,MC1     Multicolor 1
+0086,FG,FG      Foreground color
+0087,SCXMAX,SCXMAX  Maximum # of columns
+0088,SCYMAX,SCYMAX  Maximum # of rows
+0089,LTFLAG,LTFLAG  Paint-left flag
+008A,RTFLAG,RTFLAG  Paint-Right flag
+008B,STOPNH,STOPNH  Stop paint if not BG (Not same Color)
+008C,GRAPNT,GRAPNT
+008E,VTEMP1,VTEMP1
+008F,VTEMP2,VTEMP2
+0090,STATUS,STATUS  Kernal I/O status word: ST
+0091,STREY,STREY   Flag: STOP key / RVS key
+0092,SPVERR,SPVERR  Temp
+0093,VERFCK,VERFCK  Flag:  0 = load,  1 = verify
+0094,C3PO,C3PO    Plag: serial bus - output char buffered
+0095,BSOUR,BSOUR   Buffered character for serial bus
+0096,XSAV,XSAV    Temp for basin
+0097,LDTND,LDTND   # of open files / index to file table
+0098,DFLTN,DFLTN   Default input device (0)
+0099,DFLTO,DFLTO   Default output (CMD) device (3)
+009A,MSGFLG,MSGFLG  Flag: $80 = direct mode  $00 = program
+009B,SAL,SAL     Tape pass 1 error log
+009C,SAH,SAH     Tape pass 2 error log
+009D,EAL,EAL
+009E,EAH,EAH
+009F,T1,T1      Temp data area
+00A1,T2,T2      Temp data area
+00A3,TIME,TIME    Real-time jiffy clock (approx) 1/60 sec
+00A6,R2D2,R2D2    Serial bus usage (EOI on output)
+00A7,TPBYTE,TPBYTE  Byte to be written/read on/off tape
+00A8,BSOUR1,BSOUR1  Temp used by serial routine
+00A9,FPVERR,FPVERR
+00AA,DCOUNT,DCOUNT
+00AC,LA,LA      Current logical fiie number
+00AD,SA,SA      Current seconda.y address
+00AE,FA,FA      Current device number
+00AF,FNADR,FNADR   Pointer: current file name
+00B1,ERRSUM,ERRSUM
+00B2,STAL,STAL    I/O start address
+00B3,STAH,STAH
+00B4,MEMUSS,MEMUSS  Load ram base
+00B6,TAPEBS,TAPEBS  Base pointer to cassette base
+00B8,TMP2,TMP2
+00BA,WRBASE,WRBASE  Pointer to data for tape writes
+00BC,IMPARM,IMPARM  Pointer to immediate string for primms
+00BE,FETPTR,FETPTR  Pointer to byte to be fetched in bank fetc
+00C0,SEDSAL,SEDSAL  Temp for scrolling
+00C2,RVS,RVS     field flag on
+00C3,INDX,INDX
+00C4,LSXP,LSXP    X position at start
+00C5,LSTP,LSTP
+00C6,SFDX,SFDX    Flag: shift mode for print
+00C7,CRSW,CRSW    Flag: INPUT or GET from keyboard
+00C8,PNT,PNT     Pointer: current screen line address
+00CA,PNTR,PNTR    Cursor column on current line
+00CB,QTSW,QTSW    Flag: editor in quote mode, $00 = no
+00CC,SEDT1,SEDT1   Editor temp use
+00CD,TBLX,TBLX    Current cursor physical line number
+00CE,DATAX,DATAX   Temp data area
+00CF,INSRT,INSRT   Flag: insert mode, >0 = # INSTs
+00E9,CIRSEG,CIRSEG  Screen line link table / editor temps
+00EA,USER,USER    Screen editor color IP
+00EC,KEYTAB,KEYTAB  Key scan table indirect
+00EE,TMPKEY,TMPKEY
+00EF,NDX,NDX     Index to keyboard queue
+00F0,STPFLG,STPFLG  Pause flag
+00F1,TO,TO      Monitor ZP storage
+00F3,CHRPTR,CHRPTR
+00F4,BUFEND,BUFEND
+00F5,CHKSUM,CHKSUM  Temp for checksum calculation
+00F6,LENGTH,LENGTH
+00F7,PASS,PASS    Which pass we are doing str
+00F8,TYPE,TYPE    Type of block
+00F9,USE4DY,USE4DY  (B.7 = 1)=> for wr, (B.6 = 1)=> for rd
+00FA,XSTOP,XSTOP   Save xreg for quick stopkey test
+00FB,CURBNK,CURBNK  Current bank configuration
+00FC,XoN,XoN     Char to send for a x-on (RS232)
+00FD,XoFF,XoFF    Char to send for a x-off (RS232)
+00FE,SEDT2,SEDT2   Editor temporary use
+00FF,LOFBUF,LOFBUF
+025D,XCNT,XCNT    DOS loop counter
+025E,PNBUFR,PNBUFR  Area for filename
+026E,DOSF1L,DOSF1L  DOS filename 1 length
+026F,DOSDS1,DOSDS1  DOS disk drive 1
+0270,DOSF1A,DOSF1A  DOS filename 1 addr
+0272,DOSF2L,DOSF2L  DOS filename 2 length
+0273,DOSDS2,DOSDS2  DOS disk drive 2
+0274,DOSF2A,DOSF2A  DOS filename 2 addr
+0276,DOSLA,DOSLA   DOS logical address
+0277,DOSEA,DOSEA   DOS phys addr
+0278,DOSSA,DOSSA   DOS secordary address
+0279,DOSDID,DOSDID  DOS disk identifier
+027C,DOSSTR,DOSSTR  DOS output string buffer
+027D,DOSSPC,DOSSPC  Area used to build DOS string
+02AD,XPOS,XPOS    Current x position
+02AE,YPOS,YPOS    Current y position
+02B1,XDEST,XDEST   X coordinate destination
+02B3,YDEST,YDEST   Y coordinate destination
+02B5,XABS,XABS
+02B7,YABS,YABS
+02B9,XSGN,XSGN
+02BB,YSGN,YSGN
+02BD,FCT1,FCT1
+02BF,FCT2,FCT2
+02C1,ERRVAL,ERRVAL
+02E2,ADRAY1,ADRAY1  Ptr to routine: convert float to integer
+02F4,ADRAY2,ADRAY2  Ptr to routine: convert integer to float
+02FE,BNKVEC,BNKVEC  Vector for function cartridge users
+0300,IERROR,IERROR  Indirect Error (Output Error in .X)
+0302,IMAIN,IMAIN   Indirect Main (System Direct Loop)
+0304,ICRNCH,ICRNCH  Indirect Crunch (Tokenization Routine)
+0306,IOPLOP,IOPLOP  Indirect List (Char List)
+0308,IGONE,IGONE   Indirect Gone (Character Dispatch)
+030A,IEVAL,IEVAL   Indirect Eval (Symbol Evaluation)
+030C,IESCLK,IESCLK  Escape token crunch
+030E,IESCPR,IESCPR
+0310,IESCEX,IESCEX
+0312,ITIME,ITIME
+0314,CINV,CINV    IRQ Ram Vector
+0316,CBINV,CBINV   BRK Instr RAM Vector
+0317,LASTPT,LASTPT  Last temp string address
+0318,IOPEN,IOPEN   Indirects for Code
+031A,ICLOSE,ICLOSE
+031C,ICHKIN,ICHKIN
+031E,ICKOUT,ICKOUT
+0320,ICLRCH,ICLRCH
+0322,IBASIN,IBASIN
+0324,IBSOUT,IBSOUT
+0326,ISTOP,ISTOP
+0328,IGETIN,IGETIN
+032A,ICLALL,ICLALL
+032C,USRCMD,USRCMD
+032E,ILOAD,ILOAD
+0330,ISAVE,ISAVE   Savesp
+03F3,WRLEN,WRLEN   Length of data to be written to tape
+03F5,RDCNT,RDCNT   Length of data to be read from tape
+03F7,INPQUE,INPQUE  RS-232 input queue
+0437,ESTARL,ESTARL
+0455,ESTAKH,ESTAKH
+0485,QNUM,QNUM
+0494,INDSUB,INDSUB  Shared ROM fetch sub
+04A2,ZERO,ZERO    Numeric constant for Basic
+04A5,INDTXT,INDTXT  Txtptr
+04B0,INDIN1,INDIN1  Index & Index1
+04BB,INDIN2,INDIN2  Index2
+04C6,INDST1,INDST1  Strng1
+04D1,INDLOW,INDLOW  Lowtr
+04DC,INDFMO,INDFMO  Facmo
+04E7,PUFILL,PUFILL  Print using fill symbol [space]
+04E8,PUCOMA,PUCOMA  Print using comma symbol [;]
+04E9,PUDOT,PUDOT   Print using D.P. symbol  [.]
+04EA,PUMONY,PUMONY  Print using monetary symbol [$]
+04EB,TMPDES,TMPDES  Temp for instr
+04EF,ERRNUM,ERRNUM  Last error number
+04F0,ERRLIN,ERRLIN  Line # of last error
+04F2,TRAPNO,TRAPNO  Line to go on error
+04F4,TMPTRP,TMPTRP  Hold trap no. temporarily
+04F5,ERRTXT,ERRTXT
+04F7,OLDSTR,OLDSTR
+04F8,TMPTXT,TMPTXT
+04FA,TMPLIN,TMPLIN
+04FC,MTIMLO,MTIMLO  Table of pending jiffies (2's comp)
+04FE,MTIMHI,MTIMHI
+0500,USRPOK,USRPOK
+0503,KERNDX,KERNDX
+0508,DEJAVU,DEJAVU  'cold' or 'warm' start status
+0509,LAT,LAT     Logical file numbers
+0513,FAT,FAT     Primary device numbers
+051D,SAT,SAT     Secondary addresses
+0527,KEYD,KEYD    IRQ keyboard buffer
+0531,MEMSTR,MEMSTR  Start of memory [1000]
+0533,MSIZ,MSIZ    Top of memory [FD00]
+0535,TIMOUT,TIMOUT  IEEE timeout flag
+0536,FILEND,FILEND  File end reached = 1, 0 otherwise
+0537,CTALLY,CTALLY  # of chars left in buffer (for R & W)
+0538,CBUFVA,CBUFVA  # of total valid chars in buffer (R)
+0539,TPTR,TPTR    Ptr to next char in buffer (for R & W)
+053A,FLTYPE,FLTYPE  Contains type of current cass file
+053B,COLOR,COLOR   Active attribute byte
+053C,FLASH,FLASH   Character flash flag
+053E,HIBASE,HIBASE  OC Base location of screen (top) [0C]
+053F,XMAX,XMAX
+0540,RPTFLG,RPTFLG  Key repeat flag
+0541,KOUUT,KOUUT
+0542,DELAY,DELAY
+0543,SHFLAG,SHFLAG  Shift flag byte
+0544,LSTSHF,LSTSHF  Last shift pattern
+0545,KEYLOG,KEYLOG  Indirect for keyboard table setup
+0547,MODE,MODE    shift, C=
+0548,AUTODN,AUTODN  Auto scroll down flag (0=on,0<>off)
+0549,LINTMP,LINTMP
+054A,ROLFLG,ROLFLG
+054B,FORMAT,FORMAT  Monitor non-zpage storage
+054C,MSAL,MSAL
+054F,WRAP,WRAP
+0550,TMPC,TMPC
+0551,DIFF,DIFF
+0552,PCH,PCH
+0553,PCL,PCL
+0554,FLGS,FLGS
+0555,ACC,ACC
+0556,XR,XR
+0557,YR,YR
+0558,SP,SP
+0559,INYL,INYL
+055A,INVH,INVH
+055B,CMPFLG,CMPFLG  Used by various monitor routines
+055C,BAD,BAD
+055D,KYNDX,KYNDX   Used for programmable keys
+055E,KEYIDX,KEYIDX
+055F,KEYBUF,KEYBUF  Table of P.F. lengths
+0567,PKY9UF,PKY9UF  P.F. Key storage area
+05E7,KDATA,KDATA   Temp for data write to kennedy
+05E8,RDYCMD,RDYCMD  Select for kennedy read or write
+05E9,KDYNUM,KDYNUM  Kennedy's dev #
+05EA,RDYPRS,RDYPRS  Rennedy present = $ff, else = $00
+05EB,KDYTYP,KDYTYP  Temp for type of open for kennedy
+05EC,SAVRAM,SAVRAM  1 page used by banking routines
+05F0,LNGJMP,LNGJMP  Long jump address
+05F2,FETARG,FETARG  Long jump accumulator
+05F3,FETXRG,FETXRG  Long jump x register
+05F4,FETSRG,FETSRG  Long jump status register
+05F5,AREAS,AREAS   RAM areas for banking
+065E,ASPECH,ASPECH  RAM area for speech
+06EC,STKTOP,STKTOP  BASIC run-time stack
+07B0,WROUT,WROUT   Byte to be written on tape
+07B1,PARITY,PARITY  Temp for parity calc
+07B2,TT1,TT1     Temp for write-header
+07B3,TT2,TT2     Temp for write-header
+07B5,RDBITS,RDBITS  Local index for READBYTE routine
+07B6,ERRSP,ERRSP   Pointer into the error stack
+07B7,FPERRS,FPERRS  Number of first pass errors
+07B8,DSAMP1,DSAMP1  Time constant
+07BA,DSAMP2,DSAMP2  Time constant
+07BC,ZCELL,ZCELL   Time constant
+07BE,SRECOV,SRECOV  Stack marker for stopkey recover
+07BF,DRECOV,DRECOV  Stack marker for dropkey recover
+07C0,TRSAVE,TRSAVE  params passed to RDBLOK
+07C4,RDETMP,RDETMP  Temp stat save for RDBLOK
+07C5,LDRSCN,LDRSCN  # consec shorts to find in leader
+07C6,CDERRM,CDERRM  # Errors fatal in RD countdown
+07C7,VSAVE,VSAVE   Temp for Verify command
+07C8,T1PIPE,T1PIPE  Pipe temp for T1
+07CC,ENEXT,ENEXT   Read error propagate
+07CD,UOUTQ,UOUTQ   User chracter to send
+07CE,UOUTFG,UOUTFG  0 = empty ; 1 = full
+07CF,SOUT9,SOUT9   System character to send
+07D0,SOUNFG,SOUNFG  0 = empty ; 1 = full
+07D1,INOFPT,INOFPT  Pntr to front of input queue
+07D2,INQRPT,INQRPT  Pntr to rear of input queue
+07D3,INQCNT,INQCNT  # of chars in input queue
+07D4,ASTAT,ASTAT   Temp status for ACIA
+07D5,AINTMP,AINTMP  Temp for input routine
+07D6,ALSTOP,ALSTOP  FLG for local pause
+07D7,ARSTOP,ARSTOP  FLG for remote pause
+07D8,APRES,APRES   FLG to indicate presence of ACIA
+07D9,RLUDES,RLUDES  Indirect routine downloaded
+07E5,SCBOT,SCBOT   Screen bottom (0...24)
+07E6,SCTOP,SCTOP   Screen top
+07E7,SCLF,SCLF    Screen left (0...39)
+07E8,SCRT,SCRT    Screen right
+07E9,SCRDIS,SCRDIS  Negative = scroll out
+07EA,INSFLG,INSFLG  Insert mode: FF = on, 00 = off
+07EB,LSTCHR,LSTCHR
+07EC,LOGSCR,LOGSCR
+07ED,TCOLOR,TCOLOR
+07EE,BITABL,BITABL
+07F2,SAREG,SAREG   Registers for SYS command
+07F3,SXREG,SXREG
+07F4,SYREG,SYREG
+07F5,SPREG,SPREG
+07F6,LSTX,LSTX    Key scan index
+07F7,STPDSB,STPDSB  Flag to disable CTRL-S pause
+07F8,RAMROM,RAMROM  MSB for monitor fetches from ROM=0;RAM=1
+07F9,COLSW,COLSW   MSB for color/lim table in RAM=0;ROM=1
+07FA,FFRMSK,FFRMSK  ROM mask for split screen
+07FB,VMBMSK,VMBMSK  VM base mask for split screen
+07FC,LSEM,LSEM    Motor lock semaphore for cassette
+07FD,PALCNT,PALCNT  PAL tod
+0800,TEDATR,TEDATR  TED attribute bytes
+0C00,TEDSCN,TEDSCN  TED character pointers
+1000,BASBGN,BASBGN  Start of BASIC text area
+1800,BMLUM,BMLUM   Luminance for bit map screen
+1C00,BMCOLR,BMCOLR  Color for bit map
+;---- KERNAL
+EF8A,SETLFS,$EF8A SETLFS  Set LA, FA, SA
+FCF1,,$FCF1 JMP to cartridge IRQ routine
+FCF4,,$FCF4 JMP to PHOENIX routine
+FCF7,,$FCF7 JMP to LONG FETCH routine
+FCFA,,$FCFA JMP to LONG JUMP routine
+FCFD,,$FCFD JMP to LONG IRQ routine
+;---- Chips
+FD00,ACIAREG0,ACIA RS232; DATA port
+FD01,ACIAREG1,ACIA RS232; STATUS port
+FD02,ACIAREG2,ACIA RS232; COMMAND port
+FD03,ACIAREG3,ACIA RS232; CONTROL port
+FD04,ACIAREG4,ACIA copy
+FD08,ACIAREG5,ACIA copy
+FD0c,ACIAREG6,ACIA copy
+FD10,SPI1REG0,SPI#1; User Port PIO (P0-P7)
+FD30,SPI2REG0,SPI#2; Keyboard PIO  Keyboard Matrix Connector
+;--- TCBM Disk Drive Cartridge for C1551
+FEE0,TCBMREG0,TCBM Drive Interface; DATA
+FEE1,TCBMREG1,TCBM Drive Interface; STATUS
+FEE2,TCBMREG2,TCBM Drive Interface; HANDSHAKE
+FEE3,TCBMREG3,TCBM Drive Interface; data direction register
+FEE4,TCBMREG4,TCBM Drive Interface; data direction register
+FEE5,TCBMREG5,TCBM Drive Interface; data direction register
+;---- TED CHIP
+FF00,TEDREG00,TED; Timer 1 low
+FF01,TEDREG01,TED; Timer 1 high
+FF02,TEDREG02,TED; Timer 2 lo
+FF03,TEDREG03,TED; Timer 2 high
+FF04,TEDREG04,TED; Timer 3 lo
+FF05,TEDREG05,TED; Timer 3 high
+FF06,TEDREG06,TED; Video Configuration
+FF07,TEDREG07,TED; Video Configuration
+FF08,TEDREG08,TED; Keyboard Latch
+FF09,TEDREG09,TED; Video Configuration
+FF0A,TEDREG10,TED; Video Configuration
+FF0B,TEDREG11,TED; Raster Compare
+FF0C,TEDREG12,TED; Cursor Position
+FF0D,TEDREG13,TED; Cursor Position
+FF0E,TEDREG14,TED; Voice #1 frequency, bits 0-7
+FF0F,TEDREG15,TED; Voice #2 frequency, bits 0-7
+FF10,TEDREG16,TED; Voice #2 frequency, bits 8 & 9
+FF11,TEDREG17,TED; Volume Control Bits 0-3
+FF12,TEDREG18,TED; Voice #1 Frequency Bit 0-1= bits 8 & 9
+FF13,TEDREG19,TED; Clock Status: Bit 0
+FF14,TEDREG20,TED; Video matrix/color memory base address: Bits 3-7
+FF15,TEDREG21,TED; Background color register
+FF16,TEDREG22,TED; Color register #1
+FF17,TEDREG23,TED; Color register #2
+FF18,TEDREG24,TED; Color registes #3
+FF19,TEDREG25,TED; Color register #4
+FF1A,TEDREG26,TED; Bit map reload
+FF1B,TEDREG27,TED; Bit map reload
+FF1C,TEDREG28,TED; Vertical line bit 8
+FF1D,TEDREG29,TED; Vertical line bits 0-7 
+FF1E,TEDREG30,TED; Horizontal position
+FF1F,TEDREG31,TED; Blink, vertical sub address
+FF3E,TEDREG62,TED; ROM select
+FF3F,TEDREG63,TED; RAM select
+;---- KERNAL (continued)
+FF49,,$FF49 JMP to define function key routine
+FF4C,,$FF4C JMP to PRINT routine
+FF4F,,$FF4F JMP to PRIMM routine
+FF52,,$FF52 JMP to ENTRY routine
+;---- KERNAL Version Byte
+FF80,KERNALVER,Release# of KERNAL (MSB: 0 = NTSC ; 1 = PAL)
+;---- KERNAL Jump Table
+FF81,CINT,Init Editor & Display
+FF84,IOINIT,Init I/O Devices (ports
+FF87,RAMTAS,Initialize RAM And Buffers For System
+FF8A,RESTOR,Restore Vectors to Initial System
+FF8D,VECTOR,Change Vectors For USER
+FF90,SETMSG,Control O.S. Message
+FF93,SECND,Send SA After LISTEN
+FF96,TKSA,Send SA After TALK
+FF99,MEMTOP,Set/Read Top Of System RAM
+FF9C,MEMBOT,Set/Read Bottom Of System RAM
+FF9F,KEY,Scan Keyboard (Editor)
+FFA2,SETTMO,Set Timeout In IEEE (reserved)
+FFA5,ACPTR,Handshake Serial Byte In
+FFA8,CIOUT,Handshake Serial Byte Out
+FFAB,UNTLK,Send UNTALK Out Serial
+FFAE,UNLSN,Send UNLISTEN Out Serial
+FFB1,LISTN,Send LISTEN Out Serial
+FFB4,TALK,Send TALK Out Serial
+FFB7,READSS,Return I/O Status Byte
+FFBA,SETLFS,Set LA
+FFBD,SETNAM,Set Length And File Name Address
+FFC0,OPEN,OPEN Logical File
+FFC3,CLOSE,CLOSE Logical File
+FFC6,CHKIN,Set Channel In
+FFC9,CKOUT,Set Channel Out
+FFCC,CLRCH,Restore Default I/O Channel
+FFCF,CHRIN,INPUT From Channel
+FFD2,CHROUT,OUTPUT To Channel
+FFD5,LOADSP,LOAD From File
+FFD8,SAVESP,SAVE to File
+FFDB,SETTIM,Set Internal Clock
+FFDE,RDTIM,Read Internal Clock
+FFE1,STOP,Scan STOP Key
+FFE4,GETIN,Read Buffered Data
+FFE7,CLALL,Close All Files And Channels
+FFEA,UDTIM,Increment Internal Clock
+FFED,SCRORG,Return Screen Window Size (Editor)
+FFF0,PLOT,Read/Set XY coord of cursor
+FFF3,IOBASE,Return I/O Base
+FFF8,SYSTEM,Operating System Vector (RAM1)
+FFFA,NMI,Processor NMI Vector
+FFFC,RESET,Processor RESET Vector
+FFFE,IRQ,Processor IRQ/BRK Vector

@@ -1,0 +1,363 @@
+CBMX-Transfer Symbolic Disassembler Notes - For Version 1.00 (C)2017 Steve J. Gray
+==========================================================================================================
+
+INTRODUCTION
+------------
+
+The CBM-Transfer disassembler allows you to disassemble 6502-family binary files. This includes ROM code,
+or RAM-based programs. It is a symbolic disassembler, which associates meaningful names to memory
+locations. It can handle code and non-code segments. Non-code segments can be displayed in various
+different formats, and comments can be added to make the resulting output easier to read.
+Various Platforms can be selected with important memory location symbols predefined for immediate use.
+Different 6502 variants are supported as are undefined opcodes. You can easily define your own Platforms
+or processor variants and add them to the program. Several code output formats are supported from
+interactive-friendly, to final form, and for different target assemblers.
+
+PROCESS OVERVIEW
+----------------
+
+To successfully disassemble binary code we need to know:
+
+* What platform it is for
+* What CPU is used
+* Where the binary loads and/or runs
+* What is code and what is non-code (data)
+
+The first two are the most straight-forward. You probably know what platform it is designed for,
+(if not see below) which also tells you what CPU is used. The third one (load/run) may be more
+difficult. ROM files may not contain a load address, so you must know where they go. Similarly,
+loadable files may load anywhere, or may load at one spot and be relocated to another to run. The last
+one (code vs non-code) is going to be the most difficult part. The majority of binary files will
+contain both code and non-code. The non-code could be any data in any format and in any location. Code
+and non-code could be mixed together, meaning the disassembler could get to a data block and try to
+interpret it as code, producing non-sensical instructions and potentially getting out of sync
+resulting in an incorrect disassembly.
+
+As part of the disassembly process you will need to go over and over the results, identifying
+non-code areas, and defining them so that the disassembler knows when to disassemble code and
+when to display data until the entire binary disassembles properly.
+
+
+STARTING
+--------
+
+The disassembler is built into CBM-Transfer's File Viewer. You select a file from the LocalPC or from
+within a disk image then click the VIEW button. A window will open with several coloured boxes
+along the top. Since CBM files have no set file extensions you must manually choose how to view
+the file. The "ASM" button activates the disassembler. If there is an associated "ASM-Proj" file
+then the ASM tab will automatically be selected.
+
+The first time you disassemble a file it's almost certain that you will get some code but mixed with
+unknown opcodes. This is because most machine code files contain non-code segments such as data tables,
+command tables, text strings, vector tables etc. These must be identified before a complete disassembly
+is possible.
+
+CBM files can be straight binary or can be "loadable", meaning that the load address is at the start of
+the file. It is important that you know which type of file you are disassembling. If the load address is
+NOT in the file then you must manually enter it. The load address is vital because the disassembler must
+be able to determine if jumps, branches and vectors are within the range of the file or not in order to
+generate proper labels.
+
+Ok, so we have a file loaded and viewed. If there was an "ASM-Proj" file associated with the viewed file
+it will automatically be loaded and the side panel will be made visible. If there is no Project file then
+you should click on the ">>" button to open up the side panel. The side panel is where you will be
+entering information to help the disassembler do it's thing. There are 6 tabs:
+
+1) Project..... has settings a buttons to control the overall operation.
+2) Gen Labels.. shows generated labels and will be updated each time the ASM code is refreshed
+3) Ext JSR..... lists External JSR target addresses, updated on refresh
+4) Symbols..... shows Symbolic addresses, names and comments for known machine locations
+5) Tables...... shows various data tables
+6) Labels...... shows user entered lables
+7) Comments.... shows user entered comments
+
+The "Gen Labels" and "Ext JSR" tabs show internally generated info which is updated on each refresh.
+The Symbols, Tables, Labels, and Comments tabs show user-inputted entries. For these tabs there are
+LOAD and SAVE buttons to load or save the entries from/to a file. There are also ADD, DEL, FIND button
+for adding new entries, deleting entries or finding entries in the output list.
+
+PROJECT TAB
+-----------
+
+The project tab is the control centre for disassembly. It lets you select options and settings.
+
+Load Project.............. Loads an "ASM-PROJECT" file containing symbols, tables, labels and comments
+Save Project.............. Save the project file
+Project Status Box........ Displays status of Project (Green=OK, Red=Changed, White=No Project Loaded)
+New Project............... Clears all the Lists and starts a new Project
+Clear all Lists on Load... When check, lists are cleared before new data is loaded
+
+Load $:................... Displays the load address from the file, or Lets you enter one manually
+In File................... Check this if the load addres is included as the first two bytes of the file
+Platform dropdown......... Lets you select pre-configured symbols for a specific machine platform
+CPU....................... Sets which 6502 CPU or variant opcodes are used. There is also an entry for
+                           a normal 6502 CPU "illegal opcodes" set
+View Fmt.................. Set the output format. The first entry is recommended when starting. Other
+                           entries are more suited to final outputs for assemblers
+Target.................... Set the strings used for BYTE/TEXT/WORD special directives
+Label Prefix.............. Sets the prefix string used for generated labels
+Comment Divider length.... Sets the width of a divider comment
+Show Equates.............. Adds used symbols to the top of the output
+Add blank line..RTS/RTI... Option to add a blank line after subroutines to make listing more readable
+Add blank line..labels.... Option to add a blank line before labels to make listing more readable
+Include Symbol comments... Option to add comments associated with symbols inline
+
+Disassembly: 
+  Save.................... Save output to a file
+  Copy to Clipboard....... Places output in the clipboard
+Symbols:
+  Purge................... Removes symbols not referenced in the code
+  Import.................. Imports symbols from comma-delimited or fixed-width text files. See below.
+
+Help...................... Displays this file
+
+When the ML Disassembler is first selected it will load it's configuration info from the file
+"ml-config.txt". You may edit this file to add additional platforms, CPUs, or Prefix's. Look at the existing
+entries to make sure your new entries are compatible.
+
+There is a Platform called "CBM Identifier". If you are disassembling a CBM binary and you don't know
+what Platform it is for, selct this one first. This platform contains a collection of callable ROM
+routine addresses for multiple platforms, with each entry marked with the platform it is for. These will
+be displayed in the "Ext JSR" list. Once you identify the target platform you can select it from the
+platform list to get platform-specific symbols.
+
+If you create some symbols for a new platform and you think it might be useful for other, feel free to email
+it to me for inclusion in future CBM-Transfer releases. I will be sure to credit you as well.
+
+
+Gen Labels Tab
+--------------
+
+This tab shows labels that have been automatically generated by the disassembler. Whenever the target
+address of a JMP, JSR or Branch instruction falls in the code range a label is generated. A separate
+label is generated for each instance so you will likely see multiple identical entries. That will actually
+help you see which addresses are used the most, which will help you make permanent named labels.
+Generated labels will appear in the ASM listing in the form "{PREFIX}XXXX", where XXXX is the hex value
+of the target address. The Prefix can be selected in the Project tab. You can click on the
+REMOVE DUPLICATES button, to remove duplicate entries, but remember that next time you refresh they will
+be added again.
+
+Clicking the FIND button finds the currently selected entry.
+
+Ext JSR Tab
+-----------
+
+This tab lists the target addresses of JSR calls external to the code range. Usually these will be calls
+to ROM subroutines (ie: BASIC or KERNAL). This will help you identify platform subroutines used in the
+code. If the address is in the symbol table the comment will be shown beside the address. Click on an entry 
+then the FIND button to find references in the output. You can click on the REMOVE DUPLICATES button, to
+remove duplicate entries, but remember that next time you refresh they will be added again.
+
+Clicking the FIND button finds the currently selected entry.
+
+
+Symbols, Tables, Labels, Comment Tabs - Common Features
+-------------------------------------------------------
+
+These Tabs share common features. 
+
+Load.............. Loads a text file containing entries for the selected tab list. The list will be cleared first if
+                   the "Clear Lists on Load" option is checked in the Project tab. If you un-check this option then
+                   new entries will be added to existing entries and will be sorted by address.
+Save.............. Saves entries to a text file.
+Add............... Adds an antry to the selected tab list. You will be prompted to input the data and shown
+                   the proper data format. All addresses must be in hex.
+Del............... Delete the selected entry.
+Find.............. Finds the selected entry in the disassembly output.
+
+See below for details of each tab.
+
+
+Symbols Tab
+-----------
+
+This tab shows symbols. Symbols are locations in RAM or ROM, or chip registers etc that are fixed and
+have important meaning. For example, in zero page are many operating system storage locations that are
+commonly used by programs. ROM contains callable routines that many programs will need to operate.
+There are also things like screen ram, video, sound, and IO chips for the target platform. By defining
+(or loading) a set of symbols at the start the disassembler will be able to substitute meaningful names
+into the code that will make understanding the code easier.
+
+Symbols have three parts: Hex Address, Symbol Name, and Comment
+
+The Hex Address is required, but you may leave out the name or comment. If you leave out the Name, the 4-digit
+hex address will be used and the comment will appear on every line that the symbol appears on. If you include
+the name but not the comment then obviously no comment will be shown. Leaving out both doesn't make much sense
+but is allowed.
+
+Platforms are really just symbol files, as they have the same purpose. After loading a Platform you are free to
+add new symbols. They will be mixed in with existing platform symbols. When you save the project, all symbols
+are saved to the project file.
+
+Using the LOAD button, you can select symbol files of type SYM, DT, TXT or SY4. SYM and DT extension were used
+in earlier versions of CBM-Transfer for SYMbols and DataTables. I recommend you use TXT files for portability.
+
+You can load 'ReGenerator' system files (LABEL.TXT and COMMENT.TXT) into the symbol table. First, clear
+all Lists, and uncheck the 'Clear Lists on Load' option. Click the LOAD button and navigate to the
+Regenerator system folder you want. Now pick the "labels.txt" file. You will be asked to confirm that it
+is a ReGenerator file. Now click LOAD again and load the "comments.txt" file and confirm. The comments
+will be merged with the labels. If a comment and label have the same hex address the comment will be added
+to the existing label entry.
+
+You can import any comma-delimited or fixed-width text file using the Import button in the Projects TAB.
+See below for details.
+
+
+Tables Tab
+----------
+
+This tab shows Tables (or Data Blocks). Tables are ranges within the file that contain non-executing code.
+These tables can contain almost anything including text strings, mathematical tables, vectors, sprite data,
+fonts etc. Finding and identifying the tables in a binary file is key to generating a complete, disassembly.
+When adding Tables you will need to enter the start and ending address, the table format/type, and an optional
+comment. Make sure your range is correct and you have the correct block type. For a quicker way, use the top
+line buttons D,H,T,R,V,W. See below for table types.
+
+
+Labels Tab
+----------
+
+This tab show user-added Labels. Generally you'll want to make permanent named labels for major subroutines
+or code sections. Give labels a meaningful name to help you remember the code's function.
+
+
+Comments Tab
+------------
+
+This tab show Comments. Comments are text added to the disassembly to help document, clarify or divide
+the code sections, and/or any individual line. When adding comments you need to enter the address that
+corresponds to an opcode byte, otherwise the comment will be skipped. For quick comments first select a
+line with address label from the output then use the top line "C" buttons, or for divider lines use the
+dashed buttons.
+
+
+Top Line
+========
+
+At the top are options for Refreshing the output, quickly specifying blocks, or adding comments.
+
+">>" or "<<"............ Hide or Show the side panel
+Status Box.............. Shows Disassembly errors as yellow, or green when no errors are found. Errors are
+                         illegal opcodes of the 6502. This box will not be relevent if a CPU with completely filled
+                         instruction set is select
+Refresh Button.......... Refreshes the disassembly
+Auto.................... When checked, most actions will cause a refresh. If you plan to make a lot of changes/additions
+                         and your code is large, turn off auto refresh, and then click the Refresh Button when desired
+
+Find.................... Enter a string to be searched for
+Find All................ Hilight all lines containing search string
+Next.................... Find Next line containing string
+
+Quick Add Buttons
+-----------------
+
+Label................... Adds the current line address to the Labels list. First select a line which
+                         begins with an address.
+
+Block Buttons:           (first select a block range using SHIFT)
+D....................... Decimal - Treats block as decimal numbers
+H....................... Hex - Treats block as hex numbers
+T....................... Text String - Display printable text as quoted text strings, or unprintable as
+                         hex values.
+R....................... RTS vectors - Treats the block as a list of word vectors to be pushed onto
+                         the stack. Words are assumed to be pointers to addresses in the code and
+                         labels are automatically generated for each entry. Entries are displayed with
+                         a "-1" so that the proper bytes can be pushed to the stack.
+V....................... Vectors - Treats the block as vectors to code (as above, without the -1)
+W....................... Word - Treats the block as simple hex words
+
+Comment Buttons:
+;C ..................... Adds an inline comment
+C ...................... Adds a standalone comment as a single line
+-C- .................... Adds a standalone comment with "-" divider lines above and below the comment
+=C= .................... Adds a standalone comment with "=" divider lines
+*C* .................... Adds a standalone comment with "*" divider lines
+--- .................... Adds a single "-" divider line
+=== .................... Adds a single "=" divider line
+*** .................... Adds a single "*" divider line
+
+And lastly, there is a status message. This will show the code range while you are working. When
+disassembling it will display which pass it is working on.
+
+Tips and Tricks
+===============
+* Start with standard 6502 unless you know there are 'illegal' opcodes in your file.
+* Turn on Dual View and have the HEX listing as the second view.
+  Clicking on a line the ML ouput window will highlight the matching line in the HEX listing!
+* Dual View with BASIC as the second view will show if there is a BASIC loader in front of the ML code.
+* Click on the "Gen Labels" Tab. The address with the most duplicate entries is probably important.
+* Click on the "Ext JSR" Tab. Can quickly show you routines in BASIC or Kernal that get called.
+* When you are mostly done disassembly you can PURGE the symbols that are not in use. This will also
+  speed up disassembly.
+* Hiding the side panel will let you see long comments or give more room in dual view mode.
+
+Importing Symbols
+=================
+
+Having proper symbols is vital when disassembling files. Symbols can help you understand how the code
+works, and lets you modify it easily by changing symbol addresses etc. It's handy to be able to bring
+in symbols from external sources. Symbols are stored in the program in the following format:
+
+       S1,S2,S3
+
+Where: S1 = ADDRESS (4 Hex digits)
+       S2 = SYMBOL
+       S3 = COMMENT
+
+You can import from almost any text file containing records with Delimited or Fixed-width fields. Delimited
+records contain fields separated by a specific character. Fixed-Width records have fields in specific character
+positions, and of set lengths. Lines starting with ";" or ":" will not be processed. You will be asked to enter
+the "import control string". The following are supported:
+
+    TYPE DESCRIPTION      CONTROL STRING       WHERE
+    ---- -----------      -------------------  -----
+    C    Comma-delimited  C,F1,F2,F3           Fn = Field number (starting at 1) for 'Sn'
+    T    Tab-delimited    T,F1,F2,F3           Fn = Field number (starting at 1) for 'Sn'
+    F    Fixed-width      F,P1,L1,P2,L2,P3,L3  Pn = Start Position for 'Sn'. Ln = Length for 'Sn'
+      
+Examples
+--------
+
+Comma-delimited records:
+          NMI,FFFA,65530,Processor NMI Vector
+          RESET,FFFC,65532,Processor RESET Vector
+          IRQ,FFFE,65534,Processor IRQ/BRK Vector
+  Field#: 1  ,2   ,3    ,4
+
+          So, Comma-Delimited is "C",
+              S1 (ADDRESS) is Field#2,
+              S2 (SYMBOL)  is Field#1,
+              S3 (COMMENT) is Field#4.
+          Use control string:  C,2,1,4
+
+
+Fixed-width records:
+          NMI    FFFA   65530  Processor NMI Vector
+          RESET  FFFC   65532  Processor RESET Vector
+          IRQ    FFFE   65534  Processor IRQ/BRK Vector
+     Pos: 1234567890123456789012345678901...
+       
+          So, Fixed-width is "F",
+              S1 (ADDRESS) is at positions 8, with length 4. NOTE: Length should always be 4!
+              S2 (SYMBOL)  is at positions 1, with length 6.
+              S3 (COMMENT) is at positions 22, with length about 60 (or so).
+          Use control string: F,8,4,1,6,22,60
+
+When you import it will tell you how many symbols were loaded. Click on the Symbols tab to make sure
+that they loaded in as expected. Save the symbol table separately, or as part of the project file.
+
+
+Thank-you's
+===========
+
+Thank-you to the following who have provided resources or inspiration:
+
+* Graham of Oxyron.de for nicely organized 6502 opcode info
+* DA65 by Ullrich von Bassewitz - I wanted my disassembler to be a kind of GUI version of DA65's info files
+* Mike from 6502.org for great 6502 resources and hosting for my project and software webpages.
+* Bo from zimmers.net for great CBM resources
+* ReGenerator by n0stalgia - Inspired the Platforms feature (you can import it's system files too!)
+* ACME by Marco Baye
+
+
+ - Assembler I use for all my 6502 projects

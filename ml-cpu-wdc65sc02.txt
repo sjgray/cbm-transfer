@@ -1,0 +1,39 @@
+brki,orak,nopb,nopi,tsbc,orac,aslc,???i,phpi,orab,asla,nopi,tsbf,oraf,aslf,???i
+bplj,oral,orap,nopi,trb-,orad,asld,???i,clci,orah,inci,nopi,trbf,orag,aslg,???i
+jsrf,andk,nopb,nopi,bitc,andc,rolc,???i,plpi,andb,rola,nopi,bitf,andf,rolf,???i
+bmij,andl,andp,nopi,bitd,andd,rold,???i,seci,andh,deci,nopi,bitg,andg,rolg,???i
+rtii,eork,nopb,nopi,nopc,eorc,lsrc,???i,phai,eorb,lsra,nopi,jmpf,eorf,lsrf,???i
+bvcj,eorl,eorp,nopi,nopd,eord,lsrd,???i,clii,eorh,phyi,nopi,nopg,eorg,lsrg,???i
+rtsi,adck,nopb,nopi,stzc,adcc,rorc,???i,plai,adcb,rora,nopi,jmpm,adcf,rorf,???i
+bvsj,adcl,adcp,nopi,stzd,adcd,rord,???i,seii,adch,plyi,nopi,jmp-,adcg,rorg,???i
+braj,stak,nopb,nopi,styc,stac,stxc,???i,deyi,bitb,txai,nopi,styf,staf,stxf,???i
+bccj,stal,stap,nopi,styd,stad,stxe,???i,tyai,stah,txsi,nopi,stzf,stag,stzf,???i
+ldyb,ldak,ldxb,nopi,ldyc,ldac,ldxc,???i,tayi,ldab,taxi,nopi,ldyf,ldaf,ldxf,???i
+bcsj,ldal,ldap,nopi,ldyd,ldad,ldxe,???i,clvi,ldah,tsxi,nopi,ldyg,ldag,ldxh,???i
+cpyb,cmpk,nopb,nopi,cpyc,cmpc,decc,???i,inyi,cmpb,dexi,waii,cpyf,cmpf,decf,???i
+bnej,cmpl,cmpp,nopi,nopd,cmpd,decd,???i,cldi,cmph,phxi,stpi,nopf,cmpg,decg,???i
+cpxb,sbck,nopb,nopi,cpxc,sbcc,incc,???i,inxi,sbcb,nopi,nopi,cpxf,sbcf,incf,???i
+beqj,sbcl,sbcp,nopi,nopd,sbcd,incd,???i,sedi,sbch,plxi,nopi,nopf,sbcg,incg,???i
+0--- 1--- 2--- 3--- 4--- 5--- 6--- 7--- 8--- 9--- a--- b--- c--- d--- e--- f---
+
+Western Digital Corp WDC65SC02
+
+        Addressing Modes                     Example
+- ---   ----------------                     -------
+a-acc...Accumulator Adressing............... INC
+b-imm...Immediate Addressing................ LDA #$01
+c-zp ...Zero Page........................... LDA $01
+d-zpx...Indexed Zero page with X............ LDA $01,X
+e-zpy...Indexed Zero page with Y............ LDA $01,Y
+f-abs...Absolute Addressing................. LDA $1234
+g-abx...Indexed Absolute with X............. LDA $1234,X
+h-aby...Indexed Absolute with Y............. LDA $1234,Y
+i-imp...Implied............................. NOP
+j-rel...Relative Addressing................. BNE XX
+k-izx...Indexed Indirect Addressing with X.. LDA ($01,X)
+l-izy...Indexed Indirect Addressing with Y.. LDA ($01),Y
+m-ind...Absolute Indirect................... JMP ($1234)
+n-iax+++Absolute Indexed Indirect........... JMP ($1234,X) 
+o-zpr+++Zero Page Relative Addressing....... ???0 $01,$1234
+p-izp+++Indirect Zero Page.................. LDA ($01)
+
