@@ -16,3 +16,5 @@ C1541 - a utility from VICE that works with CBM Image Files (ie: D64,D71,D81 fil
 NIBTOOLS - Utilities to transfer images via parallel port. Supports protected disks.
 IMGCOPY - Utility to image IEEE and 1581 disks.
 CBMLINK - transfers files/images to/from a real CBM drive connected to a real CBM computer connected to the PC via a serial cable.
+
+http://www.6502.org/users/sjgray/software/cbmxfer/cbmxfer.html
