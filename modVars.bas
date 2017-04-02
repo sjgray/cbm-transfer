@@ -11,7 +11,6 @@ Public CurDir           As String
 Public LocalDir(1)      As String
 
 '--- Mode and Program Variables
-Public Response         As String       'String Returned from PROMPT dialog form
 Public SrcMode          As Integer      'Selected TAB on LEFT
 Public DstMode          As Integer      'Selected TAB on RIGHT
 Public TEMPFILE1 As String, TEMPFILE2 As String, TEMPFILE3 As String
@@ -21,6 +20,10 @@ Public PathFile         As String
 Public PathHistory      As Boolean
 Public LastCMDError     As String
 Public KillFlag         As Boolean      'Global Kill flag to abort processes (experimental)
+
+'--- Global Variables for Passing data
+Public Response         As String       'String Returned from PROMPT dialog form
+Public PickedColour     As Long         'Colour Value
 
 '=== CONFIG OPTIONS
 '--- General Options

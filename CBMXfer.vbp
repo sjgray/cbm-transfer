@@ -37,6 +37,7 @@ RelatedDoc=ml-plat-cbm-identifier.txt
 RelatedDoc=ml-plat-pet2.txt
 RelatedDoc=ml-plat-pet4.txt
 RelatedDoc=ml-plat-vic20.txt
+Form=frmColourPicker.frm
 IconForm="frmMain"
 Startup="frmMain"
 HelpFile=""

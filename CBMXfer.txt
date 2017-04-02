@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2017 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.00 - Mar 31,2017 *** 10th Anniversary Edition ***
+============ V1.01 - Apr 2,2017 *** 10th Anniversary Edition ***
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -577,7 +577,14 @@ File Viewer
    You may also drag and drop a file into the viewer window. Drag to an empty area of the viewer window
   until the pointer shows the drop symbol.
 
-  The different views are:
+   Several TABs have Colour boxes to let you change the colour of the output list window. Clicking on the
+  box opens the Colour Picker window where you will have 16 predefined colour on the left. These match the
+  Commodore C64's colour palette. Click on one of those boxes selects the colour and it will be displayed
+  in the box above the OK button. If you wish to select a colour that's not in the C64 palette then click
+  this box and the standard colour picker window will appear. Click the OK button to select the colour, or
+  cancel to abort.
+
+  The different view TABs are:
 
 BASIC:
 ------
@@ -648,16 +655,21 @@ FONT:
   right is the colour theme menu which sets colours based on the default screens on various machines.
   Next are "1x" to "5x" buttons to set the zoom factor for the displayed character sets. The "32" option shows
   32 characters across when selected, or 16 if not. The "Border" checkbox adds a border around each character.
+  The Mult-color checkbox enables multi-colour mode. This will show multi-color fonts using 4 colours. Two
+  additional colour boxes will appear at the top left, representing the multi-colour#1 and #2.
 
    The Skip Bytes field lets you start from an offset which may help when trying to view character sets
   embedded in programs or other binary files. To the right of the offset are six buttons that adjust the offset
-  by -256,-8,-1,+1,+8, or +256.
+  by -256,-8,-1,+1,+8, or +256. When Dual-View is enabled and the HEX tab is selected as the other view, clicking
+  on a HEX line will set the offset value in the FONT tab. This lets you scroll through the file searching for
+  embedded fonts.
 
    Below the top line and on the left we have the selected character controls. At the top is the currently
   selected character. You can click on a character in the set to select it, or use the "<" and ">" buttons. The
   set# and character# plus hex value are shown. Below that is the selected character with 10x zoom. You can also
   select between '8x8' or '8x16' pixel format. Most characters are 8x8 pixels, however CBM-II machines used
   8x16 format. 
+
 
   Click the "Save BMP..." button to save the current view, including colour scheme and zoom to a BMP file.
 
@@ -670,7 +682,7 @@ ASM:
 
    This is an interactive 6502 machine code symbolic disassembler. It has grown to a full-featured
   disassembler with many features. There is now a separate help file for it. Open the side panel with
-  the ">" button then click on the "Project" tab button, then click on HELP for more info.
+  the ">>" button then click on the "Project" tab button, then click on HELP for more info.
 
 
 BITMAP:
@@ -759,6 +771,13 @@ Blue Chip	Untested
 
 Change Log
 ==========
+1.xx - TEST RELEASE
+   * Viewer:
+   *   FONT: Add Multi-colour View Mode
+   *   ASM: Remember ASM listing position and restore after update
+   *        Check for project changes when attempting to close viewer
+   *   HEX: Sync selected line to FONT offset
+
 1.00 - Mar 31,2017
    *** The "Xfer" in "CBMXfer" has always been short for "Transfer". So, to avoid any confusion with
        pronunciation or what the program does, I am updating the wording in both the program and
