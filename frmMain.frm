@@ -2580,7 +2580,7 @@ Private Sub cmdDRun_Click(Index As Integer)
             
             Select Case Ext
                 Case "PRG", "RG<", "P00", "P01", "P02"  'Only adding P00-02...this could be a potential problem
-                    RunVicePRG DDFile(Index) 'RUN with VICE!
+                    RunVice frmOptions.cboPRG.ListIndex, DDFile(Index), Filename 'RUN with VICE!
                 Case Else
                     MyMsg "Sorry, you can only run PRG or P00 files!"
             End Select
@@ -3987,6 +3987,7 @@ Private Sub cmdSrcRun_Click(Index As Integer)
 End Sub
 
 '---- Run a single PRG file in VICE
+' Runs a file from local PC
 Public Sub RunVicePRG(ByVal Filename As String)
     Dim j As Integer, LA As Long
     
