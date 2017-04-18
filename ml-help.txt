@@ -1,4 +1,4 @@
-CBMX-Transfer Symbolic Disassembler Notes - For Version 1.00 (C)2017 Steve J. Gray
+CBMX-Transfer Symbolic Disassembler Notes - For Version 1.01 (C)2017 Steve J. Gray
 ==========================================================================================================
 
 INTRODUCTION
@@ -18,10 +18,10 @@ PROCESS OVERVIEW
 
 To successfully disassemble binary code we need to know:
 
-* What platform it is for
-* What CPU is used
-* Where the binary loads and/or runs
-* What is code and what is non-code (data)
+* What platform it is for?
+* What CPU is used?
+* Where the binary loads and/or runs?
+* What is code and what is non-code (data)?
 
 The first two are the most straight-forward. You probably know what platform it is designed for,
 (if not see below) which also tells you what CPU is used. The third one (load/run) may be more
@@ -63,72 +63,74 @@ it will automatically be loaded and the side panel will be made visible. If ther
 you should click on the ">>" button to open up the side panel. The side panel is where you will be
 entering information to help the disassembler do it's thing. There are 6 tabs:
 
-1) Project..... has settings a buttons to control the overall operation.
-2) Gen Labels.. shows generated labels and will be updated each time the ASM code is refreshed
-3) Ext JSR..... lists External JSR target addresses, updated on refresh
-4) Symbols..... shows Symbolic addresses, names and comments for known machine locations
-5) Tables...... shows various data tables
-6) Labels...... shows user entered lables
-7) Comments.... shows user entered comments
+1) Project..... Has settings and buttons to control the overall operation.
+2) Gen Labels.. Shows generated labels and will be updated each time the ASM code is refreshed.
+3) Ext JSR..... Lists External JSR target addresses, updated on refresh.
+4) Symbols..... Shows Symbolic addresses, names and comments for known machine locations.
+5) Tables...... Shows various data tables.
+6) Labels...... Shows user entered labels.
+7) Comments.... Shows user entered comments.
 
 The "Gen Labels" and "Ext JSR" tabs show internally generated info which is updated on each refresh.
 The Symbols, Tables, Labels, and Comments tabs show user-inputted entries. For these tabs there are
-LOAD and SAVE buttons to load or save the entries from/to a file. There are also ADD, DEL, FIND button
-for adding new entries, deleting entries or finding entries in the output list.
+LOAD and SAVE buttons to load or save the entries from/to a file. There are also ADD, DEL, and FIND
+buttons for adding new entries, deleting entries or finding entries in the output list.
+
 
 PROJECT TAB
 -----------
 
 The project tab is the control centre for disassembly. It lets you select options and settings.
 
-Load Project.............. Loads an "ASM-PROJECT" file containing symbols, tables, labels and comments
-Save Project.............. Save the project file
-Project Status Box........ Displays status of Project (Green=OK, Red=Changed, White=No Project Loaded)
-New Project............... Clears all the Lists and starts a new Project
-Clear all Lists on Load... When check, lists are cleared before new data is loaded
+Load Project.............. Loads an "ASM-PROJECT" file containing symbols, tables, labels and comments.
+Save Project.............. Save the project file.
+Project Status Box........ Displays status of Project (Green=OK, Red=Changed, White=No Project Loaded).
+New Project............... Clears all the Lists and starts a new Project.
+Clear all Lists on Load... When check, lists are cleared before new data is loaded.
 
-Load $:................... Displays the load address from the file, or Lets you enter one manually
-In File................... Check this if the load addres is included as the first two bytes of the file
-Platform dropdown......... Lets you select pre-configured symbols for a specific machine platform
+Load $:................... Displays the load address from the file, or Lets you enter one manually.
+In File................... Check this if the load addres is included as the first two bytes of the file.
+Platform dropdown......... Lets you select pre-configured symbols for a specific machine platform.
 CPU....................... Sets which 6502 CPU or variant opcodes are used. There is also an entry for
-                           a normal 6502 CPU "illegal opcodes" set
+                           a normal 6502 CPU "illegal opcodes" set.
 View Fmt.................. Set the output format. The first entry is recommended when starting. Other
-                           entries are more suited to final outputs for assemblers
-Target.................... Set the strings used for BYTE/TEXT/WORD special directives
-Label Prefix.............. Sets the prefix string used for generated labels
-Comment Divider length.... Sets the width of a divider comment
-Show Equates.............. Adds used symbols to the top of the output
-Add blank line..RTS/RTI... Option to add a blank line after subroutines to make listing more readable
-Add blank line..labels.... Option to add a blank line before labels to make listing more readable
-Include Symbol comments... Option to add comments associated with symbols inline
+                           entries are more suited to final outputs for assemblers.
+Target.................... Set the strings used for BYTE/TEXT/WORD special directives.
+Label Prefix.............. Sets the prefix string used for generated labels.
+Comment Divider length.... Sets the width of a divider comment.
+Show Equates.............. Adds used symbols to the top of the output.
+Add blank line..RTS/RTI... Option to add a blank line after subroutines to make listing more readable.
+Add blank line..labels.... Option to add a blank line before labels to make listing more readable.
+Include Symbol comments... Option to add comments associated with symbols inline.
 
 Disassembly: 
-  Save.................... Save output to a file
-  Copy to Clipboard....... Places output in the clipboard
+  Save.................... Save output to a file.
+  Copy to Clipboard....... Places output in the clipboard.
+
 Symbols:
-  Purge................... Removes symbols not referenced in the code
+  Purge................... Removes symbols not referenced in the code.
   Import.................. Imports symbols from comma-delimited or fixed-width text files. See below.
 
-Help...................... Displays this file
+Help...................... Displays this file.
 
-When the ML Disassembler is first selected it will load it's configuration info from the file
+ When the ML Disassembler is first selected it will load it's configuration info from the file
 "ml-config.txt". You may edit this file to add additional platforms, CPUs, or Prefix's. Look at the existing
 entries to make sure your new entries are compatible.
 
-There is a Platform called "CBM Identifier". If you are disassembling a CBM binary and you don't know
+ There is a Platform called "CBM Identifier". If you are disassembling a CBM binary and you don't know
 what Platform it is for, selct this one first. This platform contains a collection of callable ROM
 routine addresses for multiple platforms, with each entry marked with the platform it is for. These will
 be displayed in the "Ext JSR" list. Once you identify the target platform you can select it from the
 platform list to get platform-specific symbols.
 
-If you create some symbols for a new platform and you think it might be useful for other, feel free to email
-it to me for inclusion in future CBM-Transfer releases. I will be sure to credit you as well.
+ If you create a new platform and you think it might be useful for others, feel free to email it to me for
+inclusion in future CBM-Transfer releases. I will be sure to credit you as well.
 
 
 Gen Labels Tab
 --------------
 
-This tab shows labels that have been automatically generated by the disassembler. Whenever the target
+ This tab shows labels that have been automatically generated by the disassembler. Whenever the target
 address of a JMP, JSR or Branch instruction falls in the code range a label is generated. A separate
 label is generated for each instance so you will likely see multiple identical entries. That will actually
 help you see which addresses are used the most, which will help you make permanent named labels.
@@ -138,6 +140,7 @@ REMOVE DUPLICATES button, to remove duplicate entries, but remember that next ti
 be added again.
 
 Clicking the FIND button finds the currently selected entry.
+
 
 Ext JSR Tab
 -----------
@@ -236,17 +239,17 @@ Top Line
 
 At the top are options for Refreshing the output, quickly specifying blocks, or adding comments.
 
-">>" or "<<"............ Hide or Show the side panel
+">>" or "<<"............ Hide or Show the side panel.
 Status Box.............. Shows Disassembly errors as yellow, or green when no errors are found. Errors are
                          illegal opcodes of the 6502. This box will not be relevent if a CPU with completely filled
-                         instruction set is select
-Refresh Button.......... Refreshes the disassembly
+                         instruction set is select.
+Refresh Button.......... Refreshes the disassembly.
 Auto.................... When checked, most actions will cause a refresh. If you plan to make a lot of changes/additions
-                         and your code is large, turn off auto refresh, and then click the Refresh Button when desired
+                         and your code is large, turn off auto refresh, and then click the Refresh Button when desired.
 
-Find.................... Enter a string to be searched for
-Find All................ Hilight all lines containing search string
-Next.................... Find Next line containing string
+Find.................... Enter a string to be searched for.
+Find All................ Hilight all lines containing search string.
+Next.................... Find Next line containing string.
 
 Quick Add Buttons
 -----------------
@@ -255,26 +258,26 @@ Label................... Adds the current line address to the Labels list. First
                          begins with an address.
 
 Block Buttons:           (first select a block range using SHIFT)
-D....................... Decimal - Treats block as decimal numbers
-H....................... Hex - Treats block as hex numbers
+D....................... Decimal - Treats block as decimal numbers.
+H....................... Hex - Treats block as hex numbers.
 T....................... Text String - Display printable text as quoted text strings, or unprintable as
                          hex values.
 R....................... RTS vectors - Treats the block as a list of word vectors to be pushed onto
                          the stack. Words are assumed to be pointers to addresses in the code and
                          labels are automatically generated for each entry. Entries are displayed with
                          a "-1" so that the proper bytes can be pushed to the stack.
-V....................... Vectors - Treats the block as vectors to code (as above, without the -1)
-W....................... Word - Treats the block as simple hex words
+V....................... Vectors - Treats the block as vectors to code (as above, without the -1).
+W....................... Word - Treats the block as simple hex words.
 
 Comment Buttons:
-;C ..................... Adds an inline comment
-C ...................... Adds a standalone comment as a single line
--C- .................... Adds a standalone comment with "-" divider lines above and below the comment
-=C= .................... Adds a standalone comment with "=" divider lines
-*C* .................... Adds a standalone comment with "*" divider lines
---- .................... Adds a single "-" divider line
-=== .................... Adds a single "=" divider line
-*** .................... Adds a single "*" divider line
+;C ..................... Adds an inline comment.
+C ...................... Adds a standalone comment as a single line.
+-C- .................... Adds a standalone comment with "-" divider lines above and below the comment.
+=C= .................... Adds a standalone comment with "=" divider lines.
+*C* .................... Adds a standalone comment with "*" divider lines.
+--- .................... Adds a single "-" divider line.
+=== .................... Adds a single "=" divider line.
+*** .................... Adds a single "*" divider line.
 
 And lastly, there is a status message. This will show the code range while you are working. When
 disassembling it will display which pass it is working on.
