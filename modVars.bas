@@ -24,6 +24,9 @@ Public KillFlag         As Boolean      'Global Kill flag to abort processes (ex
 '--- Global Variables for Passing data
 Public Response         As String       'String Returned from PROMPT dialog form
 Public PickedColour     As Long         'Colour Value
+Public Layout           As Integer
+Public Layout2          As Integer
+Public MenuNum          As Integer      'The index for the dropdown menu's list 0=left, 1=right
 
 '=== CONFIG OPTIONS
 '--- General Options
@@ -35,9 +38,6 @@ Public IgnoreD          As Boolean
 Public CheckEXE         As Boolean
 Public LogAll           As Boolean
 Public StartDAD         As Boolean
-Public Layout           As Integer
-Public Layout2          As Integer
-Public MenuNum          As Integer
 
 '--- Path Options
 Public UseLP            As Boolean

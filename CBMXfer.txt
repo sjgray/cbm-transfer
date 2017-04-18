@@ -62,7 +62,16 @@ Installation
   versions upto and including Windows 10. It is a 32-bit Windows app but will also run on
   64-bit Windows.
 
-  Download the following additional programs, or read the documentation: 
+  There are three different releases:
+
+	(1) Complete release with setup.exe installer - for new installations.
+	(2) Complete release files only - for people that have installed previous releases.
+        (3) Test releases - minor updates with bug fixes or test features for people that want
+		to experiment or have issues with the complete release, or have been asked by me
+		to test bug fixes etc.
+
+  CBM-Transfer is a GUI for OpenCBM, VICE, and others. You will also need to download and install
+  these separately:
 
 	OpenCBM  (For X cable or Zoom Floppy. ZF users make sure to use the correct version!
 		  Now includes 'ImgCopy') SEE NOTE BELOW
@@ -87,12 +96,16 @@ Installation
    I recommend installing OpenCBM and WinVICE first, rebooting, and making sure they work properly.
   Installation of OpenCBM may require administrative access to install correctly!
 
-     Note: The OpenCBM drivers are not signed which will cause issues in 64-bit versions of
+     NOTE: The OpenCBM drivers are not signed which will cause issues in 64-bit versions of
            Windows VISTA and higher. OpenCBM 4.99 now has special installation instructions.
            Please refer to the OpenCBM documentation.
 
-   There is no special installer for CBM-Transfer. Simply unzip the files in the archive to the OpenCBM folder.
-  This will allow CBM-Transfer to find all the command-line utilities that are needed.
+   Once OpenCBM is installed you can install CBM-Transfer. Unzip the download file to a temporary location, then
+  do ONE of the following depending on which you downloaded:
+
+  For (1): Run setup.exe and change the installation to the location that OpenCBM was installed.
+  For (2): Copy the files into the OpenCBM folder.
+  For (3): Copy the new cbmxfer.exe to the OpenCBM folder.
 
   Now copy the "C1541.EXE" file from the WinVice directory to the same.
 
@@ -101,23 +114,24 @@ Installation
    If you want to use IEEE drives, copy the "CBMLINK.EXE" file there too. Finally, if you have a Zoom Floppy
   with parallel cable copy the NibTools EXE files (nibread, nibwrite, nibconv) and/or the ImgCopy utility as well. 
 
+   If you installed (1) then there will be an entry in the start menu.
+   If you installed (2) or (3) then you should create a shortcut on your desktop.
+
 
 Troubleshooting installation problems
 =====================================
 
-   CBM-Transfer is written using VisualBASIC 6. I do not include the VB runtimes in the distribution 
-  archive since most releases of Windows already include them. However if you run into problems when
-  starting CBM-Transfer, such as "component not registered", or not found, then you may need to install
-  the runtimes to correct this. You can find them here:
+   CBM-Transfer is written using VisualBASIC 6. Most releases of Windows already include the VB6 runtime files, but
+  some "light" versions, such as Windows tablets may not.  If you run into problems when starting CBM-Transfer,
+  such as "component not registered", or not found, then you may need to install the complete release with SETUP.EXE.
+  This will contain all the runtime files you need. If you still have difficulty try installing one or both of the
+  following:
 
     https://www.microsoft.com/en-us/download/details.aspx?id=24417
     https://www.microsoft.com/en-us/download/details.aspx?id=7030
 
-  For earlier OpenCBM versions there are workarounds. Please see:
-
-    http://www.techspot.com/community/topics/how-to-install-use-unsigned-drivers-in-windows-vista-7-x64.127187/
-  or
-    http://awesome.commodore.me/forum/showthread.php?672-GUIDE-How-to-install-ZoomFloppy-(Also-Win8)
+   OpenCBM does not work properly on later versions of window because it does not have signed drivers. It is
+  recommended to use the Zadig driver installer as detailed in the OpenCBM installation guide.
 
    I recommend that you install VICE 2.3 or later as the version 2.2 "C1541.EXE" utility seems to
   have a bug. 
@@ -776,6 +790,9 @@ Change Log
    *   FONT: Add Multi-colour View Mode
    *   ASM: Remember ASM listing position and restore after update
    *        Check for project changes when attempting to close viewer
+   *	    Fix error with disassemblies ending at $FFFF
+   *	    Fix illegal opcode status box (green/yellow)
+   *	    Fix unnessessary reading of source file on second pass
    *   HEX: Sync selected line to FONT offset
 
 1.00 - Mar 31,2017

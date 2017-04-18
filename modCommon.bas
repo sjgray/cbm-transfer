@@ -230,8 +230,9 @@ Public Function DOSName(ByVal Str As String) As String
 
     Filename = ExtractQuotes(Str)       'Get Filename
     Ext = DOSExt(Str)                   'Get Extension (PRG,SEQ etc)
-    DOSName = Filename & "." & Ext   'Combine and return
+    DOSName = Filename & "." & Ext      'Combine and return
 End Function
+
 
 '---- Return CBM filename from CBM Directory Entry
 ' entry : 123 "filename"  prg<
@@ -241,16 +242,16 @@ Public Function CBMName(ByVal Str As String) As String
 
     Filename = ExtractQuotes(Str)           'Get Filename
     Ext2 = DOSExt(Str)
-    Ext = CBMExt(Ext2)                        'Get Extension (",p" or ",s" etc)
-    CBMName = Filename & Ext             'Combine and return
+    Ext = CBMExt(Ext2)                      'Get Extension (",p" or ",s" etc)
+    CBMName = Filename & Ext                'Combine and return
 End Function
 
 '---- Return DOS File Extension from Directory Line
 ' ie: PRG,SEQ,USR,REL,DEL,CBM also handles locked files ending with "<"
 Public Function DOSExt(ByVal Str As String) As String
 
-    If Right(Str, 1) = "<" Then Str = Left(Str, Len(Str) - 1)    'Remove trailing "<" character
-    DOSExt = Right(Replace(Str, " ", ""), 3)
+    If Right(Str, 1) = "<" Then Str = Left(Str, Len(Str) - 1)   'Remove trailing "<" character
+    DOSExt = Right(Replace(Str, " ", ""), 3)                    'Return last 3 characters
     
 End Function
 
@@ -284,13 +285,13 @@ Public Function CBMType(ByVal Str As String) As String
 End Function
 
 '---- Reverse Case of PETSCII Text (Mostly for original PET BASIC 1 text strings
-Public Function Reverse(ByVal N As Integer) As Integer
-    Select Case N
-        Case 65 To 90: N = N + 32
-        Case 97 To 122: N = N - 32
+Public Function Reverse(ByVal n As Integer) As Integer
+    Select Case n
+        Case 65 To 90: n = n + 32
+        Case 97 To 122: n = n - 32
     End Select
     
-    Reverse = N
+    Reverse = n
 End Function
 
 '---- Validate PC filename - Check for invalid characters
@@ -400,8 +401,8 @@ QuoteError:
 End Function
 
 '---- Convert decimal value to fixed-length HEX value with leading zeros
-Function MyHex(ByVal N As Single, D As Integer)
-    MyHex = Right("00000000" & Hex(N), D)
+Function MyHex(ByVal n As Single, D As Integer)
+    MyHex = Right("00000000" & Hex(n), D)
 End Function
 
 '---- Trims spaces from Beginning and End of string
@@ -477,22 +478,22 @@ End Function
 
 '---- Converts a Commodore file Load Address to associated computer family or model
 Public Function GetMachine(ByVal LA As Long) As Integer
-    Dim N As Integer
+    Dim n As Integer
     
     Select Case LA
-        Case 2049:       N = 2 'C64
+        Case 2049:       n = 2 'C64
         '                n = 3 'C64sc as of VICE 2.3
         '                n = 4 'C64DTV
-        Case 7169:       N = 5 'C128 Basic 7 [Also? 16385 - C128 mode++]
-        Case 4097, 4609: N = 6 'Vic20
-        Case 1024, 1025: N = 7 'PET (1025 conflict with VIC-20 +3K)
-        Case 3:          N = 8 'CBM2
+        Case 7169:       n = 5 'C128 Basic 7 [Also? 16385 - C128 mode++]
+        Case 4097, 4609: n = 6 'Vic20
+        Case 1024, 1025: n = 7 'PET (1025 conflict with VIC-20 +3K)
+        Case 3:          n = 8 'CBM2
         'Case 3:         N = 9 'CBM2 P500 as of VICE 2.4
-        Case 8193:       N = 10 'C16/Plus4 (Also 4097 which conflicts with VIC-20)  [Also? 8193 - Plus/4-C16++]
-        Case Else:       N = 0 'Unknown
+        Case 8193:       n = 10 'C16/Plus4 (Also 4097 which conflicts with VIC-20)  [Also? 8193 - Plus/4-C16++]
+        Case Else:       n = 0 'Unknown
     End Select
     
-    GetMachine = N
+    GetMachine = n
 End Function
 
 '---- Converts Commodore DOS Disk ID to model number string
@@ -561,7 +562,7 @@ End Function
 
 '---- Retrieve Field number 'n' from record string 'Tmp'. Record is comma-delimited
 ' There must not be any commas in a field. It treats a NULL string between two commas as a NULL field.
-Public Function GetField(ByVal Tmp As String, N As Integer) As String
+Public Function GetField(ByVal Tmp As String, n As Integer) As String
     Dim C As Integer, p As Integer, p2 As Integer, Comma As String, T2 As String
     
     Comma = ",": p2 = 1: C = 1
@@ -569,7 +570,7 @@ Public Function GetField(ByVal Tmp As String, N As Integer) As String
     Do
         p = InStr(p2, Tmp, Comma)           'Look for the Comma
         If p = 0 Then Exit Do               'None, then exit
-        If p > 0 And C = N Then Exit Do     'We found the last record (no comma after it)
+        If p > 0 And C = n Then Exit Do     'We found the last record (no comma after it)
         p2 = p + 1: C = C + 1               'Move the start, count the comma
     Loop
     
@@ -581,7 +582,7 @@ End Function
 '---- Retrieve Field number 'n' from delimited record string 'Tmp'.
 ' Delimiter is passed to function. If Delimiter is null then TAB will be used
 ' Note: There MAY be multiple TABs between fields!
-Public Function GetDField(ByVal Tmp As String, Delim As String, N As Integer) As String
+Public Function GetDField(ByVal Tmp As String, Delim As String, n As Integer) As String
     Dim C As Integer, p As Integer, p2 As Integer, T2 As String
     
     T2 = ""
@@ -592,7 +593,7 @@ Public Function GetDField(ByVal Tmp As String, Delim As String, N As Integer) As
         p = InStr(p2, Tmp, Delim)           'Look for the TAB
         If p = 0 Then Exit Do               'None, then exit
         If p > p2 Then
-            If C = N Then Exit Do           'We found the last record (no TAB after it)
+            If C = n Then Exit Do           'We found the last record (no TAB after it)
             p2 = p + 1: C = C + 1           'Move the start, increment the Field#
         Else
             p2 = p + 1                      'if p=p2 then we found two delimiters together, so we increment pointer but not field#
@@ -606,9 +607,9 @@ Public Function GetDField(ByVal Tmp As String, Delim As String, N As Integer) As
 End Function
 
 '---- Return C64 Colour
-Public Function C64Colour(ByVal N As Integer) As Long
+Public Function C64Colour(ByVal n As Integer) As Long
     
-    Select Case N
+    Select Case n
         Case 0: C64Colour = RGB(0, 0, 0)
         Case 1: C64Colour = RGB(255, 255, 255)
         Case 2: C64Colour = RGB(255, 0, 0)

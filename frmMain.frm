@@ -1950,7 +1950,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.01 (Apr 2/2017)" & Cr & _
+    MyMsg "CBM-Transfer  V1.01 TEST (Apr 17/2017)" & Cr & _
           "(C)2007-2017 Steve J. Gray  *** 10th Anniversary Edition ***" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -1974,6 +1974,8 @@ Private Sub Form_Load()
     If Mid(CurDir, 2, 1) = ":" Then ChDrive Left(CurDir, 1)
     MyChDir CurDir
     
+    LoadINI
+    
     LogFile = CurDir & "\cbmxferlog.txt"
     
     Tmp = Environ$("temp"): If Tmp = "" Then Tmp = Environ$("tmp")
@@ -1989,8 +1991,7 @@ Private Sub Form_Load()
     cboLinkDev.ListIndex = 0
     cboFilter(0).ListIndex = 0
     cboFilter(1).ListIndex = 0
-        
-    LoadINI
+       
     
     If frmOptions.cbUseCBMFont.value = vbChecked Then
         Tmp = "C64 User Mono"
@@ -2256,9 +2257,9 @@ Private Sub SaveDirText()
         On Local Error GoTo DialogError
         
         CommonDialog1.CancelError = True
-        CommonDialog1.InitDir = LocalDir(0)
+        CommonDialog1.InitDir = LocalDir(MenuNum)
         CommonDialog1.Filter = "Text (*.txt)|*.txt|All Files|*.*"
-        CommonDialog1.Filename = FileBase(UnQuoted(DDFile(0))) & ".txt"
+        CommonDialog1.Filename = FileBase(UnQuoted(DDFile(MenuNum))) & ".txt"
         CommonDialog1.ShowSave
         
         Filename = CommonDialog1.Filename
@@ -2276,6 +2277,7 @@ Private Sub AddToCatalog()
 End Sub
 
 '---- Save the disk directory to a file
+' Flag: True=Append, False=Create
 Private Sub WriteDirTextTo(ByVal Filename As String, Flag As Boolean)
         Dim FIO As Integer, j As Integer
         
@@ -2287,15 +2289,15 @@ Private Sub WriteDirTextTo(ByVal Filename As String, Flag As Boolean)
             Open Filename For Append As FIO
             Print #FIO, ""
         End If
-        
-        Print #FIO, Qu & txtImageHeader(0) & Qu & " " & txtImageID(0)
+        Print #FIO, "**** FILE: " & FileNameOnly(lblDDFile(MenuNum).Caption)
+        Print #FIO, Qu & txtImageHeader(MenuNum).Caption & Qu & " " & txtImageID(MenuNum).Caption
         Print #FIO, "========================"
         
-        For j = 0 To lstImageFiles(0).ListCount - 1
-            Print #FIO, lstImageFiles(0).List(j)
+        For j = 0 To lstImageFiles(MenuNum).ListCount - 1
+            Print #FIO, lstImageFiles(MenuNum).List(j)
         Next j
         
-        Print #FIO, DFBlocksFree
+        Print #FIO, DFBlocksFree(MenuNum).Caption
         Print #FIO, ""
         Close FIO
 
@@ -2529,6 +2531,7 @@ Private Sub ImageBackup(ByVal Index As Integer)
     lstLocal(Index).Refresh
 ImgBakErr:
 End Sub
+
 '---- Rename File(s) within Disk Image
 Private Sub cmdDRename_Click(Index As Integer)
     ImageFileRename Index
@@ -2573,11 +2576,11 @@ Private Sub cmdDRun_Click(Index As Integer)
     For T = 0 To lstImageFiles(Index).ListCount - 1
         If lstImageFiles(Index).Selected(T) = True Then
             Filename = LCase(ExtractQuotes(lstImageFiles(Index).List(T)))
-            Ext = DOSExt(lstImageFiles(Index).List(T))
+            Ext = UCase(DOSExt(lstImageFiles(Index).List(T)))
             
             Select Case Ext
                 Case "PRG", "RG<", "P00", "P01", "P02"  'Only adding P00-02...this could be a potential problem
-                    RunVice 1, DDFile(Index), Filename  'RUN with VICE!
+                    RunVicePRG DDFile(Index) 'RUN with VICE!
                 Case Else
                     MyMsg "Sorry, you can only run PRG or P00 files!"
             End Select
@@ -2586,6 +2589,7 @@ Private Sub cmdDRun_Click(Index As Integer)
     Next T
 
 End Sub
+
 '---- Edit the Disk Image File
 Private Sub cmdDskEd_Click(Index As Integer)
     Dim Filename As String, Tmp As String, Ext As String
@@ -2726,6 +2730,7 @@ Private Sub cmdLinkValidate_Click()
     GetLinkDir
 End Sub
 
+'---- Rename CBM-Link file(s)
 Private Sub cmdLinkRename_Click()
    Dim T As Integer, Filename As String
 
@@ -2748,12 +2753,14 @@ Private Sub cmdLinkRename_Click()
    GetLinkDir
 End Sub
 
+'---- Reset CBM-Link Drive
 Private Sub cmdLinkReset_Click()
     DoCommand "cbmlink", _
               LinkCStr & " -dc UJ", _
               "Resetting drives, please wait."
 End Sub
 
+'---- Scratch CBM-Link file(s)
 Private Sub cmdLinkScratch_Click()
     Dim T As Integer, Filename As String
     
@@ -2769,6 +2776,7 @@ Private Sub cmdLinkScratch_Click()
     GetLinkDir
 End Sub
 
+'---- Get CBM-Link Drive Status
 Private Sub cmdLinkStatus_Click()
     Dim Results As ReturnStringType
 
@@ -2830,8 +2838,12 @@ End Function
 Public Sub DetectDrives(ByVal Flag As Boolean)
     Dim What As String, FIO As Integer, D As Integer
     
+    If Exists(ExeDir & "cbmctrl.exe") = False Then Exit Sub
+    
     frmMain.PubDoCommand "cbmctrl", "detect", "Detecting Drives...", False
 
+    If Exists(TEMPFILE1) = False Then Exit Sub
+    
     '-- Read in the complete output file
     FIO = FreeFile
     Open TEMPFILE1 For Input As FIO
@@ -4128,9 +4140,9 @@ Private Sub cboFilter_Click(Index As Integer)
 End Sub
 
 '---- Return Filter string for given Index
-Private Function FilterString(ByVal N As Integer) As String
+Private Function FilterString(ByVal n As Integer) As String
     Dim FX As String
-    Select Case N
+    Select Case n
         Case 1: FX = "*.D64;*.D71;*.D80;*.D81;*.D82;*.NIB;*.G64;*.X64;*.D1M;*.D2M;*.D4M"
         Case 2: FX = "*.NIB;*.NBZ;*.G64;*.D64"
         Case 3: FX = "*.D80;*.D82"
