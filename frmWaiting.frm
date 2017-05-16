@@ -130,9 +130,18 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmWaiting - Status and Progress Window
+'
+' Based on GUI4CBM4WIN. The following (between "/" lines) is the notice
+' included with the GUI4CBM4WIN source code:
+'
+'/////////////////////////////////////////////////////////////////////////
+
 ' Copyright (C) 2004-2005 Leif Bloomquist
 ' Copyright (C) 2006      Wolfgang Moser
-' Copyright (C) 2007-2017 Steve J. Gray
 '
 ' This software Is provided 'as-is', without any express or implied
 ' warranty. In no event will the authors be held liable for any damages
@@ -153,6 +162,7 @@ Attribute VB_Exposed = False
 '     3. This notice may not be removed or altered from any source
 '        distribution.
 '
+'/////////////////////////////////////////////////////////////////////////
 
 Option Explicit
 
@@ -167,6 +177,8 @@ End Sub
 
 '---- Form Load
 Private Sub Form_Load()
+    On Error Resume Next
+    
     Me.AlwaysOnTop = True           'Force to top
     BarWid = shProgress.Width       'Set Progress bar width
     ProgFIO = 0                     'File# for output file to monitor to calculate progress
@@ -226,7 +238,7 @@ End Sub
 Private Sub LEDTimer_Timer()
     Dim Tmp As String, PB As Integer, p As Integer
     
-    On Error GoTo PErr 'Resume Next
+    On Local Error GoTo PErr 'Resume Next
     
     If LED.BackColor = vbRed Then
         LED.BackColor = vbBlack

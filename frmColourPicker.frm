@@ -216,9 +216,18 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmColourPicker - Colour Picker
+'
+' Replacement Colour Picker that uses the Commodore VIC-II palette.
+' Click in the Selected Colour Box to use the standard VB Colour Picker
+
 '---- Load the form and Set colours
 Private Sub Form_Load()
     Dim i As Integer
+    On Error Resume Next
     
     For i = 0 To 15
         CBox(i).BackColor = C64Colour(i)

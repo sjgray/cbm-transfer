@@ -1,4 +1,13 @@
-Attribute VB_Name = "Constants"
+Attribute VB_Name = "modConstants"
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' modConstants - Module with Constants for API's
+'
+' Based on GUI4CBM4WIN. The following (between "/" lines) is the notice
+' included with the GUI4CBM4WIN source code:
+'
+'/////////////////////////////////////////////////////////////////////////
 ' Copyright (C) 2004-2005 Leif Bloomquist
 ' Copyright (C) 2006      Wolfgang Moser
 '
@@ -20,7 +29,7 @@ Attribute VB_Name = "Constants"
 '
 '     3. This notice may not be removed or altered from any source
 '        distribution.
-'
+'/////////////////////////////////////////////////////////////////////////
 
 Option Explicit
 

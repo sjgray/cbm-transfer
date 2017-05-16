@@ -2,17 +2,17 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "CBM-Transfer Options"
-   ClientHeight    =   4170
+   ClientHeight    =   4155
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   6840
+   ClientWidth     =   6810
    ControlBox      =   0   'False
    Icon            =   "frmOptions.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4170
-   ScaleWidth      =   6840
+   ScaleHeight     =   4155
+   ScaleWidth      =   6810
    StartUpPosition =   1  'CenterOwner
    Begin VB.Frame optFrame 
       Caption         =   "NibTools Options"
@@ -1003,12 +1003,20 @@ Begin VB.Form frmOptions
       TabIndex        =   0
       Top             =   60
       Width           =   5445
+      Begin VB.CheckBox cbIgnoreBadID 
+         Caption         =   "Ignore BAD disk ID's when imaging D64"
+         Height          =   375
+         Left            =   150
+         TabIndex        =   110
+         Top             =   2520
+         Width           =   4935
+      End
       Begin VB.CheckBox cbErr 
          Caption         =   "For results button, also show ERROR file"
          Height          =   375
          Left            =   150
          TabIndex        =   109
-         Top             =   2670
+         Top             =   2790
          Width           =   4935
       End
       Begin VB.CheckBox cbP00 
@@ -1016,7 +1024,7 @@ Begin VB.Form frmOptions
          Height          =   255
          Left            =   150
          TabIndex        =   101
-         Top             =   1530
+         Top             =   1500
          Width           =   4935
       End
       Begin VB.CheckBox cbDAD 
@@ -1024,7 +1032,7 @@ Begin VB.Form frmOptions
          Height          =   375
          Left            =   150
          TabIndex        =   97
-         Top             =   2970
+         Top             =   3090
          Width           =   4935
       End
       Begin VB.CheckBox cbIgnoreD 
@@ -1032,7 +1040,7 @@ Begin VB.Form frmOptions
          Height          =   375
          Left            =   150
          TabIndex        =   71
-         Top             =   2370
+         Top             =   2250
          Width           =   4935
       End
       Begin VB.CommandButton cmdShowLog 
@@ -1057,7 +1065,7 @@ Begin VB.Form frmOptions
          Height          =   375
          Left            =   150
          TabIndex        =   33
-         Top             =   900
+         Top             =   870
          Value           =   1  'Checked
          Width           =   3945
       End
@@ -1076,7 +1084,7 @@ Begin VB.Form frmOptions
          Height          =   375
          Left            =   150
          TabIndex        =   4
-         Top             =   2070
+         Top             =   1980
          Value           =   1  'Checked
          Width           =   4935
       End
@@ -1085,13 +1093,13 @@ Begin VB.Form frmOptions
          Height          =   375
          Left            =   150
          TabIndex        =   3
-         Top             =   1770
+         Top             =   1710
          Value           =   1  'Checked
          Width           =   4935
       End
       Begin VB.CheckBox cbPreview 
          Caption         =   "&Preview shell commands"
-         Height          =   375
+         Height          =   345
          Left            =   150
          TabIndex        =   2
          Top             =   1185
@@ -1115,9 +1123,17 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmOptions - Program Options Window
+'
+' Based on GUI4CBM4WIN. The following (between "/" lines) is the notice
+' included with the GUI4CBM4WIN source code:
+'
+' ////////////////////////////////////////////////////////////////////
 ' Copyright (C) 2004-2005 Leif Bloomquist
 ' Copyright (C) 2006      Wolfgang Moser
-' Copyright (C) 2007-2017 Steve J. Gray
 '
 ' This software Is provided 'as-is', without any express or implied
 ' warranty. In no event will the authors be held liable for any damages
@@ -1138,6 +1154,7 @@ Attribute VB_Exposed = False
 '     3. This notice may not be removed or altered from any source
 '        distribution.
 '
+'/////////////////////////////////////////////////////////////////////////
 
 Option Explicit
 
@@ -1145,6 +1162,8 @@ Private IsOnTop As Boolean
 
 Private Sub Form_Load()
     Dim j As Integer, Tmp As String
+    
+    On Error Resume Next
     
     Me.AlwaysOnTop = True
     cboDefDst.ListIndex = DstMode
@@ -1154,22 +1173,6 @@ Private Sub Form_Load()
     
     CBMUnit = 8: CBMDrive = 0
     
-End Sub
-
-Private Sub cbDouble_Click()
-    Batch2Sided = (cbDouble.value = 1)
-End Sub
-
-Private Sub cbLastPaths_Click()
-    UseLP = (cbLastPaths.value = 1)
-End Sub
-
-Private Sub cbUseBatch_Click()
-    UseBatch = (cbUseBatch.value = 1)
-End Sub
-
-Private Sub cbP00_Click()
-    P00Flag = cbP00.value
 End Sub
 
 Private Sub cmdClearHistory_Click()
@@ -1182,6 +1185,14 @@ Private Sub cmdOK_Click()
     SetConfigOptions
     SaveINI
     Me.Hide
+End Sub
+
+Private Sub cmdDstCurrent_Click()
+    DefaultDstPath.Text = LocalDir(1)
+End Sub
+
+Private Sub cmdSrcCurrent_Click()
+    DefaultSrcPath.Text = LocalDir(0)
 End Sub
 
 Public Sub SetConfigOptions()
@@ -1199,7 +1210,7 @@ Public Sub SetConfigOptions()
     For j = 0 To 7
         If cbNibArg(j).value = 1 Then Tmp = Tmp & cbNibArg(j).Tag & " "
     Next j
-        
+    
     '--- Additional Switches
     Tmp = MyTrim(Tmp & txtNibOpt.Text) & " "
     NIBstr = Tmp
@@ -1210,7 +1221,34 @@ Public Sub SetConfigOptions()
     '-- Path History
     PathHistory = cbPathHistory.value
     
+    CheckEXE = (frmOptions.cbCheckEXE.value = vbChecked)
+    Batch2Sided = (cbDouble.value = 1)
+    UseLP = (cbLastPaths.value = 1)
+    UseBatch = (cbUseBatch.value = 1)
+    P00Flag = cbP00.value
     StartDAD = cbDAD.value
+    LogAll = (frmOptions.cbLog.value = vbChecked)
+    UseNIB = (cbUseNib.value = vbChecked)
+    CreateNIB = (cbCreateNIB.value = vbChecked)
+    UseNBZ = (cbNBZ.value = vbChecked)
+    CreateG64 = (cbCreateG64.value = vbChecked)
+    CreateD64 = (cbCreateD64.value = vbChecked)
+    WriteD64 = (cbWriteD64.value = vbChecked)
+    UseNibCustom = (cbNibCustom.value = vbChecked)
+    DstMode = cboDefDst.ListIndex
+    UseVice = cbUseVice.value
+    LocalDir(1) = DefaultDstPath.Text
+    LocalDir(0) = DefaultSrcPath.Text
+    DriveNum = Val(cboDriveNum.List(cboDriveNum.ListIndex))
+    DefaultSrcPath.Text = LocalDir(0)
+    DefaultDstPath.Text = LocalDir(1)
+    AutoRefreshDir = (cbAutoRefreshDir.value = vbChecked)
+    ConfirmD64 = (cbConfirmCreate.value = vbChecked)
+    PreviewCheck = (cbPreview.value = vbChecked)
+    IgnoreD = (cbIgnoreD.value = vbChecked)
+    FNEdit = (cbFNEdit.value = vbChecked)
+    VicePath = txtVicePath.Text
+    IgnoreBadID = (cbIgnoreBadID.value = vbChecked)
 End Sub
 
 Private Sub cmdShowLog_Click()
@@ -1233,80 +1271,11 @@ Private Sub cmdDestBrowse_Click()
     If Tmp <> "" Then DefaultDstPath.Text = AddSlash(Tmp)
 End Sub
 
-Private Sub cmdSrcCurrent_Click()
-    DefaultSrcPath.Text = LocalDir(0)
-End Sub
-
-Private Sub cmdDstCurrent_Click()
-    DefaultDstPath.Text = LocalDir(1)
-End Sub
-
 Private Sub cmdViceBrowse_Click()
     Dim Tmp As String
     Tmp = GetBrowseDir(Me, "Select Path containing VICE executables:")
     If Tmp <> "" Then txtVicePath.Text = AddSlash(Tmp)
 End Sub
-
-Private Sub cbAutoRefreshDir_Click()
-    AutoRefreshDir = (cbAutoRefreshDir.value = vbChecked)
-End Sub
-
-Private Sub cbCheckEXE_Click()
-    CheckEXE = (frmOptions.cbCheckEXE.value = vbChecked) 'SJG
-End Sub
-
-Private Sub cbLog_Click()
-    LogAll = (frmOptions.cbLog.value = vbChecked) 'SJG
-End Sub
-
-Private Sub cbUseNib_Click()
-    UseNIB = (cbUseNib.value = vbChecked)
-End Sub
-
-Private Sub cbCreateNIB_Click()
-    CreateNIB = (cbCreateNIB.value = vbChecked)
-End Sub
-
-Private Sub cbNBZ_Click()
-    UseNBZ = (cbNBZ.value = vbChecked)
-End Sub
-
-Private Sub cbCreateG64_Click()
-    CreateG64 = (cbCreateG64.value = vbChecked)
-End Sub
-
-Private Sub cbCreateD64_Click()
-    CreateD64 = (cbCreateD64.value = vbChecked)
-End Sub
-
-Private Sub cbWriteD64_Click()
-    WriteD64 = (cbWriteD64.value = vbChecked)
-End Sub
-
-Private Sub cbNibCustom_Click()
-    UseNibCustom = (cbNibCustom.value = vbChecked)
-End Sub
-
-Private Sub cboDefDst_Click()
-    DstMode = cboDefDst.ListIndex
-End Sub
-
-Private Sub cbUseVice_Click()
-    UseVice = cbUseVice.value
-End Sub
-
-Private Sub DefaultDstPath_Change()
-    LocalDir(1) = DefaultDstPath.Text
-End Sub
-
-Private Sub DefaultSrcPath_Change()
-    LocalDir(0) = DefaultSrcPath.Text
-End Sub
-
-Private Sub cboDriveNum_Change()
-    DriveNum = Val(cboDriveNum.List(cboDriveNum.ListIndex))
-End Sub
-
 
 Private Sub CheckNoWarpMode_Click()
     If CheckNoWarpMode.value = vbChecked Then
@@ -1315,15 +1284,6 @@ Private Sub CheckNoWarpMode_Click()
         NoWarpString = ""
     End If
 End Sub
-
-Private Sub cbConfirmCreate_Click()
-    ConfirmD64 = (cbConfirmCreate.value = vbChecked)
-End Sub
-
-Private Sub cbIgnoreD_Click()
-    IgnoreD = (cbIgnoreD.value = vbChecked)
-End Sub
-
 
 Public Property Let AlwaysOnTop(ByVal bState As Boolean)
   Dim lFlag As Long
@@ -1334,10 +1294,6 @@ End Property
 
 Private Sub cmdDetect_Click()
     frmMain.DetectDrives True
-End Sub
-
-Private Sub cbPreview_Click()
-    PreviewCheck = (cbPreview.value = vbChecked) 'SJG
 End Sub
 
 Private Sub lstOpt_Click()
@@ -1363,9 +1319,6 @@ End Sub
 Private Sub optFNMode_Click(Index As Integer)
     FNMode = Index
 End Sub
-Private Sub cbFNEdit_Click()
-    FNEdit = (cbFNEdit.value = vbChecked)
-End Sub
 
 Private Sub cmdResetBus_Click()
     frmMain.PubDoCommand "cbmctrl", "reset", "Resetting drives, please wait..."
@@ -1381,11 +1334,10 @@ Private Sub optXMode_Click(Index As Integer)
     End Select
 End Sub
 
-
 Private Sub txtConStr_Change()
     frmMain.SetLinkString
 End Sub
 
-Private Sub txtVicePath_Change()
-    VicePath = txtVicePath.Text
+Private Sub txtStartNum_Change()
+    DiskNum = Val(txtStartNum.Text)
 End Sub

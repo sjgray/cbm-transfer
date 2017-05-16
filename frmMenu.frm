@@ -84,8 +84,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'Popup Menus
-'===========
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmMenu - Menu selection Dispatch
 
 Option Explicit
 

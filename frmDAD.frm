@@ -51,10 +51,19 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'CBM-Transfer-DAD (drag and drop window)
-'================
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmDAD - Drag and Drop Window
+'
+' Accepts specific files dropped into the window for disk imaging
+' or file viewing
 
 Dim BusyFlag As Boolean
+
+Private Sub Form_Load()
+    On Error Resume Next
+End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
     If BusyFlag = True Then Cancel = True

@@ -1,4 +1,14 @@
 Attribute VB_Name = "modINI"
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' modINI - Module with INI file routines
+'
+' Based on GUI4CBM4WIN. The following (between "/" lines) is the notice
+' included with the GUI4CBM4WIN source code:
+'
+'/////////////////////////////////////////////////////////////////////////
+'
 'INI Routines
 '============
 ' Copyright (C) 2004-2005 Leif Bloomquist
@@ -30,8 +40,6 @@ Dim INIBuf As String
 Public Sub LoadINI()
     Dim FIO As Integer, Filename As String, Tmp As String, j As Integer, V As Integer
     Dim LastSrc As String, LastDst As String
-    
-    On Local Error GoTo 0 'LoadINIError  'Get through as much as possible
     
     'Set Defaults
     frmOptions.DefaultSrcPath.Text = CurDir
@@ -76,6 +84,8 @@ Public Sub LoadINI()
             Tmp = INIStr("LinkCStr"):                   .txtConStr.Text = Tmp
             Tmp = INIbool("ShowErr"):                   .cbErr.value = B2V(Tmp)
             StartDAD = INIbool("StartDAD"):             .cbDAD.value = B2V(StartDAD)
+            IgnoreBadID = INIbool("IgnoreBadID"):       .cbIgnoreBadID.value = B2V(IgnoreBadID)
+            
             Layout = INInum("Layout")
             Layout2 = INInum("Layout2")
             
@@ -137,6 +147,8 @@ Public Sub LoadINI()
             
             Tmp = INIbool("LogLabels"):                 .cbLogLabels.value = B2V(Tmp)
             Tmp = INIbool("LogContents"):               .cbLogContents.value = B2V(Tmp)
+            DiskNum = INInum("DiskNum"):                .txtStartNum.Text = Format(DiskNum)
+            DiskSide = INInum("DiskSide")
             
             '-- Font options
 
@@ -145,9 +157,10 @@ Public Sub LoadINI()
         End With
 
         Close #1
-        frmOptions.SetConfigOptions 'build nibstr and fnchar variable
+        frmOptions.SetConfigOptions                     'build nibstr and fnchar variable
+        
     Else
-        frmOptions.Show vbModal
+        frmOptions.Show vbModal                         'Show the options window for first run (INI file is not found)
     End If
     Exit Sub
     
@@ -162,7 +175,7 @@ End Sub
 Public Sub SaveINI()
     Dim DirTemp As String, Filename As String, j As Integer
     
-    On Error GoTo SaveINIError
+    On Local Error GoTo SaveINIError
     
     DirTemp = CurDir    'Remember which directory we're in
     Filename = AddSlash(ExeDir) & INIFILE
@@ -197,6 +210,7 @@ Public Sub SaveINI()
         PutINIbool "CheckEXE", CheckEXE
         PutINIbool "ShowErr", .cbErr.value
         PutINIbool "StartDAD", StartDAD
+        PutINIbool "IgnoreBadID", IgnoreBadID
         PutINIValue "Layout", Layout
         PutINIValue "Layout2", Layout2
         
@@ -255,7 +269,9 @@ Public Sub SaveINI()
         PutINIValue "BatchFN", .txtBatchFN.Text
         PutINIValue "LogLabels", .cbLogLabels
         PutINIValue "LogContents", .cbLogContents
-        
+        PutINIValue "DiskNum", DiskNum
+        PutINIValue "DiskSide", DiskSide
+
         '---- Font Options
         
         PutINIValue "UseCBMFont", .cbUseCBMFont
@@ -293,7 +309,7 @@ Public Function INIStr(varname As String) As String
     Dim Tmp As String, p As Integer, p2 As Integer
 
     INIStr = "": Tmp = varname & "="
-    p = InStr(1, INIBuf, Tmp): If p = 0 Then Exit Function
+    p = InStr(1, INIBuf, Tmp, vbTextCompare): If p = 0 Then Exit Function
     p = p + Len(Tmp): p2 = InStr(p, INIBuf, Chr(13))
     If p2 > 0 Then INIStr = Mid(INIBuf, p, p2 - p)
     
@@ -313,7 +329,6 @@ End Sub
 
 '---- Convert boolean to value
 Private Function B2V(ByVal State As Boolean) As Integer
-    On Error Resume Next
     B2V = -1 * State
 End Function
 

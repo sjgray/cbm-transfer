@@ -1,8 +1,13 @@
 Attribute VB_Name = "modVars"
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' modVars - Module with Global Variables and Data Types
+'
 Option Explicit
 
 Public Cr As String, LF As String, Qu As String  'Carriage Return, Linefeed and Quote
-Public Nu As String                              'Null character
+Public Nu As String, Hx As String                'Null character. Hex prefix for conversion
 Public MsgTitle As String                        'Title for MsgBox popup windows
 
 '--- Directories
@@ -38,6 +43,7 @@ Public IgnoreD          As Boolean
 Public CheckEXE         As Boolean
 Public LogAll           As Boolean
 Public StartDAD         As Boolean
+Public IgnoreBadID      As Boolean
 
 '--- Path Options
 Public UseLP            As Boolean
@@ -76,6 +82,8 @@ Public UseBatch         As Boolean
 Public BatchMode        As Integer
 Public BatchFilename    As String
 Public Batch2Sided      As Boolean
+Public DiskNum          As Integer
+Public DiskSide         As Integer
 
 '--- Font Options
 Public UseCBMFont       As Boolean

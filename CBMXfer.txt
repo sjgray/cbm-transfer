@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2017 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.01 - Apr 2,2017 *** 10th Anniversary Edition ***
+============ V1.02 - May 16,2017 *** 10th Anniversary Edition ***
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -158,10 +158,11 @@ Program Configuration
     Check for EXE's........... Not implemented yet.  
     Preview shell commands.... Display command-line before operation.
     Write P00 files........... Determines if DOS filenames or P00 files are created when copying from
-                             within Disk Images.
+                               within Disk Images.
     Automatically refresh..... Normally checked.
     Confirm D64 creation...... Asks confirmation.
     Treat Dxx files........... Normally unchecked. Disables image writing.
+    Ignore BAD disk ID's...... Lets disks with bad Disk ID's still be imaged with D64COPY rather than NIBTOOLS
     For results button also... Opens the CBMXFERERR.TXT file when the results button is pressed. 
     Start with DAD............ Opens the DAD window and minimizes the main window at startup.
 
@@ -557,7 +558,7 @@ File Viewer
 
    The file viewer is designed to view various Commodore files. Since Commodore DOS doesn't use EXTENSIONS
   like the PC, there are only two Commodore file types you can view... PRG and SEQ (USR and REL are not
-  supported at this time). You can also view BIN files, which are commonly used for ROM contents. We can
+  supported at this time). You can also view ROM/BIN files, which are commonly used for ROM contents. We can
   assume SEQ files are plain data, probably text. However, without an extension we don't know what
   type of file a PRG might be. There must be a way for the user to change how the file is viewed. At the
   top of the viewer window are coloured buttons to select the VIEW MODE. You can select:
@@ -568,6 +569,16 @@ File Viewer
     * FONT.... Displays as 8x8 (normal) or 8x16 (CBM-II) format FONT file
     * ASM..... Displays 6502 Assembly code with various formatting options.
     * BITMAP.. Displays supported CBM format picture formats such as KoalaPainter and GeoPaint files.
+
+   Also on the top are the "LA" checkbox. This tells the various viewers that the first two bytes of the
+  file contains the Load Address. When checked these bytes will be skipped over, and any viewer that
+  needs a Load Address will use this. If the box is NOT checked then the bytes are not skipped, and you
+  must then supply an address for any Viewer that needs one. Moving right is the Load Address Entry box
+  followed by the file size. NOTE: The maximum viewable size is 32K. If a file is bigger than the max
+  it will be truncated and a red indicator will be displayed beside the size.
+
+   When a file is viewed it is loaded into memory, and changing the views will not require the file to
+  be reloaded. The exception to this is the BITMAP viewer, which always re-reads the file as needed.
 
    The file viewer window is scalable. It can also be left open while you work on the main window. Clicking
   the "VIEW" button in the main window will update the view in the Viewer window.
@@ -694,9 +705,9 @@ FONT:
 ASM:
 ----
 
-   This is an interactive 6502 machine code symbolic disassembler. It has grown to a full-featured
-  disassembler with many features. There is now a separate help file for it. Open the side panel with
-  the ">>" button then click on the "Project" tab button, then click on HELP for more info.
+   This is an interactive symbolic 6502 machine code symbolic disassembler with flow tracing. It has grown
+ to a full-featured disassembler with many features. There is now a separate help file for it. Open the
+ side panel with the ">>" button then click on the "Project" tab button, then click on HELP for more info.
 
 
 BITMAP:
@@ -773,8 +784,8 @@ Tips and Tricks
 Drive Compatibility Notes
 =========================
 
-   These are some notes about compatibility with specific drives. Please contact me if you discover
-  any problems that can be added here.
+   These are some notes about compatibility with specific drives. Please contact me if you have any
+ additional info that can be added here.
 
 DRIVE     	NOTES
 --------  	-----
@@ -785,15 +796,23 @@ Blue Chip	Untested
 
 Change Log
 ==========
-1.xx - TEST RELEASE
+1.02 - May 16,2017
    * Viewer:
-   *   FONT: Add Multi-colour View Mode
-   *   ASM: Remember ASM listing position and restore after update
-   *        Check for project changes when attempting to close viewer
-   *	    Fix error with disassemblies ending at $FFFF
-   *	    Fix illegal opcode status box (green/yellow)
-   *	    Fix unnessessary reading of source file on second pass
-   *   HEX: Sync selected line to FONT offset
+   *   Re-structured viewer code. File is loaded into buffer and all views (except BITMAP) can read
+       the buffer instead of re-reading the file.
+   *   Moved Load Address checkbox and value to top, and it's now shared with all views.
+   *   Added file size display. Added Overflow indicator when file exceeds maximum 32K.
+   *   FONT: Add Multi-colour View Mode.
+   *   ASM: Added code Flow Tracing! It will now find data tables automatically!
+   *        Remember ASM listing position and restore after update.
+   *        Check for project changes when attempting to close viewer.
+   *	    Fix error with disassemblies ending at $FFFF.
+   *	    Fix illegal opcode status box (green/yellow).
+   *	    Fix unnessessary reading of source file on second pass (file is in buffer).
+   *   HEX: Sync selected line to FONT offset.
+   *   BMP: Optimized pixel drawing for faster speed.
+   * Batch Imaging now saves last batch#.
+   * Added "Ignore BAD disk ID's when imaging D64" option.
 
 1.00 - Mar 31,2017
    *** The "Xfer" in "CBMXfer" has always been short for "Transfer". So, to avoid any confusion with

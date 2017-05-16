@@ -1,6 +1,11 @@
 Attribute VB_Name = "modCommon"
-' "modCommon" file - Common Subroutines and Functions
-' =================
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' modCommon - Module with Common Subroutines and Functions
+'
+' FUNCTION NAME     DESCRIPTION
+' ----------------- -----------
 ' MyMsg............ Display MsgBox with default Title
 ' MyChDir.......... Changes current path
 ' DirExists........ Checks for existance of a Directory
@@ -32,6 +37,7 @@ Attribute VB_Name = "modCommon"
 ' Quoted........... Adds Quotes around string
 ' UnQuoted......... Removes surrounding quotes
 ' ExtractQuotes.... Returns the quoted string, when located mid-string
+' MyDec............ Convert HHHH hex value to decimal
 ' MyHex............ Convert decimal to fixed-length HEX string with leading zeros
 ' MyTrim........... Removes leading and trailing spaces
 ' GetBrowseDir..... Prompt for new directory using "Browse for Folder" popup
@@ -74,9 +80,11 @@ Function Exists(ByVal Filename As String) As Boolean
     
     On Local Error GoTo NoFile
     Exists = False
-    FIO = FreeFile: Open Filename For Input As FIO: Close FIO
+    FIO = FreeFile: Open Filename For Input As FIO
     Exists = True
 NoFile:
+    Close FIO
+    DoEvents
 End Function
 
 '---- Checks for file and prompts to Overwrite if necessary
@@ -190,8 +198,8 @@ End Function
 
 '---- Delete a file if the file exists
 Public Sub KillFile(ByVal Filename As String)
-    On Error Resume Next
-    If Exists(Filename) Then Kill Filename
+    On Local Error Resume Next
+    Kill Filename
 End Sub
 
 '---- Deletes all temporary files
@@ -379,7 +387,7 @@ End Function
 Function ExtractQuotes(FullString As String) As String
     Dim Quote1 As Integer, Quote2 As Integer
     
-    On Error GoTo QuoteError
+    On Local Error GoTo QuoteError
     
     Quote1 = InStr(FullString, Qu)
     Quote2 = InStr(Quote1 + 1, FullString, Qu)
@@ -401,7 +409,12 @@ QuoteError:
 End Function
 
 '---- Convert decimal value to fixed-length HEX value with leading zeros
-Function MyHex(ByVal n As Single, D As Integer)
+Function MyDec(ByVal h As String) As Long
+    MyDec = CLng(Hx & h)
+End Function
+
+'---- Convert decimal value to fixed-length HEX value with leading zeros
+Function MyHex(ByVal n As Single, D As Integer) As String
     MyHex = Right("00000000" & Hex(n), D)
 End Function
 

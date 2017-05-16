@@ -86,13 +86,18 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmBatch - Batch Processing
+'
 ' Batch Mode: 0=Manual, 1=Label, 2=Numbered
 '
-Dim DiskNum As Integer, DiskSide As Integer, Fmt As String
-Dim LastD As Integer, LastS As Integer
+Dim Fmt As String, LastD As Integer, LastS As Integer
 
 Private Sub cmdCancel_Click()
     frmBatch.Hide
+    SaveINI
 End Sub
 
 Private Sub cmdRead_Click()
@@ -103,7 +108,6 @@ End Sub
 Private Sub cmdRetry_Click()
     txtFilename.Text = BatchFilename
     DiskNum = LastD: DiskSide = LastS
-    
 End Sub
 
 Private Sub cmdStart_Click()
@@ -140,8 +144,8 @@ Private Sub cmdStart_Click()
 End Sub
 
 Private Sub Form_Load()
+    On Error Resume Next
     InitBatch
-    
 End Sub
 
 Sub InitBatch()

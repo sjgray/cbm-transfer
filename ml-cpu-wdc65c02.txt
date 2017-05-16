@@ -1,3 +1,6 @@
+CBM-Transfer Disassembler Opcode File
+Western Digital Corp WDC65C02
+0--- 1--- 2--- 3--- 4--- 5--- 6--- 7---- 8--- 9--- a--- b--- c--- d--- e--- f----
 brki,orak,nopb,nopi,tsbc,orac,aslc,rmb0c,phpi,orab,asla,nopi,tsbf,oraf,aslf,bbr0j
 bplj,oral,orap,nopi,trb-,orad,asld,rmb1c,clci,orah,inci,nopi,trbf,orag,aslg,bbr1j
 jsrf,andk,nopb,nopi,bitc,andc,rolc,rmb2c,plpi,andb,rola,nopi,bitf,andf,rolf,bbr2j
@@ -14,26 +17,29 @@ cpyb,cmpk,nopb,nopi,cpyc,cmpc,decc,smb4c,inyi,cmpb,dexi,waii,cpyf,cmpf,decf,bbs4
 bnej,cmpl,cmpp,nopi,nopd,cmpd,decd,smb5c,cldi,cmph,phxi,stpi,nopf,cmpg,decg,bbs5j
 cpxb,sbck,nopb,nopi,cpxc,sbcc,incc,smb6c,inxi,sbcb,nopi,nopi,cpxf,sbcf,incf,bbs6j
 beqj,sbcl,sbcp,nopi,nopd,sbcd,incd,smb7c,sedi,sbch,plxi,nopi,nopf,sbcg,incg,bbs7j
-0--- 1--- 2--- 3--- 4--- 5--- 6--- 7---- 8--- 9--- a--- b--- c--- d--- e--- f---
+0--- 1--- 2--- 3--- 4--- 5--- 6--- 7---- 8--- 9--- a--- b--- c--- d--- e--- f----
+1222233312223332
+JMP BRA
+JSR BEQ BNE BPL BMI BCC BCS BVC BVS
+RTS RTI BRK
+----------------------------------------------- Do not modify the above lines!
 
-Western Digital Corp WDC65C02
-
-        Addressing Modes                     Example
-- ---   ----------------                     -------
-a-acc...Accumulator Adressing............... INC
-b-imm...Immediate Addressing................ LDA #$01
-c-zp ...Zero Page........................... LDA $01
-d-zpx...Indexed Zero page with X............ LDA $01,X
-e-zpy...Indexed Zero page with Y............ LDA $01,Y
-f-abs...Absolute Addressing................. LDA $1234
-g-abx...Indexed Absolute with X............. LDA $1234,X
-h-aby...Indexed Absolute with Y............. LDA $1234,Y
-i-imp...Implied............................. NOP
-j-rel...Relative Addressing................. BNE XX
-k-izx...Indexed Indirect Addressing with X.. LDA ($01,X)
-l-izy...Indexed Indirect Addressing with Y.. LDA ($01),Y
-m-ind...Absolute Indirect................... JMP ($1234)
-n-iax+++Absolute Indexed Indirect........... JMP ($1234,X) 
-o-zpr+++Zero Page Relative Addressing....... BBR0 $01,$1234
-p-izp+++Indirect Zero Page.................. LDA ($01)
+C MODE LEN Addressing Mode                      Example
+- ---- --- ----------------                     -------
+a acc  1   Accumulator Adressing............... INC
+b imm  2   Immediate Addressing................ LDA #$01
+c zp   2   Zero Page........................... LDA $01
+d zpx  2   Indexed Zero page with X............ LDA $01,X
+e zpy  2   Indexed Zero page with Y............ LDA $01,Y
+f abs  3   Absolute Addressing................. LDA $1234
+g abx  3   Indexed Absolute with X............. LDA $1234,X
+h aby  3   Indexed Absolute with Y............. LDA $1234,Y
+i imp  1   Implied............................. NOP
+j rel  2   Relative Addressing................. BNE XX
+k izx  2   Indexed Indirect Addressing with X.. LDA ($01,X)
+l izy  2   Indexed Indirect Addressing with Y.. LDA ($01),Y
+m ind  3   Absolute Indirect................... JMP ($1234)
+n iax  3 ++Absolute Indexed Indirect........... JMP ($1234,X) 
+o zpr  3 ++Zero Page Relative Addressing....... BBR0 $01,$1234
+p izp  2 ++Indirect Zero Page.................. LDA ($01)
 

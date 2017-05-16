@@ -69,10 +69,17 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-' frmPrompt
-' =========
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmPrompt - Prompt for Info
+'
 ' Call 'Ask' with titlebar and msg test. ClearLast will clear edit box
 ' OK will exit with edit box as-is. Cancel will clear edit box
+
+Private Sub Form_Load()
+    On Error Resume Next
+End Sub
 
 Private Sub Form_Activate()
     DoEvents

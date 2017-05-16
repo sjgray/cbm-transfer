@@ -16,7 +16,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H00404040&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "PLUS/4"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -38,7 +37,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H00808000&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "DTV"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -60,7 +58,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H000040C0&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "P500"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -82,7 +79,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H000080FF&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "CBM-II"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -104,7 +100,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H0000C000&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "PET"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -126,7 +121,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H0000C0C0&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "VIC-20"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -148,7 +142,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H00000080&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "C128"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -170,7 +163,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H00800080&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "C64 sc"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -192,7 +184,6 @@ Begin VB.Form frmViceSelect
    Begin VB.Label lbVSel 
       Alignment       =   2  'Center
       BackColor       =   &H00FF0000&
-      BorderStyle     =   1  'Fixed Single
       Caption         =   "C64"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -226,6 +217,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmViceSelect - PopUp Window to select which VICE emulator to Run
+
 Public EmuNum As Integer
 
 Private Sub Form_Unload(Cancel As Integer)

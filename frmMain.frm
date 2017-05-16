@@ -3,14 +3,14 @@ Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmMain 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "CBM Transfer"
-   ClientHeight    =   10770
+   ClientHeight    =   7200
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   15870
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   10770
+   ScaleHeight     =   7200
    ScaleWidth      =   15870
    StartUpPosition =   3  'Windows Default
    Begin VB.Frame frDDF 
@@ -1901,8 +1901,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'CBM-Transfer (CBMXfer) (C)2007-2017 Steve J. Gray
-'============
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmMain - The MAIN window. Code execution starts here!
 '
 ' Based on GUI4CBM4WIN. The following (between "/" lines) is the notice
 ' included with the GUI4CBM4WIN source code:
@@ -1950,12 +1952,12 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.01 TEST (Apr 17/2017)" & Cr & _
+    MyMsg "CBM-Transfer  V1.02 (May 16/2017)" & Cr & _
           "(C)2007-2017 Steve J. Gray  *** 10th Anniversary Edition ***" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
           "by Leif Bloomquist, Wolfgang Moser and Spiro Trikaliotis." & Cr & _
-          "Viewer includes portions of CBM2BMP code by Peter Weighill"
+          "Viewer includes portions of 'CBM2BMP' code by Peter Weighill"
 End Sub
 
 '---- Program Initialization
@@ -1965,7 +1967,7 @@ Private Sub Form_Load()
     On Error Resume Next
     
     MsgTitle = "CBM Transfer"
-    Cr = Chr(13): LF = Chr(10): Qu = Chr(34): Nu = Chr(0)   'some common characters
+    Cr = Chr(13): LF = Chr(10): Qu = Chr(34): Nu = Chr(0): Hx = "&h" 'some common characters
     SrcMode = 0: Layout = 0: Layout2 = 1
     
     CurDir = App.Path
@@ -1979,10 +1981,11 @@ Private Sub Form_Load()
     LogFile = CurDir & "\cbmxferlog.txt"
     
     Tmp = Environ$("temp"): If Tmp = "" Then Tmp = Environ$("tmp")
+    Tmp = Tmp & "\cbmxfer"
     
-    TEMPFILE1 = Tmp & "\cbmxferout.txt" 'Captured Output from shell
-    TEMPFILE2 = Tmp & "\cbmxfererr.txt" 'Captured Errors from shell
-    TEMPFILE3 = Tmp & "\cbmxfertmp.tmp" 'General-purpose Temp File (ie: for multi-step copies)
+    TEMPFILE1 = Tmp & "out.txt"                     'Captured Output from shell
+    TEMPFILE2 = Tmp & "err.txt"                     'Captured Errors from shell
+    TEMPFILE3 = Tmp & "tmp.tmp"                     'General-purpose Temp File (ie: for multi-step copies)
     
     PathFile = ExeDir & "pathhistory.txt"
     LoadHistory
@@ -2045,18 +2048,18 @@ End Sub
 
 '---- Set the positions and sizes on the form
 Sub SetLayout()
-    Dim C0 As Single, C1 As Single, C2 As Single, C3 As Single
+    Dim c0 As Single, c1 As Single, C2 As Single, C3 As Single
     Dim W0 As Single, W1 As Single
     
     W0 = frSrc(0).Width + 30
     W1 = frMiddle.Width + 30
     
-    C0 = frSrc(0).Left
-    C1 = C0: If Layout = 1 Then C1 = C1 + W0
-    C2 = C1 + W0
+    c0 = frSrc(0).Left
+    c1 = c0: If Layout = 1 Then c1 = c1 + W0
+    C2 = c1 + W0
     C3 = C2 + W1
     
-    frDDF(0).Move C1, frSrc(0).Top              'LEFT
+    frDDF(0).Move c1, frSrc(0).Top              'LEFT
     frMiddle.Left = C2                          'MIDDLE
     frDestB.Left = C3                           'Right header
     frX.Left = C3                               'RIGHT
@@ -2308,12 +2311,10 @@ End Sub
 '=====================================================
 
 Private Sub drvLocal_Change(Index As Integer)
-    On Local Error Resume Next
     dirLocal(Index).Path = drvLocal(Index).Drive   'Set directory path.
 End Sub
 
 Private Sub dirLocal_Change(Index As Integer)
-    On Local Error Resume Next
     SetLocalPath Index, dirLocal(Index).Path        'Set file path.
 End Sub
 
@@ -2347,18 +2348,14 @@ End Sub
 
 '---- Process keystrokes for Directory Path
 Private Sub txtLocalDir_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-    On Error Resume Next
     If KeyCode = 13 Then SetLocalPath Index, txtLocalDir(Index).Text
 End Sub
 
 '---- Set LocalPC Directory Path
 Private Sub SetLocalPath(ByVal Index As Integer, ByVal SPath As String)
     
-    On Error Resume Next
-    
     LocalDir(Index) = AddSlash(SPath)
     lstLocal(Index).Path = LocalDir(Index)
-    'lstLocal(Index).ToolTipText = LocalDir(Index)
     lstLocal(Index).Refresh
     txtLocalDir(Index).Text = LocalDir(Index)
     txtLocalDir(Index).ToolTipText = LocalDir(Index)
@@ -2666,7 +2663,7 @@ End Sub
 Private Sub GetLinkDir()
     Dim CmdLine As String, temp As String, Temp2 As String, Results As ReturnStringType
     
-    On Error GoTo GetLinkErr:
+    On Local Error GoTo GetLinkErr:
     
     ClearLinkDir
     
@@ -2979,7 +2976,7 @@ End Sub
 Public Sub GetXDir()
     Dim CmdLine As String, temp As String, Temp2 As String, Results As ReturnStringType
     
-    On Error GoTo GetXErr
+    On Local Error GoTo GetXErr
     
     lstXFiles.Clear
        
@@ -2989,12 +2986,13 @@ Public Sub GetXDir()
     
     Results = DoCommand("cbmctrl", "dir " & DriveNum, "Reading directory, please wait.", False) 'Run the program
     
-    Close #1 'Make sure File#1 is closed so it can be opened below (seems it sometimes doesn't close properly below)
+    Close #1                                                'Make sure File#1 is closed so it can be opened below
+                                                            '(seems it sometimes doesn't close properly below)
     
     If Exists(TEMPFILE1) = False Then Exit Sub
     
     Open TEMPFILE1 For Input As #1                          'Read in the complete output file
-    If EOF(1) Then Exit Sub                                 'Check for empty file
+    If EOF(1) Then Close #1: Exit Sub                       'Check for empty file
     
     Do
         Line Input #1, temp                                 'First line is dir. name and ID
@@ -3016,11 +3014,11 @@ Public Sub GetXDir()
         Temp2 = temp                                        'Remember it
         Line Input #1, temp                                 'Get the next line
     Wend
+    Close #1
     
     lblXLastStatus.Caption = UCase(temp)                    'The drive status is taken from the last line on stdout
     lblXBlocksFree = Temp2                                  'Blocks free from second last line
-    Close #1
-
+    
     Exit Sub
     
 GetXErr:
@@ -3646,12 +3644,14 @@ Public Sub MakeXDiskImage()
         Case "2C": TmpExt = "D80": X0 = X2
         Case "3D", "1D": TmpExt = "D81": X0 = X2
         Case Else
-            If UseNIB = False Then
+            TmpExt = "D64": X0 = X1     'default to D64 using D64COPY
+
+            If (UseNIB = False) And (IgnoreBadID = False) Then
                 TmpP = MsgBox("The source disk ID (" & Tmp & ") is unknown. This could be a corrupt disk, copy-protected disk, or unsupported format." & Cr & _
                 "Do you want to try imaging with NIBTOOLS?" & Cr & "( Yes=NIBTOOLS, No=D64COPY, Cancel=Do Not Image )", vbYesNoCancel, "Warning!")
                 Select Case TmpP
                     Case vbYes: TempNIB = True
-                    Case vbNo: TmpExt = "D64": X0 = X1
+                    'Case vbNo: TmpExt = "D64": X0 = X1
                     Case vbCancel: Exit Sub
                 End Select
             End If
@@ -3929,8 +3929,6 @@ End Sub
 Private Sub cmdSrcRename_Click(Index As Integer)
     Dim T As Integer, Count As Integer, Flag As Boolean, CFlag As Integer, InFile As String, OutFile As String
     
-    On Local Error Resume Next
-    
     Count = 0: Flag = False
     
     For T = 0 To lstLocal(Index).ListCount - 1
@@ -4075,17 +4073,19 @@ Private Sub CheckSelected(Index As Integer, Target As Integer)
                     End If
                     
                 Case "", "PRG", "SEQ", "BIN", "ROM"
+                    frmViewer.Show
                     frmViewer.ViewIt 0, Filename, Filename, Ext
                     
                 Case "ART", "CDU", "KOA", "GEO", "P00", "S00"
-                    frmViewer.ViewIt 0, Filename, Filename, Ext
+                    frmViewer.Show
+                    frmViewer.ViewIt 5, Filename, Filename, Ext
                     
                 Case Else
                     V = MsgBox("Unknown file type. Open with associated WINDOWS app?" & Cr & "YES=Windows, NO=CBM-Transfer Viewer", vbYesNoCancel, "Unknown File type")
                     Select Case V
                         Case vbYes: ViewFile Filename
                         Case vbNo
-                            
+                            frmViewer.Show
                             frmViewer.ViewIt 0, Filename, Filename, Ext
                     End Select
             End Select
@@ -4210,7 +4210,7 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     Dim temp As String, Temp2 As String, Results As ReturnStringType
     Dim p As Integer, PP As Integer
 
-    On Error GoTo GIError
+    On Local Error GoTo GIError
              
     Results = DoCommand("c1541", Quoted(Filename) & " -list", "", False) 'Run the program
     If Exists(TEMPFILE1) = False Then Exit Sub
@@ -4257,8 +4257,6 @@ End Sub
 '---- Prompt to Create a New Folder, then Make it if it doesn't already exist
 Private Sub NewFolder(ByVal RootPath As String)
     Dim DirName As String
-    
-    On Error Resume Next
     
     frmPrompt.Ask "Make Directory", "Enter Directory Name:", 1
     If Response = "" Then Exit Sub                          'Check for null string
@@ -4381,10 +4379,8 @@ End Sub
 
 'This function must be private, because of the return type.
 Private Function DoCommand(Action As String, Args As String, WaitMessage As String, Optional DeleteOutFile As Boolean = True) As ReturnStringType
-    Dim CmdLine As String, CmdLine2 As String, ErrorString As String
+    Dim CmdLine As String, CmdLine2 As String, ErrorString As String, FIO As Integer
     Static InProgress As Boolean
-    
-    On Error Resume Next
     
     If (InProgress) Then Exit Function
         
@@ -4424,14 +4420,16 @@ Private Function DoCommand(Action As String, Args As String, WaitMessage As Stri
     DoEvents
         
     '-- Read in the output file
-    Open TEMPFILE1 For Input As #1
-        If (Not EOF(1)) Then Line Input #1, DoCommand.Output
-    Close #1
+    FIO = FreeFile
+    Open TEMPFILE1 For Input As FIO
+        If (Not EOF(FIO)) Then Line Input #FIO, DoCommand.Output
+    Close FIO
     
     '-- Read in the error file
-    Open TEMPFILE2 For Input As #2
-        If Not EOF(2) Then ErrorString = Input$(LOF(2), 2)
-    Close #2
+    FIO = FreeFile
+    Open TEMPFILE2 For Input As FIO
+        If Not EOF(FIO) Then ErrorString = Input$(LOF(FIO), FIO)
+    Close FIO
         
     '-- Display Error message
     If ErrorString <> "" Then

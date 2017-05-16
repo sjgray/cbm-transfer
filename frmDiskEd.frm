@@ -687,9 +687,14 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'=======================
-' Disk Image File Editor
-'=======================
+' CBM-Transfer - Copyright (C) 2007-2017 Steve J. Gray
+' ====================================================
+'
+' frmDiskEd - Disk Image File Editor
+'
+' Edit Disk Images (D64, D71, D80 etc). View Sectors.
+'
+' NOTE: This feature is incomplete! Viewing is limited, and writing is not supported.
 
 Dim Blink As Boolean
 Dim FontSet As Integer
@@ -715,11 +720,9 @@ Dim DFIO As Integer                             'Disk File# - remains open for a
 Dim UserT1 As Integer, UserS1 As Integer        'User Block1
 Dim UserT2 As Integer, UserS2 As Integer        'User Block1
 
-
-
 '---- Load the Form
 Private Sub Form_Load()
-    On Error GoTo 0
+    On Error Resume Next
     
     '-- Load FONTs - Each character is 8x8pixels. Two 256-character fonts arranged in 32x16 grid
     '  (graphics set followed by text set)
