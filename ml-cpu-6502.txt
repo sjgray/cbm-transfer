@@ -1,3 +1,6 @@
+CBM-Transfer Disassembler Opcode File
+MOS 6502 and Variants (Legal Opcodes Only)
+0--- 1--- 2--- 3--- 4--- 5--- 6--- 7--- 8--- 9--- a--- b--- c--- d--- e--- f---
 brki,orak,???i,???i,???i,orac,aslc,???i,phpi,orab,asla,???i,???i,oraf,aslf,???i
 bplj,oral,???i,???i,???i,orad,asld,???i,clci,orah,???i,???i,???i,orag,aslg,???i
 jsrf,andk,???i,???i,bitc,andc,rolc,???i,plpi,andb,rola,???i,bitf,andf,rolf,???i
@@ -15,23 +18,26 @@ bnej,cmpl,???i,???i,???i,cmpd,decd,???i,cldi,cmph,???i,???i,???i,cmpg,decg,???i
 cpxb,sbck,???i,???i,cpxc,sbcc,incc,???i,inxi,sbcb,nopi,???i,cpxf,sbcf,incf,???i
 beqj,sbcl,???i,???i,???i,sbcd,incd,???i,sedi,sbch,???i,???i,???i,sbcg,incg,???i
 0--- 1--- 2--- 3--- 4--- 5--- 6--- 7--- 8--- 9--- a--- b--- c--- d--- e--- f---
+1222233312223
+JMP
+JSR BEQ BNE BPL BMI BCC BCS BVC BVS
+RTS RTI BRK
+----------------------------------------------- Do not modify the above lines!
 
-MOS 6502 and Variants (Legal Opcodes Only)
-
-        Addressing Modes                     Example
-- ---   ----------------                     -------
-a-acc...Accumulator Adressing............... INC
-b-imm...Immediate Addressing................ LDA #$01
-c-zp....Zero Page........................... LDA $01
-d-zpx...Indexed Zero page with X............ LDA $01,X
-e-zpy...Indexed Zero page with Y............ LDA $01,Y
-f-abs...Absolute Addressing................. LDA $1234
-g-abx...Indexed Absolute with X............. LDA $1234,X
-h-aby...Indexed Absolute with Y............. LDA $1234,Y
-i-imp...Implied............................. NOP
-j-rel...Relative Addressing................. BNE XX
-k-izx...Indexed Indirect Addressing with X.. LDA ($01,X)
-l-izy...Indexed Indirect Addressing with Y.. LDA ($01),Y
-m-ind...Absolute Indirect................... JMP ($1234)
+C MODE LEN Addressing Mode                      Example
+- ---- --- ----------------                     -------
+a acc  1   Accumulator Adressing............... INC
+b imm  2   Immediate Addressing................ LDA #$01
+c zp   2   Zero Page........................... LDA $01
+d zpx  2   Indexed Zero page with X............ LDA $01,X
+e zpy  2   Indexed Zero page with Y............ LDA $01,Y
+f abs  3   Absolute Addressing................. LDA $1234
+g abx  3   Indexed Absolute with X............. LDA $1234,X
+h aby  3   Indexed Absolute with Y............. LDA $1234,Y
+i imp  1   Implied............................. NOP
+j rel  2   Relative Addressing................. BNE XX
+k izx  2   Indexed Indirect Addressing with X.. LDA ($01,X)
+l izy  2   Indexed Indirect Addressing with Y.. LDA ($01),Y
+m ind  3   Absolute Indirect................... JMP ($1234)
 
 
