@@ -1952,7 +1952,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.02 (May 16/2017)" & Cr & _
+    MyMsg "CBM-Transfer  V1.02a (May 18/2017)" & Cr & _
           "(C)2007-2017 Steve J. Gray  *** 10th Anniversary Edition ***" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _

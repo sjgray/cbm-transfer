@@ -4431,6 +4431,7 @@ End Sub
 '---- Process selection of a new Platform from the list
 Private Sub cboPlatform_Click()
     Dim Filename As String, i As Integer
+    
     If MLCFlag = False Then Exit Sub
     If ViewerReady = False Then Exit Sub
     
@@ -4438,7 +4439,7 @@ Private Sub cboPlatform_Click()
     
     Filename = ExeDir & cboPlatFile.List(i)
     If Exists(Filename) = False Then MsgBox "Sorry, Platform file not found! " & Filename: Exit Sub
-    If OverwriteProject = True Then LoadSymFile Filename, 1
+    If OverwriteProject = True Then LoadSymFile Filename, 3
     MLReView
     
 End Sub
@@ -4627,6 +4628,7 @@ End Sub
 
 '---- Clear All Tables
 Private Sub ClearTables()
+    lstEntryPt.Clear
     lstSYM.Clear
     lstDT.Clear
     lstULabels.Clear
