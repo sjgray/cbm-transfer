@@ -2248,8 +2248,9 @@ Sub ViewIt(ByVal Mode As Integer, ByVal SrcFile As String, ByVal SrcName As Stri
             Hi = Asc(Mid(VBuf, 2, 1))
             VLA = Hi * 256& + Lo                                                'Load Address
             txtLA.Enabled = False
+            txtLA.Text = MyHex(VLA, 4)                                          'Load Address in Hex
         Else
-            VLA = 0                                                             'No Load Address
+            VLA = MyDec(txtLA.Text)                                             'No Load Address
             txtLA.Enabled = True
         End If
         
@@ -2259,7 +2260,7 @@ Sub ViewIt(ByVal Mode As Integer, ByVal SrcFile As String, ByVal SrcName As Stri
        
     Close FIO
     
-    txtLA.Text = MyHex(VLA, 4)                                                  'Load Address in Hex
+    
     lblVSize.Caption = Format(VLen)                                             'File Size
     cbLA.Enabled = True                                                         'Re-enable LA checkbox
     
@@ -3219,7 +3220,7 @@ Sub MLView()
         DTCount = 0: DTPos = -1: DTStart = 0: DTEnd = 0     'Reset Data Table pointer
         LNum = 1000
         C = 1
-        Address = VLA: If cbLA.value = vbChecked Then Address = MyDec(txtLA.Text)
+        Address = VLA: If cbLA.value = vbUnchecked Then Address = MyDec(txtLA.Text)
         txtLA.Text = MyHex(Address, 4)
         StartAddress = MyHex(Address, 4)
         EndAddress = MyHex(Address + VLen - 3, 4)
@@ -3712,7 +3713,7 @@ Private Sub TraceIt()
     For i = 0 To 32767: Addr(i) = False: Next                   'Mark entire address space as data
     StopFlag = True                                             'Set to True so first EP is removed from list
 
-    Address = VLA: If VLA = 0 Then Address = MyDec(txtLA.Text)  'VLA or User Specified Address
+    Address = VLA: If cbLA.value = Checked Then Address = MyDec(txtLA.Text) 'VLA or User Specified Address
     StartAddr = Address
     EndAddr = Address + VLen - 1
     CodeOffset = Address - 1
