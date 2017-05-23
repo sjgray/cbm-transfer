@@ -1,4 +1,4 @@
-CBM-Transfer V1.02 (C)2017 Steve J. Gray
+CBM-Transfer V1.03 (C)2017 Steve J. Gray
 ===================================================
 Interactive Symbolic Disassembler with Code Tracing
 Help File
@@ -102,6 +102,7 @@ View Fmt.................. Set the output format. The first entry is recommended
 Target.................... Set the strings used for BYTE/TEXT/WORD special directives.
 Label Prefix.............. Sets the prefix string used for generated labels.
 Comment Divider length.... Sets the width of a divider comment.
+Inline Comment Position... Column position to start inline comments.
 Show Equates.............. Adds used symbols to the top of the output.
 Add blank line..RTS/RTI... Option to add a blank line after subroutines to make listing more readable.
 Add blank line..labels.... Option to add a blank line before labels to make listing more readable.
@@ -149,12 +150,12 @@ empty.
  When the list is empty the tracer is done. Any bytes that have not been marked are assumed to be data. The
 entire code range is checked and a list of data blocks are built up.
 
- For example, if you were to disassemble the C64 KERNAL ROM you would know that there are the 3 fixed entry
-points for RESET, IRQ and NMI (FFF7, FFFA, FFFD) at the end. These addresses would be entered into the EP list.
+ For example, if you were to disassemble the C64 KERNAL ROM you would know that there are 3 fixed entry points
+for RESET, IRQ and NMI (FFF7, FFFA, FFFD) at the end. These addresses would be entered into the EP list.
 There is also the Kernal Jump table. Each one must be added to the EP list.
 
 Once all your EP's have been added, clicking on START will start the flow tracing. Output from the tracer will
-be showin in the ML list window. As new entry points are found they will be added to the EP list window. As
+be shown in the ML list window. As new entry points are found they will be added to the EP list window. As
 branches are followed they are removed from the EP list until the list is empty, at which point tracing is
 complete. The data bytes are then listed. Click the "Add to Tables" button to add each data table block to the
 Tables list. Each table block is addes as "selected". If "Add Labels" checkbox is enabled there will be a Label

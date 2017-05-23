@@ -2,14 +2,14 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form frmViewer 
    Caption         =   "Viewer:"
-   ClientHeight    =   8100
+   ClientHeight    =   9090
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   11925
    Icon            =   "frmViewer.frx":0000
    LinkTopic       =   "Form1"
    OLEDropMode     =   1  'Manual
-   ScaleHeight     =   8100
+   ScaleHeight     =   9090
    ScaleWidth      =   11925
    StartUpPosition =   3  'Windows Default
    Begin VB.TextBox txtLA 
@@ -1135,18 +1135,29 @@ Begin VB.Form frmViewer
          Top             =   570
          Width           =   3825
          Begin VB.Frame frMLSettings 
-            Height          =   6045
-            Left            =   450
+            Height          =   6345
+            Left            =   240
             TabIndex        =   69
-            Top             =   2280
+            Top             =   1320
             Width           =   3615
+            Begin VB.TextBox txtInlineCol 
+               BackColor       =   &H00000080&
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               Left            =   1920
+               MaxLength       =   2
+               TabIndex        =   180
+               Text            =   "40"
+               Top             =   3390
+               Width           =   345
+            End
             Begin VB.CommandButton cmdImport 
                Caption         =   "Import"
                Height          =   345
                Left            =   2040
                TabIndex        =   120
                ToolTipText     =   "Import Symbols"
-               Top             =   4890
+               Top             =   5220
                Width           =   1455
             End
             Begin VB.CheckBox cbIncSym 
@@ -1154,7 +1165,7 @@ Begin VB.Form frmViewer
                Height          =   375
                Left            =   150
                TabIndex        =   99
-               Top             =   4110
+               Top             =   4440
                Value           =   1  'Checked
                Width           =   3255
             End
@@ -1229,7 +1240,7 @@ Begin VB.Form frmViewer
                Left            =   600
                TabIndex        =   90
                ToolTipText     =   "Display HELP file"
-               Top             =   5400
+               Top             =   5730
                Width           =   2385
             End
             Begin VB.CheckBox cbLabelBlanks 
@@ -1237,7 +1248,7 @@ Begin VB.Form frmViewer
                Height          =   375
                Left            =   150
                TabIndex        =   89
-               Top             =   3840
+               Top             =   4170
                Value           =   1  'Checked
                Width           =   3285
             End
@@ -1273,7 +1284,7 @@ Begin VB.Form frmViewer
                Left            =   1050
                TabIndex        =   81
                ToolTipText     =   "Save disassembly to file"
-               Top             =   4470
+               Top             =   4800
                Width           =   915
             End
             Begin VB.CheckBox cbSpaceRTS 
@@ -1281,7 +1292,7 @@ Begin VB.Form frmViewer
                Height          =   375
                Left            =   150
                TabIndex        =   80
-               Top             =   3570
+               Top             =   3900
                Value           =   1  'Checked
                Width           =   3285
             End
@@ -1291,7 +1302,7 @@ Begin VB.Form frmViewer
                Left            =   1050
                TabIndex        =   79
                ToolTipText     =   "Purge unselected symbol entries"
-               Top             =   4890
+               Top             =   5220
                Width           =   915
             End
             Begin VB.CommandButton cmdClrTables 
@@ -1337,7 +1348,7 @@ Begin VB.Form frmViewer
                Left            =   2040
                TabIndex        =   73
                ToolTipText     =   "Paste disassembly to clipboard"
-               Top             =   4470
+               Top             =   4800
                Width           =   1455
             End
             Begin VB.CheckBox cbEquates 
@@ -1346,7 +1357,7 @@ Begin VB.Form frmViewer
                Left            =   150
                TabIndex        =   72
                ToolTipText     =   "Include Equates in output"
-               Top             =   3390
+               Top             =   3720
                Width           =   1515
             End
             Begin VB.ComboBox cboMLFmt 
@@ -1361,6 +1372,15 @@ Begin VB.Form frmViewer
                TabIndex        =   70
                Top             =   2070
                Width           =   2715
+            End
+            Begin VB.Label Label7 
+               AutoSize        =   -1  'True
+               Caption         =   "Inline Comment column:"
+               Height          =   195
+               Left            =   150
+               TabIndex        =   179
+               Top             =   3420
+               Width           =   1680
             End
             Begin VB.Label lblChanged 
                BackColor       =   &H00FFFFFF&
@@ -1378,7 +1398,7 @@ Begin VB.Form frmViewer
                Height          =   195
                Left            =   330
                TabIndex        =   119
-               Top             =   4920
+               Top             =   5250
                Width           =   630
             End
             Begin VB.Label Label15 
@@ -1414,7 +1434,7 @@ Begin VB.Form frmViewer
                Height          =   195
                Left            =   90
                TabIndex        =   88
-               Top             =   4530
+               Top             =   4860
                Width           =   915
             End
             Begin VB.Label Label11 
@@ -3143,7 +3163,7 @@ Sub MLView()
     Dim T0 As String, T1 As String, T2 As String                        'ASM Output variables
     Dim T3 As String, T4 As String, T5 As String
     Dim OutFmt As Integer, ALabel As String, UComment As String
-    Dim Padd As String
+    Dim Padd As String, InComCol As Integer
     
     Dim LNum As Long, LInc As Integer                                   'Line Numbers
     Dim a As Integer, p As Integer
@@ -3156,14 +3176,14 @@ Sub MLView()
     Dim Pass As Integer
     Dim RTSOption As Boolean, SymComment As Boolean, DivLen As Integer  'options
     
-    Padd = Space(50)            'spaces for padding byte lists
+    Padd = Space(80)            'spaces for padding byte lists
     LInc = 10                   'Line# Increment
         
     '---- Options
     RTSOption = False: If cbSpaceRTS.value = vbChecked Then RTSOption = True
     SymComment = False: If cbIncSym.value = vbChecked Then SymComment = True
     DivLen = Val(txtDivLen.Text)
-     
+    InComCol = Val(txtInlineCol.Text)
     
     '============================================
     ' Load Support Files and Config settings etc
@@ -3299,12 +3319,16 @@ Sub MLView()
                         Select Case OutFmt
                             Case 2
                                 If TmpB <> "S" Then lstML.AddItem Format(LNum) & " ; " & String(DivLen, TmpB): LNum = LNum + LInc
-                                If UComment > "" Then lstML.AddItem Format(LNum) & " ; " & UComment: LNum = LNum + LInc
-                                If UComment > "" Then If TmpB <> "S" Then lstML.AddItem Format(LNum) & " ; " & String(DivLen, TmpB): LNum = LNum + LInc
+                                If UComment > "" Then
+                                    lstML.AddItem Format(LNum) & " ; " & UComment: LNum = LNum + LInc
+                                    If TmpB <> "S" Then lstML.AddItem Format(LNum) & " ; " & String(DivLen, TmpB): LNum = LNum + LInc
+                                End If
                             Case Else
                                 If TmpB <> "S" Then lstML.AddItem ";" & String(DivLen, TmpB): LNum = LNum + LInc
-                                If UComment > "" Then lstML.AddItem "; " & UComment
-                                If UComment > "" Then If TmpB <> "S" Then lstML.AddItem ";" & String(DivLen, TmpB): LNum = LNum + LInc
+                                If UComment > "" Then
+                                    lstML.AddItem "; " & UComment
+                                    If TmpB <> "S" Then lstML.AddItem ";" & String(DivLen, TmpB): LNum = LNum + LInc
+                                End If
                         End Select
                         UComment = "" 'clear it since it's been used. if type is "i" (inline) then we'll add it later
                     End If
@@ -3460,14 +3484,14 @@ Sub MLView()
                             '---- Take the next byte and generate an address
                             DTCountMax = 6
                             Address = Address + 1: C = C + 1
-                            B1A = Asc(Mid(VBuf, C, 1))           'Value of byte
-                            TAddress = B1A * 256 + B0A + 1      'Calculate Target Address (decimal) with offsett
-                            JAddress = MyHex(TAddress, 4)       'Make it a string
-                            SHL = "$" & JAddress                'Make string for output
+                            B1A = Asc(Mid(VBuf, C, 1))              'Value of byte
+                            TAddress = B1A * 256 + B0A + 1          'Calculate Target Address (decimal) with offsett
+                            JAddress = MyHex(TAddress, 4)           'Make it a string
+                            SHL = "$" & JAddress                    'Make string for output
                             
                             If Pass = 1 Then
                                 If (JAddress >= StartAddress) And (JAddress <= EndAddress) Then
-                                    lstLabels.AddItem JAddress  'Target is inside code range so make it a label
+                                    lstLabels.AddItem JAddress      'Target is inside code range so make it a label
                                 End If
                             Else
                                 '---- PASS 2
@@ -3496,20 +3520,21 @@ Sub MLView()
                             End If
 
                             If T3 > "" Then
-                                '----  padd DTOutStr here!
-                                Tmp = Left(DTOutStr & Padd, 50)
                                 '---- Add a line according to selected format
                                 Select Case OutFmt
-                                    Case 0: lstML.AddItem DTAddress & T2 & T3 & Tmp & " ;" & DTComment      'addr bb bb bb cmd param
-                                    Case 1: lstML.AddItem DTAddress & T3 & Tmp & " ;" & DTComment           'addr cmd param
-                                    Case 2: lstML.AddItem Format(LNum) & " " & T3 & Tmp & " ;" & DTComment     'nnnn cmd param
-                                    Case 3: lstML.AddItem T2 & T3 & Tmp & " ;" & DTComment                  'cmd param
+                                    Case 0: Tmp = DTAddress & T2 & T3 & DTOutStr        'addr bb bb bb cmd param
+                                    Case 1: Tmp = DTAddress & T3 & DTOutStr             'addr cmd param
+                                    Case 2: Tmp = Format(LNum) & " " & T3 & DTOutStr    'nnnn cmd param
+                                    Case 3: Tmp = T2 & T3 & DTOutStr                    'cmd param
                                     Case 4:
                                         ALabel = Left(ALabel & Padd, 15)
-                                        lstML.AddItem ALabel & T3 & Tmp & " ;" & DTComment                  'label cmd param
-                                        ALabel = ""                                                         'blank it for multi-line tables
+                                        Tmp = ALabel & T3 & DTOutStr                    'label cmd param
+                                        ALabel = ""                                     'blank it for multi-line tables
                                 End Select
-        
+                                
+                                j = Len(Tmp) + 1: If InComCol > j Then j = InComCol     'Comment position
+                                lstML.AddItem Left(Tmp + Padd, j) & ";" & DTComment     'Add it to output
+                                
                                 LNum = LNum + LInc
                             End If
                             T4 = ""
@@ -3536,10 +3561,10 @@ Sub MLView()
             '===============================================
             
             If DTMode = False Then
-                NM = Left(OP(B0A), Len(OP(BOA)) - 1)                'Mneumonic string (eg: JSR or BBR0)
-                If Pass = 2 Then If Left(NM, 1) = "?" Then GoodFlag = False    'Found an unknown opcode
-                MD = Asc(Right(OP(B0A), 1)) - 96                    'Addressing mode (A-M,N-P)
-                NB = Val(Mid(OpModeLen, MD, 1))                     'How many bytes for this opcode? (1 to 3)
+                NM = Left(OP(B0A), Len(OP(BOA)) - 1)                            'Mneumonic string (eg: JSR or BBR0)
+                If Pass = 2 Then If Left(NM, 1) = "?" Then GoodFlag = False     'Found an unknown opcode
+                MD = Asc(Right(OP(B0A), 1)) - 96                                'Addressing mode (A-M,N-P)
+                NB = Val(Mid(OpModeLen, MD, 1))                                 'How many bytes for this opcode? (1 to 3)
 
                 '---- All modes >2 use one or two-byte address
                 If MD > 1 Then
@@ -3547,30 +3572,30 @@ Sub MLView()
                     If NB > 1 Then
                         If C + 1 <= VLen Then
                             B1A = Asc(Mid(VBuf, C + 1, 1))
-                            SL = MyHex(B1A, 2): Mid(T2, 4, 2) = SL  'Set second byte
+                            SL = MyHex(B1A, 2): Mid(T2, 4, 2) = SL              'Set second byte
                         End If
                         
                         '---- Opcode+Word
                         If NB > 2 Then
                             If C + 2 <= VLen Then
                                 B2A = Asc(Mid(VBuf, C + 2, 1))
-                                SH = MyHex(B2A, 2): Mid(T2, 7, 2) = SH  'Set third byte
+                                SH = MyHex(B2A, 2): Mid(T2, 7, 2) = SH          'Set third byte
                             End If
                         Else
-                            SH = "00"                               'Set third byte as $00 (zero page)
+                            SH = "00"                                           'Set third byte as $00 (zero page)
                         End If
                         
-                        JAddress = SH & SL                          'Absolute Jump address
-                        SHL = "$" & JAddress                        'Add the $ to HI string
-                        SL = "$" & SL                               'Add the $ to LO string
+                        JAddress = SH & SL                                      'Absolute Jump address
+                        SHL = "$" & JAddress                                    'Add the $ to HI string
+                        SL = "$" & SL                                           'Add the $ to LO string
                     End If
                     
                     '---- Now look up the address
                     If (MD > 2) And (NB > 1) Then
-                        Tmp = FindSL(JAddress)                          'Look for a SYMBOL, ULABEL, or LABEL for this address
+                        Tmp = FindSL(JAddress)                                  'Look for a SYMBOL, ULABEL, or LABEL for this address
                         If Tmp > "" Then
-                            SL = Tmp                                    'Substitute Symbol for single-byte address
-                            SHL = Tmp                                   'Substitute Symbol for two-byte address
+                            SL = Tmp                                            'Substitute Symbol for single-byte address
+                            SHL = Tmp                                           'Substitute Symbol for two-byte address
                             If (SymComment = True) And (LastComment > "") Then T5 = " ;" & LastComment
                         End If
                     End If
@@ -3631,19 +3656,22 @@ Sub MLView()
                                     
                     '---- Handle inline comments
                     
-                    If UComment > "" Then T5 = " ; " & UComment                     'Use user comment string
+                    If UComment > "" Then T5 = "; " & UComment             'Use user comment string
                                         
                     '---- Output line in specified format
                     
                     Select Case OutFmt
-                        Case 0: lstML.AddItem T1 & T2 & T3 & T4 & T5                'addr bytes cmd param
-                        Case 1: lstML.AddItem T1 & T3 & T4 & T5                     'addr cmd param
-                        Case 2: lstML.AddItem Format(LNum) & " " & T3 & T4 & T5     'nnnn cmd param
-                        Case 3: lstML.AddItem "          " & T3 & T4 & T5           'cmd param
+                        Case 0: Tmp = T1 & T2 & T3 & T4                     'addr bytes cmd param
+                        Case 1: Tmp = T1 & T3 & T4                          'addr cmd param
+                        Case 2: Tmp = Format(LNum) & " " & T3 & T4          'nnnn cmd param
+                        Case 3: Tmp = "          " & T3 & T4                'cmd param
                         Case 4:
-                            ALabel = Left(ALabel & "               ", 15)
-                            lstML.AddItem ALabel & T3 & T4 & T5                     'label cmd param
+                            ALabel = Left(ALabel & Padd, 15)
+                            Tmp = ALabel & T3 & T4                          'label cmd param
                     End Select
+                    
+                    j = Len(Tmp) + 1: If InComCol > j Then j = InComCol     'position for comment
+                    lstML.AddItem Left(Tmp + Padd, j) & T5                  'Add to output
                                         
                     If MD = 9 Then
                         '-- Space after RTS/RTI option
