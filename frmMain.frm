@@ -1952,7 +1952,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.03 (May 23/2017)" & Cr & _
+    MyMsg "CBM-Transfer  V1.03b (May 25/2017)" & Cr & _
           "(C)2007-2017 Steve J. Gray  *** 10th Anniversary Edition ***" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -4141,9 +4141,9 @@ Private Sub cboFilter_Click(Index As Integer)
 End Sub
 
 '---- Return Filter string for given Index
-Private Function FilterString(ByVal n As Integer) As String
+Private Function FilterString(ByVal N As Integer) As String
     Dim FX As String
-    Select Case n
+    Select Case N
         Case 1: FX = "*.D64;*.D71;*.D80;*.D81;*.D82;*.NIB;*.G64;*.X64;*.D1M;*.D2M;*.D4M"
         Case 2: FX = "*.NIB;*.NBZ;*.G64;*.D64"
         Case 3: FX = "*.D80;*.D82"

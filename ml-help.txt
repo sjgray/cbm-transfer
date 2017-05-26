@@ -88,11 +88,11 @@ Project Tab
 
 The project tab is the control centre for disassembly. It lets you select options and settings.
 
-Load Project.............. Loads an "ASM-PROJECT" file containing symbols, tables, labels and comments.
-Save Project.............. Save the project file.
+Load...................... Loads an "ASM-PROJECT" file containing symbols, tables, labels and comments.
+Save...................... Save the project file.
 Project Status Box........ Displays status of Project (Green=OK, Red=Changed, White=No Project Loaded).
-New Project............... Clears all the Lists and starts a new Project.
-Clear all Lists on Load... When check, lists are cleared before new data is loaded.
+New....................... Clears all the Lists and starts a new Project.
+Clear Lists on Load....... When check, lists are cleared before new data is loaded.
 
 Platform dropdown......... Lets you select pre-configured symbols for a specific machine platform.
 CPU....................... Sets which 6502 CPU or variant opcodes are used. There is also an entry for
@@ -301,22 +301,26 @@ Top Line
 At the top are options for Refreshing the output, quickly specifying blocks, or adding comments.
 
 ">>" or "<<"............ Hide or Show the side panel.
+Black/White Toggle...... Toggles the output from White on Black to Black on White
 Status Box.............. Shows Disassembly errors as yellow, or green when no errors are found. Errors are
                          illegal opcodes of the 6502. This box will not be relevent if a CPU with completely filled
-                         instruction set is select.
-Refresh Button.......... Refreshes the disassembly.
-Auto.................... When checked, most actions will cause a refresh. If you plan to make a lot of changes/additions
+                         instruction set is selected.
+Refresh Checkbox........ When checked, most actions will cause a refresh. If you plan to make a lot of changes/additions
                          and your code is large, turn off auto refresh, and then click the Refresh Button when desired.
+Refresh Button.......... Refreshes the disassembly.
 
 Find.................... Enter a string to be searched for.
 Find All................ Hilight all lines containing search string.
 Next.................... Find Next line containing string.
 
+Info Checkbox........... Toggles Info display area. Lets you see a wider display of information in the Tab lists. Click
+                         on an entry and it will be shown here. Also shows the Find string.
+
 Quick Add Buttons
 -----------------
 
-Label................... Adds the current line address to the Labels list. First select a line which
-                         begins with an address.
+Label................... Adds the current line address to the Labels list. 
+EntryPt................. Adds the current line address to the Entry Points list.
 
 Block Buttons:           (first select a block range using SHIFT)
 D....................... Decimal - Treats block as decimal numbers.
