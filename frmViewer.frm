@@ -915,14 +915,44 @@ Begin VB.Form frmViewer
       Top             =   390
       Visible         =   0   'False
       Width           =   12900
+      Begin VB.CommandButton cmdNext 
+         Caption         =   "< ]"
+         Height          =   315
+         Index           =   3
+         Left            =   3930
+         TabIndex        =   187
+         ToolTipText     =   "Bottom Up "
+         Top             =   210
+         Width           =   345
+      End
+      Begin VB.CommandButton cmdNext 
+         Caption         =   "<"
+         Height          =   315
+         Index           =   2
+         Left            =   3630
+         TabIndex        =   186
+         ToolTipText     =   "Next Up"
+         Top             =   210
+         Width           =   285
+      End
+      Begin VB.CommandButton cmdNext 
+         Caption         =   ">"
+         Height          =   315
+         Index           =   1
+         Left            =   3330
+         TabIndex        =   185
+         ToolTipText     =   "Next Down"
+         Top             =   210
+         Width           =   285
+      End
       Begin VB.CheckBox cbShowInfo 
-         Caption         =   "Info"
+         Caption         =   "v"
          Height          =   285
-         Left            =   3900
+         Left            =   4410
          TabIndex        =   184
          ToolTipText     =   "Uncheck if you want to keep existing entries when loading"
-         Top             =   240
-         Width           =   615
+         Top             =   270
+         Width           =   405
       End
       Begin VB.Frame frInfo 
          Height          =   525
@@ -954,7 +984,7 @@ Begin VB.Form frmViewer
       Begin VB.CommandButton cmdAddEP 
          Caption         =   "EntryPt"
          Height          =   315
-         Left            =   5310
+         Left            =   5520
          TabIndex        =   181
          ToolTipText     =   "Add Label"
          Top             =   210
@@ -964,7 +994,7 @@ Begin VB.Form frmViewer
          Caption         =   "X"
          Height          =   315
          Index           =   6
-         Left            =   8460
+         Left            =   8640
          TabIndex        =   178
          ToolTipText     =   "Make Hidden Block"
          Top             =   210
@@ -974,11 +1004,11 @@ Begin VB.Form frmViewer
          Caption         =   "*C*"
          Height          =   315
          Index           =   4
-         Left            =   10830
+         Left            =   10920
          TabIndex        =   114
          ToolTipText     =   "Add Comment with * Separator"
          Top             =   210
-         Width           =   435
+         Width           =   405
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   "***"
@@ -989,13 +1019,13 @@ Begin VB.Form frmViewer
          TabIndex        =   113
          ToolTipText     =   "Add * Separator"
          Top             =   210
-         Width           =   435
+         Width           =   405
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "W"
          Height          =   315
          Index           =   5
-         Left            =   8070
+         Left            =   8250
          TabIndex        =   112
          ToolTipText     =   "Make Word Block"
          Top             =   210
@@ -1004,77 +1034,77 @@ Begin VB.Form frmViewer
       Begin VB.CommandButton cmdAddLabel 
          Caption         =   "Label"
          Height          =   315
-         Left            =   4590
+         Left            =   4830
          TabIndex        =   111
          ToolTipText     =   "Add Label"
          Top             =   210
-         Width           =   675
+         Width           =   645
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   "==="
          Height          =   315
          Index           =   6
-         Left            =   11730
+         Left            =   11760
          TabIndex        =   110
          ToolTipText     =   "Add = Separator"
          Top             =   210
-         Width           =   435
+         Width           =   405
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   "----"
          Height          =   315
          Index           =   5
-         Left            =   11280
+         Left            =   11340
          TabIndex        =   109
          ToolTipText     =   "Add - Separator"
          Top             =   210
-         Width           =   435
+         Width           =   405
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   "=C="
          Height          =   315
          Index           =   3
-         Left            =   10380
+         Left            =   10500
          TabIndex        =   108
          ToolTipText     =   "Add Comment with = Separator"
          Top             =   210
-         Width           =   435
+         Width           =   405
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   "--C--"
          Height          =   315
          Index           =   2
-         Left            =   9930
+         Left            =   10080
          TabIndex        =   107
          ToolTipText     =   "Add Comment with - Separator"
          Top             =   210
-         Width           =   435
+         Width           =   405
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   "C"
          Height          =   315
          Index           =   1
-         Left            =   9480
+         Left            =   9660
          TabIndex        =   106
          ToolTipText     =   "Add Standalone Comment"
          Top             =   210
-         Width           =   435
+         Width           =   405
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   ";C"
          Height          =   315
          Index           =   0
-         Left            =   9030
+         Left            =   9240
          TabIndex        =   105
          ToolTipText     =   "Add Inline Comment"
          Top             =   210
-         Width           =   435
+         Width           =   405
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "V"
          Height          =   315
          Index           =   4
-         Left            =   7680
+         Left            =   7860
          TabIndex        =   104
          ToolTipText     =   "Make Vector Block"
          Top             =   210
@@ -1084,7 +1114,7 @@ Begin VB.Form frmViewer
          Caption         =   "R"
          Height          =   315
          Index           =   3
-         Left            =   7290
+         Left            =   7470
          TabIndex        =   103
          ToolTipText     =   "Make RTS vector block"
          Top             =   210
@@ -1094,7 +1124,7 @@ Begin VB.Form frmViewer
          Caption         =   "T"
          Height          =   315
          Index           =   2
-         Left            =   6900
+         Left            =   7080
          TabIndex        =   102
          ToolTipText     =   "Make Text Block"
          Top             =   210
@@ -1104,7 +1134,7 @@ Begin VB.Form frmViewer
          Caption         =   "H"
          Height          =   315
          Index           =   1
-         Left            =   6510
+         Left            =   6690
          TabIndex        =   101
          ToolTipText     =   "Make Hex Block"
          Top             =   210
@@ -1114,29 +1144,30 @@ Begin VB.Form frmViewer
          Caption         =   "D"
          Height          =   315
          Index           =   0
-         Left            =   6120
+         Left            =   6300
          TabIndex        =   100
          ToolTipText     =   "Make Dec Byte Block"
          Top             =   210
          Width           =   375
       End
       Begin VB.CommandButton cmdFindAll 
-         Caption         =   "Find All"
+         Caption         =   "All"
          Height          =   315
          Left            =   2580
          TabIndex        =   54
          ToolTipText     =   "Find all occurences"
          Top             =   210
-         Width           =   705
+         Width           =   375
       End
       Begin VB.CommandButton cmdNext 
-         Caption         =   "Next"
+         Caption         =   "[ >"
          Height          =   315
-         Left            =   3330
+         Index           =   0
+         Left            =   2970
          TabIndex        =   40
-         ToolTipText     =   "Jump to Next"
+         ToolTipText     =   "Top Down"
          Top             =   210
-         Width           =   495
+         Width           =   345
       End
       Begin VB.CommandButton cmdFind 
          Caption         =   "Find"
@@ -2433,8 +2464,11 @@ Private Sub DrawVLayout()
     DoEvents
         
     '-- Calculate window sizes
-    W = Me.Width - 270:   If W < 4400 Then W = 4400         'Window Width - enforce minimum size for elements
-    H = Me.Height - 900:  If H < 3700 Then H = 3700        'Window Height - enforce min size for elements
+    ' NOTE: There seems to be a difference between width and height returned when running in the IDE vs
+    '       when compiled. The values -390 and -1000 look good when compiled. This could be Windows revision dependent.
+    W = Me.Width - 390:   If W < 4400 Then W = 4400         'Window Width - enforce minimum size for elements
+    H = Me.Height - 1000: If H < 3700 Then H = 3700         'Window Height - enforce min size for elements
+    
     L1 = 75: T1 = 375                                       'Left/Top Margins
     W1 = W: W2 = W: H1 = H: L2 = L1                         'Set for single-view mode
     
@@ -4066,13 +4100,13 @@ Private Sub cmdSYMGoto_Click()
             Tmp = Left(lstJSR.List(i), 4)
     End Select
     
-    JumpList Tmp, True
+    JumpList Tmp, 1, False               'Find next match
 
 End Sub
 
 '---- Find and jump to the next undefined opcode
 Private Sub lblGood_Click()
-    JumpList "???", False
+    JumpList "???", 0, False
 End Sub
 
 '---- Find specified string
@@ -4082,60 +4116,66 @@ Private Sub cmdFind_Click()
     Tmp = InputBox("Enter String to find:", "Find")
     If Tmp <> "" Then
         cmdFindAll.ToolTipText = ""
-        JumpList Tmp, False
+        JumpList Tmp, 0, False
     End If
     
 End Sub
 
 '---- Find ALL occurances of last search string
 Private Sub cmdFindAll_Click()
-    JumpList "", True
+    JumpList "", 0, True
 End Sub
 
 '---- Jump to next occurance of search string
-Private Sub cmdNext_Click()
-    JumpList "", False
+Private Sub cmdNext_Click(Index As Integer)
+    JumpList "", Index, False
 End Sub
 
 '---- Search for string
-' Blank string to search for last. Set flag true to start from top, otherwise start from current position
-Sub JumpList(ByVal Txt As String, ByVal Flag As Boolean)
+' Blank string searches with same string
+' MODE - Search method: 0=Top Down, 1=Current Down, 2=Current UP, 3=Bottom UP
+' FLAG - TRUE = ALL matches
+Sub JumpList(ByVal Txt As String, Mode As Integer, ByVal Flag As Boolean)
     Static LastTxt As String, Count As Integer 'These values are retained between calls
     
-    Dim i As Integer, j As Integer, Max As Integer
+    Dim i As Integer, j As Integer, Max As Integer, Direction As Integer
+    Dim Tmp As String
     
     If Txt = "" Then Txt = LastTxt
     If Txt = "" Then Exit Sub
     
-    lblInfo.Caption = "Search: " & Txt
-       
-    Max = lstML.ListCount - 1
+    Max = lstML.ListCount - 1                           'Max entries
+    Count = 0
+    i = lstML.ListIndex                                 'Assume current position
     
-    If Flag = False Then
-        i = lstML.ListIndex + 1             'FLAG=false - start at next index position
-    Else
-        i = 0                               'FLAG=true - start at top
-        Count = 0
-    End If
+    Select Case Mode
+        Case 1: Direction = 1: Tmp = "Down"
+        Case 2: Direction = -1: Tmp = "Up"
+        Case 3: Direction = -1: Tmp = "Bottom Up": i = lstML.ListCount - 1 'Start at END
+        Case Else: Direction = 1: Tmp = "Top Down": i = 0           'Start at TOP
+    End Select
+    
+    lblInfo.Caption = "Search (" & Tmp & "): " & Txt
    
     Do
+        i = i + Direction: If (i < 0) Or (i > Max) Then Exit Do
         If InStr(1, lstML.List(i), Txt, vbTextCompare) > 0 Then
-            j = i - 5: If j < 0 Or j > Max Then j = i
-            lstML.TopIndex = j          'move top of list to near found line
-            lstML.ListIndex = i         'move to selected line
-            lstML.Selected(i) = True    'hilight it
-            Count = Count + 1
+            lstML.Selected(i) = True                                'Hilight it
+            Count = Count + 1                                       'Count it
+            
+            If Flag = False Then
+                j = i - 5: If j < 0 Or j > Max Then j = i
+                lstML.TopIndex = j                                  'Move top of list to near found line
+                lstML.ListIndex = i                                 'Move to selected line
+                Exit Do                                             'Do only one search
+            End If
             If Flag = False Then Exit Do
         End If
-        i = i + 1                       'next line
-    Loop While i < Max
+    Loop
     
-    If Count > 0 Then
-        cmdFindAll.ToolTipText = "Found" & Str(Count) & " line(s)"
-        cmdNext.ToolTipText = "Find: " & Txt
-    End If
+    If Count > 0 Then cmdFindAll.ToolTipText = "Found" & Str(Count) & " line(s)"
     DoEvents
-    LastTxt = Txt
+    LastTxt = Txt                                                   'Remember Search string for next time
     
 End Sub
 

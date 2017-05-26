@@ -1,4 +1,4 @@
-CBM-Transfer V1.03 (C)2017 Steve J. Gray
+CBM-Transfer V1.04 (C)2017 Steve J. Gray
 ===================================================
 Interactive Symbolic Disassembler with Code Tracing
 Help File
@@ -309,11 +309,15 @@ Refresh Checkbox........ When checked, most actions will cause a refresh. If you
                          and your code is large, turn off auto refresh, and then click the Refresh Button when desired.
 Refresh Button.......... Refreshes the disassembly.
 
-Find.................... Enter a string to be searched for.
-Find All................ Hilight all lines containing search string.
-Next.................... Find Next line containing string.
+Find.................... Enter a string to be searched for. Search starts from top of the list.
+			 Lines containing string are hi-lighted. To un-hi-light all lines, manually select any line.
+Find All................ Hi-light all lines containing search string.
+[> ..................... From TOP DOWN, find line containing string.
+> ...................... Find NEXT line containing string.
+< ...................... Find PREVIOUS line containing string.
+<]...................... From BOTTOM UP, find line containing string.
 
-Info Checkbox........... Toggles Info display area. Lets you see a wider display of information in the Tab lists. Click
+"v" Checkbox............ Toggles Info display area. Lets you see a wider display of information in the Tab lists. Click
                          on an entry and it will be shown here. Also shows the Find string.
 
 Quick Add Buttons
