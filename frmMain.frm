@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "ComDlg32.OCX"
 Begin VB.Form frmMain 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "CBM Transfer"
@@ -1208,6 +1208,26 @@ Begin VB.Form frmMain
       ToolTipText     =   "Reset Drive"
       Top             =   420
       Width           =   5175
+      Begin VB.ComboBox cboXBus 
+         Height          =   315
+         ItemData        =   "frmMain.frx":4B84
+         Left            =   1200
+         List            =   "frmMain.frx":4BAC
+         Style           =   2  'Dropdown List
+         TabIndex        =   143
+         Top             =   240
+         Width           =   615
+      End
+      Begin VB.ComboBox cboXAdapter 
+         Height          =   315
+         ItemData        =   "frmMain.frx":4BD4
+         Left            =   120
+         List            =   "frmMain.frx":4BE4
+         Style           =   2  'Dropdown List
+         TabIndex        =   142
+         Top             =   240
+         Width           =   1095
+      End
       Begin VB.CommandButton cmdXRoot 
          Caption         =   "Root"
          Height          =   360
@@ -1239,14 +1259,14 @@ Begin VB.Form frmMain
       End
       Begin VB.ComboBox cboXDevNum 
          Height          =   315
-         ItemData        =   "frmMain.frx":4B84
-         Left            =   720
-         List            =   "frmMain.frx":4B94
+         ItemData        =   "frmMain.frx":4C03
+         Left            =   2040
+         List            =   "frmMain.frx":4C13
          Style           =   2  'Dropdown List
          TabIndex        =   38
          ToolTipText     =   "Select X Device Unit Number"
          Top             =   240
-         Width           =   975
+         Width           =   615
       End
       Begin VB.CommandButton cmdXNone 
          Caption         =   "None"
@@ -1306,9 +1326,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   4560
-         ItemData        =   "frmMain.frx":4BA6
+         ItemData        =   "frmMain.frx":4C25
          Left            =   120
-         List            =   "frmMain.frx":4BA8
+         List            =   "frmMain.frx":4C27
          MultiSelect     =   2  'Extended
          OLEDropMode     =   1  'Manual
          TabIndex        =   7
@@ -1362,13 +1382,13 @@ Begin VB.Form frmMain
       Begin VB.Label Label 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Device:"
+         Caption         =   "D#"
          Height          =   195
          Index           =   3
-         Left            =   120
+         Left            =   1800
          TabIndex        =   139
          Top             =   300
-         Width           =   555
+         Width           =   225
       End
       Begin VB.Label lblDName 
          Alignment       =   2  'Center
@@ -1385,11 +1405,11 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00000000&
          Height          =   315
-         Left            =   1740
+         Left            =   2700
          TabIndex        =   79
          ToolTipText     =   "Drive Model# (click to re-scan)"
          Top             =   240
-         Width           =   3345
+         Width           =   2385
       End
       Begin VB.Label lblXPart 
          AutoSize        =   -1  'True
@@ -1634,9 +1654,9 @@ Begin VB.Form frmMain
          BackColor       =   &H00FFFFFF&
          Height          =   315
          Index           =   0
-         ItemData        =   "frmMain.frx":4BAA
+         ItemData        =   "frmMain.frx":4C29
          Left            =   390
-         List            =   "frmMain.frx":4BAC
+         List            =   "frmMain.frx":4C2B
          OLEDropMode     =   1  'Manual
          Sorted          =   -1  'True
          TabIndex        =   80
@@ -1687,9 +1707,9 @@ Begin VB.Form frmMain
          BackColor       =   &H00FFFFFF&
          Height          =   315
          Index           =   0
-         ItemData        =   "frmMain.frx":4BAE
+         ItemData        =   "frmMain.frx":4C2D
          Left            =   960
-         List            =   "frmMain.frx":4BE8
+         List            =   "frmMain.frx":4C67
          Style           =   2  'Dropdown List
          TabIndex        =   36
          Top             =   600
@@ -1762,7 +1782,7 @@ Begin VB.Form frmMain
          Height          =   255
          Index           =   0
          Left            =   4320
-         Picture         =   "frmMain.frx":4D35
+         Picture         =   "frmMain.frx":4DB4
          Top             =   630
          Width           =   255
       End
@@ -1770,7 +1790,7 @@ Begin VB.Form frmMain
          Height          =   270
          Index           =   0
          Left            =   120
-         Picture         =   "frmMain.frx":50EB
+         Picture         =   "frmMain.frx":516A
          Top             =   270
          Width           =   240
       End
@@ -1960,6 +1980,17 @@ Private Sub About_Click()
           "Viewer includes portions of 'CBM2BMP' code by Peter Weighill"
 End Sub
 
+Private Sub cboXAdapter_Click()
+    ClearXDir
+    GetXDevices
+End Sub
+
+
+Private Sub cboXBus_Click()
+    ClearXDir
+    GetXDevices
+End Sub
+
 '---- Program Initialization
 Private Sub Form_Load()
     Dim i As Integer, Tmp As String, Flag As Boolean, xTmp As String
@@ -1991,6 +2022,8 @@ Private Sub Form_Load()
     LoadHistory
     
     cboXDevNum.ListIndex = frmOptions.cboDriveNum.ListIndex
+    cboXAdapter.ListIndex = 0
+    cboXBus.ListIndex = 0
     cboLinkDev.ListIndex = 0
     cboFilter(0).ListIndex = 0
     cboFilter(1).ListIndex = 0
@@ -2827,17 +2860,37 @@ Private Function GetXStatusN() As Integer
     GetXStatusN = Val(Left(GetXStatus, 2))
 End Function
 
+Private Function DetermineAdapterBusString() As String
+    Dim AdapterBusString As String
+    
+    If cboXAdapter.ListIndex = 0 And cboXBus.ListIndex = 0 Then
+        AdapterBusString = ""
+    ElseIf cboXAdapter.ListIndex <> 0 And cboXBus.ListIndex = 0 Then
+        AdapterBusString = cboXAdapter.ItemData(cboXAdapter.ListIndex) + " "
+    ElseIf cboXAdapter.ListIndex = 0 And cboXBus.ListIndex <> 0 Then
+        AdapterBusString = ":" + cboXBus.ItemData(cboXBus.ListIndex) + " "
+    Else
+        AdapterBusString = cboXAdapter.ItemData(cboXAdapter.ListIndex) + ":" + cboXBus.ItemData(cboXBus.ListIndex) + " "
+    End If
+        
+    DetermineAdapterBusString = AdapterBusString
+        
+End Function
+
+
 '---- Detect Drives via CBMCTRL
 ' CBMCTRL returns a list of drives with device#'s like this:
 ' 8:1541<cr>
 ' 9:1571<cr>
 ' Flag=true to display results, False=silent
 Public Sub DetectDrives(ByVal Flag As Boolean)
-    Dim What As String, FIO As Integer, D As Integer
+    Dim What As String, FIO As Integer, D As Integer, AdapterBusString As String
     
     If Exists(ExeDir & "cbmctrl.exe") = False Then Exit Sub
     
-    frmMain.PubDoCommand "cbmctrl", "detect", "Detecting Drives...", False
+    AdapterBusString = DetermineAdapterBusString()
+    
+    frmMain.PubDoCommand "cbmctrl", DetermineAdapterBusString + "detect", "Detecting Drives...", False
 
     If Exists(TEMPFILE1) = False Then Exit Sub
     
@@ -4141,9 +4194,9 @@ Private Sub cboFilter_Click(Index As Integer)
 End Sub
 
 '---- Return Filter string for given Index
-Private Function FilterString(ByVal N As Integer) As String
+Private Function FilterString(ByVal n As Integer) As String
     Dim FX As String
-    Select Case N
+    Select Case n
         Case 1: FX = "*.D64;*.D71;*.D80;*.D81;*.D82;*.NIB;*.G64;*.X64;*.D1M;*.D2M;*.D4M"
         Case 2: FX = "*.NIB;*.NBZ;*.G64;*.D64"
         Case 3: FX = "*.D80;*.D82"
