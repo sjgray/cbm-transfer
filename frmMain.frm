@@ -2186,7 +2186,7 @@ Private Sub Ask1571Mode()
 
     choice = MsgBox("1571 Drive. Do you want to use Double-sided mode?", vbYesNoCancel, "Select Mode")
     Tmp = "0": If choice = vbYes Then Tmp = "1"
-    If choice <> vbCancel Then Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("U0>M" & Tmp), "Setting 1571 mode...")
+    If choice <> vbCancel Then Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("U0>M" & Tmp), "Setting 1571 mode...")
 
 End Sub
 
@@ -2199,9 +2199,9 @@ Private Sub Ask8050Mode()
     choice = MsgBox("8250/SFD. Do you want to use 8050 mode?", vbYesNoCancel, "Select Mode")
     Tmp = "0": If choice = vbYes Then Tmp = "1"
     If choice <> vbCancel Then
-        Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("m-w 172 16 1 1"), "Setting 8050 mode...")
-        Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("m-w 195 16 1 0"), "Setting 8050 mode...")
-        Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("u9"), "Setting 8050 mode...")
+        Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("m-w 172 16 1 1"), "Setting 8050 mode...")
+        Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("m-w 195 16 1 0"), "Setting 8050 mode...")
+        Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("u9"), "Setting 8050 mode...")
     End If
 
 End Sub
@@ -2851,7 +2851,7 @@ End Sub
 Private Function GetXStatus() As String
     Dim Status As ReturnStringType
     
-    Status = DoCommand("cbmctrl", DetermineAdapterBusString + "status " & DriveNum, "Reading drive status, please wait.")
+    Status = DoCommand("cbmctrl", DetermineAdapterBusString & "status " & DriveNum, "Reading drive status, please wait.")
     GetXStatus = UCase(Status.Output)
 End Function
 
@@ -2865,12 +2865,12 @@ Private Function DetermineAdapterBusString() As String
     
     If cboXAdapter.ListIndex <= 0 And cboXBus.ListIndex <= 0 Then
         AdapterBusString = ""
-    ElseIf cboXAdapter.ListIndex > 0 And cboXBus.ListIndex <= 0 Then
-        AdapterBusString = "-@" + cboXAdapter.List(cboXAdapter.ListIndex) + " "
-    ElseIf cboXBus.ListIndex > 0 And cboXAdapter.ListIndex <= 0 Then
-        AdapterBusString = "-@:" + cboXBus.List(cboXBus.ListIndex) + " "
     Else
-        AdapterBusString = "-@" + cboXAdapter.List(cboXAdapter.ListIndex) + ":" + cboXBus.List(cboXBus.ListIndex) + " "
+        AdapterBusString = "-@" & cboXAdapter.List(cboXAdapter.ListIndex)
+        If cboXBus.ListIndex > 0 Then
+            AdapterBusString = AdapterBusString & ":" & cboXBus.List(cboXBus.ListIndex)
+        End If
+        AdapterBusString = AdapterBusString & " "
     End If
         
     DetermineAdapterBusString = AdapterBusString
@@ -2888,7 +2888,7 @@ Public Sub DetectDrives(ByVal Flag As Boolean)
     
     If Exists(ExeDir & "cbmctrl.exe") = False Then Exit Sub
     
-    frmMain.PubDoCommand "cbmctrl", DetermineAdapterBusString + "detect", "Detecting Drives...", False
+    frmMain.PubDoCommand "cbmctrl", DetermineAdapterBusString & "detect", "Detecting Drives...", False
 
     If Exists(TEMPFILE1) = False Then Exit Sub
     
@@ -2932,7 +2932,7 @@ Private Sub cmdXFormat_Click()
         Case "1571"
             If MsgBox("You have a 1571. Do you want to format double-sided?", vbYesNo, "Format") = vbYes Then
                 Flag = False
-                Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("U0>M1"), "Enabling 1571 mode...")
+                Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("U0>M1"), "Enabling 1571 mode...")
             End If
         Case Else
             Flag = False
@@ -2942,13 +2942,13 @@ Private Sub cmdXFormat_Click()
 
     If Flag = True Then
         '-- Format a 1541
-        Status = DoCommand("cbmforng", DetermineAdapterBusString + "-vso " & DriveNum & " " & Quoted(UCase(Response)), M1)
+        Status = DoCommand("cbmforng", DetermineAdapterBusString & "-vso " & DriveNum & " " & Quoted(UCase(Response)), M1)
         lblXLastStatus.Caption = UCase(Status.Output)
         Sleep 1000                                                          'Just so message is visible
         GetXDir
     Else
         '-- Format using standard DOS New command
-        Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("N0:" & UCase(Response)), M1)
+        Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("N0:" & UCase(Response)), M1)
         MyMsg "Formatting... You may continue working, however, do not attempt to access" & Cr & "the drive until formatting is complete. Check drive status when the light goes off."
     End If
         
@@ -2961,7 +2961,7 @@ End Sub
 
 '---- Initialize X-cable or Zoomfloppy Drive
 Private Sub InitXDrive()
-    DoCommand "cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " I0", "Initializing Drive"
+    DoCommand "cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " I0", "Initializing Drive"
     cmdXDriveStatus_Click
 End Sub
 
@@ -3004,7 +3004,7 @@ End Sub
 Private Sub XChangePart(ByVal Filename As String)
     Dim Tmp As String
     
-    DoCommand "cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("/0:" & UCase(Filename)), "Changing partition"
+    DoCommand "cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("/0:" & UCase(Filename)), "Changing partition"
     Tmp = GetXStatus()
     If Left(Tmp, 2) = "77" Then MyMsg "Partition is Illegal!"
     
@@ -3035,7 +3035,7 @@ Public Sub GetXDir()
     lblXDiskName.Caption = "": lblXDiskID.Caption = "":  lblXDiskID.ToolTipText = ""            'Clear old fields
     frmWaiting.SetMode ""                                                                       'No progress bar
     
-    Results = DoCommand("cbmctrl", DetermineAdapterBusString + "dir " & DriveNum, "Reading directory, please wait.", False) 'Run the program
+    Results = DoCommand("cbmctrl", DetermineAdapterBusString & "dir " & DriveNum, "Reading directory, please wait.", False) 'Run the program
     
     Close #1                                                'Make sure File#1 is closed so it can be opened below
                                                             '(seems it sometimes doesn't close properly below)
@@ -3103,7 +3103,7 @@ Private Sub cmdXRename_Click()
             
             If Response <> "" Then
                 DoCommand "cbmctrl", _
-                          DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("R0:" & NewFilename & "=" & UCase(Filename)), _
+                          DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("R0:" & NewFilename & "=" & UCase(Filename)), _
                           "Renaming"
             Else
                 Exit Sub
@@ -3116,7 +3116,7 @@ End Sub
 
 '---- Reset X-cable or Zoomfloppy Drive
 Private Sub cmdXReset_Click()
-     DoCommand "cbmctrl", DetermineAdapterBusString + "reset", "Resetting drives, please wait."
+     DoCommand "cbmctrl", DetermineAdapterBusString & "reset", "Resetting drives, please wait."
 End Sub
 
 '---- Delete (Scratch) a file on X-cable or Zoomfloppy
@@ -3141,7 +3141,7 @@ Private Sub cmdXScratch_Click()
             Filename = CBMName(lstXFiles.List(T))
             
             DoCommand "cbmctrl", _
-                      DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("S0:" & UCase(Filename)), _
+                      DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("S0:" & UCase(Filename)), _
                       "Scratching " & Filename
         End If
     Next T
@@ -3152,7 +3152,7 @@ End Sub
 '---- Do a Disk Validation on X-Cable or Zoomfloppy Drive
 Private Sub cmdXValidate_Click()
      DoCommand "cbmctrl", _
-               DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("V0:"), _
+               DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("V0:"), _
                "Validating drive, please wait."
 End Sub
 
@@ -3161,7 +3161,7 @@ Private Sub cmdXRoot_Click()
      Dim Tmp As String
      
      DoCommand "cbmctrl", _
-               DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("/"), _
+               DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("/"), _
                "Selecting Root Partition, please wait..."
             
      Tmp = GetXStatus()
@@ -3291,7 +3291,7 @@ Private Sub Copy_ImgToX()
                           "Copying '" & Filename & "' from image..."
                           
                 DoCommand "cbmcopy", _
-                          "--transfer=" & TransferString & " -q -w " & DriveNum & " " & Quoted(TEMPFILE3) & _
+                          DetermineAdapterBusString & "--transfer=" & TransferString & " -q -w " & DriveNum & " " & Quoted(TEMPFILE3) & _
                           " --output=" & Quoted(Filename) & SeqType, _
                           "Copying file to floppy disk as '" & Filename & "'..."
             End If
@@ -3360,7 +3360,7 @@ Private Sub Copy_XToImg()
             
             '-- Copy from X to TEMPFILE
             DoCommand "cbmcopy", _
-                      "--transfer=" & TransferString & " -q -r " & DriveNum & " " & Quoted(Filename) & " --output=" & Quoted(TEMPFILE3), _
+                      DetermineAdapterBusString & "--transfer=" & TransferString & " -q -r " & DriveNum & " " & Quoted(Filename) & " --output=" & Quoted(TEMPFILE3), _
                       "Copying '" & Filename & "' from floppy disk."
                   
             '-- Copy TEMPFILE to Image
@@ -3579,7 +3579,7 @@ Private Sub Copy_XToLocal()
             FilenameOut = LocalDir(0) & DOSName(Tmp)                 'Output filename PATH\FILENAME.EXT
             If Overwrite(FilenameOut) = True Then
                 DoCommand "cbmcopy", _
-                      "--transfer=" & TransferString & " -q -r " & DriveNum & " " & Quoted(Filename) & " --output=" & Quoted(FilenameOut), _
+                      DetermineAdapterBusString & "--transfer=" & TransferString & " -q -r " & DriveNum & " " & Quoted(Filename) & " --output=" & Quoted(FilenameOut), _
                       "Copying '" & Filename & "' from floppy disk."
             End If
             FilesSelected = FilesSelected + 1
@@ -3741,7 +3741,7 @@ Public Sub MakeXDiskImage()
             KillFile FilenameOut
             frmWaiting.SetMode Ext
             DoCommand Tmp, _
-                      Ostr & "--transfer=" & TransferString & " " & NoWarpString & " " & Format(DriveNum) & " " & Quoted(FilenameOut), _
+                      DetermineAdapterBusString & Ostr & "--transfer=" & TransferString & " " & NoWarpString & " " & Format(DriveNum) & " " & Quoted(FilenameOut), _
                       "Creating " & Ext & " image, please wait."
         End If
         
@@ -3768,7 +3768,7 @@ Public Sub MakeXDiskImage()
             frmWaiting.SetMode "nibread"
             NibTmp = NIBstr: If UseNibCustom = True Then NibTmp = frmOptions.txtNibRead.Text    'Std or Custom NIB options?
             
-            DoCommand "nibread", "-D" & Format(DriveNum) & " " & NibTmp & FilenameOut, _
+            DoCommand "nibread", DetermineAdapterBusString & "-D" & Format(DriveNum) & " " & NibTmp & FilenameOut, _
                       "Creating " & Ext & " file, please wait."
                     
             If Exists(Filename & Ext) = True Then
@@ -3852,7 +3852,7 @@ Public Sub WriteImageToX(ByVal Filename As String, ByVal NoWarn As Boolean)
     frmWaiting.SetMode Ext
     
     DoCommand Tmp, _
-              Opt & "--transfer=" & TransferString & " " & NoWarpString & " " & Quoted(Filename) & " " & Format(DriveNum), _
+              DetermineAdapterBusString & Opt & "--transfer=" & TransferString & " " & NoWarpString & " " & Quoted(Filename) & " " & Format(DriveNum), _
               "Creating disk from " & Ext & " image, please wait."
             
     GetXDir
@@ -3870,7 +3870,7 @@ Public Sub WriteNIBtoX(ByVal Filename As String, ByVal NoWarn As Boolean)
     
     NibTmp = NIBstr: If UseNibCustom = True Then NibTmp = frmOptions.txtNibWrite.Text    'Std or Custom NIB options?
     DoCommand "nibwrite", _
-              " -D" & Format(DriveNum) & " " & NibTmp & " " & Quoted(Filename), _
+              DetermineAdapterBusString & " -D" & Format(DriveNum) & " " & NibTmp & " " & Quoted(Filename), _
               "Creating disk from " & Ext & " image, please wait."
     
     GetXDir
