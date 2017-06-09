@@ -1191,6 +1191,257 @@ Begin VB.Form frmMain
          Width           =   3885
       End
    End
+   Begin VB.Frame frSrc 
+      Caption         =   "Directory on Local PC"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   6735
+      Index           =   0
+      Left            =   120
+      TabIndex        =   1
+      Top             =   420
+      Width           =   4695
+      Begin VB.CommandButton cmdSrcView2 
+         Caption         =   "&2"
+         Height          =   345
+         Index           =   0
+         Left            =   3090
+         TabIndex        =   100
+         ToolTipText     =   "View File or Disk Image file Contents"
+         Top             =   6270
+         Width           =   375
+      End
+      Begin VB.DirListBox dirLocal 
+         Height          =   4365
+         Index           =   0
+         Left            =   150
+         TabIndex        =   96
+         Top             =   1410
+         Visible         =   0   'False
+         Width           =   2175
+      End
+      Begin VB.DriveListBox drvLocal 
+         Height          =   315
+         Index           =   0
+         Left            =   150
+         TabIndex        =   95
+         Top             =   1020
+         Visible         =   0   'False
+         Width           =   2175
+      End
+      Begin VB.ComboBox txtLocalDir 
+         BackColor       =   &H00FFFFFF&
+         Height          =   315
+         Index           =   0
+         ItemData        =   "frmMain.frx":4B84
+         Left            =   390
+         List            =   "frmMain.frx":4B86
+         OLEDropMode     =   1  'Manual
+         Sorted          =   -1  'True
+         TabIndex        =   80
+         Top             =   240
+         Width           =   4215
+      End
+      Begin VB.CommandButton cmdSrcRefresh 
+         Caption         =   "Re&fresh"
+         Height          =   315
+         Index           =   0
+         Left            =   120
+         TabIndex        =   72
+         ToolTipText     =   "Refresh Directory"
+         Top             =   5940
+         Width           =   1065
+      End
+      Begin VB.CommandButton cmdBrowse 
+         Caption         =   "..."
+         Height          =   255
+         Index           =   0
+         Left            =   3870
+         TabIndex        =   71
+         ToolTipText     =   "Select Folder"
+         Top             =   630
+         Width           =   375
+      End
+      Begin VB.CommandButton cmdSrcView 
+         Caption         =   "&View"
+         Height          =   315
+         Index           =   0
+         Left            =   2370
+         TabIndex        =   69
+         ToolTipText     =   "View File or Disk Image file Contents"
+         Top             =   6300
+         Width           =   675
+      End
+      Begin VB.CommandButton cmdNewImage 
+         Caption         =   "&New Dnn"
+         Height          =   315
+         Index           =   0
+         Left            =   1260
+         TabIndex        =   43
+         ToolTipText     =   "Create a new/blank CBM Image File"
+         Top             =   5940
+         Width           =   1065
+      End
+      Begin VB.ComboBox cboFilter 
+         BackColor       =   &H00FFFFFF&
+         Height          =   315
+         Index           =   0
+         ItemData        =   "frmMain.frx":4B88
+         Left            =   960
+         List            =   "frmMain.frx":4BC2
+         Style           =   2  'Dropdown List
+         TabIndex        =   36
+         Top             =   600
+         Width           =   2835
+      End
+      Begin VB.TextBox BlockText 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         Enabled         =   0   'False
+         Height          =   285
+         Index           =   0
+         Left            =   3540
+         TabIndex        =   21
+         Text            =   "0"
+         Top             =   6360
+         Width           =   705
+      End
+      Begin VB.TextBox KBText 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         Enabled         =   0   'False
+         Height          =   285
+         Index           =   0
+         Left            =   3540
+         TabIndex        =   20
+         Text            =   "0"
+         Top             =   6060
+         Width           =   705
+      End
+      Begin VB.FileListBox lstLocal 
+         Height          =   4770
+         Index           =   0
+         Left            =   120
+         MultiSelect     =   2  'Extended
+         TabIndex        =   16
+         Top             =   1020
+         Width           =   4490
+      End
+      Begin VB.CommandButton cmdSrcRun 
+         Caption         =   "R&un"
+         Height          =   315
+         Index           =   0
+         Left            =   2400
+         TabIndex        =   15
+         ToolTipText     =   "Run File or Image using Vice "
+         Top             =   5940
+         Width           =   1065
+      End
+      Begin VB.CommandButton cmdSrcRename 
+         Caption         =   "R&ename"
+         Height          =   315
+         Index           =   0
+         Left            =   1260
+         TabIndex        =   14
+         ToolTipText     =   "Rename Selected File(s)"
+         Top             =   6300
+         Width           =   1065
+      End
+      Begin VB.CommandButton cmdSrcDelete 
+         Caption         =   "&Delete"
+         Height          =   315
+         Index           =   0
+         Left            =   120
+         TabIndex        =   13
+         ToolTipText     =   "Delete selected file(s)"
+         Top             =   6300
+         Width           =   1065
+      End
+      Begin VB.Image cmdLocalMenu 
+         Height          =   255
+         Index           =   0
+         Left            =   4320
+         Picture         =   "frmMain.frx":4D0F
+         Top             =   630
+         Width           =   255
+      End
+      Begin VB.Image cmdPathUp 
+         Height          =   270
+         Index           =   0
+         Left            =   120
+         Picture         =   "frmMain.frx":50C5
+         Top             =   270
+         Width           =   240
+      End
+      Begin VB.Label lblPathView 
+         Caption         =   ">>"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Index           =   0
+         Left            =   180
+         TabIndex        =   97
+         ToolTipText     =   "Drive and Folder View"
+         Top             =   720
+         Width           =   255
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "Blks"
+         Height          =   195
+         Index           =   0
+         Left            =   4300
+         TabIndex        =   40
+         Top             =   6390
+         Width           =   300
+      End
+      Begin VB.Label Label1 
+         AutoSize        =   -1  'True
+         Caption         =   "KB"
+         Height          =   195
+         Index           =   0
+         Left            =   4300
+         TabIndex        =   39
+         Top             =   6120
+         Width           =   210
+      End
+      Begin VB.Label Label 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Show:"
+         Height          =   195
+         Index           =   10
+         Left            =   480
+         TabIndex        =   35
+         Top             =   660
+         Width           =   450
+      End
+      Begin VB.Label lblSrcSel 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Selected:"
+         Height          =   195
+         Index           =   0
+         Left            =   3540
+         TabIndex        =   19
+         Top             =   5820
+         Width           =   675
+      End
+   End
    Begin VB.Frame frX 
       Caption         =   "CBM Drive on X-Cable"
       BeginProperty Font 
@@ -1210,9 +1461,9 @@ Begin VB.Form frmMain
       Width           =   5175
       Begin VB.ComboBox cboXBus 
          Height          =   315
-         ItemData        =   "frmMain.frx":4B84
+         ItemData        =   "frmMain.frx":5467
          Left            =   1200
-         List            =   "frmMain.frx":4BAC
+         List            =   "frmMain.frx":548F
          Style           =   2  'Dropdown List
          TabIndex        =   143
          Top             =   240
@@ -1220,9 +1471,9 @@ Begin VB.Form frmMain
       End
       Begin VB.ComboBox cboXAdapter 
          Height          =   315
-         ItemData        =   "frmMain.frx":4BD4
+         ItemData        =   "frmMain.frx":54B7
          Left            =   120
-         List            =   "frmMain.frx":4BE4
+         List            =   "frmMain.frx":54C7
          Style           =   2  'Dropdown List
          TabIndex        =   142
          Top             =   240
@@ -1259,9 +1510,9 @@ Begin VB.Form frmMain
       End
       Begin VB.ComboBox cboXDevNum 
          Height          =   315
-         ItemData        =   "frmMain.frx":4C03
+         ItemData        =   "frmMain.frx":54E6
          Left            =   2040
-         List            =   "frmMain.frx":4C13
+         List            =   "frmMain.frx":54F6
          Style           =   2  'Dropdown List
          TabIndex        =   38
          ToolTipText     =   "Select X Device Unit Number"
@@ -1326,9 +1577,9 @@ Begin VB.Form frmMain
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   4560
-         ItemData        =   "frmMain.frx":4C25
+         ItemData        =   "frmMain.frx":5508
          Left            =   120
-         List            =   "frmMain.frx":4C27
+         List            =   "frmMain.frx":550A
          MultiSelect     =   2  'Extended
          OLEDropMode     =   1  'Manual
          TabIndex        =   7
@@ -1603,257 +1854,6 @@ Begin VB.Form frmMain
          TabIndex        =   9
          Top             =   2700
          Width           =   465
-      End
-   End
-   Begin VB.Frame frSrc 
-      Caption         =   "Directory on Local PC"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   6735
-      Index           =   0
-      Left            =   120
-      TabIndex        =   1
-      Top             =   420
-      Width           =   4695
-      Begin VB.CommandButton cmdSrcView2 
-         Caption         =   "&2"
-         Height          =   345
-         Index           =   0
-         Left            =   3090
-         TabIndex        =   100
-         ToolTipText     =   "View File or Disk Image file Contents"
-         Top             =   6270
-         Width           =   375
-      End
-      Begin VB.DirListBox dirLocal 
-         Height          =   4365
-         Index           =   0
-         Left            =   150
-         TabIndex        =   96
-         Top             =   1410
-         Visible         =   0   'False
-         Width           =   2175
-      End
-      Begin VB.DriveListBox drvLocal 
-         Height          =   315
-         Index           =   0
-         Left            =   150
-         TabIndex        =   95
-         Top             =   1020
-         Visible         =   0   'False
-         Width           =   2175
-      End
-      Begin VB.ComboBox txtLocalDir 
-         BackColor       =   &H00FFFFFF&
-         Height          =   315
-         Index           =   0
-         ItemData        =   "frmMain.frx":4C29
-         Left            =   390
-         List            =   "frmMain.frx":4C2B
-         OLEDropMode     =   1  'Manual
-         Sorted          =   -1  'True
-         TabIndex        =   80
-         Top             =   240
-         Width           =   4215
-      End
-      Begin VB.CommandButton cmdSrcRefresh 
-         Caption         =   "Re&fresh"
-         Height          =   315
-         Index           =   0
-         Left            =   120
-         TabIndex        =   72
-         ToolTipText     =   "Refresh Directory"
-         Top             =   5940
-         Width           =   1065
-      End
-      Begin VB.CommandButton cmdBrowse 
-         Caption         =   "..."
-         Height          =   255
-         Index           =   0
-         Left            =   3870
-         TabIndex        =   71
-         ToolTipText     =   "Select Folder"
-         Top             =   630
-         Width           =   375
-      End
-      Begin VB.CommandButton cmdSrcView 
-         Caption         =   "&View"
-         Height          =   315
-         Index           =   0
-         Left            =   2370
-         TabIndex        =   69
-         ToolTipText     =   "View File or Disk Image file Contents"
-         Top             =   6300
-         Width           =   675
-      End
-      Begin VB.CommandButton cmdNewImage 
-         Caption         =   "&New Dnn"
-         Height          =   315
-         Index           =   0
-         Left            =   1260
-         TabIndex        =   43
-         ToolTipText     =   "Create a new/blank CBM Image File"
-         Top             =   5940
-         Width           =   1065
-      End
-      Begin VB.ComboBox cboFilter 
-         BackColor       =   &H00FFFFFF&
-         Height          =   315
-         Index           =   0
-         ItemData        =   "frmMain.frx":4C2D
-         Left            =   960
-         List            =   "frmMain.frx":4C67
-         Style           =   2  'Dropdown List
-         TabIndex        =   36
-         Top             =   600
-         Width           =   2835
-      End
-      Begin VB.TextBox BlockText 
-         Alignment       =   1  'Right Justify
-         Appearance      =   0  'Flat
-         Enabled         =   0   'False
-         Height          =   285
-         Index           =   0
-         Left            =   3540
-         TabIndex        =   21
-         Text            =   "0"
-         Top             =   6360
-         Width           =   705
-      End
-      Begin VB.TextBox KBText 
-         Alignment       =   1  'Right Justify
-         Appearance      =   0  'Flat
-         Enabled         =   0   'False
-         Height          =   285
-         Index           =   0
-         Left            =   3540
-         TabIndex        =   20
-         Text            =   "0"
-         Top             =   6060
-         Width           =   705
-      End
-      Begin VB.FileListBox lstLocal 
-         Height          =   4770
-         Index           =   0
-         Left            =   120
-         MultiSelect     =   2  'Extended
-         TabIndex        =   16
-         Top             =   1020
-         Width           =   4490
-      End
-      Begin VB.CommandButton cmdSrcRun 
-         Caption         =   "R&un"
-         Height          =   315
-         Index           =   0
-         Left            =   2400
-         TabIndex        =   15
-         ToolTipText     =   "Run File or Image using Vice "
-         Top             =   5940
-         Width           =   1065
-      End
-      Begin VB.CommandButton cmdSrcRename 
-         Caption         =   "R&ename"
-         Height          =   315
-         Index           =   0
-         Left            =   1260
-         TabIndex        =   14
-         ToolTipText     =   "Rename Selected File(s)"
-         Top             =   6300
-         Width           =   1065
-      End
-      Begin VB.CommandButton cmdSrcDelete 
-         Caption         =   "&Delete"
-         Height          =   315
-         Index           =   0
-         Left            =   120
-         TabIndex        =   13
-         ToolTipText     =   "Delete selected file(s)"
-         Top             =   6300
-         Width           =   1065
-      End
-      Begin VB.Image cmdLocalMenu 
-         Height          =   255
-         Index           =   0
-         Left            =   4320
-         Picture         =   "frmMain.frx":4DB4
-         Top             =   630
-         Width           =   255
-      End
-      Begin VB.Image cmdPathUp 
-         Height          =   270
-         Index           =   0
-         Left            =   120
-         Picture         =   "frmMain.frx":516A
-         Top             =   270
-         Width           =   240
-      End
-      Begin VB.Label lblPathView 
-         Caption         =   ">>"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Index           =   0
-         Left            =   180
-         TabIndex        =   97
-         ToolTipText     =   "Drive and Folder View"
-         Top             =   720
-         Width           =   255
-      End
-      Begin VB.Label Label2 
-         AutoSize        =   -1  'True
-         Caption         =   "Blks"
-         Height          =   195
-         Index           =   0
-         Left            =   4300
-         TabIndex        =   40
-         Top             =   6390
-         Width           =   300
-      End
-      Begin VB.Label Label1 
-         AutoSize        =   -1  'True
-         Caption         =   "KB"
-         Height          =   195
-         Index           =   0
-         Left            =   4300
-         TabIndex        =   39
-         Top             =   6120
-         Width           =   210
-      End
-      Begin VB.Label Label 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "Show:"
-         Height          =   195
-         Index           =   10
-         Left            =   480
-         TabIndex        =   35
-         Top             =   660
-         Width           =   450
-      End
-      Begin VB.Label lblSrcSel 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "Selected:"
-         Height          =   195
-         Index           =   0
-         Left            =   3540
-         TabIndex        =   19
-         Top             =   5820
-         Width           =   675
       End
    End
    Begin VB.Label lblSizer2 
@@ -2186,7 +2186,7 @@ Private Sub Ask1571Mode()
 
     choice = MsgBox("1571 Drive. Do you want to use Double-sided mode?", vbYesNoCancel, "Select Mode")
     Tmp = "0": If choice = vbYes Then Tmp = "1"
-    If choice <> vbCancel Then Status = DoCommand("cbmctrl", "command " & DriveNum & " " & Quoted("U0>M" & Tmp), "Setting 1571 mode...")
+    If choice <> vbCancel Then Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("U0>M" & Tmp), "Setting 1571 mode...")
 
 End Sub
 
@@ -2199,9 +2199,9 @@ Private Sub Ask8050Mode()
     choice = MsgBox("8250/SFD. Do you want to use 8050 mode?", vbYesNoCancel, "Select Mode")
     Tmp = "0": If choice = vbYes Then Tmp = "1"
     If choice <> vbCancel Then
-        Status = DoCommand("cbmctrl", "command " & DriveNum & " " & Quoted("m-w 172 16 1 1"), "Setting 8050 mode...")
-        Status = DoCommand("cbmctrl", "command " & DriveNum & " " & Quoted("m-w 195 16 1 0"), "Setting 8050 mode...")
-        Status = DoCommand("cbmctrl", "command " & DriveNum & " " & Quoted("u9"), "Setting 8050 mode...")
+        Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("m-w 172 16 1 1"), "Setting 8050 mode...")
+        Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("m-w 195 16 1 0"), "Setting 8050 mode...")
+        Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("u9"), "Setting 8050 mode...")
     End If
 
 End Sub
@@ -2851,7 +2851,7 @@ End Sub
 Private Function GetXStatus() As String
     Dim Status As ReturnStringType
     
-    Status = DoCommand("cbmctrl", "status " & DriveNum, "Reading drive status, please wait.")
+    Status = DoCommand("cbmctrl", DetermineAdapterBusString + "status " & DriveNum, "Reading drive status, please wait.")
     GetXStatus = UCase(Status.Output)
 End Function
 
@@ -2863,14 +2863,14 @@ End Function
 Private Function DetermineAdapterBusString() As String
     Dim AdapterBusString As String
     
-    If cboXAdapter.ListIndex = 0 And cboXBus.ListIndex = 0 Then
+    If cboXAdapter.ListIndex <= 0 And cboXBus.ListIndex <= 0 Then
         AdapterBusString = ""
-    ElseIf cboXAdapter.ListIndex <> 0 And cboXBus.ListIndex = 0 Then
-        AdapterBusString = cboXAdapter.ItemData(cboXAdapter.ListIndex) + " "
-    ElseIf cboXAdapter.ListIndex = 0 And cboXBus.ListIndex <> 0 Then
-        AdapterBusString = ":" + cboXBus.ItemData(cboXBus.ListIndex) + " "
+    ElseIf cboXAdapter.ListIndex > 0 And cboXBus.ListIndex <= 0 Then
+        AdapterBusString = "-@" + cboXAdapter.List(cboXAdapter.ListIndex) + " "
+    ElseIf cboXBus.ListIndex > 0 And cboXAdapter.ListIndex <= 0 Then
+        AdapterBusString = "-@:" + cboXBus.List(cboXBus.ListIndex) + " "
     Else
-        AdapterBusString = cboXAdapter.ItemData(cboXAdapter.ListIndex) + ":" + cboXBus.ItemData(cboXBus.ListIndex) + " "
+        AdapterBusString = "-@" + cboXAdapter.List(cboXAdapter.ListIndex) + ":" + cboXBus.List(cboXBus.ListIndex) + " "
     End If
         
     DetermineAdapterBusString = AdapterBusString
@@ -2887,8 +2887,6 @@ Public Sub DetectDrives(ByVal Flag As Boolean)
     Dim What As String, FIO As Integer, D As Integer, AdapterBusString As String
     
     If Exists(ExeDir & "cbmctrl.exe") = False Then Exit Sub
-    
-    AdapterBusString = DetermineAdapterBusString()
     
     frmMain.PubDoCommand "cbmctrl", DetermineAdapterBusString + "detect", "Detecting Drives...", False
 
@@ -2934,7 +2932,7 @@ Private Sub cmdXFormat_Click()
         Case "1571"
             If MsgBox("You have a 1571. Do you want to format double-sided?", vbYesNo, "Format") = vbYes Then
                 Flag = False
-                Status = DoCommand("cbmctrl", "command " & DriveNum & " " & Quoted("U0>M1"), "Enabling 1571 mode...")
+                Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("U0>M1"), "Enabling 1571 mode...")
             End If
         Case Else
             Flag = False
@@ -2944,13 +2942,13 @@ Private Sub cmdXFormat_Click()
 
     If Flag = True Then
         '-- Format a 1541
-        Status = DoCommand("cbmforng", " -vso " & DriveNum & " " & Quoted(UCase(Response)), M1)
+        Status = DoCommand("cbmforng", DetermineAdapterBusString + "-vso " & DriveNum & " " & Quoted(UCase(Response)), M1)
         lblXLastStatus.Caption = UCase(Status.Output)
         Sleep 1000                                                          'Just so message is visible
         GetXDir
     Else
         '-- Format using standard DOS New command
-        Status = DoCommand("cbmctrl", "command " & DriveNum & " " & Quoted("N0:" & UCase(Response)), M1)
+        Status = DoCommand("cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("N0:" & UCase(Response)), M1)
         MyMsg "Formatting... You may continue working, however, do not attempt to access" & Cr & "the drive until formatting is complete. Check drive status when the light goes off."
     End If
         
@@ -2963,7 +2961,7 @@ End Sub
 
 '---- Initialize X-cable or Zoomfloppy Drive
 Private Sub InitXDrive()
-    DoCommand "cbmctrl", "command " & DriveNum & " I0", "Initializing Drive"
+    DoCommand "cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " I0", "Initializing Drive"
     cmdXDriveStatus_Click
 End Sub
 
@@ -3006,7 +3004,7 @@ End Sub
 Private Sub XChangePart(ByVal Filename As String)
     Dim Tmp As String
     
-    DoCommand "cbmctrl", "command " & DriveNum & " " & Quoted("/0:" & UCase(Filename)), "Changing partition"
+    DoCommand "cbmctrl", DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("/0:" & UCase(Filename)), "Changing partition"
     Tmp = GetXStatus()
     If Left(Tmp, 2) = "77" Then MyMsg "Partition is Illegal!"
     
@@ -3027,7 +3025,7 @@ End Sub
 
 '---- Read the X-Cable Directory, parse it, and fill the file list
 Public Sub GetXDir()
-    Dim CmdLine As String, temp As String, Temp2 As String, Results As ReturnStringType
+    Dim CmdLine As String, temp As String, Temp2 As String, temp3 As String, temp4 As String, Results As ReturnStringType
     
     On Local Error GoTo GetXErr
     
@@ -3037,7 +3035,7 @@ Public Sub GetXDir()
     lblXDiskName.Caption = "": lblXDiskID.Caption = "":  lblXDiskID.ToolTipText = ""            'Clear old fields
     frmWaiting.SetMode ""                                                                       'No progress bar
     
-    Results = DoCommand("cbmctrl", "dir " & DriveNum, "Reading directory, please wait.", False) 'Run the program
+    Results = DoCommand("cbmctrl", DetermineAdapterBusString + "dir " & DriveNum, "Reading directory, please wait.", False) 'Run the program
     
     Close #1                                                'Make sure File#1 is closed so it can be opened below
                                                             '(seems it sometimes doesn't close properly below)
@@ -3052,6 +3050,14 @@ Public Sub GetXDir()
     Loop While Left(temp, 7) = "GetProc"                    'Filter out occasional wayward status messages
     
     lblXDiskName.Caption = ExtractQuotes(temp)              'Set the Disk Name
+    
+    ' Apparently 4.99.98 puts the 2a/3d on the second line. So here is an attempt to handle both situations
+    temp4 = Right$(temp, 5)
+    If InStr(temp4, """") Then
+        Line Input #1, temp3
+        temp = temp + temp3
+    End If
+        
     lblXDiskID.Caption = Right$(temp, 5)                    'Set the Disk ID
     lblXDiskID.ToolTipText = DiskID(temp)                   'DiskID tells you DOS version and Disk Format 2A=1541, 3D=1581
 
@@ -3097,7 +3103,7 @@ Private Sub cmdXRename_Click()
             
             If Response <> "" Then
                 DoCommand "cbmctrl", _
-                          "command " & DriveNum & " " & Quoted("R0:" & NewFilename & "=" & UCase(Filename)), _
+                          DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("R0:" & NewFilename & "=" & UCase(Filename)), _
                           "Renaming"
             Else
                 Exit Sub
@@ -3110,7 +3116,7 @@ End Sub
 
 '---- Reset X-cable or Zoomfloppy Drive
 Private Sub cmdXReset_Click()
-     DoCommand "cbmctrl", "reset", "Resetting drives, please wait."
+     DoCommand "cbmctrl", DetermineAdapterBusString + "reset", "Resetting drives, please wait."
 End Sub
 
 '---- Delete (Scratch) a file on X-cable or Zoomfloppy
@@ -3135,7 +3141,7 @@ Private Sub cmdXScratch_Click()
             Filename = CBMName(lstXFiles.List(T))
             
             DoCommand "cbmctrl", _
-                      "command " & DriveNum & " " & Quoted("S0:" & UCase(Filename)), _
+                      DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("S0:" & UCase(Filename)), _
                       "Scratching " & Filename
         End If
     Next T
@@ -3146,7 +3152,7 @@ End Sub
 '---- Do a Disk Validation on X-Cable or Zoomfloppy Drive
 Private Sub cmdXValidate_Click()
      DoCommand "cbmctrl", _
-               "command " & DriveNum & " " & Quoted("V0:"), _
+               DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("V0:"), _
                "Validating drive, please wait."
 End Sub
 
@@ -3155,7 +3161,7 @@ Private Sub cmdXRoot_Click()
      Dim Tmp As String
      
      DoCommand "cbmctrl", _
-               "command " & DriveNum & " " & Quoted("/"), _
+               DetermineAdapterBusString + "command " & DriveNum & " " & Quoted("/"), _
                "Selecting Root Partition, please wait..."
             
      Tmp = GetXStatus()
