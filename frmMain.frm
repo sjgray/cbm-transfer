@@ -3809,7 +3809,7 @@ Private Sub TransferToX(ByVal Filename As String)
     End Select
     
     DoCommand "cbmcopy", _
-              "--transfer=" & TransferString & " -q -w " & DriveNum & " " & Quoted(Filename) & _
+              DetermineAdapterBusString & "--transfer=" & TransferString & " -q -w " & DriveNum & " " & Quoted(Filename) & _
               " --output=" & Quoted(FilenameOut) & SeqType, _
               "Copying '" & Filename & "' to floppy disk as '" & FilenameOut & "'"
 'NOTES: CBMCOPY will display any error messages in it's output, which clears the DISK STATUS
