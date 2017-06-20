@@ -6,9 +6,16 @@ Attribute VB_Name = "modVars"
 '
 Option Explicit
 
-Public Cr As String, LF As String, Qu As String  'Carriage Return, Linefeed and Quote
-Public Nu As String, Hx As String                'Null character. Hex prefix for conversion
-Public MsgTitle As String                        'Title for MsgBox popup windows
+Public Cr As String, LF As String, Qu As String     'Carriage Return, Linefeed and Quote
+Public Nu As String, Hx As String                   'Null character. Hex prefix for conversion
+Public MsgTitle         As String                   'Title for MsgBox popup windows
+
+'--- Commandline strings
+Public CBMCtrl          As String                   'String for CBMCTRL command string name
+Public CBMCopy          As String                   'String for CBMCOPY command string name
+Public CBMC1541         As String                   'String for C1541 command string name
+Public CBMLink          As String                   'String for CBMLINK command string name
+Public CMDSTR           As String                   'String for CBMCTRL COMMAND parameter string
 
 '--- Directories
 Public ExeDir           As String
@@ -16,22 +23,22 @@ Public CurDir           As String
 Public LocalDir(1)      As String
 
 '--- Mode and Program Variables
-Public SrcMode          As Integer      'Selected TAB on LEFT
-Public DstMode          As Integer      'Selected TAB on RIGHT
+Public SrcMode          As Integer                  'Selected TAB on LEFT
+Public DstMode          As Integer                  'Selected TAB on RIGHT
 Public TEMPFILE1 As String, TEMPFILE2 As String, TEMPFILE3 As String
 Public LogFile          As String
 Public DDFile(1)        As String
 Public PathFile         As String
 Public PathHistory      As Boolean
 Public LastCMDError     As String
-Public KillFlag         As Boolean      'Global Kill flag to abort processes (experimental)
+Public KillFlag         As Boolean                  'Global Kill flag to abort processes (experimental)
 
 '--- Global Variables for Passing data
-Public Response         As String       'String Returned from PROMPT dialog form
-Public PickedColour     As Long         'Colour Value
-Public Layout           As Integer
-Public Layout2          As Integer
-Public MenuNum          As Integer      'The index for the dropdown menu's list 0=left, 1=right
+Public Response         As String                   'String Returned from PROMPT dialog form
+Public PickedColour     As Long                     'Colour Value
+Public Layout           As Integer                  'GUI Layout
+Public Layout2          As Integer                  'GUI Layout
+Public MenuNum          As Integer                  'The index for the dropdown menu's list 0=left, 1=right
 
 '=== CONFIG OPTIONS
 '--- General Options

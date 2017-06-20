@@ -1321,7 +1321,7 @@ Private Sub optFNMode_Click(Index As Integer)
 End Sub
 
 Private Sub cmdResetBus_Click()
-    frmMain.PubDoCommand "cbmctrl", "reset", "Resetting drives, please wait..."
+    frmMain.PubDoCommand CBMCtrl, "reset", "Resetting drives, please wait..."
 End Sub
 
 Private Sub optXMode_Click(Index As Integer)
