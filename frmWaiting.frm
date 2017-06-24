@@ -220,7 +220,7 @@ Public Sub SetMode(ByVal ModeStr As String, Optional ByVal FMax As Long)
         Case "D82": FMax = 206488
         Case "NIB", "NIBREAD", "NIBWRITE": FMax = 1950
         Case "NIBCONV": FMax = 4300
-        Case "CBMLINK": FMax = 100
+        Case CBMLink: FMax = 100
         Case Else: Flag = False: If FMax = 0 Then FMax = 30900
     End Select
     

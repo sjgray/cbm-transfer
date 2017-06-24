@@ -158,7 +158,7 @@ Once all your EP's have been added, clicking on START will start the flow tracin
 be shown in the ML list window. As new entry points are found they will be added to the EP list window. As
 branches are followed they are removed from the EP list until the list is empty, at which point tracing is
 complete. The data bytes are then listed. Click the "Add to Tables" button to add each data table block to the
-Tables list. Each table block is addes as "selected". If "Add Labels" checkbox is enabled there will be a Label
+Tables list. Each table block is added as "selected". If "Add Labels" checkbox is enabled there will be a Label
 entry added for each data block.
 
  If you find that the data blocks seem very large it's possible that you missed an entry point, or that the code
@@ -268,14 +268,13 @@ When adding Tables you will need to enter the start and ending address, the tabl
 comment. Make sure your range is correct and you have the correct block type. For a quicker way, use the top
 line buttons D,H,T,R,V,W. See below for table types.
 
- Each entry has a checkbox. Only selected Tabls (ones that have a checkmark) are treated as non-code. By
+ Each entry has a checkbox. Only selected Tables (ones that have a checkmark) are treated as non-code. By
 un-checking an entry the bytes in the range will be treated as code. This can help you find code segments
 that may not have been identified in the Flow Tracer.
 
  You could also have multiple entries with the same address range but different table types. This would allow
 you to determine the best format to view. You could even have different ranges marked as "X" so they are
 hidden, letting you concentrate on understanding specific code sections.
-
 
 
 Labels Tab
@@ -317,7 +316,7 @@ Find All................ Hi-light all lines containing search string.
 < ...................... Find PREVIOUS line containing string.
 <]...................... From BOTTOM UP, find line containing string.
 
-"v" Checkbox............ Toggles Info display area. Lets you see a wider display of information in the Tab lists. Click
+"v" Button.............. Toggles Info display area. Lets you see a wider display of information in the Tab lists. Click
                          on an entry and it will be shown here. Also shows the Find string.
 
 Quick Add Buttons
@@ -360,7 +359,7 @@ Tips and Tricks
   Clicking on a line the ML ouput window will highlight the matching line in the HEX listing!
 * Dual View with BASIC as the second view will show if there is a BASIC loader in front of the ML code.
 * Click on the "Gen Labels" Tab. The address with the most duplicate entries is probably important.
-* Click on the "Ext JSR" Tab. Can quickly show you routines in BASIC or Kernal that get called.
+* Click on the "Ext JSR" Tab. Can quickly show you routines in BASIC or KERNAL that get called.
 * When you are mostly done disassembly you can PURGE the symbols that are not in use. This will also
   speed up disassembly.
 * Hiding the side panel will let you see long comments or give more room in dual view mode.
@@ -420,6 +419,14 @@ Fixed-width records:
 
 When you import it will tell you how many symbols were loaded. Click on the Symbols tab to make sure
 that they loaded in as expected. Save the symbol table separately, or as part of the project file.
+
+
+Feedback
+========
+
+  I wrote this mostly as a tool for myself. I realize that the average CBM user probably won't make use of it,
+but if you try it and have ideas to improve it, please contact me. Of course bug reports and suggestions are
+always welcome!
 
 
 Thank-you's

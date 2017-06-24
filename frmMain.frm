@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "ComDlg32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Begin VB.Form frmMain 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "CBM Transfer"
@@ -1972,7 +1972,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.04 (May 26/2017)" & Cr & _
+    MyMsg "CBM-Transfer  V1.04b (Jun 20/2017)" & Cr & _
           "(C)2007-2017 Steve J. Gray  *** 10th Anniversary Edition ***" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -1998,9 +1998,15 @@ Private Sub Form_Load()
     On Error Resume Next
     
     MsgTitle = "CBM Transfer"
-    Cr = Chr(13): LF = Chr(10): Qu = Chr(34): Nu = Chr(0): Hx = "&h" 'some common characters
+    Cr = Chr(13): LF = Chr(10): Qu = Chr(34): Nu = Chr(0): Hx = "&h"    'some common characters
     SrcMode = 0: Layout = 0: Layout2 = 1
     
+    '-- OpenCBM Command Strings
+    CBMCtrl = "cbmctrl"
+    CBMCopy = "cbmcopy"
+    CBMC1541 = "c1541"
+    CMDSTR = "command "
+    '--
     CurDir = App.Path
     ExeDir = AddSlash(CurDir)
         
@@ -2181,27 +2187,35 @@ End Sub
 
 '---- Ask user for 1571 mode (single or double-sided)
 Private Sub Ask1571Mode()
-    Dim choice As Integer, Tmp As String
+    Dim choice As Integer, Tmp As String, TCmd As String, TMsg As String
     Dim Status As ReturnStringType
 
     choice = MsgBox("1571 Drive. Do you want to use Double-sided mode?", vbYesNoCancel, "Select Mode")
     Tmp = "0": If choice = vbYes Then Tmp = "1"
-    If choice <> vbCancel Then Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("U0>M" & Tmp), "Setting 1571 mode...")
+    If choice <> vbCancel Then Status = DoCommand("cbmctrl", "command " & DriveNum & " " & Quoted("U0>M" & Tmp), "Setting 1571 mode...")
+    TCmd = DetermineAdapterBusString & CMDSTR & DriveNum & " "
+    TMsg = "Setting 1571 mode..."
+
+    If choice <> vbCancel Then Status = DoCommand(CBMCtrl, TCmd & Quoted("U0>M" & Tmp), TMsg)
 
 End Sub
 
 '---- Ask user for 8050 mode (single sided)
 ' If 8050 mode is wanted it must send commands to set specific locations in the Drive's memory
 Private Sub Ask8050Mode()
-    Dim choice As Integer, Tmp As String
+    Dim choice As Integer, Tmp As String, TCmd As String, TMsg As String
     Dim Status As ReturnStringType ''
 
     choice = MsgBox("8250/SFD. Do you want to use 8050 mode?", vbYesNoCancel, "Select Mode")
+    
     Tmp = "0": If choice = vbYes Then Tmp = "1"
+    TCmd = DetermineAdapterBusString & CMDSTR & DriveNum & " "
+    TMsg = "Setting 8050 mode..."
+    
     If choice <> vbCancel Then
-        Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("m-w 172 16 1 1"), "Setting 8050 mode...")
-        Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("m-w 195 16 1 0"), "Setting 8050 mode...")
-        Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("u9"), "Setting 8050 mode...")
+        Status = DoCommand(CBMCtrl, TCmd & Quoted("m-w 172 16 1 1"), TMsg)
+        Status = DoCommand(CBMCtrl, TCmd & Quoted("m-w 195 16 1 0"), TMsg)
+        Status = DoCommand(CBMCtrl, TCmd & Quoted("u9"), TMsg)
     End If
 
 End Sub
@@ -2449,7 +2463,7 @@ End Sub
 
 '---- Make a NEW Disk Image File
 Private Sub cmdNewImage_Click(Index As Integer)
-    Dim Filename As String, Ext As String, p As Integer
+    Dim Filename As String, Ext As String, P As Integer
     
     frmPrompt.Reply.Text = "new.d64"
     frmPrompt.Ask "Create new Image File", "Enter Image Filename (include correct extension):", 1, False
@@ -2466,7 +2480,7 @@ Private Sub cmdNewImage_Click(Index As Integer)
     If InStr(1, Response, ",") = 0 Then
         MyMsg "You must enter TITLE,ID!"
     Else
-        DoCommand "c1541", _
+        DoCommand CBMC1541, _
                   "-format " & Quoted(Response) & " " & Ext & " " & Quoted(LocalDir(Index) & Filename), _
                   "Creating new " & Ext & " file named '" & Filename & "'"
     End If
@@ -2492,7 +2506,7 @@ Private Sub ImageFileView(Index As Integer)
             
             KillFile TEMPFILE3
         
-            DoCommand "c1541.exe", _
+            DoCommand CBMC1541, _
                       DDFile(Index) & " -read " & Quoted(Filename) & " " & Quoted(TEMPFILE3), _
                       "Copying '" & Filename & "' from image..."
                       
@@ -2527,7 +2541,7 @@ Private Sub cmdDDelete_Click(Index As Integer)
         If lstImageFiles(Index).Selected(T) = True Then
             Filename = CBMName(lstImageFiles(Index).List(T))
             
-            DoCommand "c1541", _
+            DoCommand CBMC1541, _
                       DDFile(Index) & " -delete " & Quoted(Filename), _
                       "Deleting '" & Filename & "..."
         End If
@@ -2541,7 +2555,7 @@ End Sub
 Private Sub ImageValidate(ByVal Index As Integer)
     If Exists(UnQuoted(DDFile(0))) = False Then MyMsg "Select an image first!": Exit Sub
     If MsgBox("Validate Image?", vbYesNo) <> vbYes Then Exit Sub
-    DoCommand "c1541", DDFile(Index) & " -validate", "Validating Image..."
+    DoCommand CBMC1541, DDFile(Index) & " -validate", "Validating Image..."
     ImageRefresh Index
 End Sub
 
@@ -2588,7 +2602,7 @@ Sub ImageFileRename(ByVal Index As Integer)
             If (OneName <> Filename) And (Filename <> "") Then
                 '-- Rename the file
                 '   BUG?: If you add ",p" then the file will become "*PRG" then validating may erase it
-                DoCommand "c1541", _
+                DoCommand CBMC1541, _
                           DDFile(Index) & " -rename " & Quoted(OneName) & " " & Quoted(Filename), _
                           "Renaming '" & OneName & "..."
             End If
@@ -2701,7 +2715,7 @@ Private Sub GetLinkDir()
     ClearLinkDir
     
     'Run the program
-    Results = DoCommand("cbmlink", LinkCStr & " -dd $" & Format(CBMDrive) & ":*", "Reading directory, please wait...", False)
+    Results = DoCommand(CBMLink, LinkCStr & " -dd $" & Format(CBMDrive) & ":*", "Reading directory, please wait...", False)
     
     Close #1
     Open TEMPFILE1 For Input As #1                          'Read in the complete output file
@@ -2742,7 +2756,7 @@ Private Sub cmdLinkFormat_Click()
     frmPrompt.Ask "Format CBM Floppy", "Please Enter Diskname, ID", 1, False   'Get Disk name and ID
     If Response = "" Then Exit Sub                                          'Exit if null response
 
-    Status = DoCommand("cbmlink", LinkCStr & " -dc N" & Format(CBMDrive) & ":" & UCase(Response), "Formatting floppy disk, please wait.")
+    Status = DoCommand(CBMLink, LinkCStr & " -dc N" & Format(CBMDrive) & ":" & UCase(Response), "Formatting floppy disk, please wait.")
     lblLinkLastStatus.Caption = UCase(Status.Output)
     Sleep 1000                                                              'Just so message is visible
 
@@ -2750,13 +2764,13 @@ End Sub
 
 '---- Initialize CBM-Link Drive
 Private Sub cmdLinkInit_Click()
-    DoCommand "cbmlink", LinkCStr & " -dc I" & Format(CBMDrive), "Initializing Drive..."
+    DoCommand CBMLink, LinkCStr & " -dc I" & Format(CBMDrive), "Initializing Drive..."
     GetLinkDir
 End Sub
 
 '---- Validate CBM-Link Drive
 Private Sub cmdLinkValidate_Click()
-    DoCommand "cbmlink", LinkCStr & " -dc V" & Format(CBMDrive), "Validating Drive..."
+    DoCommand CBMLink, LinkCStr & " -dc V" & Format(CBMDrive), "Validating Drive..."
     GetLinkDir
 End Sub
 
@@ -2771,7 +2785,7 @@ Private Sub cmdLinkRename_Click()
             frmPrompt.Ask "Rename CBM File", "Enter new name for '" & Filename & "'", 1, False
             
             If Response Then
-                DoCommand "cbmlink", _
+                DoCommand CBMLink, _
                           LinkCStr & " -dc R" & Format(CBMDrive) & ":" & Response & "=" & Filename, _
                           "Renaming file"
             Else
@@ -2785,7 +2799,7 @@ End Sub
 
 '---- Reset CBM-Link Drive
 Private Sub cmdLinkReset_Click()
-    DoCommand "cbmlink", _
+    DoCommand CBMLink, _
               LinkCStr & " -dc UJ", _
               "Resetting drives, please wait."
 End Sub
@@ -2797,7 +2811,7 @@ Private Sub cmdLinkScratch_Click()
     For T = 0 To lstXFiles.ListCount - 1
         If (lstXFiles.Selected(T)) Then
             Filename = ExtractQuotes(lstXFiles.List(T))
-            DoCommand "cbmctrl", _
+            DoCommand CBMCtrl, _
                       "LinkStr &  -dc S" & Format(CBMDrive) & ":" & Filename & Qu, _
                       "Scratching " & Filename
         End If
@@ -2810,7 +2824,7 @@ End Sub
 Private Sub cmdLinkStatus_Click()
     Dim Results As ReturnStringType
 
-    Results = DoCommand("cbmlink", LinkCStr & " -ds", "Reading drive status, please wait.")
+    Results = DoCommand(CBMLink, LinkCStr & " -ds", "Reading drive status, please wait.")
     lblLinkLastStatus.Caption = Results.Output
 End Sub
 
@@ -2851,7 +2865,7 @@ End Sub
 Private Function GetXStatus() As String
     Dim Status As ReturnStringType
     
-    Status = DoCommand("cbmctrl", DetermineAdapterBusString & "status " & DriveNum, "Reading drive status, please wait.")
+    Status = DoCommand(CBMCtrl, DetermineAdapterBusString & "status " & DriveNum, "Reading drive status, please wait.")
     GetXStatus = UCase(Status.Output)
 End Function
 
@@ -2888,7 +2902,7 @@ Public Sub DetectDrives(ByVal Flag As Boolean)
     
     If Exists(ExeDir & "cbmctrl.exe") = False Then Exit Sub
     
-    frmMain.PubDoCommand "cbmctrl", DetermineAdapterBusString & "detect", "Detecting Drives...", False
+    frmMain.PubDoCommand CBMCtrl, DetermineAdapterBusString & "detect", "Detecting Drives...", False
 
     If Exists(TEMPFILE1) = False Then Exit Sub
     
@@ -2932,7 +2946,7 @@ Private Sub cmdXFormat_Click()
         Case "1571"
             If MsgBox("You have a 1571. Do you want to format double-sided?", vbYesNo, "Format") = vbYes Then
                 Flag = False
-                Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("U0>M1"), "Enabling 1571 mode...")
+                Status = DoCommand(CBMCtrl, DetermineAdapterBusString & CMDSTR & DriveNum & " " & Quoted("U0>M1"), "Enabling 1571 mode...")
             End If
         Case Else
             Flag = False
@@ -2948,7 +2962,7 @@ Private Sub cmdXFormat_Click()
         GetXDir
     Else
         '-- Format using standard DOS New command
-        Status = DoCommand("cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("N0:" & UCase(Response)), M1)
+        Status = DoCommand(CBMCtrl, DetermineAdapterBusString & CMDSTR & DriveNum & " " & Quoted("N0:" & UCase(Response)), M1)
         MyMsg "Formatting... You may continue working, however, do not attempt to access" & Cr & "the drive until formatting is complete. Check drive status when the light goes off."
     End If
         
@@ -2961,7 +2975,7 @@ End Sub
 
 '---- Initialize X-cable or Zoomfloppy Drive
 Private Sub InitXDrive()
-    DoCommand "cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " I0", "Initializing Drive"
+    DoCommand CBMCtrl, DetermineAdapterBusString & CMDSTR & DriveNum & " I0", "Initializing Drive"
     cmdXDriveStatus_Click
 End Sub
 
@@ -2981,7 +2995,7 @@ Private Sub XView()
                         
             Select Case UCase(Ext)
                 Case "PRG", "SEQ"
-                    DoCommand "cbmcopy", _
+                    DoCommand CBMCopy, _
                               "--transfer=" & TransferString & " -q -r " & DriveNum & " " & Quoted(Filename) & _
                               " --output=" & Quoted(TEMPFILE3), _
                               "Reading '" & Filename & "' ..."
@@ -3004,7 +3018,7 @@ End Sub
 Private Sub XChangePart(ByVal Filename As String)
     Dim Tmp As String
     
-    DoCommand "cbmctrl", DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("/0:" & UCase(Filename)), "Changing partition"
+    DoCommand CBMCtrl, DetermineAdapterBusString & CMDSTR & DriveNum & " " & Quoted("/0:" & UCase(Filename)), "Changing partition"
     Tmp = GetXStatus()
     If Left(Tmp, 2) = "77" Then MyMsg "Partition is Illegal!"
     
@@ -3035,7 +3049,7 @@ Public Sub GetXDir()
     lblXDiskName.Caption = "": lblXDiskID.Caption = "":  lblXDiskID.ToolTipText = ""            'Clear old fields
     frmWaiting.SetMode ""                                                                       'No progress bar
     
-    Results = DoCommand("cbmctrl", DetermineAdapterBusString & "dir " & DriveNum, "Reading directory, please wait.", False) 'Run the program
+    Results = DoCommand(CBMCtrl, DetermineAdapterBusString & "dir " & DriveNum, "Reading directory, please wait.", False) 'Run the program
     
     Close #1                                                'Make sure File#1 is closed so it can be opened below
                                                             '(seems it sometimes doesn't close properly below)
@@ -3102,8 +3116,8 @@ Private Sub cmdXRename_Click()
             NewFilename = UCase(Response)
             
             If Response <> "" Then
-                DoCommand "cbmctrl", _
-                          DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("R0:" & NewFilename & "=" & UCase(Filename)), _
+                DoCommand CBMCtrl, _
+                          DetermineAdapterBusString & CMDSTR & DriveNum & " " & Quoted("R0:" & NewFilename & "=" & UCase(Filename)), _
                           "Renaming"
             Else
                 Exit Sub
@@ -3116,7 +3130,7 @@ End Sub
 
 '---- Reset X-cable or Zoomfloppy Drive
 Private Sub cmdXReset_Click()
-     DoCommand "cbmctrl", DetermineAdapterBusString & "reset", "Resetting drives, please wait."
+     DoCommand CBMCtrl, DetermineAdapterBusString & "reset", "Resetting drives, please wait."
 End Sub
 
 '---- Delete (Scratch) a file on X-cable or Zoomfloppy
@@ -3140,8 +3154,8 @@ Private Sub cmdXScratch_Click()
         If (lstXFiles.Selected(T)) Then
             Filename = CBMName(lstXFiles.List(T))
             
-            DoCommand "cbmctrl", _
-                      DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("S0:" & UCase(Filename)), _
+            DoCommand CBMCtrl, _
+                      DetermineAdapterBusString & CMDSTR & DriveNum & " " & Quoted("S0:" & UCase(Filename)), _
                       "Scratching " & Filename
         End If
     Next T
@@ -3151,8 +3165,8 @@ End Sub
 
 '---- Do a Disk Validation on X-Cable or Zoomfloppy Drive
 Private Sub cmdXValidate_Click()
-     DoCommand "cbmctrl", _
-               DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("V0:"), _
+     DoCommand CBMCtrl, _
+               DetermineAdapterBusString & CMDSTR & DriveNum & " " & Quoted("V0:"), _
                "Validating drive, please wait."
 End Sub
 
@@ -3160,8 +3174,8 @@ End Sub
 Private Sub cmdXRoot_Click()
      Dim Tmp As String
      
-     DoCommand "cbmctrl", _
-               DetermineAdapterBusString & "command " & DriveNum & " " & Quoted("/"), _
+     DoCommand CBMCtrl, _
+               DetermineAdapterBusString & CMDSTR & DriveNum & " " & Quoted("/"), _
                "Selecting Root Partition, please wait..."
             
      Tmp = GetXStatus()
@@ -3286,11 +3300,11 @@ Private Sub Copy_ImgToX()
                             
                 KillFile TEMPFILE3
                 
-                DoCommand "c1541", _
+                DoCommand CBMC1541, _
                           DDFile(0) & " -read " & Quoted(Filename) & " " & Quoted(TEMPFILE3), _
                           "Copying '" & Filename & "' from image..."
                           
-                DoCommand "cbmcopy", _
+                DoCommand CBMCopy, _
                           DetermineAdapterBusString & "--transfer=" & TransferString & " -q -w " & DriveNum & " " & Quoted(TEMPFILE3) & _
                           " --output=" & Quoted(Filename) & SeqType, _
                           "Copying file to floppy disk as '" & Filename & "'..."
@@ -3329,13 +3343,13 @@ Private Sub Copy_LocalToImg(ByVal SrcList As Integer, ByVal DstImage As Integer)
                     '-- Write P00-type file to image.
                     ' NOTE: Filename is included in source file, so no need to include it,
                     ' however if we don't then we will get P00 files even with S00 extension
-                    DoCommand "c1541", _
+                    DoCommand CBMC1541, _
                               DDFile(DstImage) & " -write " & Quoted(Filename), _
                               "Copying '" & Tmp & "' to image..."
                 Case Else
                     If SupportedExt(Ext) = True Then
                         '-- Write all other types
-                        DoCommand "c1541", _
+                        DoCommand CBMC1541, _
                                 DDFile(DstImage) & " -write " & Quoted(Filename) & " " & Quoted(Filename2), _
                                 "Copying '" & Tmp & "' to image..."
                     Else
@@ -3359,12 +3373,12 @@ Private Sub Copy_XToImg()
             KillFile TEMPFILE3                            'delete temp file first
             
             '-- Copy from X to TEMPFILE
-            DoCommand "cbmcopy", _
+            DoCommand CBMCopy, _
                       DetermineAdapterBusString & "--transfer=" & TransferString & " -q -r " & DriveNum & " " & Quoted(Filename) & " --output=" & Quoted(TEMPFILE3), _
                       "Copying '" & Filename & "' from floppy disk."
                   
             '-- Copy TEMPFILE to Image
-            DoCommand "c1541", _
+            DoCommand CBMC1541, _
                         DDFile(0) & " -write " & Quoted(TEMPFILE3) & " " & Quoted(Filename), _
                         "Copying '" & Filename & "' to image..."
         End If
@@ -3386,12 +3400,12 @@ Private Sub Copy_LinkToImg()
             FilenameOut = ExeDir & UCase(Filename & "." & Ext)          'EXEPATH\FILENAME.PRG
                                     
             '-- Read Link file. File is written to EXE directory.
-            DoCommand "cbmlink", LinkCStr & " -fr " & Quoted(Filename), _
+            DoCommand CBMLink, LinkCStr & " -fr " & Quoted(Filename), _
                       "Copying '" & Filename & "' from remote floppy disk."
                       
             '-- Write File from EXE directory to Image File
             If Exists(FilenameOut) = True Then
-                DoCommand "c1541", _
+                DoCommand CBMC1541, _
                         DDFile(0) & " -write " & Quoted(FilenameOut) & " " & Quoted(Filename2), _
                         "Copying '" & Filename & "' to image..."
                 KillFile FilenameOut                                    'Delete local copy of file
@@ -3420,7 +3434,7 @@ Private Sub Copy_LinkToLocal(Index As Integer)
             FilenameOut = LocalDir(Index) & UCase(Filename & "." & FExt)    'D:\PATH\FILENAME.PRG
             
             '-- Transfer file to EXE directory
-            DoCommand "cbmlink", _
+            DoCommand CBMLink, _
                       LinkCStr & " -fr " & Quoted(Filename), _
                       "Copying '" & Filename & "' from floppy disk."
                       
@@ -3445,7 +3459,7 @@ Private Sub Copy_LinkToLocal(Index As Integer)
         If Response = "" Then Exit Sub
         
         '-- Read DISK Image file. File is written to EXE directory
-        DoCommand "cbmlink", _
+        DoCommand CBMLink, _
                   LinkCStr & " -dr" & Format(CBMDrive) & " " & Response, _
                   "Creating disk image, please wait..."
                   
@@ -3506,13 +3520,13 @@ Private Sub Copy_ImgToLocal(ByVal SrcImg As Integer, ByVal DstPC As Integer)
                 '-- Write P00 files to dest. P00 filename will be created automatically in CURRENT directory (hence the CD command above)
                 '   BUG!: C1541.EXE always seems to write "p" files, even with SEQ source file, and then
                 '         writing it back to an image looses the SEQ and instead creates a PRG file!
-                DoCommand "c1541.exe", _
+                DoCommand CBMC1541, _
                           DDFile(SrcImg) & " -p00save 1 -read " & Quoted(Filename), _
                           "Copying '" & Filename & "' from image..."
             Else
                 FilenameOut = LocalDir(DstPC) & MakePCName(Filename2)
                 '-- Write normal files to dest
-                DoCommand "c1541.exe", _
+                DoCommand CBMC1541, _
                           DDFile(SrcImg) & " -read " & Quoted(Filename) & " " & Quoted(FilenameOut), _
                           "Copying '" & Filename & "' from image..."
                     
@@ -3544,7 +3558,7 @@ Private Sub Copy_ImgToImg(ByVal SrcImg As Integer, DstImg As Integer)
             KillFile TEMPFILE3  'use temp file as inbetween. Delete it to start
             
             '-- Copy file from Source Image
-            DoCommand "c1541.exe", _
+            DoCommand CBMC1541, _
                       DDFile(SrcImg) & " -read " & Quoted(Filename) & " " & Quoted(TEMPFILE3), _
                       "Copying '" & Filename & "' from image..."
             
@@ -3552,7 +3566,7 @@ Private Sub Copy_ImgToImg(ByVal SrcImg As Integer, DstImg As Integer)
                 MsgBox "Problem! The source file could not be extracted from the image.", vbExclamation, "Warning!"
             Else
                 '-- File was copied, to temp dir, so now copy it to dest image
-                DoCommand "c1541.exe", _
+                DoCommand CBMC1541, _
                           DDFile(DstImg) & " -write " & Quoted(TEMPFILE3) & " " & Quoted(Filename), _
                           "Copying '" & Filename & "' to image..."
             End If
@@ -3578,7 +3592,7 @@ Private Sub Copy_XToLocal()
             Filename = CBMName(Tmp)                                  'ie: FILENAME,P
             FilenameOut = LocalDir(0) & DOSName(Tmp)                 'Output filename PATH\FILENAME.EXT
             If Overwrite(FilenameOut) = True Then
-                DoCommand "cbmcopy", _
+                DoCommand CBMCopy, _
                       DetermineAdapterBusString & "--transfer=" & TransferString & " -q -r " & DriveNum & " " & Quoted(Filename) & " --output=" & Quoted(FilenameOut), _
                       "Copying '" & Filename & "' from floppy disk."
             End If
@@ -3808,7 +3822,7 @@ Private Sub TransferToX(ByVal Filename As String)
         Case "SEQ": FilenameOut = FileBase(FilenameOut): SeqType = " --file-type S"
     End Select
     
-    DoCommand "cbmcopy", _
+    DoCommand CBMCopy, _
               DetermineAdapterBusString & "--transfer=" & TransferString & " -q -w " & DriveNum & " " & Quoted(Filename) & _
               " --output=" & Quoted(FilenameOut) & SeqType, _
               "Copying '" & Filename & "' to floppy disk as '" & FilenameOut & "'"
@@ -3825,7 +3839,7 @@ Private Sub TransferToLink(ByVal Filename As String)
         
     MyChDir FPath
     
-    DoCommand "cbmlink", _
+    DoCommand CBMLink, _
               LinkCStr & " -fw " & FilenameOut, _
               "Copying '" & Filename & "' via link as '" & UCase(FilenameOut) & "'"
 
@@ -3885,9 +3899,9 @@ Public Sub WriteImageToLink(d64file As String, ByVal NoWarn As Boolean)
     
     If NoWarn = False Then If MsgBox("This will overwrite ALL data on Destination unit!" & Cr & "(disk must already be formatted!)" & Cr & " Are you sure?", vbExclamation Or vbYesNo, "Write " & Right(Ext, 3) & " to Disk") = vbNo Then Exit Sub
     
-    frmWaiting.SetMode "cbmlink"
+    frmWaiting.SetMode CBMLink
     
-    DoCommand "cbmlink", LinkCStr & " -dw" & Format(CBMDrive) & " " & LocalDir(0) & d64file, _
+    DoCommand CBMLink, LinkCStr & " -dw" & Format(CBMDrive) & " " & LocalDir(0) & d64file, _
               "Writing " & Ext & " image to drive, please wait..."
     
     GetXDir
@@ -3933,11 +3947,11 @@ End Sub
 '---- Handle automatic viewing of Disk Image when LocalPC entry is selected
 ' The LEFT disk image must be visible, and the RIGHT disk image must NOT
 Private Sub lstLocal_Click(Index As Integer)
-    Dim Filename As String, Ext As String, p As Integer
+    Dim Filename As String, Ext As String, P As Integer
     
     If Layout = 1 Then
-        p = lstLocal(Index).ListIndex
-        Filename = LocalDir(Index) & lstLocal(Index).List(p)
+        P = lstLocal(Index).ListIndex
+        Filename = LocalDir(Index) & lstLocal(Index).List(P)
         Ext = FileExtU(Filename)
         
         If SupportedImg(Ext, False) = True Then
@@ -4267,11 +4281,11 @@ End Sub
 '---- Read Disk Image Directory
 Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     Dim temp As String, Temp2 As String, Results As ReturnStringType
-    Dim p As Integer, PP As Integer
+    Dim P As Integer, PP As Integer
 
     On Local Error GoTo GIError
              
-    Results = DoCommand("c1541", Quoted(Filename) & " -list", "", False) 'Run the program
+    Results = DoCommand(CBMC1541, Quoted(Filename) & " -list", "", False) 'Run the program
     If Exists(TEMPFILE1) = False Then Exit Sub
     
     lstImageFiles(Index).Clear
@@ -4287,8 +4301,8 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     '-- Throw away extraneous strings containing "GetProc" etc
     PP = 1
     Do
-        p = InStr(PP, temp, LF): If p = 0 Then Exit Do
-        Temp2 = Mid(temp, PP, p - PP): PP = p + 1
+        P = InStr(PP, temp, LF): If P = 0 Then Exit Do
+        Temp2 = Mid(temp, PP, P - PP): PP = P + 1
     Loop While Left(Temp2, 1) > "9"
        
     txtImageHeader(Index).Caption = ExtractQuotes(Temp2)
@@ -4297,8 +4311,8 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
 
     '-- Now parse remaining entries
     Do
-        p = InStr(PP, temp, LF): If p = 0 Then Exit Do
-        Temp2 = Mid(temp, PP, p - PP): PP = p + 1
+        P = InStr(PP, temp, LF): If P = 0 Then Exit Do
+        Temp2 = Mid(temp, PP, P - PP): PP = P + 1
         If InStr(1, Temp2, "blocks free", vbTextCompare) = 0 Then lstImageFiles(Index).AddItem Temp2 Else Exit Do 'Lowercase
     Loop
     

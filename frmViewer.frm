@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Begin VB.Form frmViewer 
    Caption         =   "Viewer:"
    ClientHeight    =   8745
@@ -920,7 +920,7 @@ Begin VB.Form frmViewer
          Height          =   315
          Index           =   3
          Left            =   3930
-         TabIndex        =   187
+         TabIndex        =   186
          ToolTipText     =   "Bottom Up "
          Top             =   210
          Width           =   345
@@ -930,7 +930,7 @@ Begin VB.Form frmViewer
          Height          =   315
          Index           =   2
          Left            =   3630
-         TabIndex        =   186
+         TabIndex        =   185
          ToolTipText     =   "Next Up"
          Top             =   210
          Width           =   285
@@ -940,19 +940,10 @@ Begin VB.Form frmViewer
          Height          =   315
          Index           =   1
          Left            =   3330
-         TabIndex        =   185
+         TabIndex        =   184
          ToolTipText     =   "Next Down"
          Top             =   210
          Width           =   285
-      End
-      Begin VB.CheckBox cbShowInfo 
-         Caption         =   "v"
-         Height          =   285
-         Left            =   4410
-         TabIndex        =   184
-         ToolTipText     =   "Uncheck if you want to keep existing entries when loading"
-         Top             =   270
-         Width           =   405
       End
       Begin VB.Frame frInfo 
          Height          =   525
@@ -1946,10 +1937,18 @@ Begin VB.Form frmViewer
          Value           =   1  'Checked
          Width           =   195
       End
+      Begin VB.Image imgShowInfo 
+         Height          =   255
+         Left            =   4410
+         Picture         =   "frmViewer.frx":09D9
+         ToolTipText     =   "Toggle Info box"
+         Top             =   270
+         Width           =   255
+      End
       Begin VB.Image imgBW 
          Height          =   255
          Left            =   330
-         Picture         =   "frmViewer.frx":09D9
+         Picture         =   "frmViewer.frx":0D8F
          Top             =   240
          Width           =   255
       End
@@ -2443,7 +2442,7 @@ End Sub
 ' It makes the frames visible. SplitMode=TRUE enables dual view.
 ' NOTE: This does NOT update the contents of the frames!
 Private Sub DrawVLayout()
-    Dim W As Single, H As Single                        'Original Window Size
+    Dim W As Single, h As Single                        'Original Window Size
     Dim W1 As Single, H1 As Single, L1 As Single        'Scaled Window Size LEFT frame
     Dim T1 As Single                                    'Top offset
     Dim W2 As Single, L2 As Single                      'Scaled Width and LeftPosition for RIGHT frame
@@ -2467,10 +2466,10 @@ Private Sub DrawVLayout()
     ' NOTE: There seems to be a difference between width and height returned when running in the IDE vs
     '       when compiled. The values -390 and -1000 look good when compiled. This could be Windows revision dependent.
     W = Me.Width - 390:   If W < 4400 Then W = 4400         'Window Width - enforce minimum size for elements
-    H = Me.Height - 1000: If H < 3700 Then H = 3700         'Window Height - enforce min size for elements
+    h = Me.Height - 1000: If h < 3700 Then h = 3700         'Window Height - enforce min size for elements
     
     L1 = 75: T1 = 375                                       'Left/Top Margins
-    W1 = W: W2 = W: H1 = H: L2 = L1                         'Set for single-view mode
+    W1 = W: W2 = W: H1 = h: L2 = L1                         'Set for single-view mode
     
     '-- Calculate Split mode sizes
     If SplitMode = True Then
@@ -2503,37 +2502,37 @@ End Sub
 ' Arrange View Elements
 ' N=Frame#, Size: L=Left,T=Top,W=Width,H=Height, VisFlag=Frame Visible?
 ' In Dual-View Mode FLAG=TRUE
-Sub SetFrame(ByVal N As Integer, ByVal L As Single, ByVal T As Single, ByVal W As Single, ByVal H As Single, ByVal VisFlag As Boolean)
+Sub SetFrame(ByVal n As Integer, ByVal L As Single, ByVal T As Single, ByVal W As Single, ByVal h As Single, ByVal VisFlag As Boolean)
     Dim L2 As Single, T2 As Single, W2 As Single, H2 As Single  'Second copy for modification
     Dim LL As Single, TT As Single, WW As Single, HH As Single
     Dim W3 As Single, H3 As Single
     Dim W4 As Single, H4 As Single
     
-    L2 = L: T2 = T: W2 = W: H2 = H                              'Copy of original size requested
-    LL = 105: TT = 420: HH = H - 440: WW = W - 200              'Adjust top and height to give a little border area
+    L2 = L: T2 = T: W2 = W: H2 = h                              'Copy of original size requested
+    LL = 105: TT = 420: HH = h - 440: WW = W - 200              'Adjust top and height to give a little border area
     
-    W3 = W - 200: H3 = H - 600
+    W3 = W - 200: H3 = h - 600
     
-    Select Case N
+    Select Case n
         Case -1 '-- Blank frame with message
             frBlank.Move L, T, W2, H2
             frBlank.Visible = VisFlag
             
         Case 0  '-- Adjust BASIC Viewer Size
             frBOpts.Visible = False
-            If lblBView.Caption = "<<" Then TT = 930: HH = H - 1000: frBOpts.Visible = True 'show options
+            If lblBView.Caption = "<<" Then TT = 930: HH = h - 1000: frBOpts.Visible = True 'show options
             frBasic.Move L, T, W2, H2
             lstBAS.Move LL, TT, W3, HH
             frBasic.Visible = VisFlag
     
         Case 1  '-- Adjust SEQ Viewer Size
-            TT = 600: HH = H - 660                              'Adjust for Options
+            TT = 600: HH = h - 660                              'Adjust for Options
             frSEQ.Move L, T, W2, H2
             lstSEQ.Move LL, TT, W3, H3
             frSEQ.Visible = VisFlag
             
         Case 2  '-- Adjust BIN Viewer Size
-            TT = 510: HH = H - 440                              'Adjust for Options
+            TT = 510: HH = h - 440                              'Adjust for Options
             frBIN.Move L, T, W2, H2
             lstBIN.Move LL, TT, W3, H3
             frBIN.Visible = VisFlag
@@ -2548,11 +2547,11 @@ Sub SetFrame(ByVal N As Integer, ByVal L As Single, ByVal T As Single, ByVal W A
             frInfo.Visible = False                              'Hide info frame
             lblShw.Caption = ">>"                               'Assume no project tab
             
-            TT = 600: HH = H - 660                              'Adjust for Options
+            TT = 600: HH = h - 660                              'Adjust for Options
             If W < 4600 Then W = 4600                           'Make sure frame elements have room
             
             If InfoFlag = True Then
-                TT = 1090: HH = H - 1200                        'Reduce Height of ML area
+                TT = 1090: HH = h - 1200                        'Reduce Height of ML area
                 frInfo.Visible = True                           'Show info frame
             End If
             
@@ -2606,13 +2605,13 @@ End Sub
 
 '---- Adjust Dual-View Split proportions
 Private Sub SetSplit(ByVal Index As Integer, ByVal Flag As Boolean)
-    Dim N As Integer
+    Dim n As Integer
     
-    N = 5: If Flag = True Then N = 10 'Step Size
+    n = 5: If Flag = True Then n = 10 'Step Size
     
     Select Case Index
-        Case 0: SplitSize = SplitSize - N: If SplitSize < 20 Then SplitSize = 20    'Move split LEFT
-        Case 1: SplitSize = SplitSize + N: If SplitSize > 80 Then SplitSize = 80    'Move split RIGHT
+        Case 0: SplitSize = SplitSize - n: If SplitSize < 20 Then SplitSize = 20    'Move split LEFT
+        Case 1: SplitSize = SplitSize + n: If SplitSize > 80 Then SplitSize = 80    'Move split RIGHT
         Case 2: SplitSize = 50                                                      'Return to MIDDLE
     End Select
     DrawVLayout
@@ -3073,11 +3072,11 @@ End Sub
 
 '-- Set Colour Theme
 Private Sub cboTheme_Click()
-    Dim N As Integer, FG As Long, BG As Long, BO As Long
+    Dim n As Integer, FG As Long, BG As Long, BO As Long
     
-    N = cboTheme.ListIndex: If N < 0 Then N = 0
+    n = cboTheme.ListIndex: If n < 0 Then n = 0
     BO = CBMColor(0)                                                    'assume black border
-    Select Case N
+    Select Case n
         Case 0: FG = CBMColor(14): BG = CBMColor(6)                     '-- C64
         Case 1: FG = CBMColor(6): BG = CBMColor(1)                      '-- SX-64
         Case 2: FG = CBMColor(6): BG = CBMColor(1)                      '-- VIC-20
@@ -3275,10 +3274,10 @@ Sub MLView()
     Dim T0 As String, T1 As String, T2 As String                        'ASM Output variables
     Dim T3 As String, T4 As String, T5 As String
     Dim OutFmt As Integer, ALabel As String, UComment As String
-    Dim Padd As String, InComCol As Integer
+    Dim Padd As String, CommentCol As Integer
     
     Dim LNum As Long, LInc As Integer                                   'Line Numbers
-    Dim a As Integer, p As Integer
+    Dim a As Integer, P As Integer
     
     Dim DTMode As Boolean, DTCount As Integer, DTType As String         'Data Table variables
     Dim DTCountMax As Integer, DTMax As Integer, DTPos As Integer       'Data Table variables
@@ -3295,7 +3294,7 @@ Sub MLView()
     RTSOption = False: If cbSpaceRTS.value = vbChecked Then RTSOption = True
     SymComment = False: If cbIncSym.value = vbChecked Then SymComment = True
     DivLen = Val(txtDivLen.Text)
-    InComCol = Val(txtInlineCol.Text)
+    CommentCol = Val(txtInlineCol.Text)
     
     '============================================
     ' Load Support Files and Config settings etc
@@ -3376,7 +3375,7 @@ Sub MLView()
                 If lstSYM.Selected(j) = True Then
                     Tmp = lstSYM.List(j)
                     T1 = "": If OutFmt = 2 Then T1 = Format(LNum) & " ": LNum = LNum + LInc
-                    lstML.AddItem T1 & GetField(Tmp, 2) & " = " & GetField(Tmp, 1) & "   ;" & GetField(Tmp, 3)
+                    lstML.AddItem Left(T1 & GetField(Tmp, 2) & " = " & GetField(Tmp, 1) & Padd, CommentCol) & ";" & GetField(Tmp, 3)
                 End If
             Next j
             If OutFmt = 2 Then lstML.AddItem Format(LNum) & " ;" Else lstML.AddItem ";"
@@ -3644,7 +3643,7 @@ Sub MLView()
                                         ALabel = ""                                     'blank it for multi-line tables
                                 End Select
                                 
-                                j = Len(Tmp) + 1: If InComCol > j Then j = InComCol     'Comment position
+                                j = Len(Tmp) + 1: If CommentCol > j Then j = CommentCol     'Comment position
                                 lstML.AddItem Left(Tmp + Padd, j) & ";" & DTComment     'Add it to output
                                 
                                 LNum = LNum + LInc
@@ -3782,7 +3781,7 @@ Sub MLView()
                             Tmp = ALabel & T3 & T4                          'label cmd param
                     End Select
                     
-                    j = Len(Tmp) + 1: If InComCol > j Then j = InComCol     'position for comment
+                    j = Len(Tmp) + 1: If CommentCol > j Then j = CommentCol     'position for comment
                     lstML.AddItem Left(Tmp + Padd, j) & T5                  'Add to output
                                         
                     If MD = 9 Then
@@ -4169,11 +4168,14 @@ Sub JumpList(ByVal Txt As String, Mode As Integer, ByVal Flag As Boolean)
                 lstML.ListIndex = i                                 'Move to selected line
                 Exit Do                                             'Do only one search
             End If
-            If Flag = False Then Exit Do
+        Else
+            lstML.Selected(i) = False
         End If
     Loop
     
-    If Count > 0 Then cmdFindAll.ToolTipText = "Found" & Str(Count) & " line(s)"
+    If (Count > 0) And (Flag = True) Then lblInfo.Caption = "Found" & Str(Count) & " line(s) containing: " & Txt
+    If (Count = 0) Then lblInfo.Caption = "String '" & Txt & "' was not found."
+    
     DoEvents
     LastTxt = Txt                                                   'Remember Search string for next time
     
@@ -4370,7 +4372,7 @@ End Sub
 '---- Quick Add Data Table (DHSRVW)
 Private Sub cmdDTAdd_Click(Index As Integer)
     Dim Tmp As String, Tmp2 As String
-    Dim Flag As Boolean, p As Integer, RS As String, RE As String
+    Dim Flag As Boolean, P As Integer, RS As String, RE As String
 
     Flag = False
     
@@ -4378,9 +4380,9 @@ Private Sub cmdDTAdd_Click(Index As Integer)
     For i = 0 To lstML.ListCount - 1
         If lstML.Selected(i) = True Then
             If Flag = False Then RS = ExtractAddr(lstML.List(i)): Flag = True   'Found first selected line
-            p = i                                                               'remember it
+            P = i                                                               'remember it
         Else
-            If Flag = True Then RE = ExtractAddr(lstML.List(p)): Exit For       'Not selected so use last remembered line for end
+            If Flag = True Then RE = ExtractAddr(lstML.List(P)): Exit For       'Not selected so use last remembered line for end
         End If
     Next i
          
@@ -4534,8 +4536,8 @@ Private Sub lblShw_Click()
 End Sub
 
 '---- Toggle Info frame
-Private Sub cbShowInfo_Click()
-    InfoFlag = (cbShowInfo.value = vbChecked)
+Private Sub imgShowInfo_Click()
+    InfoFlag = Not InfoFlag
     DrawVLayout
 End Sub
 
@@ -4671,7 +4673,7 @@ End Sub
 
 Private Sub LoadProjFile(ByVal Filename As String)
     Dim FIO As Integer, Tmp As String, Tmp2 As String, TMode As Integer
-    Dim LA As String, LAFlag As Boolean
+    Dim LA As String, LAFlag As Boolean, VName As String, VStr As String
         
     If Exists(Filename) = False Then Exit Sub
         
@@ -4698,15 +4700,30 @@ Private Sub LoadProjFile(ByVal Filename As String)
             If (Left(Tmp, 1) <> ";") And (Tmp <> "") Then
                 '---- Process according to current section marker
                 Select Case TMode
-                    Case 1: If Len(Tmp) = 4 Then LAFlag = True: LA = Tmp 'Load Address for project found
-                    Case 2: lstSYM.AddItem Tmp
-                    Case 3
+                    Case 1 '[PROJECT] Section
+                        VName = GetVNameU(Tmp): VStr = GetVstr(Tmp) 'Parse line
+                        
+                        Select Case VName
+                            Case "LA": If Len(VStr) = 4 Then LAFlag = True: LA = VStr 'Load Address for project found
+                            Case "DIVLEN": txtDivLen.Text = VStr
+                            Case "INLCOL": txtInlineCol = VStr
+                        End Select
+                        
+                    Case 2 '[SYMBOLS] Section
+                        lstSYM.AddItem Tmp
+                        
+                    Case 3 '[TABLES] Section
                         lstDT.AddItem Tmp
                         lstDT.Selected(lstDT.NewIndex) = True
                         
-                    Case 4: lstULabels.AddItem Tmp
-                    Case 5: lstCmnt.AddItem Tmp
-                    Case 6: lstEntryPt.AddItem Tmp
+                    Case 4 '[LABELS] Section
+                        lstULabels.AddItem Tmp
+                        
+                    Case 5 '[COMMENTS] Section
+                        lstCmnt.AddItem Tmp
+                        
+                    Case 6 '[ENTRYPT] Section
+                        lstEntryPt.AddItem Tmp
                 End Select
             End If
         End If
@@ -4751,7 +4768,9 @@ Private Sub SaveProjFile(ByVal Filename As String)
     
     '-- [PROJECT]
     Print #FIO, "[PROJECT]"
-    If cbLA.value = vbUnchecked Then Print #FIO, txtLA.Text     'Save the specified Load Address
+    Print #FIO, "LA="; txtLA.Text               'Save the specified Load Address
+    Print #FIO, "DIVLEN="; txtDivLen.Text       'Save the Divider Length
+    Print #FIO, "INLCOL="; txtInlineCol.Text    'Save the Inline Comment Column
     
     '-- [ENTRY POINTS]
     If lstSYM.ListCount > 0 Then
@@ -4915,7 +4934,7 @@ End Sub
 
 '---- Add a new List Entry
 Private Sub cmdSymAdd_Click()
-    Dim i As Integer, p As Integer, Flag As Boolean
+    Dim i As Integer, P As Integer, Flag As Boolean
     Dim RS As String, RE As String, Tmp As String, Tmp2 As String
     
     i = lstML.ListIndex
@@ -4941,9 +4960,9 @@ Private Sub cmdSymAdd_Click()
             For i = 0 To lstML.ListCount - 1
                 If lstML.Selected(i) = True Then
                     If Flag = False Then RS = ExtractAddr(lstML.List(i)): Flag = True   'Found first selected line
-                    p = i                                                               'remember it
+                    P = i                                                               'remember it
                 Else
-                    If Flag = True Then RE = ExtractAddr(lstML.List(p)): Exit For       'Not selected so use last remembered line for end
+                    If Flag = True Then RE = ExtractAddr(lstML.List(P)): Exit For       'Not selected so use last remembered line for end
                 End If
             Next i
             
@@ -4971,12 +4990,12 @@ End Sub
 '---- Extracts the HEX Address from the string using current PREFIX
 ' If PREFIX is not found then look at start of line
 Private Function ExtractAddr(ByVal Str As String) As String
-    Dim p As Integer, Tmp As String, Tmp2 As String, L As Integer
+    Dim P As Integer, Tmp As String, Tmp2 As String, L As Integer
     
     L = Len(LPrefix)
-    p = 1
-    If Left(Str, L) = LPrefix Then p = L + 1          'Skip over prefix
-    Tmp = UCase(Mid(Str, p, 4))                                             'Extract the hex address
+    P = 1
+    If Left(Str, L) = LPrefix Then P = L + 1          'Skip over prefix
+    Tmp = UCase(Mid(Str, P, 4))                                             'Extract the hex address
     Tmp2 = Left(Tmp, 1)                                                     'Get first character
     If (Tmp2 < "0") Or (Tmp2 > "F") Then Exit Function                      'Exit if not 0-F
     If (Tmp2 <= "9") Or (Tmp2 >= "A") Then ExtractAddr = Tmp                'Check for valid 0-9 or A-F
@@ -5015,8 +5034,8 @@ Private Sub cboPrefix_Click()
     MLReViewA
 End Sub
 
-Private Sub SetPrefix(ByVal N As Integer)
-    LPrefix = cboPrefix.List(N)
+Private Sub SetPrefix(ByVal n As Integer)
+    LPrefix = cboPrefix.List(n)
 End Sub
 
 Private Sub cboTarget_Click()
@@ -5025,8 +5044,8 @@ Private Sub cboTarget_Click()
 End Sub
 
 '---- Sets Target Assembler Directives
-Private Sub SetTarget(ByVal N As Integer)
-    Select Case N
+Private Sub SetTarget(ByVal n As Integer)
+    Select Case n
         Case 0: DOTORG = "*=":    DOTWORD = "!WORD ": DOTBYTE = "!BYTE ": DOTTEXT = "!TEXT "
         Case 1: DOTORG = "*=":    DOTWORD = ".WORD ": DOTBYTE = ".BYTE ": DOTTEXT = ".TEXT "
         Case 2: DOTORG = ".ORG ": DOTWORD = ".WOR ": DOTBYTE = ".BYT ":   DOTTEXT = ".TXT "
@@ -5195,22 +5214,22 @@ Private Sub LoadMLConfig()
             End Select
         Else
             If (Left(Tmp, 1) <> ";") And (Tmp <> "") Then
-                p = InStr(1, Tmp, ",") 'look for comma separator
+                P = InStr(1, Tmp, ",") 'look for comma separator
                 '---- Process according to current section marker
                 Select Case TMode
                     Case 1 '-- PLATFORM
-                        If p > 0 Then
-                            Tmp2 = Left(Tmp, p - 1)
+                        If P > 0 Then
+                            Tmp2 = Left(Tmp, P - 1)
                             cboPlatform.List(c1) = Tmp2
-                            cboPlatFile.List(c1) = Mid(Tmp, p + 1)
+                            cboPlatFile.List(c1) = Mid(Tmp, P + 1)
                             c1 = c1 + 1
                         End If
 
                     Case 2 '-- CPU
-                        If p > 0 Then
-                            Tmp2 = Left(Tmp, p - 1)
+                        If P > 0 Then
+                            Tmp2 = Left(Tmp, P - 1)
                             cboCPU.List(C2) = Tmp2
-                            cboCPUFile.List(C2) = Mid(Tmp, p + 1)
+                            cboCPUFile.List(C2) = Mid(Tmp, P + 1)
                             C2 = C2 + 1
                         End If
                         
@@ -5233,7 +5252,7 @@ End Sub
 '=================
 Sub HEXView()
 
-    Dim C As Single, W As Integer, H As Integer
+    Dim C As Single, W As Integer, h As Integer
     Dim Tmp As String, TLine As String, ALine As String, LCount As Integer
     Dim Flag As Boolean, MaxW As Integer
     Dim Lo As Integer, Hi As Integer, Address As Long, BMASK As Integer, CBMFlag As Boolean
@@ -5263,18 +5282,18 @@ Sub HEXView()
         
         W = W + 1: If W = 1 Then TLine = MyHex(Address, 4) & ": ": ALine = "> "
         C = C + 1: Address = Address + 1
-        Tmp = Mid(VBuf, C, 1): H = Asc(Tmp)
+        Tmp = Mid(VBuf, C, 1): h = Asc(Tmp)
         
-        TLine = TLine & MyHex(H, 2) & " "
+        TLine = TLine & MyHex(h, 2) & " "
         
-        Select Case (H And BMASK)
+        Select Case (h And BMASK)
             Case 0 To 31
                 If CBMFlag = True Then
-                    ALine = ALine & Chr((H And Mask) + 64)      'Converts CTRL chrs to Letter range
+                    ALine = ALine & Chr((h And Mask) + 64)      'Converts CTRL chrs to Letter range
                 Else
                     ALine = ALine & "."                         'Un-Printable
                 End If
-            Case 32 To 127: ALine = ALine & Chr(H And BMASK)    'Printable
+            Case 32 To 127: ALine = ALine & Chr(h And BMASK)    'Printable
             Case Else: ALine = ALine & "."                      'Un-Printable
         End Select
         
@@ -5314,17 +5333,17 @@ End Sub
 'SEQ Viewer
 '============
 Sub SEQView()
-    Dim FIO As Integer, C As Integer, Tmp As String, TLine As String, H As Integer
+    Dim FIO As Integer, C As Integer, Tmp As String, TLine As String, h As Integer
 
     lstSEQ.Clear
     
     C = 1: Tmp = "": TLine = ""
     Do
         If Len(TLine) > 80 Then lstSEQ.AddItem TLine: TLine = ""
-        Tmp = Mid(VBuf, C, 1): H = Asc(Tmp)
-        Select Case H
+        Tmp = Mid(VBuf, C, 1): h = Asc(Tmp)
+        Select Case h
             Case 32 To 127: TLine = TLine & Tmp
-            Case 192 To 218: TLine = TLine & Chr(H And 127)
+            Case 192 To 218: TLine = TLine & Chr(h And 127)
             Case 10: If cbIgnoreLF.value <> vbChecked Then lstSEQ.AddItem TLine: TLine = ""
             Case 13: lstSEQ.AddItem TLine: TLine = ""
             Case Else
