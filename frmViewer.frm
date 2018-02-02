@@ -3277,7 +3277,7 @@ Sub MLView()
     Dim Padd As String, CommentCol As Integer
     
     Dim LNum As Long, LInc As Integer                                   'Line Numbers
-    Dim a As Integer, P As Integer
+    Dim a As Integer, p As Integer
     
     Dim DTMode As Boolean, DTCount As Integer, DTType As String         'Data Table variables
     Dim DTCountMax As Integer, DTMax As Integer, DTPos As Integer       'Data Table variables
@@ -4057,6 +4057,7 @@ Sub MLReView()
     TopPos = lstML.TopIndex                             'Remember the position
     If ViewerReady = True Then MLView
     ShowMLChange                                        'ML Project status
+    If TopPos > lstML.ListCount Then TopPos = 0         'FIX: Large data block additions can make TopPos be past end
     lstML.TopIndex = TopPos                             'Restore the position
 End Sub
 
@@ -4372,7 +4373,7 @@ End Sub
 '---- Quick Add Data Table (DHSRVW)
 Private Sub cmdDTAdd_Click(Index As Integer)
     Dim Tmp As String, Tmp2 As String
-    Dim Flag As Boolean, P As Integer, RS As String, RE As String
+    Dim Flag As Boolean, p As Integer, RS As String, RE As String
 
     Flag = False
     
@@ -4380,9 +4381,9 @@ Private Sub cmdDTAdd_Click(Index As Integer)
     For i = 0 To lstML.ListCount - 1
         If lstML.Selected(i) = True Then
             If Flag = False Then RS = ExtractAddr(lstML.List(i)): Flag = True   'Found first selected line
-            P = i                                                               'remember it
+            p = i                                                               'remember it
         Else
-            If Flag = True Then RE = ExtractAddr(lstML.List(P)): Exit For       'Not selected so use last remembered line for end
+            If Flag = True Then RE = ExtractAddr(lstML.List(p)): Exit For       'Not selected so use last remembered line for end
         End If
     Next i
          
@@ -4934,7 +4935,7 @@ End Sub
 
 '---- Add a new List Entry
 Private Sub cmdSymAdd_Click()
-    Dim i As Integer, P As Integer, Flag As Boolean
+    Dim i As Integer, p As Integer, Flag As Boolean
     Dim RS As String, RE As String, Tmp As String, Tmp2 As String
     
     i = lstML.ListIndex
@@ -4960,9 +4961,9 @@ Private Sub cmdSymAdd_Click()
             For i = 0 To lstML.ListCount - 1
                 If lstML.Selected(i) = True Then
                     If Flag = False Then RS = ExtractAddr(lstML.List(i)): Flag = True   'Found first selected line
-                    P = i                                                               'remember it
+                    p = i                                                               'remember it
                 Else
-                    If Flag = True Then RE = ExtractAddr(lstML.List(P)): Exit For       'Not selected so use last remembered line for end
+                    If Flag = True Then RE = ExtractAddr(lstML.List(p)): Exit For       'Not selected so use last remembered line for end
                 End If
             Next i
             
@@ -4990,12 +4991,12 @@ End Sub
 '---- Extracts the HEX Address from the string using current PREFIX
 ' If PREFIX is not found then look at start of line
 Private Function ExtractAddr(ByVal Str As String) As String
-    Dim P As Integer, Tmp As String, Tmp2 As String, L As Integer
+    Dim p As Integer, Tmp As String, Tmp2 As String, L As Integer
     
     L = Len(LPrefix)
-    P = 1
-    If Left(Str, L) = LPrefix Then P = L + 1          'Skip over prefix
-    Tmp = UCase(Mid(Str, P, 4))                                             'Extract the hex address
+    p = 1
+    If Left(Str, L) = LPrefix Then p = L + 1          'Skip over prefix
+    Tmp = UCase(Mid(Str, p, 4))                                             'Extract the hex address
     Tmp2 = Left(Tmp, 1)                                                     'Get first character
     If (Tmp2 < "0") Or (Tmp2 > "F") Then Exit Function                      'Exit if not 0-F
     If (Tmp2 <= "9") Or (Tmp2 >= "A") Then ExtractAddr = Tmp                'Check for valid 0-9 or A-F
@@ -5214,22 +5215,22 @@ Private Sub LoadMLConfig()
             End Select
         Else
             If (Left(Tmp, 1) <> ";") And (Tmp <> "") Then
-                P = InStr(1, Tmp, ",") 'look for comma separator
+                p = InStr(1, Tmp, ",") 'look for comma separator
                 '---- Process according to current section marker
                 Select Case TMode
                     Case 1 '-- PLATFORM
-                        If P > 0 Then
-                            Tmp2 = Left(Tmp, P - 1)
+                        If p > 0 Then
+                            Tmp2 = Left(Tmp, p - 1)
                             cboPlatform.List(c1) = Tmp2
-                            cboPlatFile.List(c1) = Mid(Tmp, P + 1)
+                            cboPlatFile.List(c1) = Mid(Tmp, p + 1)
                             c1 = c1 + 1
                         End If
 
                     Case 2 '-- CPU
-                        If P > 0 Then
-                            Tmp2 = Left(Tmp, P - 1)
+                        If p > 0 Then
+                            Tmp2 = Left(Tmp, p - 1)
                             cboCPU.List(C2) = Tmp2
-                            cboCPUFile.List(C2) = Mid(Tmp, P + 1)
+                            cboCPUFile.List(C2) = Mid(Tmp, p + 1)
                             C2 = C2 + 1
                         End If
                         
@@ -5270,6 +5271,7 @@ Sub HEXView()
         Address = MyDec(txtLA.Text)                             'Use Address specified in ASM project
     Else
         Address = VLA                                           'Use Load Address from file
+        If cbLA.value = vbUnchecked Then Address = MyDec(txtLA.Text)
     End If
     
     '-- Loop through buffer
@@ -5739,6 +5741,10 @@ Private Sub cbLA_Click()
     ViewIt ViewMode, VFileName, VName, VExt 're-load the file
 End Sub
 
+Private Sub txtLA_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 13 Then ViewIt ViewMode, VFileName, VName, VExt 're-load the file
+End Sub
+
 '==========================================================
 ' Controls that cause a refresh of output (From any Viewer)
 '==========================================================
@@ -5764,9 +5770,6 @@ Private Sub cbBytes_Click()
 End Sub
 Private Sub cboMLFmt_Click()
     MLReView
-End Sub
-Private Sub txtLA_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then MLView
 End Sub
 
 'BASIC Updates

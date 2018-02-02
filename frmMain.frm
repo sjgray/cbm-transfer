@@ -1952,8 +1952,8 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.04b (Jun 20/2017)" & Cr & _
-          "(C)2007-2017 Steve J. Gray  *** 10th Anniversary Edition ***" & Cr & Cr & _
+    MyMsg "CBM-Transfer  V1.04c (Feb 1/2018)" & Cr & _
+          "(C)2007-2018 Steve J. Gray  *** 10th Anniversary Edition ***" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
           "by Leif Bloomquist, Wolfgang Moser and Spiro Trikaliotis." & Cr & _
@@ -2429,7 +2429,7 @@ End Sub
 
 '---- Make a NEW Disk Image File
 Private Sub cmdNewImage_Click(Index As Integer)
-    Dim Filename As String, Ext As String, P As Integer
+    Dim Filename As String, Ext As String, p As Integer
     
     frmPrompt.Reply.Text = "new.d64"
     frmPrompt.Ask "Create new Image File", "Enter Image Filename (include correct extension):", 1, False
@@ -3887,11 +3887,11 @@ End Sub
 '---- Handle automatic viewing of Disk Image when LocalPC entry is selected
 ' The LEFT disk image must be visible, and the RIGHT disk image must NOT
 Private Sub lstLocal_Click(Index As Integer)
-    Dim Filename As String, Ext As String, P As Integer
+    Dim Filename As String, Ext As String, p As Integer
     
     If Layout = 1 Then
-        P = lstLocal(Index).ListIndex
-        Filename = LocalDir(Index) & lstLocal(Index).List(P)
+        p = lstLocal(Index).ListIndex
+        Filename = LocalDir(Index) & lstLocal(Index).List(p)
         Ext = FileExtU(Filename)
         
         If SupportedImg(Ext, False) = True Then
@@ -4221,7 +4221,7 @@ End Sub
 '---- Read Disk Image Directory
 Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     Dim temp As String, Temp2 As String, Results As ReturnStringType
-    Dim P As Integer, PP As Integer
+    Dim p As Integer, PP As Integer
 
     On Local Error GoTo GIError
              
@@ -4241,8 +4241,8 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     '-- Throw away extraneous strings containing "GetProc" etc
     PP = 1
     Do
-        P = InStr(PP, temp, LF): If P = 0 Then Exit Do
-        Temp2 = Mid(temp, PP, P - PP): PP = P + 1
+        p = InStr(PP, temp, LF): If p = 0 Then Exit Do
+        Temp2 = Mid(temp, PP, p - PP): PP = p + 1
     Loop While Left(Temp2, 1) > "9"
        
     txtImageHeader(Index).Caption = ExtractQuotes(Temp2)
@@ -4251,8 +4251,8 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
 
     '-- Now parse remaining entries
     Do
-        P = InStr(PP, temp, LF): If P = 0 Then Exit Do
-        Temp2 = Mid(temp, PP, P - PP): PP = P + 1
+        p = InStr(PP, temp, LF): If p = 0 Then Exit Do
+        Temp2 = Mid(temp, PP, p - PP): PP = p + 1
         If InStr(1, Temp2, "blocks free", vbTextCompare) = 0 Then lstImageFiles(Index).AddItem Temp2 Else Exit Do 'Lowercase
     Loop
     
