@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.04c - Feb 2,2018 *** 10th Anniversary Edition ***
+============ V1.04d - Feb 2,2018 *** 10th Anniversary Edition ***
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -796,10 +796,11 @@ Blue Chip	Untested
 
 Change Log
 ==========
-1.04 - Feb 1. 2018
-   * Viewer: Fix Load Address changes not updating view
-   *         ASM: Fix crash when adding large data range causing listing length to be
-   *              shorter than previous remembered top position.
+1.04 - Feb 2, 2018
+   * Viewer:
+   *   Fix Load Address changes not updating view
+   *   ASM: Fix crash when adding large data range, causing listing to end before previous remembered top position.
+   *   ASM: Add Binary data table, and also optional data table length parameter
 
 1.03 - May 23,2017
    * Bug fixes

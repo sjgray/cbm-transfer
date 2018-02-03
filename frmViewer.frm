@@ -915,6 +915,16 @@ Begin VB.Form frmViewer
       Top             =   390
       Visible         =   0   'False
       Width           =   12900
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "Z"
+         Height          =   315
+         Index           =   7
+         Left            =   8610
+         TabIndex        =   187
+         ToolTipText     =   "Make Binary Byte Block"
+         Top             =   210
+         Width           =   315
+      End
       Begin VB.CommandButton cmdNext 
          Caption         =   "< ]"
          Height          =   315
@@ -985,11 +995,11 @@ Begin VB.Form frmViewer
          Caption         =   "X"
          Height          =   315
          Index           =   6
-         Left            =   8640
+         Left            =   8280
          TabIndex        =   178
          ToolTipText     =   "Make Hidden Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   "*C*"
@@ -1016,11 +1026,11 @@ Begin VB.Form frmViewer
          Caption         =   "W"
          Height          =   315
          Index           =   5
-         Left            =   8250
+         Left            =   7950
          TabIndex        =   112
          ToolTipText     =   "Make Word Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdAddLabel 
          Caption         =   "Label"
@@ -1095,41 +1105,41 @@ Begin VB.Form frmViewer
          Caption         =   "V"
          Height          =   315
          Index           =   4
-         Left            =   7860
+         Left            =   7620
          TabIndex        =   104
          ToolTipText     =   "Make Vector Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "R"
          Height          =   315
          Index           =   3
-         Left            =   7470
+         Left            =   7290
          TabIndex        =   103
          ToolTipText     =   "Make RTS vector block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "T"
          Height          =   315
          Index           =   2
-         Left            =   7080
+         Left            =   6960
          TabIndex        =   102
          ToolTipText     =   "Make Text Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "H"
          Height          =   315
          Index           =   1
-         Left            =   6690
+         Left            =   6630
          TabIndex        =   101
          ToolTipText     =   "Make Hex Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "D"
@@ -1139,7 +1149,7 @@ Begin VB.Form frmViewer
          TabIndex        =   100
          ToolTipText     =   "Make Dec Byte Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdFindAll 
          Caption         =   "All"
@@ -3477,12 +3487,19 @@ Sub MLView()
                 Loop
                 
                 If DTPos < DTMax Then
-                    '---- Look at the current range entry.       Format: HHHH,HHHH,T,Comment
-                    Tmp = lstDT.List(DTPos)                     'Get the line from the list
-                    DTStart = MyDec(Mid(Tmp, 1, 4))             'Get Range Start
-                    DTEnd = MyDec(Mid(Tmp, 6, 4))               'Get Range End
-                    DTType = UCase(Mid(Tmp, 11, 1))             'Get Type (Asc,Byte,Word,Vector,RVector)
-                    If Pass = 2 Then DTComment = Mid(Tmp, 13)   'Get Comment
+                    '---- Look at the current range entry.       Format: HHHH,HHHH,T{num},Comment
+                    Tmp = lstDT.List(DTPos)                      'Get the line from the list
+                    DTStart = MyDec(Mid(Tmp, 1, 4))              'Get Range Start
+                    DTEnd = MyDec(Mid(Tmp, 6, 4))                'Get Range End
+                    Tmp = Mid(Tmp, 11)                           'Get just the Type and Comment
+                    p = InStr(Tmp, ","): If p = 0 Then p = 1     'Check for comma
+                    DTType = UCase(Left(Tmp, 1))                 'Get Type (Asc,Byte,Word,Vector,RVector)
+                    
+                    DTCountMax = 8                                 'Default Items per line
+                    If p > 1 Then DTCountMax = Val(Mid(Tmp, 2, p - 2)) 'If specified, use {num} entries. Num must be single digit
+                    If DTCountMax < 1 Then DTCountMax = 8         'If Num=0 then use default
+                    
+                    If Pass = 2 Then DTComment = Mid(Tmp, p + 1)  'Get Comment
                 Else
                     '---- No more ranges, B0H set to highest byte $FFFF
                     DTStart = CLng(65536): DTEnd = CLng(65536): DTComment = "end"
@@ -3545,26 +3562,31 @@ Sub MLView()
                                 End Select
                             End If
                             
-                        Case "B", "H" '---- Byte Directive (Hex)
+                        Case "B", "H", "$" '---- Byte Directive (Hex)
                             If Pass = 2 Then
                                 T3 = DOTBYTE
-                                DTCountMax = 8
                                 DTOutStr = DTOutStr & "$" & B0H
                             End If
                             
                         Case "D"  '---- Byte Directive (Dec)
                             If Pass = 2 Then
                                 T3 = DOTBYTE
-                                DTCountMax = 8
                                 DTOutStr = DTOutStr & B0A
                             End If
+                            
+                        Case "Z", "%" '---- Byte Directive (Binary)
+                            If Pass = 2 Then
+                                T3 = DOTBYTE
+                                DTOutStr = DTOutStr & "%" & MyBin(B0A)
+                            End If
+                        
                             
                         Case "W"  '---- Word Directive (Hex)
                             If Pass = 2 Then
                                 T3 = DOTWORD
                                 DTCountMax = 6
                                 Address = Address + 1: C = C + 1    'Increment address
-                                B1A = Asc(Mid(VBuf, C, 1))           'Get next byte
+                                B1A = Asc(Mid(VBuf, C, 1))          'Get next byte
                                 SL = B0H                            'Lo Byte
                                 SH = MyHex(B1A, 2)                  'HI Byte
                                 DTOutStr = DTOutStr & "$" & SH & SL 'Add to output list
@@ -4389,7 +4411,7 @@ Private Sub cmdDTAdd_Click(Index As Integer)
          
     If Flag = True Then
         If RE = "" Then RE = RS
-        Select Case Index 'DHSRVW
+        Select Case Index 'DHSRVWXZ
             Case 0: Tmp = "D": Tmp2 = "Decimal Byte Table"
             Case 1: Tmp = "H": Tmp2 = "Hex Byte Table"
             Case 2: Tmp = "S": Tmp2 = "Text/String Table"
@@ -4397,6 +4419,7 @@ Private Sub cmdDTAdd_Click(Index As Integer)
             Case 4: Tmp = "V": Tmp2 = "Address Table (Generates Labels)"
             Case 5: Tmp = "W": Tmp2 = "Word Table"
             Case 6: Tmp = "X": Tmp2 = "Hidden Table"
+            Case 7: Tmp = "Z": Tmp2 = "Binary Byte Table"
         End Select
                    
         Tmp2 = InputBox("Type : " & Tmp2 & Cr & "Range: " & RS & " to " & RE & Cr & Cr & "Enter a description:", "Add Table", "")
@@ -4968,7 +4991,7 @@ Private Sub cmdSymAdd_Click()
             Next i
             
             If Flag = True Then Tmp = RS & "," & RE & ",b,-"
-            Tmp2 = InputBox("Types: A/T=Text,B/H=Hex Bytes,D=Dec Bytes,W=Word,R=RTS,V=Vect" & Cr & Cr & "HHHH,HHHH,TYPE,DESCRIPTION", "Add Table", Tmp)
+            Tmp2 = InputBox("Types: Byte Tables(A/T=Text,B/H=Hex,D=Decimal,Z=Binary),W=Word,R=RTS,V=Vect" & Cr & Cr & "HHHH,HHHH,TYPE{##},DESCRIPTION", "Add Table", Tmp)
             If Len(Tmp2) > 12 Then
                 lstDT.AddItem Tmp2
                 lstDT.Selected(lstDT.NewIndex) = True
