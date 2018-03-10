@@ -915,6 +915,16 @@ Begin VB.Form frmViewer
       Top             =   390
       Visible         =   0   'False
       Width           =   12900
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "Z"
+         Height          =   315
+         Index           =   7
+         Left            =   8610
+         TabIndex        =   187
+         ToolTipText     =   "Make Binary Byte Block"
+         Top             =   210
+         Width           =   315
+      End
       Begin VB.CommandButton cmdNext 
          Caption         =   "< ]"
          Height          =   315
@@ -985,11 +995,11 @@ Begin VB.Form frmViewer
          Caption         =   "X"
          Height          =   315
          Index           =   6
-         Left            =   8640
+         Left            =   8280
          TabIndex        =   178
          ToolTipText     =   "Make Hidden Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdAddComment 
          Caption         =   "*C*"
@@ -1016,11 +1026,11 @@ Begin VB.Form frmViewer
          Caption         =   "W"
          Height          =   315
          Index           =   5
-         Left            =   8250
+         Left            =   7950
          TabIndex        =   112
          ToolTipText     =   "Make Word Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdAddLabel 
          Caption         =   "Label"
@@ -1095,41 +1105,41 @@ Begin VB.Form frmViewer
          Caption         =   "V"
          Height          =   315
          Index           =   4
-         Left            =   7860
+         Left            =   7620
          TabIndex        =   104
          ToolTipText     =   "Make Vector Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "R"
          Height          =   315
          Index           =   3
-         Left            =   7470
+         Left            =   7290
          TabIndex        =   103
          ToolTipText     =   "Make RTS vector block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "T"
          Height          =   315
          Index           =   2
-         Left            =   7080
+         Left            =   6960
          TabIndex        =   102
          ToolTipText     =   "Make Text Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "H"
          Height          =   315
          Index           =   1
-         Left            =   6690
+         Left            =   6630
          TabIndex        =   101
          ToolTipText     =   "Make Hex Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdDTAdd 
          Caption         =   "D"
@@ -1139,7 +1149,7 @@ Begin VB.Form frmViewer
          TabIndex        =   100
          ToolTipText     =   "Make Dec Byte Block"
          Top             =   210
-         Width           =   375
+         Width           =   315
       End
       Begin VB.CommandButton cmdFindAll 
          Caption         =   "All"
@@ -3277,7 +3287,7 @@ Sub MLView()
     Dim Padd As String, CommentCol As Integer
     
     Dim LNum As Long, LInc As Integer                                   'Line Numbers
-    Dim a As Integer, P As Integer
+    Dim a As Integer, p As Integer
     
     Dim DTMode As Boolean, DTCount As Integer, DTType As String         'Data Table variables
     Dim DTCountMax As Integer, DTMax As Integer, DTPos As Integer       'Data Table variables
@@ -3477,12 +3487,19 @@ Sub MLView()
                 Loop
                 
                 If DTPos < DTMax Then
-                    '---- Look at the current range entry.       Format: HHHH,HHHH,T,Comment
-                    Tmp = lstDT.List(DTPos)                     'Get the line from the list
-                    DTStart = MyDec(Mid(Tmp, 1, 4))             'Get Range Start
-                    DTEnd = MyDec(Mid(Tmp, 6, 4))               'Get Range End
-                    DTType = UCase(Mid(Tmp, 11, 1))             'Get Type (Asc,Byte,Word,Vector,RVector)
-                    If Pass = 2 Then DTComment = Mid(Tmp, 13)   'Get Comment
+                    '---- Look at the current range entry.       Format: HHHH,HHHH,T{num},Comment
+                    Tmp = lstDT.List(DTPos)                      'Get the line from the list
+                    DTStart = MyDec(Mid(Tmp, 1, 4))              'Get Range Start
+                    DTEnd = MyDec(Mid(Tmp, 6, 4))                'Get Range End
+                    Tmp = Mid(Tmp, 11)                           'Get just the Type and Comment
+                    p = InStr(Tmp, ","): If p = 0 Then p = 1     'Check for comma
+                    DTType = UCase(Left(Tmp, 1))                 'Get Type (Asc,Byte,Word,Vector,RVector)
+                    
+                    DTCountMax = 8                                 'Default Items per line
+                    If p > 1 Then DTCountMax = Val(Mid(Tmp, 2, p - 2)) 'If specified, use {num} entries. Num must be single digit
+                    If DTCountMax < 1 Then DTCountMax = 8         'If Num=0 then use default
+                    
+                    If Pass = 2 Then DTComment = Mid(Tmp, p + 1)  'Get Comment
                 Else
                     '---- No more ranges, B0H set to highest byte $FFFF
                     DTStart = CLng(65536): DTEnd = CLng(65536): DTComment = "end"
@@ -3545,26 +3562,31 @@ Sub MLView()
                                 End Select
                             End If
                             
-                        Case "B", "H" '---- Byte Directive (Hex)
+                        Case "B", "H", "$" '---- Byte Directive (Hex)
                             If Pass = 2 Then
                                 T3 = DOTBYTE
-                                DTCountMax = 8
                                 DTOutStr = DTOutStr & "$" & B0H
                             End If
                             
                         Case "D"  '---- Byte Directive (Dec)
                             If Pass = 2 Then
                                 T3 = DOTBYTE
-                                DTCountMax = 8
                                 DTOutStr = DTOutStr & B0A
                             End If
+                            
+                        Case "Z", "%" '---- Byte Directive (Binary)
+                            If Pass = 2 Then
+                                T3 = DOTBYTE
+                                DTOutStr = DTOutStr & "%" & MyBin(B0A)
+                            End If
+                        
                             
                         Case "W"  '---- Word Directive (Hex)
                             If Pass = 2 Then
                                 T3 = DOTWORD
                                 DTCountMax = 6
                                 Address = Address + 1: C = C + 1    'Increment address
-                                B1A = Asc(Mid(VBuf, C, 1))           'Get next byte
+                                B1A = Asc(Mid(VBuf, C, 1))          'Get next byte
                                 SL = B0H                            'Lo Byte
                                 SH = MyHex(B1A, 2)                  'HI Byte
                                 DTOutStr = DTOutStr & "$" & SH & SL 'Add to output list
@@ -4057,6 +4079,7 @@ Sub MLReView()
     TopPos = lstML.TopIndex                             'Remember the position
     If ViewerReady = True Then MLView
     ShowMLChange                                        'ML Project status
+    If TopPos > lstML.ListCount Then TopPos = 0         'FIX: Large data block additions can make TopPos be past end
     lstML.TopIndex = TopPos                             'Restore the position
 End Sub
 
@@ -4372,7 +4395,7 @@ End Sub
 '---- Quick Add Data Table (DHSRVW)
 Private Sub cmdDTAdd_Click(Index As Integer)
     Dim Tmp As String, Tmp2 As String
-    Dim Flag As Boolean, P As Integer, RS As String, RE As String
+    Dim Flag As Boolean, p As Integer, RS As String, RE As String
 
     Flag = False
     
@@ -4380,15 +4403,15 @@ Private Sub cmdDTAdd_Click(Index As Integer)
     For i = 0 To lstML.ListCount - 1
         If lstML.Selected(i) = True Then
             If Flag = False Then RS = ExtractAddr(lstML.List(i)): Flag = True   'Found first selected line
-            P = i                                                               'remember it
+            p = i                                                               'remember it
         Else
-            If Flag = True Then RE = ExtractAddr(lstML.List(P)): Exit For       'Not selected so use last remembered line for end
+            If Flag = True Then RE = ExtractAddr(lstML.List(p)): Exit For       'Not selected so use last remembered line for end
         End If
     Next i
          
     If Flag = True Then
         If RE = "" Then RE = RS
-        Select Case Index 'DHSRVW
+        Select Case Index 'DHSRVWXZ
             Case 0: Tmp = "D": Tmp2 = "Decimal Byte Table"
             Case 1: Tmp = "H": Tmp2 = "Hex Byte Table"
             Case 2: Tmp = "S": Tmp2 = "Text/String Table"
@@ -4396,6 +4419,7 @@ Private Sub cmdDTAdd_Click(Index As Integer)
             Case 4: Tmp = "V": Tmp2 = "Address Table (Generates Labels)"
             Case 5: Tmp = "W": Tmp2 = "Word Table"
             Case 6: Tmp = "X": Tmp2 = "Hidden Table"
+            Case 7: Tmp = "Z": Tmp2 = "Binary Byte Table"
         End Select
                    
         Tmp2 = InputBox("Type : " & Tmp2 & Cr & "Range: " & RS & " to " & RE & Cr & Cr & "Enter a description:", "Add Table", "")
@@ -4934,7 +4958,7 @@ End Sub
 
 '---- Add a new List Entry
 Private Sub cmdSymAdd_Click()
-    Dim i As Integer, P As Integer, Flag As Boolean
+    Dim i As Integer, p As Integer, Flag As Boolean
     Dim RS As String, RE As String, Tmp As String, Tmp2 As String
     
     i = lstML.ListIndex
@@ -4960,14 +4984,14 @@ Private Sub cmdSymAdd_Click()
             For i = 0 To lstML.ListCount - 1
                 If lstML.Selected(i) = True Then
                     If Flag = False Then RS = ExtractAddr(lstML.List(i)): Flag = True   'Found first selected line
-                    P = i                                                               'remember it
+                    p = i                                                               'remember it
                 Else
-                    If Flag = True Then RE = ExtractAddr(lstML.List(P)): Exit For       'Not selected so use last remembered line for end
+                    If Flag = True Then RE = ExtractAddr(lstML.List(p)): Exit For       'Not selected so use last remembered line for end
                 End If
             Next i
             
             If Flag = True Then Tmp = RS & "," & RE & ",b,-"
-            Tmp2 = InputBox("Types: A/T=Text,B/H=Hex Bytes,D=Dec Bytes,W=Word,R=RTS,V=Vect" & Cr & Cr & "HHHH,HHHH,TYPE,DESCRIPTION", "Add Table", Tmp)
+            Tmp2 = InputBox("Types: Byte Tables(A/T=Text,B/H=Hex,D=Decimal,Z=Binary),W=Word,R=RTS,V=Vect" & Cr & Cr & "HHHH,HHHH,TYPE{##},DESCRIPTION", "Add Table", Tmp)
             If Len(Tmp2) > 12 Then
                 lstDT.AddItem Tmp2
                 lstDT.Selected(lstDT.NewIndex) = True
@@ -4990,12 +5014,12 @@ End Sub
 '---- Extracts the HEX Address from the string using current PREFIX
 ' If PREFIX is not found then look at start of line
 Private Function ExtractAddr(ByVal Str As String) As String
-    Dim P As Integer, Tmp As String, Tmp2 As String, L As Integer
+    Dim p As Integer, Tmp As String, Tmp2 As String, L As Integer
     
     L = Len(LPrefix)
-    P = 1
-    If Left(Str, L) = LPrefix Then P = L + 1          'Skip over prefix
-    Tmp = UCase(Mid(Str, P, 4))                                             'Extract the hex address
+    p = 1
+    If Left(Str, L) = LPrefix Then p = L + 1          'Skip over prefix
+    Tmp = UCase(Mid(Str, p, 4))                                             'Extract the hex address
     Tmp2 = Left(Tmp, 1)                                                     'Get first character
     If (Tmp2 < "0") Or (Tmp2 > "F") Then Exit Function                      'Exit if not 0-F
     If (Tmp2 <= "9") Or (Tmp2 >= "A") Then ExtractAddr = Tmp                'Check for valid 0-9 or A-F
@@ -5214,22 +5238,22 @@ Private Sub LoadMLConfig()
             End Select
         Else
             If (Left(Tmp, 1) <> ";") And (Tmp <> "") Then
-                P = InStr(1, Tmp, ",") 'look for comma separator
+                p = InStr(1, Tmp, ",") 'look for comma separator
                 '---- Process according to current section marker
                 Select Case TMode
                     Case 1 '-- PLATFORM
-                        If P > 0 Then
-                            Tmp2 = Left(Tmp, P - 1)
+                        If p > 0 Then
+                            Tmp2 = Left(Tmp, p - 1)
                             cboPlatform.List(c1) = Tmp2
-                            cboPlatFile.List(c1) = Mid(Tmp, P + 1)
+                            cboPlatFile.List(c1) = Mid(Tmp, p + 1)
                             c1 = c1 + 1
                         End If
 
                     Case 2 '-- CPU
-                        If P > 0 Then
-                            Tmp2 = Left(Tmp, P - 1)
+                        If p > 0 Then
+                            Tmp2 = Left(Tmp, p - 1)
                             cboCPU.List(C2) = Tmp2
-                            cboCPUFile.List(C2) = Mid(Tmp, P + 1)
+                            cboCPUFile.List(C2) = Mid(Tmp, p + 1)
                             C2 = C2 + 1
                         End If
                         
@@ -5270,6 +5294,7 @@ Sub HEXView()
         Address = MyDec(txtLA.Text)                             'Use Address specified in ASM project
     Else
         Address = VLA                                           'Use Load Address from file
+        If cbLA.value = vbUnchecked Then Address = MyDec(txtLA.Text)
     End If
     
     '-- Loop through buffer
@@ -5739,6 +5764,10 @@ Private Sub cbLA_Click()
     ViewIt ViewMode, VFileName, VName, VExt 're-load the file
 End Sub
 
+Private Sub txtLA_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 13 Then ViewIt ViewMode, VFileName, VName, VExt 're-load the file
+End Sub
+
 '==========================================================
 ' Controls that cause a refresh of output (From any Viewer)
 '==========================================================
@@ -5764,9 +5793,6 @@ Private Sub cbBytes_Click()
 End Sub
 Private Sub cboMLFmt_Click()
     MLReView
-End Sub
-Private Sub txtLA_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then MLView
 End Sub
 
 'BASIC Updates

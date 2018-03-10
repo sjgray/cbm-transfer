@@ -39,6 +39,7 @@ Attribute VB_Name = "modCommon"
 ' ExtractQuotes.... Returns the quoted string, when located mid-string
 ' MyDec............ Convert HHHH hex value to decimal
 ' MyHex............ Convert decimal to fixed-length HEX string with leading zeros
+' MyBin............ Convert byte to 8-bit binary
 ' MyTrim........... Removes leading and trailing spaces
 ' GetBrowseDir..... Prompt for new directory using "Browse for Folder" popup
 ' GetLoadAddress... Reads CBM Load Address from specified file
@@ -102,44 +103,44 @@ End Function
 
 '---- Return file Extension
 Public Function FileExt(ByVal Filename As String) As String
-    Dim P As Integer
+    Dim p As Integer
     
-    P = InStrRev(Filename, ".")
-    If P > 0 Then FileExt = Mid(Filename, P + 1) Else FileExt = ""
+    p = InStrRev(Filename, ".")
+    If p > 0 Then FileExt = Mid(Filename, p + 1) Else FileExt = ""
 End Function
 
 '---- Return file Extension Uppercased
 Public Function FileExtU(ByVal Filename As String) As String
-    Dim P As Integer
+    Dim p As Integer
     
-    P = InStrRev(Filename, ".")
-    If P > 0 Then FileExtU = UCase(Mid(Filename, P + 1)) Else FileExtU = ""
+    p = InStrRev(Filename, ".")
+    If p > 0 Then FileExtU = UCase(Mid(Filename, p + 1)) Else FileExtU = ""
 End Function
 
 '---- Return Path without filename
 Public Function FilePath(ByVal Filename As String) As String
-    Dim P As Integer
+    Dim p As Integer
     
-    P = InStrRev(Filename, "\")
-    If P > 0 Then FilePath = Left(Filename, P - 1) Else FilePath = ""
+    p = InStrRev(Filename, "\")
+    If p > 0 Then FilePath = Left(Filename, p - 1) Else FilePath = ""
     
 End Function
 
 '---- Return Filename without Extension (do not remove path if included)
 Public Function FileBase(ByVal Filename As String) As String
-    Dim P As Integer
+    Dim p As Integer
     
-    P = InStrRev(Filename, ".")
-    If P > 0 Then FileBase = Left(Filename, P - 1) Else FileBase = Filename
+    p = InStrRev(Filename, ".")
+    If p > 0 Then FileBase = Left(Filename, p - 1) Else FileBase = Filename
     
 End Function
 
 '---- Return Filename without Path
 Public Function FileNameOnly(ByVal Filename As String) As String
-    Dim P As Integer
+    Dim p As Integer
     
-    P = InStrRev(Filename, "\")
-    If P > 0 Then FileNameOnly = Mid(Filename, P + 1) Else FileNameOnly = Filename
+    p = InStrRev(Filename, "\")
+    If p > 0 Then FileNameOnly = Mid(Filename, p + 1) Else FileNameOnly = Filename
     
 End Function
 
@@ -149,10 +150,10 @@ End Function
 ' - If Tmp is a FILE, then it's path is returned
 ' Returns path without ending "\"
 Public Function PathOnly(ByVal FileSpec As String) As String
-    Dim P As Integer, Tmp As String
+    Dim p As Integer, Tmp As String
     
-    P = InStr(FileSpec, ".")
-    If P = 0 Then
+    p = InStr(FileSpec, ".")
+    If p = 0 Then
         '-- File has no extension
         If DirExists(FileSpec) = True Then PathOnly = FileSpec: Exit Function
     Else
@@ -169,12 +170,12 @@ Public Function PathOnly(ByVal FileSpec As String) As String
 End Function
 '---- Return the Path one level up from specified path. Includes ending \
 Public Function PathUp(ByVal Path As String) As String
-    Dim P As Integer
+    Dim p As Integer
     
     PathUp = Path
     If Len(Path) > 3 Then
-        P = InStrRev(Path, "\", Len(Path) - 1)
-        If P > 0 Then PathUp = Left(Path, P)
+        p = InStrRev(Path, "\", Len(Path) - 1)
+        If p > 0 Then PathUp = Left(Path, p)
     End If
     
 End Function
@@ -286,10 +287,10 @@ End Function
 ' ie: "filename,p" -> ",p"
 '     "filename,s" -> ",s"
 Public Function CBMType(ByVal Str As String) As String
-    Dim P As Integer
+    Dim p As Integer
     
-    P = InStr(1, Str, ",")
-    If P > 0 Then CBMType = Mid(Str, P) Else CBMType = ""
+    p = InStr(1, Str, ",")
+    If p > 0 Then CBMType = Mid(Str, p) Else CBMType = ""
     
 End Function
 
@@ -419,6 +420,19 @@ Function MyHex(ByVal n As Single, D As Integer) As String
     MyHex = Right("00000000" & Hex(n), D)
 End Function
 
+'---- Convert decimal value to fixed-length HEX value with leading zeros
+Function MyBin(ByVal D As Integer) As String
+    Dim Tmp As String, i As Integer
+    
+    If D > 255 Then MyBin = "--------": Exit Function
+    
+    For i = 7 To 0 Step -1
+        If (D And (2 ^ i)) > 0 Then Tmp = Tmp & "1" Else Tmp = Tmp & "0"
+    Next i
+    
+    MyBin = Tmp
+End Function
+
 '---- Trims spaces from Beginning and End of string
 Function MyTrim(ByVal Str As String) As String
     MyTrim = LTrim(RTrim(Str))
@@ -529,36 +543,36 @@ End Sub
 
 '---- Makes filename given template. Uses *, % and ^ as substitution characters
 Public Function BatchName(ByVal Num As Integer, ByVal Side As Integer, FStr As String) As String
-    Dim P As Integer, p2 As Integer, L As Integer
+    Dim p As Integer, p2 As Integer, L As Integer
     
     BatchName = FStr
-    L = Len(FStr): P = InStr(1, FStr, "#"):    If P = 0 Then Exit Function
+    L = Len(FStr): p = InStr(1, FStr, "#"):    If p = 0 Then Exit Function
     
     p2 = 1
     Do While p2 < L
-        If Mid(FStr, P + p2, 1) <> "#" Then Exit Do
+        If Mid(FStr, p + p2, 1) <> "#" Then Exit Do
         p2 = p2 + 1
     Loop
     
-    Mid(BatchName, P, p2) = Right("000000" & Format(Num), p2)
-    P = InStr(1, BatchName, "*"): If P > 0 Then Mid(BatchName, P, 1) = Format(Side)
-    P = InStr(1, BatchName, "%"): If P > 0 Then Mid(BatchName, P, 1) = Chr(96 + Side)
-    P = InStr(1, BatchName, "^"): If P > 0 Then Mid(BatchName, P, 1) = Chr(64 + Side)
+    Mid(BatchName, p, p2) = Right("000000" & Format(Num), p2)
+    p = InStr(1, BatchName, "*"): If p > 0 Then Mid(BatchName, p, 1) = Format(Side)
+    p = InStr(1, BatchName, "%"): If p > 0 Then Mid(BatchName, p, 1) = Chr(96 + Side)
+    p = InStr(1, BatchName, "^"): If p > 0 Then Mid(BatchName, p, 1) = Chr(64 + Side)
 End Function
 
 '---- Retrieve Named Field 'FS' from string
 'String contains multiple <CR> delimited lines (could be an entire text file)
 'Note: string to search must end with <CR>!
 Public Function GetNamedField(ByVal Tmp As String, FS As String) As String
-    Dim P As Integer, PP As Integer, L As Integer, Tmp2 As String
+    Dim p As Integer, PP As Integer, L As Integer, Tmp2 As String
         
     L = Len(FS)                 'Length of Field String
-    P = InStr(1, Tmp, FS)       'Look for the string
+    p = InStr(1, Tmp, FS)       'Look for the string
     Tmp2 = ""
     
-    If P > 0 Then
-        p2 = InStr(P + L, Tmp, Cr) 'Now look for carriage return
-        If p2 > 0 Then Tmp2 = Mid(Tmp, P + L, p2 - P - L)
+    If p > 0 Then
+        p2 = InStr(p + L, Tmp, Cr) 'Now look for carriage return
+        If p2 > 0 Then Tmp2 = Mid(Tmp, p + L, p2 - p - L)
     End If
     
     GetNamedField = Tmp2
@@ -577,18 +591,18 @@ End Function
 '---- Retrieve Field number 'n' from record string 'Tmp'. Record is comma-delimited
 ' There must not be any commas in a field. It treats a NULL string between two commas as a NULL field.
 Public Function GetField(ByVal Tmp As String, n As Integer) As String
-    Dim C As Integer, P As Integer, p2 As Integer, Comma As String, T2 As String
+    Dim C As Integer, p As Integer, p2 As Integer, Comma As String, T2 As String
     
     Comma = ",": p2 = 1: C = 1
 
     Do
-        P = InStr(p2, Tmp, Comma)           'Look for the Comma
-        If P = 0 Then Exit Do               'None, then exit
-        If P > 0 And C = n Then Exit Do     'We found the last record (no comma after it)
-        p2 = P + 1: C = C + 1               'Move the start, count the comma
+        p = InStr(p2, Tmp, Comma)           'Look for the Comma
+        If p = 0 Then Exit Do               'None, then exit
+        If p > 0 And C = n Then Exit Do     'We found the last record (no comma after it)
+        p2 = p + 1: C = C + 1               'Move the start, count the comma
     Loop
     
-    If P = 0 Then T2 = Mid(Tmp, p2) Else T2 = Mid(Tmp, p2, P - p2) 'Extract record
+    If p = 0 Then T2 = Mid(Tmp, p2) Else T2 = Mid(Tmp, p2, p - p2) 'Extract record
     GetField = T2                           'Return the string
     
 End Function
@@ -597,24 +611,24 @@ End Function
 ' Delimiter is passed to function. If Delimiter is null then TAB will be used
 ' Note: There MAY be multiple TABs between fields!
 Public Function GetDField(ByVal Tmp As String, Delim As String, n As Integer) As String
-    Dim C As Integer, P As Integer, p2 As Integer, T2 As String
+    Dim C As Integer, p As Integer, p2 As Integer, T2 As String
     
     T2 = ""
     If Delim = "" Then Delim = Chr(9)       'Use TAB delimiter if not specified
     p2 = 1: C = 1                           'String starts at position 1 and is Field#1
     
     Do
-        P = InStr(p2, Tmp, Delim)           'Look for the TAB
-        If P = 0 Then Exit Do               'None, then exit
-        If P > p2 Then
+        p = InStr(p2, Tmp, Delim)           'Look for the TAB
+        If p = 0 Then Exit Do               'None, then exit
+        If p > p2 Then
             If C = n Then Exit Do           'We found the last record (no TAB after it)
-            p2 = P + 1: C = C + 1           'Move the start, increment the Field#
+            p2 = p + 1: C = C + 1           'Move the start, increment the Field#
         Else
-            p2 = P + 1                      'if p=p2 then we found two delimiters together, so we increment pointer but not field#
+            p2 = p + 1                      'if p=p2 then we found two delimiters together, so we increment pointer but not field#
         End If
     Loop
     
-    If P = 0 Then T2 = Mid(Tmp, p2) Else T2 = Mid(Tmp, p2, P - p2) 'Extract record
+    If p = 0 Then T2 = Mid(Tmp, p2) Else T2 = Mid(Tmp, p2, p - p2) 'Extract record
     
     GetDField = T2                          'Return the string
 
@@ -624,20 +638,20 @@ End Function
 ' Str is in format: variable=string
 ' This returns the variable name in uppercase. Leading and Ending spaces are trimmed.
 Public Function GetVNameU(ByVal Str As String) As String
-  Dim P As Integer, Tmp As String
+  Dim p As Integer, Tmp As String
   
   GetVNameU = ""
-  P = InStr(Str, "="): If P > 1 Then GetVNameU = UCase(MyTrim(Left(Str, P - 1)))
+  p = InStr(Str, "="): If p > 1 Then GetVNameU = UCase(MyTrim(Left(Str, p - 1)))
 End Function
 
 '--- Return Variable Name
 ' Str is in format: variable=value
 ' This returns the value string. Leading and Ending spaces are trimmed.
 Public Function GetVstr(ByVal Str As String) As String
-  Dim P As Integer, Tmp As String
+  Dim p As Integer, Tmp As String
   
   GetVstr = ""
-  P = InStr(Str, "="): If P > 1 Then GetVstr = MyTrim(Mid(Str, P + 1))
+  p = InStr(Str, "="): If p > 1 Then GetVstr = MyTrim(Mid(Str, p + 1))
 End Function
 
 

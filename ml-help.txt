@@ -1,4 +1,4 @@
-CBM-Transfer V1.04 (C)2017 Steve J. Gray
+CBM-Transfer V1.04 (C)2018 Steve J. Gray
 ===================================================
 Interactive Symbolic Disassembler with Code Tracing
 Help File
@@ -263,10 +263,16 @@ Tables Tab
 
 This tab shows Tables (or Data Blocks). Tables are ranges within the file that contain non-executing code.
 These tables can contain almost anything including text strings, mathematical tables, vectors, sprite data,
-fonts etc. Finding and identifying the tables in a binary file is key to generating a complete, disassembly.
+fonts etc. Finding and identifying the tables in a binary file is key to generating a complete disassembly.
 When adding Tables you will need to enter the start and ending address, the table format/type, and an optional
-comment. Make sure your range is correct and you have the correct block type. For a quicker way, use the top
-line buttons D,H,T,R,V,W. See below for table types.
+comment in the following format:
+
+	SSSS,EEEE,T{num}{,COMMENT}
+
+ - Where {num} is an optional numeric value that specifies how many entries per line for that table.
+
+Make sure your range is correct and you have the correct block type. For a quicker way, use the top
+line buttons D,H,T,R,V,W,Z. See below for table types.
 
  Each entry has a checkbox. Only selected Tables (ones that have a checkmark) are treated as non-code. By
 un-checking an entry the bytes in the range will be treated as code. This can help you find code segments
@@ -328,6 +334,7 @@ EntryPt................. Adds the current line address to the Entry Points list.
 Block Buttons:           (first select a block range using SHIFT)
 D....................... Decimal - Treats block as decimal numbers.
 H....................... Hex - Treats block as hex numbers.
+Z....................... Binary - Treats block as 8-bit binary numbers.
 T....................... Text String - Display printable text as quoted text strings, or unprintable as
                          hex values.
 R....................... RTS vectors - Treats the block as a list of word vectors to be pushed onto
