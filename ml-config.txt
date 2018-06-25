@@ -13,7 +13,7 @@ Commodore Platform Identifier,ml-plat-cbm-identifier.txt
 MOS 6502/6510/850x etc,ml-cpu-6502.txt
 MOS 6502 illegal,ml-cpu-6502-i.txt
 WDC 65C02       ,ml-cpu-wdc65c02.txt
-WDC 65SC02      ,ml-cpu-wdc65sc02.txt
+GTE 65SC02      ,ml-cpu-gte65sc02.txt
 Rockwell R65C02 ,ml-cpu-r65c02.txt
 [PREFIX]
 L_
