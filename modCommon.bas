@@ -54,6 +54,8 @@ Attribute VB_Name = "modCommon"
 ' GetDField........ Retrieve Field from Delimited Record with specified Delimiter (default=TAB)
 ' GetVNameU........ Return Variable Name in UPPERCASE, from string in format: "variable=value"
 ' GetVstr.......... Return Value from string as above
+' GetCharWidth..... Return Width based on character width index
+
 
 '---- MessageBox popup with default title
 Public Sub MyMsg(ByVal Tmp As String)
@@ -412,6 +414,7 @@ End Function
 
 '---- Convert decimal value to fixed-length HEX value with leading zeros
 Function MyDec(ByVal h As String) As Long
+    On Local Error Resume Next
     MyDec = CLng(Hx & h)
 End Function
 
@@ -679,3 +682,15 @@ Public Function C64Colour(ByVal n As Integer) As Long
     End Select
 
 End Function
+
+Public Function GetCharWidth(ByVal n As Integer) As Integer
+
+    Select Case n
+        Case 1: GetCharWidth = 32
+        Case 2: GetCharWidth = 64
+        Case 3: GetCharWidth = 128
+        Case Else: GetCharWidth = 16
+    End Select
+    
+End Function
+
