@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.04e - July 18,2018 *** 10th Anniversary Edition ***
+============ V1.04f - July 26,2018 *** 10th Anniversary Edition ***
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -676,12 +676,14 @@ FONT:
   if the "reverse" characters are included. PET/CBM machines generate the "reverse" characters with hardware, so
   they are not included. Commodore C64/VIC have all 256.
 
-   At the top left are three boxes to change the foreground, background, and character border colours. To the
-  right is the colour theme menu which sets colours based on the default screens on various machines.
-  Next are "1x" to "5x" buttons to set the zoom factor for the displayed character sets. Next are 4 buttons to
-  choose how many characters to show on one line: 16, 32, 64 or 128.  The "Border" checkbox adds a border around
-  each character.  The Mult-color checkbox enables multi-colour mode. This will show multi-color fonts using 4
-  colours. Two additional colour boxes will appear at the top left, representing the multi-colour#1 and #2.
+   At the top are a line of control boxes:
+
+	* Font Size..: 8x8 or 8x16 (most use 8x8, but CBM-II uses 8x16)
+	* Colours....: foreground, background, border, and if enabled two Multi-colours
+	* Theme......: Colour themes to match different computers (VIC,64,TED,PET etc)
+	* Zoom Factor: 1x to 6x magnification
+	* Width......: Number of characters per line (16,32,64,128)
+	* Border.....: Toggles border on or off.
 
    The Skip Bytes field lets you start from an offset which may help when trying to view character sets
   embedded in programs or other binary files. To the right of the offset are six buttons that adjust the offset
@@ -691,10 +693,7 @@ FONT:
 
    Below the top line and on the left we have the selected character controls. At the top is the currently
   selected character. You can click on a character in the set to select it, or use the "<" and ">" buttons. The
-  set# and character# plus hex value are shown. Below that is the selected character with 10x zoom. You can also
-  select between '8x8' or '8x16' pixel format. Most characters are 8x8 pixels, however CBM-II machines used
-  8x16 format. 
-
+  set# and character# plus hex value are shown. Below that is the selected character with 10x zoom. 
 
   Click the "Save BMP..." button to save the current view, including colour scheme and zoom to a BMP file.
 
@@ -802,6 +801,8 @@ Change Log
    *   ASM: Fix crash when adding large data range, causing listing to end before previous remembered top position.
    *   ASM: Add Binary data table, and also optional data table length parameter.
    *   FONT: Change "Wide" checkbox to 4 separate buttons, now 16,32,64 and 128 characters wide.
+   *   FONT: Add more Zoom levels.
+   *   FONT: Change Multi-colour and Border checkboxes to lightup-boxes.
 
 1.03 - May 23,2017
    * Bug fixes
