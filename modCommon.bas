@@ -686,9 +686,11 @@ End Function
 Public Function GetCharWidth(ByVal n As Integer) As Integer
 
     Select Case n
-        Case 1: GetCharWidth = 32
-        Case 2: GetCharWidth = 64
-        Case 3: GetCharWidth = 128
+        Case 0: GetCharWidth = 8
+        Case 1: GetCharWidth = 16
+        Case 2: GetCharWidth = 32
+        Case 3: GetCharWidth = 64
+        Case 4: GetCharWidth = 128
         Case Else: GetCharWidth = 16
     End Select
     

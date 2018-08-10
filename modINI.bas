@@ -166,7 +166,7 @@ Public Sub LoadINI()
     
 LoadINIError:
     Close #1
-    MyMsg "Conguration file is corrupt! [" & Err.Description & "]" & Cr & "It will be deleted."
+    MyMsg "Configuration file is corrupt! [" & Err.Description & "]" & Cr & "It will be deleted."
     KillFile Filename   'Delete it!!!!
     Exit Sub
 End Sub

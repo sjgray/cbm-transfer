@@ -5,14 +5,14 @@ Begin VB.Form frmOptions
    ClientHeight    =   4155
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   6810
+   ClientWidth     =   6825
    ControlBox      =   0   'False
    Icon            =   "frmOptions.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   4155
-   ScaleWidth      =   6810
+   ScaleWidth      =   6825
    StartUpPosition =   1  'CenterOwner
    Begin VB.Frame optFrame 
       Caption         =   "NibTools Options"

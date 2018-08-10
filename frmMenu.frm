@@ -78,6 +78,53 @@ Begin VB.Form frmMenu
          Index           =   5
       End
    End
+   Begin VB.Menu mnuFont 
+      Caption         =   "FontV"
+      Begin VB.Menu mnuF 
+         Caption         =   "Toggle Multi-Colour"
+         Index           =   1
+      End
+      Begin VB.Menu mnuF 
+         Caption         =   "Toggle Border"
+         Index           =   2
+      End
+      Begin VB.Menu mnuF 
+         Caption         =   "Save as Bitmap..."
+         Index           =   3
+      End
+      Begin VB.Menu mnuF 
+         Caption         =   "Edit Mode"
+         Index           =   4
+      End
+      Begin VB.Menu mnuF 
+         Caption         =   "Save Font As..."
+         Index           =   5
+      End
+      Begin VB.Menu mnuF 
+         Caption         =   "Convert"
+         Index           =   6
+         Begin VB.Menu mnuConvert 
+            Caption         =   "Convert 8x16 to 8x8 font"
+            Index           =   0
+         End
+         Begin VB.Menu mnuConvert 
+            Caption         =   "Convert 8x8 to 8x16 font"
+            Index           =   1
+         End
+         Begin VB.Menu mnuConvert 
+            Caption         =   "Convert 5x7 sideways font"
+            Index           =   2
+         End
+         Begin VB.Menu mnuConvert 
+            Caption         =   "Convert 5x7 upright font"
+            Index           =   3
+         End
+         Begin VB.Menu mnuConvert 
+            Caption         =   "Convert 8x14 (EGA ) font"
+            Index           =   4
+         End
+      End
+   End
 End
 Attribute VB_Name = "frmMenu"
 Attribute VB_GlobalNameSpace = False
@@ -94,6 +141,14 @@ Option Explicit
 'Respond to menu selections - convert to button number for main form dispatcher
 Private Sub mnu_Click(Index As Integer)
     Call frmMain.DoMenu(Index)
+End Sub
+
+Private Sub mnuConvert_Click(Index As Integer)
+    Call frmViewer.DoFMenu(Index + 100)
+End Sub
+
+Private Sub mnuF_Click(Index As Integer)
+    Call frmViewer.DoFMenu(Index)
 End Sub
 
 'Respond to menu selections - convert to button number for main form dispatcher

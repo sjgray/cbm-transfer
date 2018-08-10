@@ -75,7 +75,7 @@ Private Sub lblCX_Click()
     If Trim(frmMain.lblXDiskID.Caption) <> "" Then
         frmMain.MakeXDiskImage
     Else
-        MsgBox "No disk. Insert disk and try again!"
+        MyMsg "No disk. Insert disk and try again!"
     End If
 End Sub
 

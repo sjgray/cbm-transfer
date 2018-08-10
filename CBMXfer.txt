@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.04f - July 26,2018 *** 10th Anniversary Edition ***
+============ V1.10 - Aug 9,2018
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -80,7 +80,7 @@ Installation
 		http://www.trikaliotis.net/Download/opencbm-0.4.99.98/opencbm-0.4.99.98.zip
 		http://zadig.akeo.ie/         (USB Driver installer needed for Win7 or later)
 
-	WinVice  (2.3 or higher recommended. Version 3.0 is latest at the time of this document.
+	WinVice  (2.3 or higher recommended. Version 3.2 is latest at the time of this document.
                   Includes 'C1541.EXE' utility - SEE NOTES!)
 		http://vice-emu.sourceforge.net/
 
@@ -115,7 +115,7 @@ Installation
   with parallel cable copy the NibTools EXE files (nibread, nibwrite, nibconv) and/or the ImgCopy utility as well. 
 
    If you installed (1) then there will be an entry in the start menu.
-   If you installed (2) or (3) then you should create a shortcut on your desktop.
+   If you installed (2) or (3) then you need to manually create a shortcut on your desktop.
 
 
 Troubleshooting installation problems
@@ -268,7 +268,7 @@ PETSCII, ASCII, CBMDOS, MSDOS etc
    * FILE SYSTEM.. A system to store files, with folders (sub-directies) etc. A file system has limitations
                    on what characters can be used in filenames.
 
-   There are fundamental differences between Commodore PETSCII vs ASII, and CBMDOS vs MSDOS. This means you
+   There are fundamental differences between Commodore PETSCII vs ASCII, and CBMDOS vs MSDOS. This means you
   must be aware of how to handle these differences. Commodore disks use PETSCII and may contain files with
   names that can not be represented using ASCII. Therefore, some translation may be necessary when
   transfering files to MSDOS, which uses ASCII. The OpenCBM utilities, and C1541.EXE show these files using
@@ -566,7 +566,7 @@ File Viewer
     * BASIC... Displays tokenized Commodore BASIC files.  Most dialects and versions are supported.
     * SEQ..... Displays as text.
     * HEX..... Displays Binary file as HEX values plus Text (non-printing characters are shown as ".")
-    * FONT.... Displays as 8x8 (normal) or 8x16 (CBM-II) format FONT file
+    * FONT.... Displays as 8x8 (normal) or 8x16 (CBM-II) format FONT file. Is also a font editor!
     * ASM..... Displays 6502 Assembly code with various formatting options.
     * BITMAP.. Displays supported CBM format picture formats such as KoalaPainter and GeoPaint files.
 
@@ -671,19 +671,19 @@ HEX:
 FONT:
 -----
 
-   For viewing Character Set FONT files or ROMs (no checking is done to verify the file contents). The file may
-  contain more than one font set. For CBM machines one set could contain either 128 or 256 characters depending on
+   For viewing/editing Character Set FONT files or ROMs (no checking is done to verify the file contents). The
+  file may contain multiple fonts. For CBM machines one set could contain either 128 or 256 characters depending on
   if the "reverse" characters are included. PET/CBM machines generate the "reverse" characters with hardware, so
   they are not included. Commodore C64/VIC have all 256.
 
-   At the top are a line of control boxes:
+   At the top left is the Drop-Down menu followed by a line of control boxes:
 
-	* Font Size..: 8x8 or 8x16 (most use 8x8, but CBM-II uses 8x16)
-	* Colours....: foreground, background, border, and if enabled two Multi-colours
-	* Theme......: Colour themes to match different computers (VIC,64,TED,PET etc)
-	* Zoom Factor: 1x to 6x magnification
-	* Width......: Number of characters per line (16,32,64,128)
-	* Border.....: Toggles border on or off.
+	* Font Size.. 8x8 or 8x16 (most use 8x8, but CBM-II uses 8x16)
+	* Colours.... foreground, background, border, and if enabled two Multi-colours. Click to change!
+	* Theme...... Colour themes to match different computers (VIC,64,TED,PET etc)
+	* Zoom Factor 1x to 6x magnification
+	* Width...... Number of characters per line (8,16,32,64,128)
+	* Border..... Toggles border on or off.
 
    The Skip Bytes field lets you start from an offset which may help when trying to view character sets
   embedded in programs or other binary files. To the right of the offset are six buttons that adjust the offset
@@ -693,13 +693,98 @@ FONT:
 
    Below the top line and on the left we have the selected character controls. At the top is the currently
   selected character. You can click on a character in the set to select it, or use the "<" and ">" buttons. The
-  set# and character# plus hex value are shown. Below that is the selected character with 10x zoom. 
+  set# and character# plus hex value are shown. Below that is the selected character with 16x zoom. This area
+  will change size to show either an 8x8 or 8x16 pixel character depending on the font size setting above.
 
-  Click the "Save BMP..." button to save the current view, including colour scheme and zoom to a BMP file.
+   The drop-down menu has the following options:
 
-    TIP: BMP files are quite big. You might like to load the BMP file into a paint program and re-save it
-         as PNG or JPG to reduce the size.
+	* Toggle Multi-colour.. Turns Multi-color mode on or off.
+	* Toggle Boder......... Turns Border lines between characters/pixels on or off.
+	* Save as BMP.......... Saves the current view, including theme and zoom to a BMP file (see tip).
+	* Edit Mode............ Toggle Edit Mode
+	* Save Font As......... Save the curent font to a file.
+	* Convert.............. Submenu to convert various font formats (see below)
 
+    	TIP: BMP files are quite big. You might like to load the BMP file into a paint program and re-save it
+             as PNG or JPG to reduce the size.
+
+  Edit Mode:
+  
+   Turn on Edit Mode from the drop-down menu. A Toolbar will appear on the left-hand side and the character box
+  and character set will shift to the right. You can now edit the individual pixels of each character, or perform
+  different operations on the selected character or a range of characters. Below the selected character is an area
+  that displays crosshair info and has help info.
+
+  The crosshairs mark the row and column where inserts and deletes are performed. Actions affect the rows BELOW
+ the line, and columns to the RIGHT of the line. To set the crosshair position SHIFT-CLICK or RIGHT-CLICK in the
+ character window.
+
+  Edit tools can work on a range of characters. To set a range, CLICK on the first character you want, then
+ SHIFT-CLICK or RIGHT-CLICK on the last character in the range. The characters in the range will be highlighted.
+ Also, the character edit area will be hidden and an orange info area will appear that will display the characters
+ in the range and the total number of characters selected.
+
+  With either a single character or a range you can now click on a tool in the toolbar and it will operate on that
+ one character or on the whole range of characters. The toolbar contains the following tools:
+
+  Arrows........... Up/Down/Left/Right arrows. This will shift the pixels in the direction chosen. See below.
+  Checkbox......... Determines if pixels shifted off the character area disappear (unchecked), or wrap to the other
+                    side (checked).
+  BG / FG / Xor.... Sets the draw mode:
+			BG: Draws in the Background colour (Bit=0)
+			FG: Draws in the Foreground colour (Bit=1)
+			Xor: Inverts the pixel. 0 Bits become 1, 1 bits become 0. (default mode)
+
+		    In multi-colour (MC) mode 2 bit pairs determine the colour:
+			00: Background Colour  |
+			01: Multi-colour#1     |  In MC mode only the colour is shown, not the pixels, so
+			10: Multi-colour#2     |  you must imagine the pixels that produce the colour seen.
+			11: Foreground Colour  |
+
+  Clear............ Erases the character/range.
+  RVS.............. Inverts the character/range - AKA Reverse.
+  Bold............. Bolds the character to the right.
+  Und.............. Underline (or strikethru). The line is drawn below the crosshair.
+  Rot L / Rot R.... Rotate the character [L]eft or [R]ight. (8x8 characters only)
+  Flip H / Flip V.. Flip the character on the [H]orizontal or [V]ertical plane.
+  Ins R / Del R.... Insert or Delete ROWs below the crosshair.
+  Ins C / Del C.... Insert or Delete COLUMNs to the right of the crosshair.
+  Tall T / Tall B.. Creates a double-tall character [T]op or [B]ottom half.
+  Wide L / Wide R.. Creates a double-wide character [L]eft or [R]ight
+  2x TL/TR/BL/BR... Creates a double-size character [TL]top-left,[TR]top-right,[BL]bottom-left, or [BR]bottom-right.
+
+  SWAP............. Swaps Main and Alternate sets. If no alternate set is loaded the main set is copied.
+                    You can use the alternate set as a way to copy characters between sets. First load the
+		    "alternate" font file, press the SWAP button, then load the main file you want to edit.
+                    SWAP to the alternate and use the copy button, SWAP again and PASTE. 
+                    NOTE: both sets must be the same pixel height.
+  Sel ALL.......... Set Range to ALL characters in file.
+
+  COPY............. Copies the current character/range to the clipboard
+  PASTE............ Pastes the clipboard to the current character/range. If you select a character it becomes the
+                    start character where the clipboard is pasted. If you copied more than one character they ALL
+                    will be pasted. If you select a RANGE then the clipboard is pasted into that range. If the range
+                    is bigger than the clipboard, the clipboard will be repeated (cloned) into that range.
+
+  Set R Point...... Create a RESTORE POINT of the entire set.  
+  Restore.......... Restores the character/range from the RESTORE POINT.
+  Restore Original. Restores the character/range from the original loaded file.
+
+  Font Conversion:
+
+   When you load a font file, the program doesn't know what format it is: 8x8 or 8x16 pixels. To change the format
+  click on the "8x8" or "8x16" buttons. If Edit Mode is OFF it will just change. If Edit Mode is ON it will prompt
+  you if you'd like to convert the font to the chosen format. If you say NO, no conversion will be performed. If
+  you say YES then 8-pixel tall fonts will be converted to 16-pixel tall fonts by copying the character and adding
+  8 blank rows at the bottom of each. If converting 16-pixel tall fonts to 8-pixel the bottom 8 rows will be discarded.
+
+  You can also manually convert fonts using the "Convert" submenu. The following are available:
+
+	* Convert 8x16 to 8x8... Same as above.
+	* Convert 8x8 to 8x16... Same as above.
+	* Convert 5x7 sideways.. Convert 5x7 sideways font to 8x8. You will still need to rotate characters.
+	* Convert 5x7 upright... Convert 5x7 upright font to 8x8.
+	* Convert 8x14.......... Convert 8x14 EGA font to 8x16.
 
 ASM:
 ----
@@ -737,7 +822,9 @@ VICE Support
 ============
 
    CBM-Transfer supports the VICE emulator (as of VICE 2.4 - available at VICETEAM.ORG). CBM-Transfer can
-  be a convenient front-end for running the various machine emulators. There are three ways this can work.
+  be a convenient front-end for running the various machine emulators.
+
+  There are three ways this can work:
 
     * Disk Images:
 	Any D64, G64, D71, D80, D81 (and others) contain the data for a complete Commodore floppy
@@ -795,14 +882,17 @@ Blue Chip	Untested
 
 Change Log
 ==========
-1.04x - July 18, 2018
+1.10 - Aug 9, 2018
    * Viewer:
-   *   Fix Load Address changes not updating view
-   *   ASM: Fix crash when adding large data range, causing listing to end before previous remembered top position.
-   *   ASM: Add Binary data table, and also optional data table length parameter.
-   *   FONT: Change "Wide" checkbox to 4 separate buttons, now 16,32,64 and 128 characters wide.
-   *   FONT: Add more Zoom levels.
-   *   FONT: Change Multi-colour and Border checkboxes to lightup-boxes.
+     * Fix Load Address changes not updating view.
+     * ASM: Fix crash when adding large data range, causing listing to end before previous remembered top position.
+     *      Add Binary data table, and also optional data table length parameter.
+     * FONT: Change "Wide" checkbox to separate buttons, now 8, 16,32,64 and 128 characters wide.
+     *       Add more Zoom levels.
+     *       Add Font Editor. Re-designed layout.
+     *       Add Drop-down menu for Multi-colour, Border, Save as BMP, Edit mode, Save Font, and Convert options.
+     *       Faster re-draw - pixels not regenerated unless colour is changed.
+   * Code optimizations
 
 1.03 - May 23,2017
    * Bug fixes
@@ -810,19 +900,19 @@ Change Log
 
 1.02 - May 16,2017
    * Viewer:
-   *   Re-structured viewer code. File is loaded into buffer and all views (except BITMAP) can read
+     * Re-structured viewer code. File is loaded into buffer and all views (except BITMAP) can read
        the buffer instead of re-reading the file.
-   *   Moved Load Address checkbox and value to top, and it's now shared with all views.
-   *   Added file size display. Added Overflow indicator when file exceeds maximum 32K.
-   *   FONT: Add Multi-colour View Mode.
-   *   ASM: Added code Flow Tracing! It will now find data tables automatically!
-   *        Remember ASM listing position and restore after update.
-   *        Check for project changes when attempting to close viewer.
-   *	    Fix error with disassemblies ending at $FFFF.
-   *	    Fix illegal opcode status box (green/yellow).
-   *	    Fix unnessessary reading of source file on second pass (file is in buffer).
-   *   HEX: Sync selected line to FONT offset.
-   *   BMP: Optimized pixel drawing for faster speed.
+     * Moved Load Address checkbox and value to top, and it's now shared with all views.
+     * Added file size display. Added Overflow indicator when file exceeds maximum 32K.
+     * FONT: Add Multi-colour View Mode.
+     * ASM: Added code Flow Tracing! It will now find data tables automatically!
+     *      Remember ASM listing position and restore after update.
+     *      Check for project changes when attempting to close viewer.
+     *      Fix error with disassemblies ending at $FFFF.
+     *      Fix illegal opcode status box (green/yellow).
+     *      Fix unnessessary reading of source file on second pass (file is in buffer).
+     * HEX: Sync selected line to FONT offset.
+     * BMP: Optimized pixel drawing for faster speed.
    * Batch Imaging now saves last batch#.
    * Added "Ignore BAD disk ID's when imaging D64" option.
 

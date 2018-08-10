@@ -1952,8 +1952,8 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.04f (Jul 26/2018)" & Cr & _
-          "(C)2007-2018 Steve J. Gray  *** 10th Anniversary Edition ***" & Cr & Cr & _
+    MyMsg "CBM-Transfer  V1.10 (Aug 9/2018)" & Cr & _
+          "(C)2007-2018 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
           "by Leif Bloomquist, Wolfgang Moser and Spiro Trikaliotis." & Cr & _
@@ -2054,18 +2054,18 @@ End Sub
 
 '---- Set the positions and sizes on the form
 Sub SetLayout()
-    Dim c0 As Single, c1 As Single, C2 As Single, C3 As Single
+    Dim c0 As Single, C1 As Single, C2 As Single, C3 As Single
     Dim W0 As Single, W1 As Single
     
     W0 = frSrc(0).Width + 30
     W1 = frMiddle.Width + 30
     
     c0 = frSrc(0).Left
-    c1 = c0: If Layout = 1 Then c1 = c1 + W0
-    C2 = c1 + W0
+    C1 = c0: If Layout = 1 Then C1 = C1 + W0
+    C2 = C1 + W0
     C3 = C2 + W1
     
-    frDDF(0).Move c1, frSrc(0).Top              'LEFT
+    frDDF(0).Move C1, frSrc(0).Top              'LEFT
     frMiddle.Left = C2                          'MIDDLE
     frDestB.Left = C3                           'Right header
     frX.Left = C3                               'RIGHT
@@ -2154,31 +2154,31 @@ End Sub
 
 '---- Ask user for 1571 mode (single or double-sided)
 Private Sub Ask1571Mode()
-    Dim choice As Integer, Tmp As String, TCmd As String, TMsg As String
+    Dim Choice As Integer, Tmp As String, TCmd As String, TMsg As String
     Dim Status As ReturnStringType
 
-    choice = MsgBox("1571 Drive. Do you want to use Double-sided mode?", vbYesNoCancel, "Select Mode")
-    Tmp = "0": If choice = vbYes Then Tmp = "1"
+    Choice = MsgBox("1571 Drive. Do you want to use Double-sided mode?", vbYesNoCancel, "Select Mode")
+    Tmp = "0": If Choice = vbYes Then Tmp = "1"
     TCmd = CMDSTR & DriveNum & " "
     TMsg = "Setting 1571 mode..."
 
-    If choice <> vbCancel Then Status = DoCommand(CBMCtrl, TCmd & Quoted("U0>M" & Tmp), TMsg)
+    If Choice <> vbCancel Then Status = DoCommand(CBMCtrl, TCmd & Quoted("U0>M" & Tmp), TMsg)
 
 End Sub
 
 '---- Ask user for 8050 mode (single sided)
 ' If 8050 mode is wanted it must send commands to set specific locations in the Drive's memory
 Private Sub Ask8050Mode()
-    Dim choice As Integer, Tmp As String, TCmd As String, TMsg As String
+    Dim Choice As Integer, Tmp As String, TCmd As String, TMsg As String
     Dim Status As ReturnStringType ''
 
-    choice = MsgBox("8250/SFD. Do you want to use 8050 mode?", vbYesNoCancel, "Select Mode")
+    Choice = MsgBox("8250/SFD. Do you want to use 8050 mode?", vbYesNoCancel, "Select Mode")
     
-    Tmp = "0": If choice = vbYes Then Tmp = "1"
+    Tmp = "0": If Choice = vbYes Then Tmp = "1"
     TCmd = CMDSTR & DriveNum & " "
     TMsg = "Setting 8050 mode..."
     
-    If choice <> vbCancel Then
+    If Choice <> vbCancel Then
         Status = DoCommand(CBMCtrl, TCmd & Quoted("m-w 172 16 1 1"), TMsg)
         Status = DoCommand(CBMCtrl, TCmd & Quoted("m-w 195 16 1 0"), TMsg)
         Status = DoCommand(CBMCtrl, TCmd & Quoted("u9"), TMsg)
@@ -2626,10 +2626,10 @@ Private Sub cmdDNone_Click(Index As Integer)
     DSelector False, Index
 End Sub
 
-Private Sub DSelector(ByVal B As Boolean, ByVal Index As Integer)
+Private Sub DSelector(ByVal b As Boolean, ByVal Index As Integer)
     Dim j As Integer
     For j = 0 To lstImageFiles(Index).ListCount - 1
-        lstImageFiles(Index).Selected(j) = B
+        lstImageFiles(Index).Selected(j) = b
     Next j
 End Sub
 
@@ -2805,11 +2805,11 @@ Private Sub cmdLinkNone_Click()
 End Sub
 
 '---- Select or De-Select ALLall Entries in CBMLink list
-Private Sub LSelector(ByVal B As Boolean)
+Private Sub LSelector(ByVal b As Boolean)
     Dim j As Integer
     
     For j = 0 To lstLink.ListCount - 1
-      lstLink.Selected(j) = B
+      lstLink.Selected(j) = b
     Next j
 End Sub
 
@@ -3143,11 +3143,11 @@ Private Sub cboXDevNum_Click()
 End Sub
 
 '---- Select ALL or NONE for all files in X-cable or Zoomfloppy disk
-Private Sub Selector(ByVal B As Boolean)
+Private Sub Selector(ByVal b As Boolean)
     Dim j As Integer
     
     For j = 0 To lstXFiles.ListCount - 1
-      lstXFiles.Selected(j) = B             'Set to desired state
+      lstXFiles.Selected(j) = b             'Set to desired state
     Next j
 End Sub
 
@@ -3627,7 +3627,7 @@ Private Sub Copy_LocalToX(ByVal Index As Integer)
                     If C < FilesSelected Then
                         If MsgBox("Error: " & LastCMDError & Cr & "Do you want to skip remaining files?", vbYesNo, "Continue") = vbYes Then Exit For
                     Else
-                        MsgBox "Error: " & LastCMDError
+                        MyMsg "Error: " & LastCMDError
                     End If
                 End If
             End If
@@ -4447,7 +4447,6 @@ Private Function DoCommand(Action As String, Args As String, WaitMessage As Stri
     '-- Display Error message
     If ErrorString <> "" Then
         lblR.ToolTipText = ErrorString          'Set Last Result as Tooltip
-        'MsgBox ErrorString, vbOKOnly, Action
     End If
     
     LastCMDError = ErrorString                  'Remember the error results
