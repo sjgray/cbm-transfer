@@ -101,8 +101,12 @@ Begin VB.Form frmMenu
          Index           =   5
       End
       Begin VB.Menu mnuF 
-         Caption         =   "Convert"
+         Caption         =   "Save Range As..."
          Index           =   6
+      End
+      Begin VB.Menu mnuF 
+         Caption         =   "Convert"
+         Index           =   7
          Begin VB.Menu mnuConvert 
             Caption         =   "Convert 8x16 to 8x8 font"
             Index           =   0

@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.10 - Aug 9,2018
+============ V1.10a - Aug 10,2018
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -703,6 +703,7 @@ FONT:
 	* Save as BMP.......... Saves the current view, including theme and zoom to a BMP file (see tip).
 	* Edit Mode............ Toggle Edit Mode
 	* Save Font As......... Save the curent font to a file.
+	* Save Range As........ Save selected range to a file.
 	* Convert.............. Submenu to convert various font formats (see below)
 
     	TIP: BMP files are quite big. You might like to load the BMP file into a paint program and re-save it

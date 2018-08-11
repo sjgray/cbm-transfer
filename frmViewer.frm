@@ -3615,8 +3615,9 @@ Public Sub DoFMenu(ByVal Index As Integer)
         Case 2: ToggleBorder
         Case 3: SaveBMP
         Case 4: ToggleEdit
-        Case 5: SaveFont
-        Case 100 To 104
+        Case 5: SaveFont 0                      'Save entire font
+        Case 6: SaveFont 1                      'Save Range
+        Case 100 To 104                         'Convert Font
             ConvertFont Index - 100
             SelChr = 0: SelChr2 = 0
             SetSelect
@@ -3908,16 +3909,23 @@ Private Sub SetEditMode()
 End Sub
 
 '---- Save Font to File
-Private Sub SaveFont()
+Private Sub SaveFont(ByVal Mode As Integer)
     Dim Filename As String, FFIO As Integer
+    Dim Tmp As String
     
-    Filename = FileOpenSave(FileBase(VFileName), 1, 6, "Save Font")
+    Tmp = "Save Font": If Mode = 1 Then Tmp = "Save Font Range"
+    
+    Filename = FileOpenSave(FileBase(VFileName), 1, 6, Tmp)
     If Filename = "" Then Exit Sub
     If Overwrite(Filename) = False Then Exit Sub
     
     FFIO = FreeFile
     Open Filename For Output As FFIO
-    Print #FFIO, VBuf;
+    If Mode = 0 Then
+        Print #FFIO, VBuf;                                          'Write entire font
+    Else
+        Print #FFIO, Mid(VBuf, ChrPos, ChrPosEnd - ChrPos + 1);     'Write RANGE
+    End If
     Close FFIO
     
 End Sub
