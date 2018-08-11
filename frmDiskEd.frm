@@ -2,14 +2,14 @@ VERSION 5.00
 Begin VB.Form frmDiskEd 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Disk Image Editor"
-   ClientHeight    =   6195
+   ClientHeight    =   6135
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   14835
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   413
+   ScaleHeight     =   409
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   989
    StartUpPosition =   3  'Windows Default
@@ -967,7 +967,7 @@ Sub CBMPrint(ByVal Txt As String, ByVal Row As Integer, ByVal Col As Integer, By
     If MaxC < 0 Then MaxC = LastW
     FS = FontSet * 64                                                       'Font Set selection
     ZZ = 8: Z = Zoom * ZZ                                                   'Zoom
-    RR = R * Z: CC = C * Z                                                  'Row/Col Pixel for start position
+    RR = R * Z: cc = C * Z                                                  'Row/Col Pixel for start position
     
     For i = 1 To Len(Txt)
         Ch = Asc(Mid(Txt, i, 1))                                            'Character to print
@@ -981,11 +981,11 @@ Sub CBMPrint(ByVal Txt As String, ByVal Row As Integer, ByVal Col As Integer, By
         
         SR = Ch \ 32: SC = Ch Mod 32                                        'Source Row,Col for character in Font
         R2 = SR * ZZ + FS: C2 = SC * ZZ                                     'Position in Font
-        picP.PaintPicture picFontSet.Image, CC, RR, Z, Z, C2, R2, ZZ, ZZ    'Blit it (with zoom)
-        C = C + 1: CC = CC + Z                                              'Next Col
+        picP.PaintPicture picFontSet.Image, cc, RR, Z, Z, C2, R2, ZZ, ZZ    'Blit it (with zoom)
+        C = C + 1: cc = cc + Z                                              'Next Col
         If C > MaxC Then
             C = 0: R = R + 1: If R > MaxR Then Exit For                     'Next line, exit when at BOTTOM
-            RR = R * Z: CC = C * Z
+            RR = R * Z: cc = C * Z
         End If
     Next i
     LastRow = R: LastCol = C: LastH = MaxR: LastW = MaxC                    'Remember position and size
@@ -1045,7 +1045,7 @@ Private Function CBMEdit(ByRef picT As PictureBox, ByVal Txt As String, MaxR As 
         '-- Do Cursor Blinking
         If Blink <> LastBlink Then
             '-- Calculate Cursor position
-            RR = CursorR * Z: CC = CursorC * Z                  'Row/Col Pixel
+            RR = CursorR * Z: cc = CursorC * Z                  'Row/Col Pixel
             StrPos = CursorR * (MaxC + 1) + CursorC + 1         'Position in string to edit
             Ch = Asc(Mid(Txt, StrPos, 1))                       'Character at cursor
             If Mode = 0 Then
@@ -1056,7 +1056,7 @@ Private Function CBMEdit(ByRef picT As PictureBox, ByVal Txt As String, MaxR As 
             If Blink = True Then Ch = Ch Xor 128                'Reverse it
             SR = Ch \ 32: SC = Ch Mod 32                        'Calc R,C in Fontset
             R2 = SR * ZZ + FS: C2 = SC * ZZ                     'Calc pixel position
-            picED.PaintPicture picFontSet.Image, CC, RR, Z, Z, C2, R2, ZZ, ZZ    'Blit it (with zoom)
+            picED.PaintPicture picFontSet.Image, cc, RR, Z, Z, C2, R2, ZZ, ZZ    'Blit it (with zoom)
             LastBlink = Blink                                   'Remember blink state so we don't continually blit
         End If
         

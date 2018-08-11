@@ -2743,6 +2743,7 @@ Dim PixelMode           As Integer
 Dim CMat(15)            As String * 1                           'array for one character
 Dim Tr(15)              As Integer                              'translation array
 Dim SBit(7, 7) As Integer, DBit(7, 7) As Integer                'source/dest bit arrays for rotation
+Dim RedrawFlag          As Boolean
 
 '==== ML Viewer
 Dim OP(255) As String                                           '6502 Opcodes
@@ -2800,6 +2801,7 @@ Private Sub Form_Load()
     ChrEditMode = False                     'Chr Viewer - Edit Mode Flag
     SelZoom = 16                            'Chr Viewer - Selected Character Zoom Factor
     PixelMode = 2                           'Chr Viewer - Pixel Drawing Mode (0=BG,1=FG,2=XOR)
+    RedrawFlag = True
     
     For i = 0 To 7: Pow(i) = 2 ^ i: Next    'Set Powers of 2
     
@@ -3538,14 +3540,14 @@ Public Sub FONTView()
         picChr.Height = 3920 '2490/4980
     End If
         
-    ViewFont
+    DrawChrSet
     SetEditMode
     
     DoEvents
     
 End Sub
  
- Public Sub ViewFont()
+ Public Sub DrawChrSet()
     Dim j As Integer, k As Integer, X As Integer, Y As Integer, V As Integer, TopX As Integer, TopY As Integer
     Dim R As Integer, C As Integer, MaxR As Integer, MaxC As Integer, MaxH As Integer
     Dim CZ As Integer, RZ As Integer, PZ As Integer 'zoomed size
@@ -3571,12 +3573,14 @@ End Sub
     CZ = CW * ChrZoom: RZ = RW * ChrZoom                'Size of one character including borders
     FontH = FH                                          'Set for calculating chr when clicked
             
-    picV.Width = (CZ * MaxC + TopY) * Screen.TwipsPerPixelX
-    picV.Height = (RZ * MaxR + TopX) * Screen.TwipsPerPixelY
-    picV.BackColor = lblTheme(2).BackColor
-    picV.Cls
-    picV.Visible = False
-    DoEvents
+    If RedrawFlag = True Then
+        picV.Width = (CZ * MaxC + TopY) * Screen.TwipsPerPixelX
+        picV.Height = (RZ * MaxR + TopX) * Screen.TwipsPerPixelY
+        picV.BackColor = lblTheme(2).BackColor
+        picV.Cls
+        picV.Visible = False
+        DoEvents
+    End If
     
     For j = Offset To VLen
         V = Asc(Mid(VBuf, j, 1))
@@ -3597,6 +3601,7 @@ End Sub
     DoEvents
     
     ShowChr
+    RedrawFlag = False
     
 End Sub
 
@@ -3638,12 +3643,14 @@ End Sub
 '-- Change Zoom Factor
 Private Sub lblZoom_Click(Index As Integer)
     ChrZoom = Index + 1
+    RedrawFlag = True
     FONTView 'draw character set
 End Sub
 
 '-- Change Width
 Private Sub lblWidth_Click(Index As Integer)
     ChrWIndex = Index
+    RedrawFlag = True
     FONTView 'draw character set
 End Sub
 
@@ -3666,6 +3673,7 @@ Private Sub lblChrHeight_Click(Index As Integer)
         End If
     End If
     
+    RedrawFlag = True
     SetSelect
     FONTView 'draw character set
 End Sub
@@ -3674,12 +3682,14 @@ End Sub
 Private Sub ToggleMC()
     MCFlag = Not MCFlag
     BitFlag = True
+    RedrawFlag = True
     FONTView 'draw character set
 End Sub
 
 '-- Toggle Border
 Private Sub ToggleBorder()
     BorderFlag = Not BorderFlag
+    RedrawFlag = True
     FONTView 'draw character set
 End Sub
 
@@ -3701,7 +3711,7 @@ Private Sub cboTheme_Click()
     
     lblTheme(0).BackColor = FG: lblTheme(1).BackColor = BG: lblTheme(2).BackColor = BO
     DoEvents
-    
+    RedrawFlag = True
     BitFlag = True
     FONTView
 
@@ -3827,10 +3837,10 @@ End Sub
 '
 Private Sub picV_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Dim T As Integer, R As Integer, C As Integer, RW As Integer, CW As Integer, CMax As Integer
-    Dim RedrawFlag As Boolean
+    Dim UpdateFlag As Boolean
     
     CMax = GetCharWidth(ChrWIndex)
-    RedrawFlag = False
+    UpdateFlag = False
     
     RW = FontH: CW = 8
     If BorderFlag = True Then RW = RW + 1: CW = CW + 1
@@ -3841,9 +3851,9 @@ Private Sub picV_MouseDown(Button As Integer, Shift As Integer, X As Single, Y A
     T = R * CMax + C
     
     If (Shift > 0) Or (Button = 2) Then
-       SelChr2 = T: RangeFlag = True: RedrawFlag = True
+       SelChr2 = T: RangeFlag = True: UpdateFlag = True
     Else
-       SelChr = T: SelChr2 = T: If RangeFlag = True Then RangeFlag = False: RedrawFlag = True
+       SelChr = T: SelChr2 = T: If RangeFlag = True Then RangeFlag = False: UpdateFlag = True
     End If
     
     If SelChr = SelChr2 Then RangeFlag = False                          'Same chr selected
@@ -3853,7 +3863,7 @@ Private Sub picV_MouseDown(Button As Integer, Shift As Integer, X As Single, Y A
     End If
         
     SetSelect
-    If RedrawFlag = True Then FONTView
+    If UpdateFlag = True Then FONTView
     ShowChr
 End Sub
 
@@ -4287,7 +4297,7 @@ SwapSets:
     VBuf = VBufAlt                                              'Swap set 1 and 2
     VBufAlt = Tmp
     VLen = Len(VBuf):  lblVSize.Caption = Format(VLen)          'Set buffer length
-    ViewFont                                                    'redraw
+    DrawChrSet                                                    'redraw
     Return
 
 SelectAll:
@@ -4964,8 +4974,13 @@ End Sub
 Private Sub lblTheme_Click(Index As Integer)
     
     frmColourPicker.Show vbModal
-    If PickedColour >= 0 Then lblTheme(Index).BackColor = PickedColour: FONTView
-
+    If PickedColour >= 0 Then
+        lblTheme(Index).BackColor = PickedColour
+        BitFlag = True
+        RedrawFlag = True
+        FONTView
+    End If
+    
 End Sub
 
 '---- Single clicking on one of the Lists
