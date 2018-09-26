@@ -41,6 +41,7 @@ Attribute VB_Name = "modCommon"
 ' MyHex............ Convert decimal to fixed-length HEX string with leading zeros
 ' MyBin............ Convert byte to 8-bit binary
 ' MyTrim........... Removes leading and trailing spaces
+' MyRGB............ Returns LONG RGB value given R,G,B 2-digit hex strings
 ' GetBrowseDir..... Prompt for new directory using "Browse for Folder" popup
 ' GetLoadAddress... Reads CBM Load Address from specified file
 ' ViceEXE.......... Returns VICE executable from list
@@ -55,7 +56,7 @@ Attribute VB_Name = "modCommon"
 ' GetVNameU........ Return Variable Name in UPPERCASE, from string in format: "variable=value"
 ' GetVstr.......... Return Value from string as above
 ' GetCharWidth..... Return Width based on character width index
-
+' C64Colour........ Return the RGB value for specified C64 colour
 
 '---- MessageBox popup with default title
 Public Sub MyMsg(ByVal Tmp As String)
@@ -79,12 +80,12 @@ ExErr1:
 End Function
 
 '---- Check if a file exists. If so, returns TRUE
-Function Exists(ByVal Filename As String) As Boolean
+Function Exists(ByVal filename As String) As Boolean
     Dim FIO As Integer
     
     On Local Error GoTo NoFile
     Exists = False
-    FIO = FreeFile: Open Filename For Input As FIO
+    FIO = FreeFile: Open filename For Input As FIO
     Exists = True
 NoFile:
     Close FIO
@@ -94,55 +95,55 @@ End Function
 '---- Checks for file and prompts to Overwrite if necessary
 ' Returns TRUE if file does NOT exist, or it EXISTS and user says YES.
 ' Returns FALSE if file EXISTS but user says NO.
-Public Function Overwrite(ByVal Filename As String) As Boolean
+Public Function Overwrite(ByVal filename As String) As Boolean
     
     Overwrite = True 'assume ok to replace
     
-    If Exists(Filename) = True Then
-        If MsgBox("The file '" & Filename & "' already exists!" & Cr & "Replace it?", vbYesNo, "Overwrite File") = vbNo Then Overwrite = False
+    If Exists(filename) = True Then
+        If MsgBox("The file '" & filename & "' already exists!" & Cr & "Replace it?", vbYesNo, "Overwrite File") = vbNo Then Overwrite = False
     End If
 End Function
 
 '---- Return file Extension
-Public Function FileExt(ByVal Filename As String) As String
+Public Function FileExt(ByVal filename As String) As String
     Dim p As Integer
     
-    p = InStrRev(Filename, ".")
-    If p > 0 Then FileExt = Mid(Filename, p + 1) Else FileExt = ""
+    p = InStrRev(filename, ".")
+    If p > 0 Then FileExt = Mid(filename, p + 1) Else FileExt = ""
 End Function
 
 '---- Return file Extension Uppercased
-Public Function FileExtU(ByVal Filename As String) As String
+Public Function FileExtU(ByVal filename As String) As String
     Dim p As Integer
     
-    p = InStrRev(Filename, ".")
-    If p > 0 Then FileExtU = UCase(Mid(Filename, p + 1)) Else FileExtU = ""
+    p = InStrRev(filename, ".")
+    If p > 0 Then FileExtU = UCase(Mid(filename, p + 1)) Else FileExtU = ""
 End Function
 
 '---- Return Path without filename
-Public Function FilePath(ByVal Filename As String) As String
+Public Function FilePath(ByVal filename As String) As String
     Dim p As Integer
     
-    p = InStrRev(Filename, "\")
-    If p > 0 Then FilePath = Left(Filename, p - 1) Else FilePath = ""
+    p = InStrRev(filename, "\")
+    If p > 0 Then FilePath = Left(filename, p - 1) Else FilePath = ""
     
 End Function
 
 '---- Return Filename without Extension (do not remove path if included)
-Public Function FileBase(ByVal Filename As String) As String
+Public Function FileBase(ByVal filename As String) As String
     Dim p As Integer
     
-    p = InStrRev(Filename, ".")
-    If p > 0 Then FileBase = Left(Filename, p - 1) Else FileBase = Filename
+    p = InStrRev(filename, ".")
+    If p > 0 Then FileBase = Left(filename, p - 1) Else FileBase = filename
     
 End Function
 
 '---- Return Filename without Path
-Public Function FileNameOnly(ByVal Filename As String) As String
+Public Function FileNameOnly(ByVal filename As String) As String
     Dim p As Integer
     
-    p = InStrRev(Filename, "\")
-    If p > 0 Then FileNameOnly = Mid(Filename, p + 1) Else FileNameOnly = Filename
+    p = InStrRev(filename, "\")
+    If p > 0 Then FileNameOnly = Mid(filename, p + 1) Else FileNameOnly = filename
     
 End Function
 
@@ -192,18 +193,18 @@ Public Function AddSlash(Path As String) As String
 End Function
 
 '---- Removes the trailing \ from a filename
-Public Function NoSlash(ByVal Filename As String) As String
-    If Right(Filename, 1) = "\" Then
-        NoSlash = Left(Filename, Len(Filename) - 1)
+Public Function NoSlash(ByVal filename As String) As String
+    If Right(filename, 1) = "\" Then
+        NoSlash = Left(filename, Len(filename) - 1)
     Else
-        NoSlash = Filename
+        NoSlash = filename
     End If
 End Function
 
 '---- Delete a file if the file exists
-Public Sub KillFile(ByVal Filename As String)
+Public Sub KillFile(ByVal filename As String)
     On Local Error Resume Next
-    Kill Filename
+    Kill filename
 End Sub
 
 '---- Deletes all temporary files
@@ -238,11 +239,11 @@ End Function
 ' entry : 123 "filename"  prg<
 ' output: filename.prg
 Public Function DOSName(ByVal Str As String) As String
-    Dim Filename As String, Ext As String
+    Dim filename As String, Ext As String
 
-    Filename = ExtractQuotes(Str)       'Get Filename
+    filename = ExtractQuotes(Str)       'Get Filename
     Ext = DOSExt(Str)                   'Get Extension (PRG,SEQ etc)
-    DOSName = Filename & "." & Ext      'Combine and return
+    DOSName = filename & "." & Ext      'Combine and return
 End Function
 
 
@@ -250,12 +251,12 @@ End Function
 ' entry : 123 "filename"  prg<
 ' output: filename,p
 Public Function CBMName(ByVal Str As String) As String
-    Dim Filename As String, Ext As String, Ext2 As String
+    Dim filename As String, Ext As String, Ext2 As String
 
-    Filename = ExtractQuotes(Str)           'Get Filename
+    filename = ExtractQuotes(Str)           'Get Filename
     Ext2 = DOSExt(Str)
     Ext = CBMExt(Ext2)                      'Get Extension (",p" or ",s" etc)
-    CBMName = Filename & Ext                'Combine and return
+    CBMName = filename & Ext                'Combine and return
 End Function
 
 '---- Return DOS File Extension from Directory Line
@@ -307,53 +308,53 @@ Public Function Reverse(ByVal n As Integer) As Integer
 End Function
 
 '---- Validate PC filename - Check for invalid characters
-Public Function CheckPCFilename(ByVal Filename As String) As Boolean
+Public Function CheckPCFilename(ByVal filename As String) As Boolean
     Dim Bad As String, j As Integer
     CheckPCFilename = True 'assume all okay
         
-    If Left(Filename, 1) = " " Then CheckPCFilename = False: Exit Function
+    If Left(filename, 1) = " " Then CheckPCFilename = False: Exit Function
     
     Bad = "/\:*?<>|" & Qu
     
     For j = 1 To Len(Bad)
-        If InStr(1, Filename, Mid(Bad, j, 1), vbtext) > 0 Then CheckPCFilename = False: Exit For
+        If InStr(1, filename, Mid(Bad, j, 1), vbtext) > 0 Then CheckPCFilename = False: Exit For
     Next j
 
 End Function
 
 '---- Fix CBM Filename to be PC friendly according to Option MODE - updated feb 1/2011
 ' This will automatically fix filenames, or it will prompt for manual entry
-Public Function MakePCName(ByVal Filename As String) As String
+Public Function MakePCName(ByVal filename As String) As String
     Dim j As Integer, EdFlag As Boolean, OldName As String
     
-    OldName = Filename
-    If CheckPCFilename(Filename) = False Then
+    OldName = filename
+    If CheckPCFilename(filename) = False Then
         'Bad filename! What do we do?
         Select Case FNMode
-            Case 1: Filename = FixPCName(Filename, "")
-            Case 2: Filename = FixPCName(Filename, FNChr)
+            Case 1: filename = FixPCName(filename, "")
+            Case 2: filename = FixPCName(filename, FNChr)
         End Select
         
         If (FNMode = 0) Or (FNEdit = True) Then
             'Edit the filename
-            frmPrompt.Reply.Text = Filename
+            frmPrompt.Reply.Text = filename
             frmPrompt.Ask "Rename File", "The file '" & OldName & "' contains illegal characters. Please enter a new name:", 1, False
-            Filename = Response
+            filename = Response
         End If
     End If
     
-    MakePCName = Filename
+    MakePCName = filename
 End Function
 
 '---- Takes a PETSCII Filename and looks for invalid DOS File system characters. Replaces them with specified character RStr.
-Public Function FixPCName(ByVal Filename As String, ByVal RStr As String) As String
+Public Function FixPCName(ByVal filename As String, ByVal RStr As String) As String
     Dim j As Integer, Tmp As String, Tmp2 As String, Bad As String, Flag As Boolean
     
     Tmp = "": Bad = "/\:*?<>|" & Qu
     Flag = False 'flag for spaces at beginning of filename
     
-    For j = 1 To Len(Filename)
-        Tmp2 = Mid(Filename, j, 1)
+    For j = 1 To Len(filename)
+        Tmp2 = Mid(filename, j, 1)
         If Tmp2 <> " " Or Flag = True Then
             If InStr(1, Bad, Tmp2) = 0 Then Tmp = Tmp & Tmp2 Else Tmp = Tmp & RStr
             Flag = True
@@ -413,9 +414,9 @@ QuoteError:
 End Function
 
 '---- Convert decimal value to fixed-length HEX value with leading zeros
-Function MyDec(ByVal h As String) As Long
+Function MyDec(ByVal H As String) As Long
     On Local Error Resume Next
-    MyDec = CLng(Hx & h)
+    MyDec = CLng(Hx & H)
 End Function
 
 '---- Convert decimal value to fixed-length HEX value with leading zeros
@@ -477,14 +478,14 @@ Public Function vbGetBrowseDirectory(ThaForm As Long, Msg As String) As String
 End Function
 
 '---- Reads the first two bytes of a file and calculates the Commodore Load Address
-Public Function GetLoadAddress(ByVal Filename As String) As Long
+Public Function GetLoadAddress(ByVal filename As String) As Long
     Dim FIO As Integer, Tmp As String
     
     GetLoadAddress = 0
-    If Exists(Filename) = True Then
+    If Exists(filename) = True Then
         FIO = FreeFile
-        Open Filename For Binary As FIO
-        Tmp = Input(2, FIO)
+        Open filename For Binary As FIO
+        Tmp = input(2, FIO)
         Close FIO
         GetLoadAddress = Asc(Mid(Tmp, 1, 1)) + Asc(Mid(Tmp, 2, 1)) * 256
     End If
@@ -538,21 +539,21 @@ Public Function DiskID(ByVal Tmp As String) As String
 End Function
 
 '---- Opens the specified File with associated application (ie: notepad for TXT files)
-Public Sub ViewFile(ByVal Filename As String)
+Public Sub ViewFile(ByVal filename As String)
     Dim hWnd As Long
     
-    ShellExecute hWnd, "open", Filename, vbNullString, ExeDir, 1
+    ShellExecute hWnd, "open", filename, vbNullString, ExeDir, 1
 End Sub
 
 '---- Makes filename given template. Uses *, % and ^ as substitution characters
 Public Function BatchName(ByVal Num As Integer, ByVal Side As Integer, FStr As String) As String
-    Dim p As Integer, p2 As Integer, L As Integer
+    Dim p As Integer, p2 As Integer, l As Integer
     
     BatchName = FStr
-    L = Len(FStr): p = InStr(1, FStr, "#"):    If p = 0 Then Exit Function
+    l = Len(FStr): p = InStr(1, FStr, "#"):    If p = 0 Then Exit Function
     
     p2 = 1
-    Do While p2 < L
+    Do While p2 < l
         If Mid(FStr, p + p2, 1) <> "#" Then Exit Do
         p2 = p2 + 1
     Loop
@@ -567,15 +568,15 @@ End Function
 'String contains multiple <CR> delimited lines (could be an entire text file)
 'Note: string to search must end with <CR>!
 Public Function GetNamedField(ByVal Tmp As String, FS As String) As String
-    Dim p As Integer, PP As Integer, L As Integer, Tmp2 As String
+    Dim p As Integer, PP As Integer, l As Integer, Tmp2 As String
         
-    L = Len(FS)                 'Length of Field String
+    l = Len(FS)                 'Length of Field String
     p = InStr(1, Tmp, FS)       'Look for the string
     Tmp2 = ""
     
     If p > 0 Then
-        p2 = InStr(p + L, Tmp, Cr) 'Now look for carriage return
-        If p2 > 0 Then Tmp2 = Mid(Tmp, p + L, p2 - p - L)
+        p2 = InStr(p + l, Tmp, Cr) 'Now look for carriage return
+        If p2 > 0 Then Tmp2 = Mid(Tmp, p + l, p2 - p - l)
     End If
     
     GetNamedField = Tmp2
@@ -683,6 +684,16 @@ Public Function C64Colour(ByVal n As Integer) As Long
 
 End Function
 
+'---- Return RGB value from R,G,B 2-digit strings
+Public Function MyRGB(ByVal R As String, G As String, B As String) As Long
+    Dim RD As Integer, GD As Integer, BD As Integer
+    
+    RD = MyDec(R)
+    GD = MyDec(G)
+    BD = MyDec(B)
+    MyRGB = RGB(RD, GD, BD)
+    
+End Function
 Public Function GetCharWidth(ByVal n As Integer) As Integer
 
     Select Case n

@@ -1952,7 +1952,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.10b (Aug 10/2018)" & Cr & _
+    MyMsg "CBM-Transfer  V1.10d (Sept 25/2018)" & Cr & _
           "(C)2007-2018 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -2626,10 +2626,10 @@ Private Sub cmdDNone_Click(Index As Integer)
     DSelector False, Index
 End Sub
 
-Private Sub DSelector(ByVal b As Boolean, ByVal Index As Integer)
+Private Sub DSelector(ByVal B As Boolean, ByVal Index As Integer)
     Dim j As Integer
     For j = 0 To lstImageFiles(Index).ListCount - 1
-        lstImageFiles(Index).Selected(j) = b
+        lstImageFiles(Index).Selected(j) = B
     Next j
 End Sub
 
@@ -2805,11 +2805,11 @@ Private Sub cmdLinkNone_Click()
 End Sub
 
 '---- Select or De-Select ALLall Entries in CBMLink list
-Private Sub LSelector(ByVal b As Boolean)
+Private Sub LSelector(ByVal B As Boolean)
     Dim j As Integer
     
     For j = 0 To lstLink.ListCount - 1
-      lstLink.Selected(j) = b
+      lstLink.Selected(j) = B
     Next j
 End Sub
 
@@ -3143,11 +3143,11 @@ Private Sub cboXDevNum_Click()
 End Sub
 
 '---- Select ALL or NONE for all files in X-cable or Zoomfloppy disk
-Private Sub Selector(ByVal b As Boolean)
+Private Sub Selector(ByVal B As Boolean)
     Dim j As Integer
     
     For j = 0 To lstXFiles.ListCount - 1
-      lstXFiles.Selected(j) = b             'Set to desired state
+      lstXFiles.Selected(j) = B             'Set to desired state
     Next j
 End Sub
 
@@ -3643,35 +3643,44 @@ End Sub
 Public Sub MakeXDiskImage()
     Dim Filename As String, Ext As String, FilenameOut As String, Ostr As String
     Dim Tmp As String, TmpP As VbMsgBoxResult, TmpExt As String, TempNIB As Boolean
-    Dim X0 As String, X1 As String, X2 As String, NibTmp As String
+    Dim X0 As String, X1 As String, X2 As String, NibTmp As String, OpFlag As Boolean
     
     X0 = ""
     X1 = "d64copy"
     X2 = "imgcopy"
-    TempNIB = False
+    TempNIB = UseNIB
     
     '-- Check Disk Format using DiskID string
     Tmp = UCase(Mid(lblXDiskID, 4, 2))
     Select Case Tmp
         Case "2A": TmpExt = "D64": X0 = X1
-        Case "2C": TmpExt = "D80": X0 = X2
-        Case "3D", "1D": TmpExt = "D81": X0 = X2
+        Case "2C": TmpExt = "D80": X0 = X2: TempNIB = False         'Can't NIB D80
+        Case "3D", "1D": TmpExt = "D81": X0 = X2: TempNIB = False   'Can't NIB D81
         Case Else
+            '-- Handle Unknown Disk ID - Could be corrupt disk?
+            
             TmpExt = "D64": X0 = X1     'default to D64 using D64COPY
 
-            If (UseNIB = False) And (IgnoreBadID = False) Then
+            If (TempNIB = False) And (IgnoreBadID = False) Then
                 TmpP = MsgBox("The source disk ID (" & Tmp & ") is unknown. This could be a corrupt disk, copy-protected disk, or unsupported format." & Cr & _
                 "Do you want to try imaging with NIBTOOLS?" & Cr & "( Yes=NIBTOOLS, No=D64COPY, Cancel=Do Not Image )", vbYesNoCancel, "Warning!")
                 Select Case TmpP
                     Case vbYes: TempNIB = True
-                    'Case vbNo: TmpExt = "D64": X0 = X1
                     Case vbCancel: Exit Sub
                 End Select
             End If
     End Select
     
-    '-- Create image of disk using D64COPY.EXE or IMGCOPY
-    If (UseNIB = False) And (TempNIB = False) Then
+    '-- Prompt for NIB/IMGCOPY if Prompt option set
+    If (TempNIB = True) And (NIBPrompt = True) Then
+        TmpP = MsgBox("Do you want to use NIBTools", vbYesNoCancel, "User Option")
+        If TmpP = vbNo Then TempNIB = False
+        If TmpP = vbCancel Then Exit Sub
+    End If
+  
+    '-- Determine if using normal copier or NIBTOOLS
+    If (TempNIB = False) Then
+        '-- Create image of disk using D64COPY.EXE or IMGCOPY
         If UseBatch = False Then
             frmPrompt.Reply.Text = RTrim(FixPCName(lblXDiskName.Caption, "")) & "." & TmpExt
             frmPrompt.Ask "Create Dxx", "Please Enter Image Filename:", 1, False
@@ -3731,14 +3740,22 @@ Public Sub MakeXDiskImage()
                 frmWaiting.SetMode "nibconv"
                 '-- Convert NIB to G64
                 If CreateG64 = True Then
-                    DoCommand "nibconv", NibTmp & " " & FilenameOut & " " & Quoted(Filename & ".g64"), _
+                    OpFlag = True
+                    If NIBPrompt = True Then If MsgBox("Do you want to convert to G64?", vbYesNo) = vbNo Then OpFlag = False
+                    If OpFlag = True Then
+                        DoCommand "nibconv", NibTmp & " " & FilenameOut & " " & Quoted(Filename & ".g64"), _
                               "Converting " & Ext & " to G64"
+                    End If
                 End If
                 
                 '-- Convert NIB to D64
                 If CreateD64 = True Then
-                    DoCommand "nibconv", NibTmp & " " & FilenameOut & " " & Quoted(Filename & ".d64"), _
+                    OpFlag = True
+                    If NIBPrompt = True Then If MsgBox("Do you want to convert to D64?", vbYesNo) = vbNo Then OpFlag = False
+                    If OpFlag = True Then
+                        DoCommand "nibconv", NibTmp & " " & FilenameOut & " " & Quoted(Filename & ".d64"), _
                               "Converting " & Ext & " to D64"
+                    End If
                 End If
                 
                 If CreateNIB = False Then KillFile FilenameOut

@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.10a - Aug 10,2018
+============ V1.11 - Sept 25,2018
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -815,6 +815,11 @@ BITMAP:
    CBM-Transfer recognizes files with an ART, KOA, CDU or GEO extension in the LocalPC directory. If
   a format is recognized the name will be displayed, as well as any internal comments. To save the
   currently displayed image to a Windows BMP file, click the "SAVE..." button.
+
+   Click the "Load VPL..." button to load a VICE Palette file. A VPL file contains the RGB values
+  corresponding to the 16 possible colours in the picture palette. CBM-Transfer will look for a file
+  called "CBMXfer.vpl" in the CBM-Transfer folder. If found it will be loaded by default when the viewer
+  is opened.
  
 	NOTE: The bitmap viewer contains portions of code from CBM2BMP by Peter Weighill.
  
@@ -883,6 +888,11 @@ Blue Chip	Untested
 
 Change Log
 ==========
+1.11 - Sept 26, 2018
+   * Viewer:
+     * BMP: Add "Load VPL" button to load VICE Palette files. Loads "CBMXfer.vpl" automatically if found when
+            viewer is loaded.
+
 1.10 - Aug 9, 2018
    * Viewer:
      * Fix Load Address changes not updating view.

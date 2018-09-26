@@ -24,9 +24,9 @@ Begin VB.Form frmViewer
          Strikethrough   =   0   'False
       EndProperty
       Height          =   7440
-      Left            =   480
+      Left            =   2640
       TabIndex        =   28
-      Top             =   1170
+      Top             =   4800
       Visible         =   0   'False
       Width           =   14925
       Begin VB.Frame frTools 
@@ -817,7 +817,7 @@ Begin VB.Form frmViewer
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   59
          TabIndex        =   29
-         Top             =   810
+         Top             =   840
          Width           =   885
       End
       Begin VB.Image cmdFontMenu 
@@ -1285,16 +1285,26 @@ Begin VB.Form frmViewer
          Strikethrough   =   0   'False
       EndProperty
       Height          =   3825
-      Left            =   6120
+      Left            =   480
       TabIndex        =   18
-      Top             =   2160
+      Top             =   1230
       Visible         =   0   'False
-      Width           =   3555
+      Width           =   7575
+      Begin VB.CommandButton cmdLoadVPL 
+         Caption         =   "Load VPL..."
+         Height          =   315
+         Left            =   1140
+         TabIndex        =   231
+         ToolTipText     =   "Load VICE Palette file"
+         Top             =   300
+         Width           =   1305
+      End
       Begin VB.CommandButton cmdBSave 
          Caption         =   "Save..."
          Height          =   315
          Left            =   120
          TabIndex        =   22
+         ToolTipText     =   "Save to BMP file"
          Top             =   300
          Width           =   975
       End
@@ -1326,7 +1336,7 @@ Begin VB.Form frmViewer
          AutoSize        =   -1  'True
          Caption         =   "Comment:"
          Height          =   195
-         Left            =   1260
+         Left            =   2610
          TabIndex        =   24
          Top             =   480
          Width           =   705
@@ -1335,7 +1345,7 @@ Begin VB.Form frmViewer
          AutoSize        =   -1  'True
          Caption         =   "Format:"
          Height          =   195
-         Left            =   1260
+         Left            =   2610
          TabIndex        =   23
          Top             =   240
          Width           =   525
@@ -1348,7 +1358,7 @@ Begin VB.Form frmViewer
          Caption         =   "-"
          ForeColor       =   &H00000000&
          Height          =   195
-         Left            =   2040
+         Left            =   3390
          TabIndex        =   21
          Top             =   240
          Width           =   45
@@ -1361,7 +1371,7 @@ Begin VB.Form frmViewer
          Caption         =   "-"
          ForeColor       =   &H00000000&
          Height          =   195
-         Left            =   2040
+         Left            =   3390
          TabIndex        =   20
          Top             =   480
          Width           =   45
@@ -2761,7 +2771,7 @@ Public LPrefix As String, ProjFilename As String
 
 '---- Load the Form
 Private Sub Form_Load()
-    Dim i As Integer
+    Dim i As Integer, Filename As String
     
     On Error Resume Next
     
@@ -2806,6 +2816,8 @@ Private Sub Form_Load()
     For i = 0 To 7: Pow(i) = 2 ^ i: Next    'Set Powers of 2
     
     Call SetColor                           'Setup C64 colours
+    Filename = ExeDir & "cbmxfer.vpl"       'Check for default VPL file
+    If Exists(Filename) = True Then LoadVPL Filename
     
     Me.Show: DoEvents
     ViewerReady = True
@@ -3535,9 +3547,9 @@ Public Sub FONTView()
     End If
     
     If ChrHIndex = 0 Then
-        picChr.Height = 2010 '1270/2490
+        picChr.Height = 2030 'Height for 8x8 characters
     Else
-        picChr.Height = 3920 '2490/4980
+        picChr.Height = 3950 'Height for 8x16 characters
     End If
         
     DrawChrSet
@@ -3552,12 +3564,13 @@ End Sub
     Dim R As Integer, C As Integer, MaxR As Integer, MaxC As Integer, MaxH As Integer
     Dim CZ As Integer, RZ As Integer, PZ As Integer 'zoomed size
     Dim Offset As Long, ChrNum As Integer
+    Dim CCZ As Integer, RRZ As Integer                      'to help speed up drawing
     
     FH = ChrHeight                                          'Chr Height in pixels
     ChrNum = 0
     C = 0: R = 0: X = 0: Y = 0
-    MaxR = 64                                               'Max Row
     TopX = 0: TopY = 0                                      'Top-Left Offset
+    MaxR = 64                                               'Max Row
     MaxC = GetCharWidth(ChrWIndex)                          'How many characters wide?
     CW = 8: RW = FH                                         'Chr width
     PZ = CW * ChrZoom                                       'Scale factor for drawing one line of pixels
@@ -3582,18 +3595,24 @@ End Sub
         DoEvents
     End If
     
+    CCZ = TopX: RRZ = TopY
+    
     For j = Offset To VLen
         V = Asc(Mid(VBuf, j, 1))
         '----paintpicture {srceimg},destX,destY,destW,destH ,srcX,srcY,srcW,srcH,mode
         If (RangeFlag = True) And (ChrNum >= SelChr) And (ChrNum <= SelChr2) Then
-            picV.PaintPicture Pix.Image, TopX + C * CZ, TopY + R * RZ + Y * ChrZoom, PZ, ChrZoom, 0, V, 8, 1, vbNotSrcCopy 'blit the pixel representation to the view window
+            picV.PaintPicture Pix.Image, CCZ, RRZ + Y * ChrZoom, PZ, ChrZoom, 0, V, 8, 1, vbNotSrcCopy  'blit the pixels - Selected character
         Else
-            picV.PaintPicture Pix.Image, TopX + C * CZ, TopY + R * RZ + Y * ChrZoom, PZ, ChrZoom, 0, V, 8, 1  'blit the pixel representation to the view window
+            picV.PaintPicture Pix.Image, CCZ, RRZ + Y * ChrZoom, PZ, ChrZoom, 0, V, 8, 1                'blit the pixels - Un-selected character
         End If
         Y = Y + 1
-        If Y = FH Then Y = Y - FH: ChrNum = ChrNum + 1: C = C + 1: If C >= MaxC Then C = 0: R = R + 1
+        If Y = FH Then
+            Y = Y - FH: ChrNum = ChrNum + 1: C = C + 1: If C >= MaxC Then C = 0: R = R + 1
+            CCZ = TopX + C * CZ: RRZ = TopY + R * RZ 'speed up
+        End If
         If R > MaxR Then Exit For
     Next j
+    
     If R < MaxR Then picV.Height = (RZ * R + TopX) * Screen.TwipsPerPixelY
     
     lblEndRange.Caption = "to" & Str(j)
@@ -3723,7 +3742,7 @@ End Sub
 
 Public Sub CreatePixels()
     Dim j As Integer, k As Integer, CI As Integer
-    Dim MC(3) As Long 'Array to hold multicolour values
+    Dim MC(3) As Long               'Array to hold multicolour values
     
     MC(0) = lblTheme(1).BackColor   'Background colour
     MC(1) = lblTheme(3).BackColor   'Register colour #1
@@ -3763,6 +3782,7 @@ Private Sub cmdCSNxt_Click()
     SelChr = SelChr + 1: If SelChr > 255 Then SelChr = 255
     SelChr2 = SelChr
     SetSelect
+    FONTView
     ShowChr
 End Sub
 
@@ -3788,6 +3808,7 @@ Public Sub ShowChr()
     If BorderFlag = True Then RW = RW + 1: CW = CW + 1: XYOff = ChrZoom             'Adjust for border
     
     SetNum = SelChr \ 128: ChrNum = SelChr Mod 128                                  'Set based on 128 char font
+    If ChrPixelR >= ChrHeight Then ChrPixelR = ChrHeight - 1                        'When switching from 16 to 8 pixel tall
     
     '-- Show Info
     lblChrNum.Caption = Format(SelChr, "000")
@@ -3796,15 +3817,9 @@ Public Sub ShowChr()
     lblFStat.Caption = "Crosshairs: Row=" & Format(ChrPixelR) & ", Col=" & Format(ChrPixelC) _
         & Cr & Cr & "Chr: RIGHT-CLICK to set crosshairs." & Cr & Cr & "Chr Set: CLICK on first chr, RIGHT-CLICK on last to set RANGE."
     
-    
     Tmp = "Range:" & Cr & Cr & "From: " & Format(SelChr) & Cr & "To..: " & Format(SelChr2) & Cr & Cr & "(" & Format(SelChr2 - SelChr + 1) & " selected)"
     If Len(VClip) > 0 Then Tmp = Tmp & Cr & Cr & Format(Len(VClip)) & " bytes in clipboard"
     lblRange.Caption = Tmp
-    
-    '-- Set the Selected chr colours to match theme
-    picChr.BackColor = lblTheme(1).BackColor
-    picChr.ForeColor = lblTheme(2).BackColor
-    picChr.Cls
     
     '-- Calc position
     R = Int(SelChr / CMax)
@@ -3819,15 +3834,16 @@ Public Sub ShowChr()
         
         If BorderFlag = True Then
             For i = 0 To 16
-                picChr.Line (0, i * SelZoom)-Step(160, 0), C1 'Draw Horizontal Lines
+                picChr.Line (0, i * SelZoom)-Step(160, 2), C1, BF 'Draw Horizontal Lines
             Next i
             
             For i = 0 To 8
-                picChr.Line (i * SelZoom, 0)-Step(0, 320), C1 'Draw Vertical Lines
+                picChr.Line (i * SelZoom, 0)-Step(2, 320), C1, BF 'Draw Vertical Lines
             Next i
         End If
-        picChr.Line (0, ChrPixelR * SelZoom)-Step(160, 0), C2 'Draw Horizontal Crosshair
-        picChr.Line (ChrPixelC * SelZoom, 0)-Step(0, 320), C2 'Draw Vertical Crosshair
+        
+        picChr.Line (0, ChrPixelR * SelZoom + 1)-Step(160, 0), C2 'Draw Horizontal Crosshair
+        picChr.Line (ChrPixelC * SelZoom + 1, 0)-Step(0, 320), C2 'Draw Vertical Crosshair
     End If
     
 End Sub
@@ -3856,7 +3872,7 @@ Private Sub picV_MouseDown(Button As Integer, Shift As Integer, X As Single, Y A
        SelChr = T: SelChr2 = T: If RangeFlag = True Then RangeFlag = False: UpdateFlag = True
     End If
     
-    If SelChr = SelChr2 Then RangeFlag = False                          'Same chr selected
+    If SelChr = SelChr2 Then RangeFlag = False                              'Same chr selected
     
     If RangeFlag = True Then
         If SelChr > SelChr2 Then T = SelChr: SelChr = SelChr2: SelChr2 = T  'Swap endpoints
@@ -3975,7 +3991,7 @@ End Sub
 
 '---- Perform Tool Operation
 Private Sub cmdTool_Click(Index As Integer)
-    Dim a As Integer, b As Integer, C As Integer, cc As Integer, cStart As Integer
+    Dim a As Integer, B As Integer, C As Integer, cc As Integer, cStart As Integer
     Dim Row As Integer, Col As Integer
     Dim V As Integer, nv As Integer, nv2 As Integer, nv3 As Integer
     Dim Tmp As String, Tmp2 As String
@@ -4158,8 +4174,8 @@ MirrorV:
 
     For j = ChrPos To ChrPosEnd
         V = Asc(Mid(VBuf, j, 1))                                'Read to array in order
-        a = Int(V / 16): b = V Mod 16                           'Calculate HI and LO nibbles
-        nv = Tr(b) * 16 + Tr(a)                                 'Reverse the bits
+        a = Int(V / 16): B = V Mod 16                           'Calculate HI and LO nibbles
+        nv = Tr(B) * 16 + Tr(a)                                 'Reverse the bits
         Mid(VBuf, j, 1) = Chr(nv)                               'Write to output
     Next j
     Return
@@ -4183,11 +4199,11 @@ DoubleWide:
     GoSub Setup2XArray
     For j = ChrPos To ChrPosEnd
         V = Asc(Mid(VBuf, j, 1))                                'Read byte, convert to ascii
-        a = Int(V / 16): b = V Mod 16                           'Calculate HI/LO nibbles
+        a = Int(V / 16): B = V Mod 16                           'Calculate HI/LO nibbles
         If cc = 0 Then
             nv = Tr(a)                                          'Translate HI
         Else
-            nv = Tr(b)                                          'Translate LO
+            nv = Tr(B)                                          'Translate LO
         End If
         Mid(VBuf, j, 1) = Chr(nv)                               'Write
     Next j
@@ -4202,11 +4218,11 @@ DoubleSize:
         C = cStart
         For k = 1 To ChrHeight Step 2
             V = Asc(CMat(C))                                        'Get row byte
-            a = Int(V / 16): b = V Mod 16                           'Calculate HI/LO nibbles
+            a = Int(V / 16): B = V Mod 16                           'Calculate HI/LO nibbles
             If cc = 0 Then
                 nv = Tr(a)                                          'Translate HI
             Else
-                nv = Tr(b)                                          'Translate LO
+                nv = Tr(B)                                          'Translate LO
             End If
             Mid(VBuf, j + k - 1, 1) = Chr(nv)                       'Write
             Mid(VBuf, j + k, 1) = Chr(nv)                           'Write
@@ -4236,13 +4252,13 @@ DelRow:
 InsCol:
     '-- calculate pixel masks
     a = 0: For j = 7 To (8 - ChrPixelC) Step -1: a = a + Pow(j): Next j     'LEFT side mask
-    b = 0: For j = (7 - ChrPixelC) To 0 Step -1: b = b + Pow(j): Next j     'RIGHT side mask
+    B = 0: For j = (7 - ChrPixelC) To 0 Step -1: B = B + Pow(j): Next j     'RIGHT side mask
     
     '-- insert
     For j = ChrPos To ChrPosEnd
         V = Asc(Mid(VBuf, j, 1))                                            'Get byte value
         nv2 = V And a                                                       'mask left side
-        nv3 = (V And b) \ 2                                                 'mask right side and shift
+        nv3 = (V And B) \ 2                                                 'mask right side and shift
         Mid(VBuf, j, 1) = Chr(nv2 + nv3)                                    'recombine and write
     Next j
     Return
@@ -4250,13 +4266,13 @@ InsCol:
 DelCol:
     '-- calculate pixel masks
     a = 0: For j = 7 To (8 - ChrPixelC) Step -1: a = a + Pow(j): Next j     'LEFT side mask
-    b = 0: For j = (6 - ChrPixelC) To 0 Step -1: b = b + Pow(j): Next j     'RIGHT side mask
+    B = 0: For j = (6 - ChrPixelC) To 0 Step -1: B = B + Pow(j): Next j     'RIGHT side mask
     
     '-- delete
     For j = ChrPos To ChrPosEnd
         V = Asc(Mid(VBuf, j, 1))                                            'Get byte value
         nv2 = V And a                                                       'mask left side
-        nv3 = (V And b) * 2                                                 'mask right side and shift
+        nv3 = (V And B) * 2                                                 'mask right side and shift
         Mid(VBuf, j, 1) = Chr(nv2 + nv3)                                    'recombine and write
     Next j
     Return
@@ -4360,23 +4376,23 @@ End Sub
 ' n=0 --> 16 to 8 = truncate character, no padding
 ' n=1 --> 8 to 16 = pad with 8 blank rows
 Private Sub ConvertFont(ByVal n As Integer)
-    Dim j As Integer, k As Integer, l As Integer, H As Integer, b As Integer
+    Dim j As Integer, k As Integer, l As Integer, H As Integer, B As Integer
     Dim Tmp As String, Pad As String
     
     If VLen > 16300 Then MyMsg "Sorry, font is too large to convert!": Exit Sub
     
     Select Case n
-        Case 0: b = 8: H = 16: Pad = ""                         'Read 16 bytes, write 8               - 8x8 font
-        Case 1: b = 8: H = 8: Pad = String(8, Nu)               'Read 8 bytes, write 8 plus 8 padding - 8x16 font
-        Case 2: b = 5: H = 5: Pad = String(3, Nu)               'Read 5 bytes, write 5 plus 3 padding - 5x7 sideways font
-        Case 3: b = 7: H = 7: Pad = Nu                          'Read 7 bytes, write 7 plus 1 padding - 5x7 upright font
-        Case 4: b = 14: H = 14: Pad = String(2, Nu)             'Read 14 bytes, write 14 plus 2 padding - 8x14 EGA font
+        Case 0: B = 8: H = 16: Pad = ""                         'Read 16 bytes, write 8               - 8x8 font
+        Case 1: B = 8: H = 8: Pad = String(8, Nu)               'Read 8 bytes, write 8 plus 8 padding - 8x16 font
+        Case 2: B = 5: H = 5: Pad = String(3, Nu)               'Read 5 bytes, write 5 plus 3 padding - 5x7 sideways font
+        Case 3: B = 7: H = 7: Pad = Nu                          'Read 7 bytes, write 7 plus 1 padding - 5x7 upright font
+        Case 4: B = 14: H = 14: Pad = String(2, Nu)             'Read 14 bytes, write 14 plus 2 padding - 8x14 EGA font
     End Select
     
     VBuf2 = ""                                                  'Converted font built here
     
     For j = 1 To Len(VBuf) Step H
-        Tmp = Mid(VBuf, j, b)                                   'Get 8 bytes
+        Tmp = Mid(VBuf, j, B)                                   'Get 8 bytes
         VBuf2 = VBuf2 & Tmp & Pad                               'Copy them plus padding if needed
     Next j
 
@@ -6607,7 +6623,7 @@ Private Sub BMPView()
     lblMoment.Visible = True                                        'Display loading message
     DoEvents
     
-    '-- Read shared buffer and determin what type of bitmap file it is
+    '-- Read shared buffer and determine what type of bitmap file it is
     If Mid(VBuf, 22 - LAOffset, 2) = Chr(1) & Chr(7) Then
         If Mid(VBuf, 330 - LAOffset, 11) = "Paint Image" Then
             '-- GeoPaint Image
@@ -6810,15 +6826,17 @@ Private Sub Read_Bitmap(ByVal Filename As String)
                 S = Asc(Mid(Scrn, CPos, 1))
                 C = Asc(Mid(Col, CPos, 1))
                 For k2 = 0 To 6 Step 2
-                    k3 = Pow(k2)
-                    Bit$ = IIf(Pel And (k3 * 2), "1", "0")
-                    Bit$ = Bit$ & IIf(Pel And k3, "1", "0")
-                    Select Case Bit$
-                        Case "00": colput& = CBMColor(BG)
-                        Case "10": colput& = CBMColor(S And 15)
-                        Case "01": colput& = CBMColor((S And 240) / 16)
-                        Case "11": colput& = CBMColor(C And 15)
+                    K3 = 0
+                    If (Pel And Pow(k2)) Then K3 = K3 + 1
+                    If (Pel And Pow(k2 + 1)) Then K3 = K3 + 2
+                    
+                    Select Case K3
+                        Case 0: colput& = CBMColor(BG)
+                        Case 1: colput& = CBMColor((S And 240) / 16)
+                        Case 2: colput& = CBMColor(S And 15)
+                        Case 3: colput& = CBMColor(C And 15)
                     End Select
+                    
                     Picture1.PSet (XX - k2, bitposv), colput&
                     Picture1.PSet (XX - k2 - 1, bitposv), colput&
                 Next k2
@@ -6873,6 +6891,17 @@ Private Sub cmdBSave_Click()
     If Filename <> "" Then SavePicture Picture1.Image, Filename
 End Sub
 
+Private Sub cmdLoadVPL_Click()
+    Dim Filename As String
+    
+    Filename = FileOpenSave(FileBase(VFileName), 0, 7, "Load VICE Palette")
+    If Filename <> "" Then
+        LoadVPL Filename
+        BMPView 're-draw the image with new palette
+    End If
+
+End Sub
+
 '---- Reads a chunk of 256 bytes from the bitmap file
 Private Function ReadBlock() As String
     Dim buf As String
@@ -6904,8 +6933,39 @@ NoPick:
     PickColor = -1
 End Function
 
+'--- Load VICE Palette File
+' NOTE: VPL files have single LineFeed character between lines
+Private Sub LoadVPL(ByVal Filename As String)
+    Dim FIO As Integer, C As Integer, R As String, G As String, B As String
+    Dim Ch As String, Tmp As String
+    
+    C = 0               'Colour Index
+    
+    FIO = FreeFile
+    Open Filename For Input As FIO
+    
+    Do While Not EOF(FIO)
+        Ch = Input(1, FIO)
+        If Ch = LF Then
+            If Left(Tmp, 1) <> "#" Then
+                If Len(Tmp) > 9 Then
+                    R = MyDec(Mid(Tmp, 1, 2))
+                    G = MyDec(Mid(Tmp, 4, 2))
+                    B = MyDec(Mid(Tmp, 7, 2))
+                    CBMColor(C) = RGB(R, G, B)
+                    C = C + 1: If C > 15 Then Exit Do
+                End If
+            End If
+            Tmp = ""        'Clear out string
+        Else
+            Tmp = Tmp & Ch  'Add char to line string
+        End If
+    Loop
+    
+    Close FIO
+End Sub
 '--- Common File Open or Save Dialog
-' You can specify a default filename, a File Filter list index (0-5), and Window Title
+' You can specify a default filename, a File Filter list index (0-7), and Window Title
 ' MODE: 0=Open, 1=Save
 ' Returns a filename with full path. If cancelled will return null string
 Private Function FileOpenSave(ByVal DefFile As String, ByVal Mode As Integer, FiltSet As Integer, DTitle As String) As String
@@ -6922,10 +6982,11 @@ Private Function FileOpenSave(ByVal DefFile As String, ByVal Mode As Integer, Fi
         Case 0: CommonDialog.Filter = "All files (*.*)|*.*"
         Case 1: CommonDialog.Filter = "Symbol Table Files (*.SYM,*.DT,*.TXT,*.SY4)|*.SYM;*.DT;*.TXT;*.SY4"
         Case 2: CommonDialog.Filter = "ASM Project Files (*.ASM-PROJ)|*.ASM-PROJ"
-        Case 3: CommonDialog.Filter = "Bitmap Files(*.BMP)|*.BMP"
-        Case 4: CommonDialog.Filter = "ASM Files(*.ASM,*.TXT)|*.ASM;*.TXT"
-        Case 5: CommonDialog.Filter = "Text Files(*.TXT)|*.TXT"
-        Case 6: CommonDialog.Filter = "Binary Files(*.BIN,*.ROM,*.FON)|*.BIN"
+        Case 3: CommonDialog.Filter = "Bitmap Files (*.BMP)|*.BMP"
+        Case 4: CommonDialog.Filter = "ASM Files (*.ASM,*.TXT)|*.ASM;*.TXT"
+        Case 5: CommonDialog.Filter = "Text Files (*.TXT)|*.TXT"
+        Case 6: CommonDialog.Filter = "Binary Files (*.BIN,*.ROM,*.FON)|*.BIN"
+        Case 7: CommonDialog.Filter = "VICE Palette Files (*.VPL)|*.VPL"
     End Select
     
     If Mode = 0 Then CommonDialog.ShowOpen Else CommonDialog.ShowSave   'MODE: 0=Open, 1=Save
