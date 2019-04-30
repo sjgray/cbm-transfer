@@ -1,4 +1,4 @@
-CBM-Transfer  (c)2007-2017 Steve J. Gray
+CBM-Transfer  (c)2007-2019 Steve J. Gray
 ============
 
 CBMX-Transfer is a front-end to several command-line utilities for transferring files
