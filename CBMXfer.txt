@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.11 - Sept 25,2018
+============ V1.12 - July 8,2020
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -12,7 +12,7 @@ CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
 		  or USB (Zoom Floppy adapter)
     * CBMLink.... Talks to a Commodore computer via serial cable
     * Vice....... Emulators plus C1541 utility - Works with Commodore Disk Image files (like D64)
-    * NibTools... Low-level disk "nibbler" utilities using parallel port cables
+    * NibTools... Low-level disk "nibbler" utilities using parallel port cables, or 1571 drive
 
    CBM-Transfer will have limited use without at least one of the above utilties. Please see
   below for installation instructions!
@@ -89,7 +89,7 @@ Installation
 	CBMLink  (If you want to use CBMLink Cables)
 		http://zimmers.net/anonftp/pub/cbm/crossplatform/transfer/CBM-to-PC/index.html
 
-	Nibtools (For ZF or X cable with parallel option)
+	Nibtools (For ZF or X cable with parallel option, or 1571 with serial)
 		http://c64preservation.com/files/nibtools/
 	
 
@@ -112,7 +112,8 @@ Installation
      IMPORTANT!: For WinVICE 3 you will also need to copy the "libgcc_s_dw2-1.dll" file or it will not work!
 
    If you want to use IEEE drives, copy the "CBMLINK.EXE" file there too. Finally, if you have a Zoom Floppy
-  with parallel cable copy the NibTools EXE files (nibread, nibwrite, nibconv) and/or the ImgCopy utility as well. 
+  with parallel cable, or 1571, copy the NibTools EXE files (nibread, nibwrite, nibconv) and/or the ImgCopy
+  utility as well. 
 
    If you installed (1) then there will be an entry in the start menu.
    If you installed (2) or (3) then you need to manually create a shortcut on your desktop.
@@ -204,7 +205,7 @@ Program Configuration
 
   NibTools:
 
-    Enable NibTools........... You will need a parallel cable for these options
+    Enable NibTools........... You will need a parallel cable or 1571 drive for these options
     Create NIB / NBZ.......... These are ALWAYS created since NIBREAD does not create G64/D64 directly.
  			       If not selected the NIB/NBZ file will be deleted after conversion.
     Create G64 / D64.......... These are created by NIBCONV using the NIB file.
@@ -539,7 +540,7 @@ File Transfer
   "<-" button. You will be asked for a name to save the image (the Disk Title will be the default).
   If you have a 1571 dual-sided floppy, simply change the extension to D71.
 
-   If you have a parallel connection in your Commodore drive you can enable the "Use NibTools"
+   If you have a parallel connection in your Commodore drive, or a 1571 you can enable the "Use NibTools"
   option and create additional image types NIB, NBZ or G64 in a similar fashion. NibTools has many options,
   so please refer to the Nibtools documentation for correct usage of the various switches.
 
@@ -664,6 +665,12 @@ HEX:
     * Show CBM......... Translates 0-31 (ASCII control codes) to Letters (CBM Screen Codes).
     * Sync with ASM.... Uses the Load Address from the ASM project setting for files with no load
                         address. Allows the Hex view to sync with selected line in the ASM listing.
+    * Find............. Enter a string to search for. If you want to search for HEX values begin
+			the string with a "$". Examples:
+			  abcd	...search for 'abcd' 'ABCD' or any combination (case does not matter).
+			  $00	...search for hex byte 00.
+			  $FF00 ...search for hex bytes FF 00 together. You can enter as many as you like.
+    * Next............. Find the next occurance of search string. To start from the top again click FIND.
 
   At the very top left is the Black/White toggle button to change the listing colours.
 
@@ -888,6 +895,10 @@ Blue Chip	Untested
 
 Change Log
 ==========
+1.12 - July 8, 2020
+   * Viewer:
+     * HEX: Add Search
+
 1.11 - Sept 26, 2018
    * Viewer:
      * BMP: Add "Load VPL" button to load VICE Palette files. Loads "CBMXfer.vpl" automatically if found when

@@ -2,16 +2,148 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Begin VB.Form frmViewer 
    Caption         =   "Viewer:"
-   ClientHeight    =   6840
+   ClientHeight    =   8400
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   12060
+   ClientWidth     =   17235
    Icon            =   "frmViewer.frx":0000
    LinkTopic       =   "Form1"
    OLEDropMode     =   1  'Manual
-   ScaleHeight     =   6840
-   ScaleWidth      =   12060
+   ScaleHeight     =   8400
+   ScaleWidth      =   17235
    StartUpPosition =   3  'Windows Default
+   Begin VB.Frame frBIN 
+      Caption         =   "Binary Viewer"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   1185
+      Left            =   30
+      TabIndex        =   6
+      Top             =   420
+      Visible         =   0   'False
+      Width           =   14790
+      Begin VB.CommandButton cmdHNext 
+         Caption         =   "Next"
+         Height          =   315
+         Left            =   11310
+         TabIndex        =   235
+         ToolTipText     =   "Find NEXT occurance"
+         Top             =   150
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdHexFind 
+         Caption         =   "Find"
+         Height          =   315
+         Left            =   10410
+         TabIndex        =   234
+         Top             =   150
+         Width           =   855
+      End
+      Begin VB.TextBox txtHSS 
+         Height          =   315
+         Left            =   7260
+         TabIndex        =   232
+         ToolTipText     =   "Enter text string to search for, or start with ""$""  to search for HEX value(s)"
+         Top             =   150
+         Width           =   3015
+      End
+      Begin VB.CheckBox cbShowCBM 
+         Caption         =   "Show CBM"
+         Height          =   195
+         Left            =   4020
+         TabIndex        =   129
+         ToolTipText     =   "Show CBM screen codes"
+         Top             =   240
+         Width           =   1155
+      End
+      Begin VB.CheckBox cbHexSync 
+         Caption         =   "Sync with ASM"
+         Height          =   195
+         Left            =   5190
+         TabIndex        =   128
+         ToolTipText     =   "File includes Load Address at start"
+         Top             =   240
+         Width           =   1455
+      End
+      Begin VB.CheckBox cbWide 
+         Caption         =   "Wide"
+         Height          =   195
+         Left            =   420
+         TabIndex        =   111
+         ToolTipText     =   "File includes Load Address at start"
+         Top             =   240
+         Value           =   1  'Checked
+         Width           =   735
+      End
+      Begin VB.CheckBox cb7bit 
+         Caption         =   "7-bit View"
+         Height          =   195
+         Left            =   2820
+         TabIndex        =   32
+         ToolTipText     =   "Enable 7-bit View"
+         Top             =   240
+         Width           =   1035
+      End
+      Begin VB.CheckBox cbShowP 
+         Caption         =   "Show Printable"
+         Height          =   195
+         Left            =   1290
+         TabIndex        =   16
+         Top             =   240
+         Value           =   1  'Checked
+         Width           =   1635
+      End
+      Begin VB.ListBox lstBIN 
+         BackColor       =   &H00000000&
+         BeginProperty Font 
+            Name            =   "Courier"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   450
+         Left            =   120
+         TabIndex        =   7
+         Top             =   540
+         Width           =   1275
+      End
+      Begin VB.Label lblSResults 
+         AutoSize        =   -1  'True
+         Caption         =   "No search set"
+         Height          =   195
+         Left            =   11940
+         TabIndex        =   236
+         Top             =   210
+         Width           =   990
+      End
+      Begin VB.Label Label18 
+         AutoSize        =   -1  'True
+         Caption         =   "FIND:"
+         Height          =   195
+         Left            =   6810
+         TabIndex        =   233
+         Top             =   210
+         Width           =   420
+      End
+      Begin VB.Image imgBWH 
+         Height          =   255
+         Left            =   90
+         Picture         =   "frmViewer.frx":0442
+         Top             =   210
+         Width           =   255
+      End
+   End
    Begin VB.Frame frFont 
       Caption         =   "Font Viewer"
       BeginProperty Font 
@@ -24,9 +156,9 @@ Begin VB.Form frmViewer
          Strikethrough   =   0   'False
       EndProperty
       Height          =   7440
-      Left            =   2640
+      Left            =   8250
       TabIndex        =   28
-      Top             =   4800
+      Top             =   1680
       Visible         =   0   'False
       Width           =   14925
       Begin VB.Frame frTools 
@@ -308,7 +440,7 @@ Begin VB.Form frmViewer
             Height          =   435
             Index           =   1
             Left            =   540
-            Picture         =   "frmViewer.frx":0442
+            Picture         =   "frmViewer.frx":07F8
             Style           =   1  'Graphical
             TabIndex        =   196
             ToolTipText     =   "Shift DOWN"
@@ -319,7 +451,7 @@ Begin VB.Form frmViewer
             Height          =   435
             Index           =   3
             Left            =   990
-            Picture         =   "frmViewer.frx":0B44
+            Picture         =   "frmViewer.frx":0EFA
             Style           =   1  'Graphical
             TabIndex        =   195
             ToolTipText     =   "Shift RIGHT"
@@ -330,7 +462,7 @@ Begin VB.Form frmViewer
             Height          =   435
             Index           =   2
             Left            =   90
-            Picture         =   "frmViewer.frx":1246
+            Picture         =   "frmViewer.frx":15FC
             Style           =   1  'Graphical
             TabIndex        =   194
             ToolTipText     =   "Shift LEFT"
@@ -341,7 +473,7 @@ Begin VB.Form frmViewer
             Height          =   435
             Index           =   0
             Left            =   540
-            Picture         =   "frmViewer.frx":1948
+            Picture         =   "frmViewer.frx":1CFE
             Style           =   1  'Graphical
             TabIndex        =   193
             ToolTipText     =   "Shift UP"
@@ -498,9 +630,9 @@ Begin VB.Form frmViewer
          Width           =   14355
          Begin VB.ComboBox cboTheme 
             Height          =   315
-            ItemData        =   "frmViewer.frx":204A
+            ItemData        =   "frmViewer.frx":2400
             Left            =   2700
-            List            =   "frmViewer.frx":2063
+            List            =   "frmViewer.frx":2419
             Style           =   2  'Dropdown List
             TabIndex        =   165
             Top             =   180
@@ -823,7 +955,7 @@ Begin VB.Form frmViewer
       Begin VB.Image cmdFontMenu 
          Height          =   255
          Left            =   120
-         Picture         =   "frmViewer.frx":20A1
+         Picture         =   "frmViewer.frx":2457
          ToolTipText     =   "Font Menu"
          Top             =   390
          Width           =   255
@@ -862,9 +994,9 @@ Begin VB.Form frmViewer
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1155
-      Left            =   5580
+      Left            =   4110
       TabIndex        =   8
-      Top             =   4380
+      Top             =   3390
       Visible         =   0   'False
       Width           =   3510
       Begin VB.CheckBox cbIgnoreLF 
@@ -939,9 +1071,9 @@ Begin VB.Form frmViewer
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1650
-      Left            =   4050
+      Left            =   60
       TabIndex        =   2
-      Top             =   6960
+      Top             =   1650
       Visible         =   0   'False
       Width           =   8070
       Begin VB.ListBox lstBAS 
@@ -971,9 +1103,9 @@ Begin VB.Form frmViewer
          Width           =   7995
          Begin VB.ComboBox cboMode 
             Height          =   315
-            ItemData        =   "frmViewer.frx":2457
+            ItemData        =   "frmViewer.frx":280D
             Left            =   930
-            List            =   "frmViewer.frx":246D
+            List            =   "frmViewer.frx":2823
             Style           =   2  'Dropdown List
             TabIndex        =   122
             Top             =   0
@@ -1136,95 +1268,6 @@ Begin VB.Form frmViewer
          Width           =   255
       End
    End
-   Begin VB.Frame frBIN 
-      Caption         =   "Binary Viewer"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   1155
-      Left            =   5580
-      TabIndex        =   6
-      Top             =   5550
-      Visible         =   0   'False
-      Width           =   6870
-      Begin VB.CheckBox cbShowCBM 
-         Caption         =   "Show CBM"
-         Height          =   195
-         Left            =   4020
-         TabIndex        =   129
-         ToolTipText     =   "Show CBM screen codes"
-         Top             =   240
-         Width           =   1155
-      End
-      Begin VB.CheckBox cbHexSync 
-         Caption         =   "Sync with ASM"
-         Height          =   195
-         Left            =   5190
-         TabIndex        =   128
-         ToolTipText     =   "File includes Load Address at start"
-         Top             =   240
-         Width           =   1455
-      End
-      Begin VB.CheckBox cbWide 
-         Caption         =   "Wide"
-         Height          =   195
-         Left            =   420
-         TabIndex        =   111
-         ToolTipText     =   "File includes Load Address at start"
-         Top             =   240
-         Value           =   1  'Checked
-         Width           =   735
-      End
-      Begin VB.CheckBox cb7bit 
-         Caption         =   "7-bit View"
-         Height          =   195
-         Left            =   2820
-         TabIndex        =   32
-         ToolTipText     =   "Enable 7-bit View"
-         Top             =   240
-         Width           =   1035
-      End
-      Begin VB.CheckBox cbShowP 
-         Caption         =   "Show Printable"
-         Height          =   195
-         Left            =   1290
-         TabIndex        =   16
-         Top             =   240
-         Value           =   1  'Checked
-         Width           =   1635
-      End
-      Begin VB.ListBox lstBIN 
-         BackColor       =   &H00000000&
-         BeginProperty Font 
-            Name            =   "Courier"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   450
-         Left            =   120
-         TabIndex        =   7
-         Top             =   540
-         Width           =   1275
-      End
-      Begin VB.Image imgBWH 
-         Height          =   255
-         Left            =   90
-         Picture         =   "frmViewer.frx":24DE
-         Top             =   210
-         Width           =   255
-      End
-   End
    Begin VB.Frame frBlank 
       Height          =   855
       Left            =   9390
@@ -1284,12 +1327,12 @@ Begin VB.Form frmViewer
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3825
-      Left            =   480
+      Height          =   1245
+      Left            =   60
       TabIndex        =   18
-      Top             =   1230
+      Top             =   3390
       Visible         =   0   'False
-      Width           =   7575
+      Width           =   3945
       Begin VB.CommandButton cmdLoadVPL 
          Caption         =   "Load VPL..."
          Height          =   315
@@ -1389,9 +1432,9 @@ Begin VB.Form frmViewer
          Strikethrough   =   0   'False
       EndProperty
       Height          =   9345
-      Left            =   60
+      Left            =   120
       TabIndex        =   4
-      Top             =   390
+      Top             =   7260
       Visible         =   0   'False
       Width           =   12900
       Begin VB.CommandButton cmdDTAdd 
@@ -2482,11 +2525,11 @@ Begin VB.Form frmViewer
    Begin VB.Shape shOverflow 
       FillColor       =   &H000000FF&
       FillStyle       =   0  'Solid
-      Height          =   225
+      Height          =   195
       Left            =   8400
       Shape           =   3  'Circle
-      Top             =   60
-      Width           =   225
+      Top             =   90
+      Width           =   195
    End
    Begin VB.Label lblVSize 
       Alignment       =   1  'Right Justify
@@ -2768,6 +2811,8 @@ Public MLTabNum As Integer
 Public OpCodeFlag As Boolean, ShowTables As Boolean
 Public DOTORG As String, DOTWORD As String, DOTBYTE As String, DOTTEXT As String
 Public LPrefix As String, ProjFilename As String
+
+
 
 '---- Load the Form
 Private Sub Form_Load()
@@ -4526,7 +4571,7 @@ Sub MLView()
                 If lstSYM.Selected(j) = True Then
                     Tmp = lstSYM.List(j)
                     T1 = "": If OutFmt = 2 Then T1 = Format(LNum) & " ": LNum = LNum + LInc
-                    lstML.AddItem Left(T1 & GetField(Tmp, 2) & " = " & GetField(Tmp, 1) & Padd, CommentCol) & ";" & GetField(Tmp, 3)
+                    lstML.AddItem Left(T1 & GetField(Tmp, 2) & " = $" & GetField(Tmp, 1) & Padd, CommentCol) & ";" & GetField(Tmp, 3)
                 End If
             Next j
             If OutFmt = 2 Then lstML.AddItem Format(LNum) & " ;" Else lstML.AddItem ";"
@@ -6548,6 +6593,72 @@ Private Sub lstBIN_Click()
         txtCSkip.Text = Format(MyDec(Tmp))              'Convert it to decimal and store it in the offset field
         FONTView                                        'Re-display font
     End If
+End Sub
+
+'---- Search for a String or Hex bytes
+' Parses the search field and converts hex digits if required then searches from the top of the file
+
+Private Sub cmdHexFind_Click()
+    Dim SS As String, HH As String, SH As String
+    Dim SL As Integer, j As Integer, p As Integer
+    
+    HH = txtHSS.Text: SL = Len(HH)
+    
+    If SL = 0 Then MyMsg "Enter String, or start with $ to search for hex byte(s).": Exit Sub
+    If Left(HH, 1) = "$" Then
+        HH = Mid(HH, 2): SL = SL - 1
+        If (SL Mod 2) > 0 Then MyMsg "HEX digits must be in pairs.": Exit Sub
+        
+        SS = ""
+        For j = 1 To SL Step 2
+            SH = Mid(HH, j, 2)                                  'Get 2 hex digits
+            SS = SS & Chr(MyDec(SH))                            'Add character to searchstring
+        Next j
+    Else
+        SS = HH                                                 'Use original string as entered
+    End If
+    
+    HexSearch SS                                                'Search from the TOP
+    
+End Sub
+
+'---- Search for NEXT occurance
+Private Sub cmdHNext_Click()
+    HexSearch ""
+End Sub
+
+'---- Search for specified text string or hex bytes
+' SS is the search string. If specified causes the search to start from the TOP
+' If ommitted uses the last string and continues searching from last position
+
+Private Sub HexSearch(ByVal SS As String)
+    Static LastPos As Integer, LastSS As String                 'Remembers these between calls
+    Dim MaxW As Integer, LL As Integer, L2 As Integer, p As Integer
+    Dim HA As String
+    
+    If SS = "" Then SS = LastSS Else LastPos = 1                'If no searchstring then use previous, else start from top
+    LastSS = SS                                                 'Remember the Searchstring
+    
+    If LastPos > Len(VBuf) Then LastPos = 1                     'Wrap back to top
+   
+    p = InStr(LastPos, VBuf, SS)                                'Do a binary search
+    If p = 0 Then p = InStr(LastPos, VBuf, SS, vbTextCompare)   'If not found search textually
+    
+    If p = 0 Then
+        MyMsg "No more occurances."                             'No results. Display message and exit
+        Exit Sub
+    End If
+    
+    LastPos = p + Len(SS)                                       'Set position for next search
+    If cbWide.value = vbChecked Then MaxW = 16 Else MaxW = 8    'What is the view line lenght?
+    LL = (p - 1) \ MaxW                                         'Which line is the found string on?
+    L2 = p - LL * MaxW - 1                                      'offset on line
+    
+    lstBIN.ListIndex = LL                                       'Select the line containing the string
+    HA = MyHex(MyDec(Left(lstBIN.List(LL), 4)) + L2, 4)         'Hex Address of found
+    
+    lblSResults.Caption = "Found at $" & HA & ", Offset:" & Str(p - 1) 'Results message
+
 End Sub
 
 '============

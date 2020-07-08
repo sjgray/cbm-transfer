@@ -2,17 +2,17 @@ VERSION 5.00
 Begin VB.Form frmOptions 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "CBM-Transfer Options"
-   ClientHeight    =   4155
+   ClientHeight    =   4185
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   6825
+   ClientWidth     =   6870
    ControlBox      =   0   'False
    Icon            =   "frmOptions.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4155
-   ScaleWidth      =   6825
+   ScaleHeight     =   4185
+   ScaleWidth      =   6870
    StartUpPosition =   1  'CenterOwner
    Begin VB.Frame optFrame 
       Caption         =   "NibTools Options"
@@ -32,6 +32,14 @@ Begin VB.Form frmOptions
       Top             =   60
       Visible         =   0   'False
       Width           =   5445
+      Begin VB.CheckBox cbNibPrompt 
+         Caption         =   "Prompt to Confirm Operations"
+         Height          =   255
+         Left            =   420
+         TabIndex        =   111
+         Top             =   510
+         Width           =   2475
+      End
       Begin VB.CheckBox cbWriteD64 
          Caption         =   "Write D64"
          Height          =   315
@@ -78,15 +86,15 @@ Begin VB.Form frmOptions
          Caption         =   "-s = Use 1571 Fast Serial"
          Height          =   255
          Index           =   7
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   94
          Tag             =   "-s"
          Top             =   1650
-         Width           =   2415
+         Width           =   2265
       End
       Begin VB.TextBox txtRetries 
          Height          =   315
-         Left            =   4560
+         Left            =   4770
          TabIndex        =   77
          Text            =   "40"
          Top             =   1890
@@ -95,7 +103,7 @@ Begin VB.Form frmOptions
       Begin VB.CheckBox cbRetries 
          Caption         =   "-e = Set Retries to:"
          Height          =   315
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   76
          Top             =   1890
          Width           =   1755
@@ -103,10 +111,10 @@ Begin VB.Form frmOptions
       Begin VB.CheckBox cbNBZ 
          Caption         =   "Compress to NBZ"
          Height          =   315
-         Left            =   810
+         Left            =   690
          TabIndex        =   75
          ToolTipText     =   "Use NBZ format"
-         Top             =   690
+         Top             =   960
          Width           =   1575
       End
       Begin VB.CheckBox cbCreateD64 
@@ -115,8 +123,8 @@ Begin VB.Form frmOptions
          Left            =   420
          TabIndex        =   74
          ToolTipText     =   "Create D64 files (converted from NIB)"
-         Top             =   1170
-         Width           =   1575
+         Top             =   1470
+         Width           =   1455
       End
       Begin VB.CheckBox cbCreateG64 
          Caption         =   "Create G64 files"
@@ -124,8 +132,8 @@ Begin VB.Form frmOptions
          Left            =   420
          TabIndex        =   73
          ToolTipText     =   "Create G64 files (converted from NIB)"
-         Top             =   930
-         Width           =   1575
+         Top             =   1230
+         Width           =   1455
       End
       Begin VB.CheckBox cbCreateNIB 
          Caption         =   "Create NIB files"
@@ -133,102 +141,102 @@ Begin VB.Form frmOptions
          Left            =   420
          TabIndex        =   72
          ToolTipText     =   "Create NIB files (direct)"
-         Top             =   450
+         Top             =   750
          Width           =   1575
       End
       Begin VB.TextBox txtNibETrk 
          Height          =   315
-         Left            =   2310
+         Left            =   2550
          TabIndex        =   66
          Text            =   "40"
-         Top             =   1770
+         Top             =   1710
          Width           =   345
       End
       Begin VB.TextBox txtNibSTrk 
          Height          =   285
-         Left            =   2310
+         Left            =   1980
          TabIndex        =   65
          Text            =   "1"
-         Top             =   1440
+         Top             =   1740
          Width           =   345
       End
       Begin VB.CheckBox cbNibSE 
-         Caption         =   "Start Track:"
+         Caption         =   "Track Range:"
          Height          =   255
-         Left            =   1140
+         Left            =   690
          TabIndex        =   63
-         Top             =   1470
-         Width           =   1275
+         Top             =   1770
+         Width           =   1335
       End
       Begin VB.CheckBox cbNibArg 
          Caption         =   "-d = Default densities"
          Height          =   255
          Index           =   6
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   62
          Tag             =   "-d"
          Top             =   1440
-         Width           =   2415
+         Width           =   2265
       End
       Begin VB.CheckBox cbNibArg 
          Caption         =   "-c = Disable capacity adjust"
          Height          =   255
          Index           =   5
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   61
          Tag             =   "-c"
          Top             =   1230
-         Width           =   2415
+         Width           =   2265
       End
       Begin VB.CheckBox cbNibArg 
          Caption         =   "-g = Reduce gaps"
          Height          =   255
          Index           =   4
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   60
          Tag             =   "-g"
          Top             =   1020
-         Width           =   2415
+         Width           =   2235
       End
       Begin VB.CheckBox cbNibArg 
          Caption         =   "-F = Fix short tracks"
          Height          =   255
          Index           =   3
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   59
          Tag             =   "-F"
          Top             =   810
-         Width           =   2415
+         Width           =   2235
       End
       Begin VB.CheckBox cbNibArg 
          Caption         =   "-k = Disable killer tracks"
          Height          =   255
          Index           =   2
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   58
          Tag             =   "-k"
          Top             =   600
-         Width           =   2415
+         Width           =   2235
       End
       Begin VB.CheckBox cbNibArg 
          Caption         =   "-h = Half tracks"
          Height          =   255
          Index           =   1
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   57
          Tag             =   "-h"
          Top             =   390
-         Width           =   2415
+         Width           =   2235
       End
       Begin VB.CheckBox cbNibArg 
          Caption         =   "-l = Limit to 40 tracks "
          Height          =   255
          Index           =   0
-         Left            =   2880
+         Left            =   3090
          TabIndex        =   56
          Tag             =   "-l"
          Top             =   180
-         Width           =   2415
+         Width           =   2235
       End
       Begin VB.TextBox txtNibOpt 
          Height          =   285
@@ -268,20 +276,29 @@ Begin VB.Form frmOptions
       Begin VB.Label Label9 
          AutoSize        =   -1  'True
          Caption         =   "Switches:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   195
-         Left            =   2130
+         Left            =   2220
          TabIndex        =   67
          Top             =   210
-         Width           =   690
+         Width           =   840
       End
       Begin VB.Label Label8 
          AutoSize        =   -1  'True
-         Caption         =   "End Track:"
+         Caption         =   "to"
          Height          =   195
-         Left            =   1470
+         Left            =   2340
          TabIndex        =   64
-         Top             =   1800
-         Width           =   795
+         Top             =   1770
+         Width           =   135
       End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
@@ -1003,6 +1020,14 @@ Begin VB.Form frmOptions
       TabIndex        =   0
       Top             =   60
       Width           =   5445
+      Begin VB.CommandButton cmdClearLog 
+         Caption         =   "Clear Log"
+         Height          =   375
+         Left            =   3720
+         TabIndex        =   112
+         Top             =   1020
+         Width           =   1455
+      End
       Begin VB.CheckBox cbIgnoreBadID 
          Caption         =   "Ignore BAD disk ID's when imaging D64"
          Height          =   375
@@ -1235,6 +1260,8 @@ Public Sub SetConfigOptions()
     CreateD64 = (cbCreateD64.value = vbChecked)
     WriteD64 = (cbWriteD64.value = vbChecked)
     UseNibCustom = (cbNibCustom.value = vbChecked)
+    NIBPrompt = (cbNibPrompt.value = vbChecked)
+    
     DstMode = cboDefDst.ListIndex
     UseVice = cbUseVice.value
     LocalDir(1) = DefaultDstPath.Text
@@ -1257,6 +1284,10 @@ Private Sub cmdShowLog_Click()
     Else
         MyMsg "There is no log file yet."
     End If
+End Sub
+
+Private Sub cmdClearLog_Click()
+    KillFile LogFile
 End Sub
 
 Private Sub cmdSrcBrowse_Click()
