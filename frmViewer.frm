@@ -156,9 +156,9 @@ Begin VB.Form frmViewer
          Strikethrough   =   0   'False
       EndProperty
       Height          =   7440
-      Left            =   8250
+      Left            =   120
       TabIndex        =   28
-      Top             =   1680
+      Top             =   4740
       Visible         =   0   'False
       Width           =   14925
       Begin VB.Frame frTools 
@@ -632,7 +632,7 @@ Begin VB.Form frmViewer
             Height          =   315
             ItemData        =   "frmViewer.frx":2400
             Left            =   2700
-            List            =   "frmViewer.frx":2419
+            List            =   "frmViewer.frx":241C
             Style           =   2  'Dropdown List
             TabIndex        =   165
             Top             =   180
@@ -955,7 +955,7 @@ Begin VB.Form frmViewer
       Begin VB.Image cmdFontMenu 
          Height          =   255
          Left            =   120
-         Picture         =   "frmViewer.frx":2457
+         Picture         =   "frmViewer.frx":246A
          ToolTipText     =   "Font Menu"
          Top             =   390
          Width           =   255
@@ -1103,9 +1103,9 @@ Begin VB.Form frmViewer
          Width           =   7995
          Begin VB.ComboBox cboMode 
             Height          =   315
-            ItemData        =   "frmViewer.frx":280D
+            ItemData        =   "frmViewer.frx":2820
             Left            =   930
-            List            =   "frmViewer.frx":2823
+            List            =   "frmViewer.frx":2836
             Style           =   2  'Dropdown List
             TabIndex        =   122
             Top             =   0
@@ -1773,9 +1773,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00000000&
                Height          =   315
-               ItemData        =   "frmViewer.frx":2894
+               ItemData        =   "frmViewer.frx":28A7
                Left            =   2370
-               List            =   "frmViewer.frx":2896
+               List            =   "frmViewer.frx":28A9
                Style           =   2  'Dropdown List
                TabIndex        =   84
                Top             =   2820
@@ -1787,9 +1787,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":2898
+               ItemData        =   "frmViewer.frx":28AB
                Left            =   810
-               List            =   "frmViewer.frx":289F
+               List            =   "frmViewer.frx":28B2
                Style           =   2  'Dropdown List
                TabIndex        =   82
                Top             =   1200
@@ -1811,9 +1811,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00000000&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28B1
+               ItemData        =   "frmViewer.frx":28C4
                Left            =   2370
-               List            =   "frmViewer.frx":28B3
+               List            =   "frmViewer.frx":28C6
                Style           =   2  'Dropdown List
                TabIndex        =   79
                Top             =   2520
@@ -1825,9 +1825,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28B5
+               ItemData        =   "frmViewer.frx":28C8
                Left            =   810
-               List            =   "frmViewer.frx":28BC
+               List            =   "frmViewer.frx":28CF
                Style           =   2  'Dropdown List
                TabIndex        =   78
                Top             =   870
@@ -1856,9 +1856,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28CE
+               ItemData        =   "frmViewer.frx":28E1
                Left            =   1110
-               List            =   "frmViewer.frx":28D5
+               List            =   "frmViewer.frx":28E8
                Style           =   2  'Dropdown List
                TabIndex        =   73
                Top             =   2190
@@ -1869,9 +1869,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28E7
+               ItemData        =   "frmViewer.frx":28FA
                Left            =   810
-               List            =   "frmViewer.frx":28F4
+               List            =   "frmViewer.frx":2907
                Style           =   2  'Dropdown List
                TabIndex        =   71
                Top             =   1860
@@ -1964,9 +1964,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":290F
+               ItemData        =   "frmViewer.frx":2922
                Left            =   810
-               List            =   "frmViewer.frx":2922
+               List            =   "frmViewer.frx":2935
                Style           =   2  'Dropdown List
                TabIndex        =   56
                Top             =   1530
@@ -2077,9 +2077,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":2977
+            ItemData        =   "frmViewer.frx":298A
             Left            =   90
-            List            =   "frmViewer.frx":2979
+            List            =   "frmViewer.frx":298C
             TabIndex        =   145
             Top             =   1590
             Width           =   705
@@ -2130,9 +2130,9 @@ Begin VB.Form frmViewer
                EndProperty
                ForeColor       =   &H00000000&
                Height          =   3960
-               ItemData        =   "frmViewer.frx":297B
+               ItemData        =   "frmViewer.frx":298E
                Left            =   1380
-               List            =   "frmViewer.frx":297D
+               List            =   "frmViewer.frx":2990
                Sorted          =   -1  'True
                TabIndex        =   136
                Top             =   240
@@ -2153,9 +2153,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00000000&
             Height          =   255
-            ItemData        =   "frmViewer.frx":297F
+            ItemData        =   "frmViewer.frx":2992
             Left            =   2940
-            List            =   "frmViewer.frx":2981
+            List            =   "frmViewer.frx":2994
             Sorted          =   -1  'True
             TabIndex        =   102
             Top             =   1320
@@ -2175,9 +2175,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H80000001&
             Height          =   255
-            ItemData        =   "frmViewer.frx":2983
+            ItemData        =   "frmViewer.frx":2996
             Left            =   1980
-            List            =   "frmViewer.frx":2985
+            List            =   "frmViewer.frx":2998
             MultiSelect     =   2  'Extended
             Sorted          =   -1  'True
             TabIndex        =   68
@@ -2199,9 +2199,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":2987
+            ItemData        =   "frmViewer.frx":299A
             Left            =   2940
-            List            =   "frmViewer.frx":2989
+            List            =   "frmViewer.frx":299C
             Sorted          =   -1  'True
             TabIndex        =   54
             Top             =   1590
@@ -2222,9 +2222,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":298B
+            ItemData        =   "frmViewer.frx":299E
             Left            =   2190
-            List            =   "frmViewer.frx":298D
+            List            =   "frmViewer.frx":29A0
             Sorted          =   -1  'True
             TabIndex        =   52
             Top             =   1590
@@ -2245,9 +2245,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   285
-            ItemData        =   "frmViewer.frx":298F
+            ItemData        =   "frmViewer.frx":29A2
             Left            =   1530
-            List            =   "frmViewer.frx":2991
+            List            =   "frmViewer.frx":29A4
             Sorted          =   -1  'True
             Style           =   1  'Checkbox
             TabIndex        =   51
@@ -2269,9 +2269,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   285
-            ItemData        =   "frmViewer.frx":2993
+            ItemData        =   "frmViewer.frx":29A6
             Left            =   840
-            List            =   "frmViewer.frx":2995
+            List            =   "frmViewer.frx":29A8
             Sorted          =   -1  'True
             Style           =   1  'Checkbox
             TabIndex        =   50
@@ -2472,7 +2472,7 @@ Begin VB.Form frmViewer
       Begin VB.Image imgShowInfo 
          Height          =   255
          Left            =   4410
-         Picture         =   "frmViewer.frx":2997
+         Picture         =   "frmViewer.frx":29AA
          ToolTipText     =   "Toggle Info box"
          Top             =   270
          Width           =   255
@@ -2480,7 +2480,7 @@ Begin VB.Form frmViewer
       Begin VB.Image imgBW 
          Height          =   255
          Left            =   330
-         Picture         =   "frmViewer.frx":2D4D
+         Picture         =   "frmViewer.frx":2D60
          Top             =   240
          Width           =   255
       End
@@ -2851,6 +2851,7 @@ Private Sub Form_Load()
     ChrZoom = 4                             'Chr Viewer - Character Set Zoom Index
     ChrPos = 1: ChrPosEnd = 8               'Chr Viewer - Start/end positions into buffer
     BorderFlag = True                       'Chr Viewer - Borders on
+    BorderFlag2 = False                     'Chr Viewer - Extended Borders on
     BitFlag = True                          'Chr Viewer - Update pixel set flag
     ChrPixelR = 0: ChrPixelC = 0            'Chr Viewer - Selected Chr Pixel Markers
     ChrEditMode = False                     'Chr Viewer - Edit Mode Flag
@@ -3636,6 +3637,7 @@ End Sub
         picV.Height = (RZ * MaxR + TopX) * Screen.TwipsPerPixelY
         picV.BackColor = lblTheme(2).BackColor
         picV.Cls
+        DoEvents
         picV.Visible = False
         DoEvents
     End If
@@ -3771,6 +3773,7 @@ Private Sub cboTheme_Click()
         Case 4: FG = CBMColor(1): BG = CBMColor(0): BO = CBMColor(12)   '-- PET White
         Case 5: FG = CBMColor(5): BG = CBMColor(0): BO = CBMColor(12)   '-- PET Green
         Case 6: FG = CBMColor(7): BG = CBMColor(0): BO = CBMColor(12)   '-- PET Amber
+        Case 7: FG = CBMColor(0): BG = CBMColor(1): BO = CBMColor(0)    '-- Black on White
     End Select
     
     lblTheme(0).BackColor = FG: lblTheme(1).BackColor = BG: lblTheme(2).BackColor = BO
@@ -3799,7 +3802,7 @@ Public Sub CreatePixels()
     Pix.Cls
         
     If MCFlag = True Then
-        '-- Create a 4-colour bitmap with pixels to match binary representation of pixlex pairs (row=value,cols 0 to 7=pixel)
+        '-- Create a 4-colour bitmap with pixels to match binary representation of pixel pairs (row=value,cols 0 to 7=pixel)
         For j = 0 To 255
             For k = 0 To 7 Step 2
                 CI = 0                                      'Colour Index
@@ -3848,10 +3851,13 @@ Public Sub ShowChr()
     Dim Tmp As String
     
     CMax = GetCharWidth(ChrWIndex)
-
-    RW = FontH: CW = 8: XYOff = 0                                                   'Pixels in one char
-    If BorderFlag = True Then RW = RW + 1: CW = CW + 1: XYOff = ChrZoom             'Adjust for border
     
+    RW = FontH: CW = 8: XYOff = 0                                                   'Pixels in one char
+    If BorderFlag = True Then
+        RW = RW + 1: CW = CW + 1
+        XYOff = ChrZoom             'Adjust for border
+    End If
+            
     SetNum = SelChr \ 128: ChrNum = SelChr Mod 128                                  'Set based on 128 char font
     If ChrPixelR >= ChrHeight Then ChrPixelR = ChrHeight - 1                        'When switching from 16 to 8 pixel tall
     
