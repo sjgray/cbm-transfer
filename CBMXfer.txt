@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.12b - Sept 4,2020
+============ V1.13 - Sept 25,2020
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -690,9 +690,11 @@ FONT:
 	* Theme........ Colour themes to match different computers (VIC,64,TED,PET etc)
 	* Zoom Factor.. 1x to 6x magnification
 	* Width........ Number of characters per line (8,16,32,64,128)
-	* Border Width. Sets border size (1 to 9). Border is turned on/off with the menu.
+	* Offset....... To set the start position of the first character.
+	* Border....... Sets border size (1 to 16). Border is turned on/off with the menu.
+	* Outline...... Checkbox to add a white outline around each character. Border must be greater than 1.
 
-   The Skip Bytes field lets you start from an offset which may help when trying to view character sets
+   The Offset lets you start from any position in the file which may help when trying to view character sets
   embedded in programs or other binary files. To the right of the offset are six buttons that adjust the offset
   by -256,-8,-1,+1,+8, or +256. When Dual-View is enabled and the HEX tab is selected as the other view, clicking
   on a HEX line will set the offset value in the FONT tab. This lets you scroll through the file searching for
@@ -896,8 +898,11 @@ Blue Chip	Untested
 
 Change Log
 ==========
+1.13 - Sept 25, 2020
+   * Viewer, FONT: Extend max border size. Add outline option
+
 1.12.1 - Sept 3, 2020
-   * Fix font view pixel corruption
+   * Viewer, FONT: Fix font view pixel corruption
 
 1.12 - July 8, 2020
    * Viewer:

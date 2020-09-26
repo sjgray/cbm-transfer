@@ -24,9 +24,9 @@ Begin VB.Form frmViewer
          Strikethrough   =   0   'False
       EndProperty
       Height          =   7440
-      Left            =   450
+      Left            =   60
       TabIndex        =   28
-      Top             =   870
+      Top             =   840
       Visible         =   0   'False
       Width           =   14925
       Begin VB.Frame frTools 
@@ -496,11 +496,20 @@ Begin VB.Form frmViewer
          TabIndex        =   157
          Top             =   180
          Width           =   14355
+         Begin VB.CheckBox cbOutline 
+            Caption         =   "Outline"
+            Height          =   225
+            Left            =   13380
+            TabIndex        =   240
+            Top             =   210
+            Width           =   795
+         End
          Begin VB.HScrollBar HScroll1 
             CausesValidation=   0   'False
             Height          =   285
-            Left            =   13530
-            Max             =   9
+            LargeChange     =   2
+            Left            =   12540
+            Max             =   16
             Min             =   1
             TabIndex        =   239
             Top             =   180
@@ -595,19 +604,19 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H8000000B&
             Height          =   255
-            Left            =   13230
+            Left            =   12210
             TabIndex        =   238
             Top             =   180
-            Width           =   225
+            Width           =   285
          End
          Begin VB.Label Label20 
             AutoSize        =   -1  'True
-            Caption         =   "Border Size:"
+            Caption         =   "Border:"
             Height          =   195
-            Left            =   12330
+            Left            =   11670
             TabIndex        =   237
             Top             =   210
-            Width           =   855
+            Width           =   510
          End
          Begin VB.Label lblWidth 
             Alignment       =   2  'Center
@@ -2822,7 +2831,8 @@ Dim ChrWIndex           As Integer                              'Number of chara
 Dim ChrHIndex           As Integer
 Dim ChrHeight           As Integer
 Dim BorderFlag          As Boolean                              'Display border between characters
-Dim BorderSize          As Integer                              'Border size (experimental)
+Dim OutlineFlag         As Boolean                              'Outline each character (experimental)
+Dim BorderSize          As Integer                              'Border size
 Dim MCFlag              As Boolean                              'Multi-Colour Mode
 Dim BitFlag             As Boolean                              'Update pixel bits?
 
@@ -2889,6 +2899,7 @@ Private Sub Form_Load()
     ChrHIndex = 0                           'Chr Viewer - Height selection index 0 or 1
     ChrZoom = 4                             'Chr Viewer - Character Set Zoom Index
     ChrPos = 1: ChrPosEnd = 8               'Chr Viewer - Start/end positions into buffer
+    OutlineFlag = False                     'Chr Viewer - Outline each character
     BorderFlag = True                       'Chr Viewer - Borders on
     BorderSize = 1                          'Chr Viewer - Border size
     BitFlag = True                          'Chr Viewer - Update pixel set flag
@@ -3647,11 +3658,14 @@ Public Sub FONTView()
     
 End Sub
  
- Public Sub DrawChrSet()
+'---- Draws the Complete Character Set
+' Uses offset, BorderFlag,OutlineFlag,Zoom and selected colours
+Public Sub DrawChrSet()
     Dim j As Integer, k As Integer, X As Integer, Y As Integer, V As Integer, TopX As Integer, TopY As Integer
     Dim R As Integer, C As Integer, MaxR As Integer, MaxC As Integer, MaxH As Integer
     Dim CZ As Integer, RZ As Integer, PZ As Integer 'zoomed size
-    Dim Offset As Long, ChrNum As Integer
+    Dim Offset As Long, ChrNum As Integer, OutFlag As Boolean
+    Dim C1 As Long, Thick As Integer                        'Outline Colour
     Dim CCZ As Integer, RRZ As Integer                      'to help speed up drawing
     
     FH = ChrHeight                                          'Chr Height in pixels
@@ -3662,6 +3676,7 @@ End Sub
     MaxC = GetCharWidth(ChrWIndex)                          'How many characters wide?
     CW = 8: RW = FH                                         'Chr width, Row width
     PZ = CW * ChrZoom                                       'Scale factor for drawing one line of pixels
+    Thick = ChrZoom \ 2                                     'Outline thickness
     
     Offset = Val(txtCSkip.Text): If Offset < 1 Then Offset = 1
     If Offset > 32767 Then Offset = 32767
@@ -3669,8 +3684,14 @@ End Sub
     If BorderFlag = True Then
         CW = CW + BorderSize
         RW = RW + BorderSize
-        TopX = ChrZoom: TopY = ChrZoom
+        TopX = BorderSize + ChrZoom: TopY = TopX
+        If (OutlineFlag = True) And (BorderSize > 2) And (ChrZoom > 1) Then
+            OutFlag = True
+            picV.DrawWidth = Thick
+        End If
     End If
+    
+    C1 = vbWhite                                            'Outline Colour
     
     CZ = CW * ChrZoom                                       'Size of one character including borders
     RZ = RW * ChrZoom                                       'Size of one character including borders
@@ -3696,6 +3717,11 @@ End Sub
         Else
             picV.PaintPicture Pix.Image, CCZ, RRZ + Y * ChrZoom, PZ, ChrZoom, 0, V, 8, 1                'blit the pixels - Un-selected character
         End If
+        
+        If OutFlag = True Then
+            picV.Line (CCZ - Thick, RRZ - Thick)-Step(8 * ChrZoom + Thick * 2, FontH * ChrZoom + Thick * 2), C1, B 'Draw the outline
+        End If
+
         Y = Y + 1
         If Y = FH Then
             Y = Y - FH: ChrNum = ChrNum + 1: C = C + 1: If C >= MaxC Then C = 0: R = R + 1
@@ -3817,6 +3843,14 @@ Private Sub ToggleBorder()
     FONTView 'draw character set
 End Sub
 
+'-- Toggle Outline
+Private Sub cbOutline_Click()
+    OutlineFlag = False: If cbOutline.value = vbChecked Then OutlineFlag = True
+    RedrawFlag = True
+    FONTView 'draw character set
+End Sub
+
+
 '-- Set Colour Theme
 Private Sub cboTheme_Click()
     Dim n As Integer, FG As Long, BG As Long, BO As Long
@@ -3910,11 +3944,11 @@ Public Sub ShowChr()
     Dim Tmp As String
     
     CMax = GetCharWidth(ChrWIndex)
-    
+    OutFlag = False
     RW = FontH: CW = 8: XYOff = 0                                                   'Pixels in one char
     If BorderFlag = True Then
         RW = RW + BorderSize: CW = CW + BorderSize
-        XYOff = ChrZoom             'Adjust for border
+        XYOff = BorderSize + ChrZoom            'Adjust for border
     End If
             
     SetNum = SelChr \ 128: ChrNum = SelChr Mod 128                                  'Set based on 128 char font
@@ -3941,6 +3975,7 @@ Public Sub ShowChr()
     
     If picV.Height >= FontH * ChrZoom * 15 Then
         picChr.PaintPicture picV.Image, 0, 0, SelZoom * 8, SelZoom * FontH, X, Y, 8 * ChrZoom, FontH * ChrZoom 'Draw the Character
+        
         
         If BorderFlag = True Then
             For i = 0 To 16
