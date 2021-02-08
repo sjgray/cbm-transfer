@@ -1,5 +1,5 @@
-CBM-Transfer (C)2007-2018 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.13 - Sept 25,2020
+CBM-Transfer (C)2007-2021 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
+============ V1.14 - Feb 8,2021
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -663,8 +663,10 @@ HEX:
                         only the hex values will be shown (with 32 bytes per line).
     * 7-bit View....... Masks off the upper bit which will allow "RVS" CBM text to be seen.
     * Show CBM......... Translates 0-31 (ASCII control codes) to Letters (CBM Screen Codes).
-    * Sync with ASM.... Uses the Load Address from the ASM project setting for files with no load
+    * ASM Sync......... Uses the Load Address from the ASM project setting for files with no load
                         address. Allows the Hex view to sync with selected line in the ASM listing.
+    * ASM Fmt.......... Display in "Assembly" format with bytes listed wit $ and comma separated.
+    * Save............. Save the current view to a TEXT file.
     * Find............. Enter a string to search for. If you want to search for HEX values begin
 			the string with a "$". Examples:
 			  abcd	...search for 'abcd' 'ABCD' or any combination (case does not matter).
@@ -898,6 +900,9 @@ Blue Chip	Untested
 
 Change Log
 ==========
+1.14 - Feb 8, 2021
+   * Viewer, HEX: Add SAVE to text button, and ASMFmt option
+
 1.13 - Sept 25, 2020
    * Viewer, FONT: Extend max border size. Add outline option
 

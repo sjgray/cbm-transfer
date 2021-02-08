@@ -78,6 +78,7 @@ Public CreateG64        As Boolean
 Public CreateD64        As Boolean
 Public WriteD64         As Boolean
 Public UseNibCustom     As Boolean
+Public NIBPrompt        As Boolean
 
 '--- Filename Options
 Public FNMode           As Integer
