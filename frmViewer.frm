@@ -6659,7 +6659,6 @@ Sub HEXView()
     '-- Loop through buffer
     Do
         If W > MaxW Then
-            If ASMFlag = True Then ALine = ""                   'Remove Printable when ASM format selected
             If Flag = False Then lstBIN.AddItem TLine & ALine
             If Flag = True Then lstBIN.AddItem TLine
             W = 0: LCount = LCount + 1
@@ -6671,8 +6670,10 @@ Sub HEXView()
         If W = 1 Then
             ALine = "> "
             If ASMFlag = True Then
+                ALine = " ; "
                 TLine = MyHex(Address, 4) & " .BYT "            'ASM format so add ".BYT"
             Else
+                ALine = "> "
                 TLine = MyHex(Address, 4) & ": "                'Normal format
             End If
         End If
