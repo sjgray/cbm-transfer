@@ -5,12 +5,12 @@ Begin VB.Form frmViewer
    ClientHeight    =   8400
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   11955
+   ClientWidth     =   11925
    Icon            =   "frmViewer.frx":0000
    LinkTopic       =   "Form1"
    OLEDropMode     =   1  'Manual
    ScaleHeight     =   8400
-   ScaleWidth      =   11955
+   ScaleWidth      =   11925
    StartUpPosition =   3  'Windows Default
    Begin VB.Frame frBIN 
       Caption         =   "Binary Viewer"
@@ -29,28 +29,46 @@ Begin VB.Form frmViewer
       Top             =   420
       Visible         =   0   'False
       Width           =   14790
+      Begin VB.CheckBox cbCmpShow 
+         Caption         =   "Show"
+         Height          =   285
+         Left            =   7920
+         TabIndex        =   244
+         ToolTipText     =   "File includes Load Address at start"
+         Top             =   480
+         Width           =   885
+      End
+      Begin VB.CommandButton cmdCompare 
+         Caption         =   "Compare"
+         Height          =   315
+         Left            =   7920
+         TabIndex        =   243
+         ToolTipText     =   "Find NEXT occurance"
+         Top             =   150
+         Width           =   915
+      End
       Begin VB.CheckBox cbHexFmt 
          Caption         =   "ASM Fmt"
          Height          =   285
          Left            =   5850
          TabIndex        =   242
          ToolTipText     =   "File includes Load Address at start"
-         Top             =   210
+         Top             =   540
          Width           =   945
       End
       Begin VB.CommandButton cmdHSave 
          Caption         =   "Save"
          Height          =   315
-         Left            =   6930
+         Left            =   60
          TabIndex        =   241
          ToolTipText     =   "Save Current view as TXT"
-         Top             =   150
+         Top             =   210
          Width           =   675
       End
       Begin VB.CommandButton cmdHNext 
          Caption         =   "Next"
          Height          =   315
-         Left            =   12090
+         Left            =   5040
          TabIndex        =   235
          ToolTipText     =   "Find NEXT occurance"
          Top             =   150
@@ -59,17 +77,17 @@ Begin VB.Form frmViewer
       Begin VB.CommandButton cmdHexFind 
          Caption         =   "Find"
          Height          =   315
-         Left            =   11190
+         Left            =   4350
          TabIndex        =   234
          Top             =   150
-         Width           =   855
+         Width           =   645
       End
       Begin VB.TextBox txtHSS 
          Height          =   315
-         Left            =   8220
+         Left            =   1380
          TabIndex        =   232
          ToolTipText     =   "Enter text string to search for, or start with ""$""  to search for HEX value(s)"
-         Top             =   150
+         Top             =   180
          Width           =   2895
       End
       Begin VB.CheckBox cbShowCBM 
@@ -78,7 +96,7 @@ Begin VB.Form frmViewer
          Left            =   3540
          TabIndex        =   129
          ToolTipText     =   "Show CBM screen codes"
-         Top             =   240
+         Top             =   570
          Width           =   1095
       End
       Begin VB.CheckBox cbHexSync 
@@ -87,7 +105,7 @@ Begin VB.Form frmViewer
          Left            =   4740
          TabIndex        =   128
          ToolTipText     =   "File includes Load Address at start"
-         Top             =   240
+         Top             =   570
          Width           =   1095
       End
       Begin VB.CheckBox cbWide 
@@ -96,7 +114,7 @@ Begin VB.Form frmViewer
          Left            =   420
          TabIndex        =   111
          ToolTipText     =   "File includes Load Address at start"
-         Top             =   240
+         Top             =   570
          Value           =   1  'Checked
          Width           =   705
       End
@@ -106,7 +124,7 @@ Begin VB.Form frmViewer
          Left            =   2760
          TabIndex        =   32
          ToolTipText     =   "Enable 7-bit View"
-         Top             =   240
+         Top             =   570
          Width           =   615
       End
       Begin VB.CheckBox cbShowP 
@@ -114,7 +132,7 @@ Begin VB.Form frmViewer
          Height          =   195
          Left            =   1260
          TabIndex        =   16
-         Top             =   240
+         Top             =   570
          Value           =   1  'Checked
          Width           =   1365
       End
@@ -133,14 +151,33 @@ Begin VB.Form frmViewer
          Height          =   450
          Left            =   120
          TabIndex        =   7
-         Top             =   540
+         Top             =   840
          Width           =   1275
+      End
+      Begin VB.Label lblCFile 
+         BackColor       =   &H80000018&
+         Caption         =   "no file"
+         Height          =   225
+         Left            =   8880
+         TabIndex        =   246
+         Top             =   210
+         Width           =   2895
+      End
+      Begin VB.Label lblDifTxt 
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000014&
+         Height          =   195
+         Left            =   8850
+         TabIndex        =   245
+         Top             =   510
+         Width           =   2925
       End
       Begin VB.Label lblSResults 
          AutoSize        =   -1  'True
+         BackColor       =   &H80000014&
          Caption         =   "No search set"
          Height          =   195
-         Left            =   12690
+         Left            =   5700
          TabIndex        =   236
          Top             =   210
          Width           =   990
@@ -149,16 +186,16 @@ Begin VB.Form frmViewer
          AutoSize        =   -1  'True
          Caption         =   "FIND:"
          Height          =   195
-         Left            =   7740
+         Left            =   900
          TabIndex        =   233
-         Top             =   210
+         Top             =   270
          Width           =   420
       End
       Begin VB.Image imgBWH 
          Height          =   255
          Left            =   90
          Picture         =   "frmViewer.frx":0442
-         Top             =   210
+         Top             =   540
          Width           =   255
       End
    End
@@ -3152,7 +3189,7 @@ End Sub
 ' Arrange View Elements
 ' N=Frame#, Size: L=Left,T=Top,W=Width,H=Height, VisFlag=Frame Visible?
 ' In Dual-View Mode FLAG=TRUE
-Sub SetFrame(ByVal N As Integer, ByVal l As Single, ByVal T As Single, ByVal W As Single, ByVal H As Single, ByVal VisFlag As Boolean)
+Sub SetFrame(ByVal n As Integer, ByVal l As Single, ByVal T As Single, ByVal W As Single, ByVal H As Single, ByVal VisFlag As Boolean)
     Dim L2 As Single, T2 As Single, W2 As Single, H2 As Single  'Second copy for modification
     Dim LL As Single, TT As Single, WW As Single, HH As Single
     Dim W3 As Single, H3 As Single
@@ -3163,7 +3200,7 @@ Sub SetFrame(ByVal N As Integer, ByVal l As Single, ByVal T As Single, ByVal W A
     
     W3 = W - 200: H3 = H - 600
     
-    Select Case N
+    Select Case n
         Case -1 '-- Blank frame with message
             frBlank.Move l, T, W2, H2
             frBlank.Visible = VisFlag
@@ -3182,9 +3219,9 @@ Sub SetFrame(ByVal N As Integer, ByVal l As Single, ByVal T As Single, ByVal W A
             frSEQ.Visible = VisFlag
             
         Case 2  '-- Adjust BIN Viewer Size
-            TT = 510: HH = H - 440                              'Adjust for Options
+            TT = 840: HH = H - 840                              'Adjust for Options
             frBIN.Move l, T, W2, H2
-            lstBIN.Move LL, TT, W3, H3
+            lstBIN.Move LL, TT, W3, H3 - 300
             frBIN.Visible = VisFlag
             
         Case 3  '-- Adjust ChrSet Viewer Size
@@ -3260,13 +3297,13 @@ End Sub
 
 '---- Adjust Dual-View Split proportions
 Private Sub SetSplit(ByVal Index As Integer, ByVal Flag As Boolean)
-    Dim N As Integer
+    Dim n As Integer
     
-    N = 5: If Flag = True Then N = 10 'Step Size
+    n = 5: If Flag = True Then n = 10 'Step Size
     
     Select Case Index
-        Case 0: SplitSize = SplitSize - N: If SplitSize < 20 Then SplitSize = 20    'Move split LEFT
-        Case 1: SplitSize = SplitSize + N: If SplitSize > 80 Then SplitSize = 80    'Move split RIGHT
+        Case 0: SplitSize = SplitSize - n: If SplitSize < 20 Then SplitSize = 20    'Move split LEFT
+        Case 1: SplitSize = SplitSize + n: If SplitSize > 80 Then SplitSize = 80    'Move split RIGHT
         Case 2: SplitSize = 50                                                      'Return to MIDDLE
     End Select
     DrawVLayout
@@ -3549,8 +3586,8 @@ Private Sub cmdSave_Click()
     
     FIO = FreeFile
     Open Filename For Output As FIO
-    For J = 0 To lstBAS.ListCount - 1
-        Print #FIO, lstBAS.List(J)
+    For j = 0 To lstBAS.ListCount - 1
+        Print #FIO, lstBAS.List(j)
     Next
     Close FIO
     ChDir Exepath
@@ -3560,11 +3597,11 @@ End Sub
 
 '---- Copy BASIC listing to clipboard
 Private Sub cmdCpyClip_Click()
-    Dim J As Integer, Tmp As String
+    Dim j As Integer, Tmp As String
     
-    For J = 0 To lstBAS.ListCount - 1
-        Tmp = Tmp & lstBAS.List(J) & vbCrLf
-    Next J
+    For j = 0 To lstBAS.ListCount - 1
+        Tmp = Tmp & lstBAS.List(j) & vbCrLf
+    Next j
     
     Clipboard.Clear
     Clipboard.SetText Tmp
@@ -3679,7 +3716,7 @@ End Sub
 '---- Draws the Complete Character Set
 ' Uses offset, BorderFlag,OutlineFlag,Zoom and selected colours
 Public Sub DrawChrSet()
-    Dim J As Integer, k As Integer, X As Integer, Y As Integer, V As Integer, TopX As Integer, TopY As Integer
+    Dim j As Integer, k As Integer, X As Integer, Y As Integer, V As Integer, TopX As Integer, TopY As Integer
     Dim R As Integer, C As Integer, MaxR As Integer, MaxC As Integer, MaxH As Integer
     Dim CZ As Integer, RZ As Integer, PZ As Integer 'zoomed size
     Dim Offset As Long, ChrNum As Integer, OutFlag As Boolean
@@ -3727,8 +3764,8 @@ Public Sub DrawChrSet()
     
     CCZ = TopX: RRZ = TopY
     
-    For J = Offset To VLen
-        V = Asc(Mid(VBuf, J, 1))
+    For j = Offset To VLen
+        V = Asc(Mid(VBuf, j, 1))
         '----paintpicture {srceimg},destX,destY,destW,destH ,srcX,srcY,srcW,srcH,mode
         If (RangeFlag = True) And (ChrNum >= SelChr) And (ChrNum <= SelChr2) Then
             picV.PaintPicture Pix.Image, CCZ, RRZ + Y * ChrZoom, PZ, ChrZoom, 0, V, 8, 1, vbNotSrcCopy  'blit the pixels - Selected character
@@ -3747,7 +3784,7 @@ Public Sub DrawChrSet()
             RRZ = TopY + R * RZ 'speed up
         End If
         If R > MaxR Then Exit For
-    Next J
+    Next j
     
     If R < MaxR Then
         If R = 0 Then R = 1                                     'Fix if single row
@@ -3755,7 +3792,7 @@ Public Sub DrawChrSet()
     End If
     
     DoEvents
-    lblEndRange.Caption = "to" & Str(J)
+    lblEndRange.Caption = "to" & Str(j)
     picV.Visible = True
     DoEvents
     
@@ -3871,11 +3908,11 @@ End Sub
 
 '-- Set Colour Theme
 Private Sub cboTheme_Click()
-    Dim N As Integer, FG As Long, BG As Long, BO As Long
+    Dim n As Integer, FG As Long, BG As Long, BO As Long
     
-    N = cboTheme.ListIndex: If N < 0 Then N = 0
+    n = cboTheme.ListIndex: If n < 0 Then n = 0
     BO = CBMColor(0)                                                    'assume black border
-    Select Case N
+    Select Case n
         Case 0: FG = CBMColor(14): BG = CBMColor(6)                     '-- C64
         Case 1: FG = CBMColor(6): BG = CBMColor(1)                      '-- SX-64
         Case 2: FG = CBMColor(6): BG = CBMColor(1)                      '-- VIC-20
@@ -3900,7 +3937,7 @@ Private Sub txtCSkip_KeyPress(KeyAscii As Integer)
 End Sub
 
 Public Sub CreatePixels()
-    Dim J As Integer, k As Integer, CI As Integer
+    Dim j As Integer, k As Integer, CI As Integer
     Dim MC(3) As Long               'Array to hold multicolour values
     
     MC(0) = lblTheme(1).BackColor   'Background colour
@@ -3914,23 +3951,23 @@ Public Sub CreatePixels()
         
     If MCFlag = True Then
         '-- Create a 4-colour bitmap with pixels to match binary representation of pixel pairs (row=value,cols 0 to 7=pixel)
-        For J = 0 To 255
+        For j = 0 To 255
             For k = 0 To 7 Step 2
                 CI = 0                                      'Colour Index
-                If (J And Pow(k)) Then CI = CI + 2          'Check first bit
-                If (J And Pow(k + 1)) Then CI = CI + 1      'Check second bit
+                If (j And Pow(k)) Then CI = CI + 2          'Check first bit
+                If (j And Pow(k + 1)) Then CI = CI + 1      'Check second bit
                 Pix.ForeColor = MC(CI)                      'Set the colour of the pixel to draw
-                Pix.PSet (7 - k, J)                         'Set the first pixel
-                Pix.PSet (6 - k, J)                         'Set the second pixel
+                Pix.PSet (7 - k, j)                         'Set the first pixel
+                Pix.PSet (6 - k, j)                         'Set the second pixel
             Next k
-        Next J
+        Next j
     Else
         '-- Create a 2-colour bitmap with pixels to match binary representation of value (row=value,cols 0 to 7=pixel)
-        For J = 0 To 255
+        For j = 0 To 255
             For k = 0 To 7
-                If (J And Pow(k)) Then Pix.PSet (7 - k, J)
+                If (j And Pow(k)) Then Pix.PSet (7 - k, j)
             Next k
-        Next J
+        Next j
     End If
     
     BitFlag = False                                         'Bitmaps are created
@@ -4204,90 +4241,90 @@ Private Sub cmdTool_Click(Index As Integer)
     
 '--------------------
 ShiftUp:
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
-        Tmp = Mid(VBuf, J, 1)
+        Tmp = Mid(VBuf, j, 1)
         For k = 1 To ChrHeight - 1
-            Mid(VBuf, J + k - 1, 1) = Mid(VBuf, J + k, 1)   'copy to byte above
+            Mid(VBuf, j + k - 1, 1) = Mid(VBuf, j + k, 1)   'copy to byte above
         Next k
         If Flag = True Then
-            Mid(VBuf, J + ChrHeight - 1, 1) = Tmp           'wrap to bottom line
+            Mid(VBuf, j + ChrHeight - 1, 1) = Tmp           'wrap to bottom line
         Else
-            Mid(VBuf, J + ChrHeight - 1, 1) = Nu            'clear bottom line
+            Mid(VBuf, j + ChrHeight - 1, 1) = Nu            'clear bottom line
         End If
-    Next J
+    Next j
     Return
 
 ShiftDown:
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
-        Tmp = Mid(VBuf, J + ChrHeight - 1, 1)
+        Tmp = Mid(VBuf, j + ChrHeight - 1, 1)
         For k = ChrHeight - 2 To 0 Step -1
-            Mid(VBuf, J + k + 1, 1) = Mid(VBuf, J + k, 1)   'copy to byte above
+            Mid(VBuf, j + k + 1, 1) = Mid(VBuf, j + k, 1)   'copy to byte above
         Next k
         If Flag = True Then
-            Mid(VBuf, J, 1) = Tmp                           'wrap to top line
+            Mid(VBuf, j, 1) = Tmp                           'wrap to top line
         Else
-            Mid(VBuf, J, 1) = Nu                            'clear top line
+            Mid(VBuf, j, 1) = Nu                            'clear top line
         End If
-    Next J
+    Next j
     Return
 
 ShiftLeft:
-    For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))                    'Read a byte
+    For j = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, j, 1))                    'Read a byte
         Bit = 0: If (V And 128) > 0 Then Bit = 1
         nv = (V * 2) Mod 256                        'Shift the pixels
         If Flag = True Then nv = nv + Bit
-        Mid(VBuf, J, 1) = Chr(nv)                   'Write it
-    Next J
+        Mid(VBuf, j, 1) = Chr(nv)                   'Write it
+    Next j
     Return
 
 ShiftRight:
-    For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))                    'Read a byte
+    For j = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, j, 1))                    'Read a byte
         Bit = 0: If (V And 1) > 0 Then Bit = 128
         nv = V \ 2                                  'Shift the pixels
         If Flag = True Then nv = nv + Bit
-        Mid(VBuf, J, 1) = Chr(nv)                   'Write it
-    Next J
+        Mid(VBuf, j, 1) = Chr(nv)                   'Write it
+    Next j
     Return
   
 Clear:
-    For J = ChrPos To ChrPosEnd
-        Mid(VBuf, J, 1) = Nu
-    Next J
+    For j = ChrPos To ChrPosEnd
+        Mid(VBuf, j, 1) = Nu
+    Next j
     Return
     
 RVS:
-    For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))
-        Mid(VBuf, J, 1) = Chr(255 - V)
-    Next J
+    For j = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, j, 1))
+        Mid(VBuf, j, 1) = Chr(255 - V)
+    Next j
     Return
     
 BoldFont:
-    For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))
+    For j = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, j, 1))
         nv2 = Int(V / 2)                            'Shift the pixels
         nv = V Or nv2                               'Merge them
-        Mid(VBuf, J, 1) = Chr(nv)                   'write it
-    Next J
+        Mid(VBuf, j, 1) = Chr(nv)                   'write it
+    Next j
     Return
     
 Underlined:
-    For J = ChrPos To ChrPosEnd Step ChrHeight
-        Mid(VBuf, J + ChrPixelR, 1) = Chr(255)
-    Next J
+    For j = ChrPos To ChrPosEnd Step ChrHeight
+        Mid(VBuf, j + ChrPixelR, 1) = Chr(255)
+    Next j
     Return
     
 RotateRight:
     If ChrHeight = 16 Then MyMsg "Rotation only supported on 8x8 characters!": Return
     C = 0
 
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
-        ChrTop = J                              'Set current character position
+        ChrTop = j                              'Set current character position
         GoSub ClearBitArrays                    'Clear arrays for next character (all bits to zero)
         GoSub ReadChr                           'Get bytes and fill Source Bit array
         '---- Do Rotation 90
@@ -4297,15 +4334,15 @@ RotateRight:
             Next Col
         Next Row
         GoSub WriteChr                          'Write the Dest Bit Array back as bytes
-    Next J
+    Next j
     Return
 
 RotateLeft:
     If ChrHeight = 16 Then MyMsg "Rotation only supported on 8x8 characters!": Return
     
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
-        ChrTop = J                              'Set current character position
+        ChrTop = j                              'Set current character position
         GoSub ClearBitArrays                    'Clear arrays for next character (all bits to zero)
         GoSub ReadChr                           'Read 8 bytes and fill Source Bit array
         '---- Do Rotation 270
@@ -4315,67 +4352,67 @@ RotateLeft:
             Next Col
         Next Row
         GoSub WriteChr                          'Write the Dest Bit Array back as bytes
-    Next J
+    Next j
     Return
 
 MirrorH:
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
         For k = 0 To ChrHeight - 1
-            CMat(k) = Mid(VBuf, J + k, 1)                       'Read to array in order
+            CMat(k) = Mid(VBuf, j + k, 1)                       'Read to array in order
         Next k
        
         For k = 0 To ChrHeight - 1
-            Mid(VBuf, J + k, 1) = CMat(ChrHeight - k - 1)         'Write to output in reverse order
+            Mid(VBuf, j + k, 1) = CMat(ChrHeight - k - 1)         'Write to output in reverse order
         Next k
-    Next J
+    Next j
     Return
 
 MirrorV:
     GoSub SetupMirrorArray
 
-    For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))                                'Read to array in order
+    For j = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, j, 1))                                'Read to array in order
         a = Int(V / 16): B = V Mod 16                           'Calculate HI and LO nibbles
         nv = Tr(B) * 16 + Tr(a)                                 'Reverse the bits
-        Mid(VBuf, J, 1) = Chr(nv)                               'Write to output
-    Next J
+        Mid(VBuf, j, 1) = Chr(nv)                               'Write to output
+    Next j
     Return
 
 DoubleTall:
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
         For k = 0 To ChrHeight - 1
-            CMat(k) = Mid(VBuf, J + k, 1)
+            CMat(k) = Mid(VBuf, j + k, 1)
         Next k
         C = cStart
         For k = 1 To ChrHeight - 1 Step 2
-            Mid(VBuf, J + k - 1, 1) = CMat(C)
-            Mid(VBuf, J + k, 1) = CMat(C)
+            Mid(VBuf, j + k - 1, 1) = CMat(C)
+            Mid(VBuf, j + k, 1) = CMat(C)
             C = C + 1
         Next k
-    Next J
+    Next j
     Return
 
 DoubleWide:
     GoSub Setup2XArray
-    For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))                                'Read byte, convert to ascii
+    For j = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, j, 1))                                'Read byte, convert to ascii
         a = Int(V / 16): B = V Mod 16                           'Calculate HI/LO nibbles
         If cc = 0 Then
             nv = Tr(a)                                          'Translate HI
         Else
             nv = Tr(B)                                          'Translate LO
         End If
-        Mid(VBuf, J, 1) = Chr(nv)                               'Write
-    Next J
+        Mid(VBuf, j, 1) = Chr(nv)                               'Write
+    Next j
     Return
 
 DoubleSize:
     GoSub Setup2XArray
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         For k = 0 To ChrHeight - 1
-            CMat(k) = Mid(VBuf, J + k, 1)                           'Read byte, convert to ascii
+            CMat(k) = Mid(VBuf, j + k, 1)                           'Read byte, convert to ascii
         Next k
         C = cStart
         For k = 1 To ChrHeight Step 2
@@ -4386,57 +4423,57 @@ DoubleSize:
             Else
                 nv = Tr(B)                                          'Translate LO
             End If
-            Mid(VBuf, J + k - 1, 1) = Chr(nv)                       'Write
-            Mid(VBuf, J + k, 1) = Chr(nv)                           'Write
+            Mid(VBuf, j + k - 1, 1) = Chr(nv)                       'Write
+            Mid(VBuf, j + k, 1) = Chr(nv)                           'Write
             C = C + 1
         Next k
-    Next J
+    Next j
     Return
 
 InsRow:
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         For k = ChrHeight - 2 To ChrPixelR Step -1
-            Mid(VBuf, J + k + 1, 1) = Mid(VBuf, J + k, 1)
+            Mid(VBuf, j + k + 1, 1) = Mid(VBuf, j + k, 1)
         Next k
-        Mid(VBuf, J + ChrPixelR, 1) = Nu
-    Next J
+        Mid(VBuf, j + ChrPixelR, 1) = Nu
+    Next j
     Return
     
 DelRow:
-    For J = ChrPos To ChrPosEnd Step ChrHeight
+    For j = ChrPos To ChrPosEnd Step ChrHeight
         For k = ChrPixelR To ChrHeight - 2
-            Mid(VBuf, J + k, 1) = Mid(VBuf, J + k + 1, 1)
+            Mid(VBuf, j + k, 1) = Mid(VBuf, j + k + 1, 1)
         Next k
-        Mid(VBuf, J + ChrHeight - 1, 1) = Nu
-    Next J
+        Mid(VBuf, j + ChrHeight - 1, 1) = Nu
+    Next j
     Return
     
 InsCol:
     '-- calculate pixel masks
-    a = 0: For J = 7 To (8 - ChrPixelC) Step -1: a = a + Pow(J): Next J     'LEFT side mask
-    B = 0: For J = (7 - ChrPixelC) To 0 Step -1: B = B + Pow(J): Next J     'RIGHT side mask
+    a = 0: For j = 7 To (8 - ChrPixelC) Step -1: a = a + Pow(j): Next j     'LEFT side mask
+    B = 0: For j = (7 - ChrPixelC) To 0 Step -1: B = B + Pow(j): Next j     'RIGHT side mask
     
     '-- insert
-    For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))                                            'Get byte value
+    For j = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, j, 1))                                            'Get byte value
         nv2 = V And a                                                       'mask left side
         nv3 = (V And B) \ 2                                                 'mask right side and shift
-        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                    'recombine and write
-    Next J
+        Mid(VBuf, j, 1) = Chr(nv2 + nv3)                                    'recombine and write
+    Next j
     Return
 
 DelCol:
     '-- calculate pixel masks
-    a = 0: For J = 7 To (8 - ChrPixelC) Step -1: a = a + Pow(J): Next J     'LEFT side mask
-    B = 0: For J = (6 - ChrPixelC) To 0 Step -1: B = B + Pow(J): Next J     'RIGHT side mask
+    a = 0: For j = 7 To (8 - ChrPixelC) Step -1: a = a + Pow(j): Next j     'LEFT side mask
+    B = 0: For j = (6 - ChrPixelC) To 0 Step -1: B = B + Pow(j): Next j     'RIGHT side mask
     
     '-- delete
-    For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))                                            'Get byte value
+    For j = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, j, 1))                                            'Get byte value
         nv2 = V And a                                                       'mask left side
         nv3 = (V And B) * 2                                                 'mask right side and shift
-        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                    'recombine and write
-    Next J
+        Mid(VBuf, j, 1) = Chr(nv2 + nv3)                                    'recombine and write
+    Next j
     Return
 
     
@@ -4447,22 +4484,22 @@ CopyClip:
 
 PasteClip:
     V = Len(VClip): If V = 0 Then Return
-    For J = ChrPos To ChrPosEnd Step V
-        Mid(VBuf, J, V) = VClip                                             'Paste it once
-    Next J
+    For j = ChrPos To ChrPosEnd Step V
+        Mid(VBuf, j, V) = VClip                                             'Paste it once
+    Next j
     Return
     
 Restore1:
     If VRestore = "" Then VRestore = VBuf2
-    For J = ChrPos To ChrPosEnd
-        Mid(VBuf, J, 1) = Mid(VRestore, J, 1)
-    Next J
+    For j = ChrPos To ChrPosEnd
+        Mid(VBuf, j, 1) = Mid(VRestore, j, 1)
+    Next j
     Return
     
 Restore2:
-    For J = ChrPos To ChrPosEnd
-        Mid(VBuf, J, 1) = Mid(VBuf2, J, 1)
-    Next J
+    For j = ChrPos To ChrPosEnd
+        Mid(VBuf, j, 1) = Mid(VBuf2, j, 1)
+    Next j
     Return
     
 SetRestorePoint:
@@ -4537,13 +4574,13 @@ End Sub
 '---- Convert Font
 ' n=0 --> 16 to 8 = truncate character, no padding
 ' n=1 --> 8 to 16 = pad with 8 blank rows
-Private Sub ConvertFont(ByVal N As Integer)
-    Dim J As Integer, k As Integer, l As Integer, H As Integer, B As Integer
+Private Sub ConvertFont(ByVal n As Integer)
+    Dim j As Integer, k As Integer, l As Integer, H As Integer, B As Integer
     Dim Tmp As String, Pad As String
     
     If VLen > 16300 Then MyMsg "Sorry, font is too large to convert!": Exit Sub
     
-    Select Case N
+    Select Case n
         Case 0: B = 8: H = 16: Pad = ""                         'Read 16 bytes, write 8               - 8x8 font
         Case 1: B = 8: H = 8: Pad = String(8, Nu)               'Read 8 bytes, write 8 plus 8 padding - 8x16 font
         Case 2: B = 5: H = 5: Pad = String(3, Nu)               'Read 5 bytes, write 5 plus 3 padding - 5x7 sideways font
@@ -4553,10 +4590,10 @@ Private Sub ConvertFont(ByVal N As Integer)
     
     VBuf2 = ""                                                  'Converted font built here
     
-    For J = 1 To Len(VBuf) Step H
-        Tmp = Mid(VBuf, J, B)                                   'Get 8 bytes
+    For j = 1 To Len(VBuf) Step H
+        Tmp = Mid(VBuf, j, B)                                   'Get 8 bytes
         VBuf2 = VBuf2 & Tmp & Pad                               'Copy them plus padding if needed
-    Next J
+    Next j
 
     VBuf = VBuf2                                                'Update main buffer
     VClip = ""                                                  'Clear clipboard
@@ -4568,7 +4605,7 @@ End Sub
 '==================================
 Sub MLView()
     Dim GoodFlag As Boolean
-    Dim J As Integer
+    Dim j As Integer
     Dim C As Integer                                                    'Counter
     Dim Tmp As String, TmpB As String                                   'Temp strings
     
@@ -4684,13 +4721,13 @@ Sub MLView()
                 lstML.AddItem ";"
             End If
             
-            For J = 0 To lstSYM.ListCount - 1
-                If lstSYM.Selected(J) = True Then
-                    Tmp = lstSYM.List(J)
+            For j = 0 To lstSYM.ListCount - 1
+                If lstSYM.Selected(j) = True Then
+                    Tmp = lstSYM.List(j)
                     T1 = "": If OutFmt = 2 Then T1 = Format(LNum) & " ": LNum = LNum + LInc
                     lstML.AddItem Left(T1 & GetField(Tmp, 2) & " = $" & GetField(Tmp, 1) & Padd, CommentCol) & ";" & GetField(Tmp, 3)
                 End If
-            Next J
+            Next j
             If OutFmt = 2 Then lstML.AddItem Format(LNum) & " ;" Else lstML.AddItem ";"
         End If
         
@@ -4968,8 +5005,8 @@ Sub MLView()
                                         ALabel = ""                                     'blank it for multi-line tables
                                 End Select
                                 
-                                J = Len(Tmp) + 1: If CommentCol > J Then J = CommentCol     'Comment position
-                                lstML.AddItem Left(Tmp + Padd, J) & ";" & DTComment     'Add it to output
+                                j = Len(Tmp) + 1: If CommentCol > j Then j = CommentCol     'Comment position
+                                lstML.AddItem Left(Tmp + Padd, j) & ";" & DTComment     'Add it to output
                                 
                                 LNum = LNum + LInc
                             End If
@@ -5106,8 +5143,8 @@ Sub MLView()
                             Tmp = ALabel & T3 & T4                          'label cmd param
                     End Select
                     
-                    J = Len(Tmp) + 1: If CommentCol > J Then J = CommentCol     'position for comment
-                    lstML.AddItem Left(Tmp + Padd, J) & T5                  'Add to output
+                    j = Len(Tmp) + 1: If CommentCol > j Then j = CommentCol     'position for comment
+                    lstML.AddItem Left(Tmp + Padd, j) & T5                  'Add to output
                                         
                     If MD = 9 Then
                         '-- Space after RTS/RTI option
@@ -5195,7 +5232,7 @@ End Sub
 '---- Flow Tracing
 Private Sub TraceIt()
 
-    Dim i As Long, J As Integer                     'Loop counters
+    Dim i As Long, j As Integer                     'Loop counters
     Dim Tmp As String                               'Temp strings
     Dim PC  As Long, EA As Long                     'Program Counter, Effective Address
     Dim CodeOffset As Long                          'For calculating position in buffer
@@ -5364,7 +5401,7 @@ End Sub
 
 '---- Save ASM ouput to file
 Private Sub cmdSaveASM_Click()
-    Dim J As Integer, Filename As String, FIO As Integer
+    Dim j As Integer, Filename As String, FIO As Integer
     
     Filename = FileOpenSave(FileBase(VFileName), 1, 4, "Save ASM code")
     If Filename = "" Then Exit Sub
@@ -5373,20 +5410,20 @@ Private Sub cmdSaveASM_Click()
     FIO = FreeFile
     Open Filename For Output As FIO
     
-    For J = 0 To lstML.ListCount - 1
-        Print #FIO, lstML.List(J)
-    Next J
+    For j = 0 To lstML.ListCount - 1
+        Print #FIO, lstML.List(j)
+    Next j
     Close FIO
 
 End Sub
 
 '---- Copy ASM ouput to Clipboard
 Private Sub cmdCopyClip2_Click()
-    Dim J As Integer, Tmp As String
+    Dim j As Integer, Tmp As String
     
-    For J = 0 To lstML.ListCount - 1
-        Tmp = Tmp & lstML.List(J) & vbCrLf
-    Next J
+    For j = 0 To lstML.ListCount - 1
+        Tmp = Tmp & lstML.List(j) & vbCrLf
+    Next j
     
     Clipboard.Clear
     Clipboard.SetText Tmp
@@ -5504,7 +5541,7 @@ End Sub
 Sub JumpList(ByVal Txt As String, Mode As Integer, ByVal Flag As Boolean)
     Static LastTxt As String, Count As Integer 'These values are retained between calls
     
-    Dim i As Integer, J As Integer, Max As Integer, Direction As Integer
+    Dim i As Integer, j As Integer, Max As Integer, Direction As Integer
     Dim Tmp As String
     
     If Txt = "" Then Txt = LastTxt
@@ -5530,8 +5567,8 @@ Sub JumpList(ByVal Txt As String, Mode As Integer, ByVal Flag As Boolean)
             Count = Count + 1                                       'Count it
             
             If Flag = False Then
-                J = i - 5: If J < 0 Or J > Max Then J = i
-                lstML.TopIndex = J                                  'Move top of list to near found line
+                j = i - 5: If j < 0 Or j > Max Then j = i
+                lstML.TopIndex = j                                  'Move top of list to near found line
                 lstML.ListIndex = i                                 'Move to selected line
                 Exit Do                                             'Do only one search
             End If
@@ -6126,7 +6163,7 @@ End Sub
 
 Private Sub SaveProjFile(ByVal Filename As String)
 
-    Dim FIO As Integer, Tmp As String, J As Integer
+    Dim FIO As Integer, Tmp As String, j As Integer
         
     If Overwrite(Filename) = False Then Exit Sub
         
@@ -6143,41 +6180,41 @@ Private Sub SaveProjFile(ByVal Filename As String)
     '-- [ENTRY POINTS]
     If lstSYM.ListCount > 0 Then
         Print #FIO, "[ENTRYPT]"
-        For J = 0 To lstEntryPt.ListCount - 1
-            Print #FIO, lstEntryPt.List(J)
-        Next J
+        For j = 0 To lstEntryPt.ListCount - 1
+            Print #FIO, lstEntryPt.List(j)
+        Next j
     End If
     
     '-- [SYMBOLS]
     If lstSYM.ListCount > 0 Then
         Print #FIO, "[SYMBOLS]"
-        For J = 0 To lstSYM.ListCount - 1
-            Print #FIO, lstSYM.List(J)
-        Next J
+        For j = 0 To lstSYM.ListCount - 1
+            Print #FIO, lstSYM.List(j)
+        Next j
     End If
       
     '-- [TABLES]
     If lstDT.ListCount > 0 Then
         Print #FIO, "[TABLES]"
-        For J = 0 To lstDT.ListCount - 1
-            Print #FIO, lstDT.List(J)
-        Next J
+        For j = 0 To lstDT.ListCount - 1
+            Print #FIO, lstDT.List(j)
+        Next j
     End If
     
     '-- [LABELS]
     If lstULabels.ListCount > 0 Then
         Print #FIO, "[LABELS]"
-        For J = 0 To lstULabels.ListCount - 1
-            Print #FIO, lstULabels.List(J)
-        Next J
+        For j = 0 To lstULabels.ListCount - 1
+            Print #FIO, lstULabels.List(j)
+        Next j
     End If
     
     '-- [COMMENTS]
     If lstCmnt.ListCount > 0 Then
         Print #FIO, "[COMMENTS]"
-        For J = 0 To lstCmnt.ListCount - 1
-            Print #FIO, lstCmnt.List(J)
-        Next J
+        For j = 0 To lstCmnt.ListCount - 1
+            Print #FIO, lstCmnt.List(j)
+        Next j
     End If
 
     Close FIO
@@ -6402,8 +6439,8 @@ Private Sub cboPrefix_Click()
     MLReViewA
 End Sub
 
-Private Sub SetPrefix(ByVal N As Integer)
-    LPrefix = cboPrefix.List(N)
+Private Sub SetPrefix(ByVal n As Integer)
+    LPrefix = cboPrefix.List(n)
 End Sub
 
 Private Sub cboTarget_Click()
@@ -6412,8 +6449,8 @@ Private Sub cboTarget_Click()
 End Sub
 
 '---- Sets Target Assembler Directives
-Private Sub SetTarget(ByVal N As Integer)
-    Select Case N
+Private Sub SetTarget(ByVal n As Integer)
+    Select Case n
         Case 0: DOTORG = "*=":    DOTWORD = "!WORD ": DOTBYTE = "!BYTE ": DOTTEXT = "!TEXT "
         Case 1: DOTORG = "*=":    DOTWORD = ".WORD ": DOTBYTE = ".BYTE ": DOTTEXT = ".TEXT "
         Case 2: DOTORG = ".ORG ": DOTWORD = ".WOR ": DOTBYTE = ".BYT ":   DOTTEXT = ".TXT "
@@ -6422,7 +6459,7 @@ End Sub
 
 '---- Load opcodes from specified file
 Private Sub LoadOpcodes(ByVal Filename As String)
-    Dim Tmp As String, J As Integer
+    Dim Tmp As String, j As Integer
     
     If Exists(Filename) = False Then Exit Sub
     FIO = FreeFile
@@ -6432,9 +6469,9 @@ Private Sub LoadOpcodes(ByVal Filename As String)
     Line Input #FIO, OpDesc                             'CPU description string
     Line Input #FIO, Tmp                                'Divider line
     
-    For J = 0 To 255
-        Input #FIO, Tmp: OP(J) = Tmp
-    Next J
+    For j = 0 To 255
+        Input #FIO, Tmp: OP(j) = Tmp
+    Next j
     
     Line Input #FIO, Tmp                                'Divider line
     Line Input #FIO, OpModeLen                          'Opcode lengths
@@ -6634,20 +6671,28 @@ End Sub
 '=================
 Sub HEXView()
 
-    Dim C As Single, W As Integer, H As Integer
-    Dim Tmp As String, TLine As String, ALine As String, LCount As Integer
-    Dim Flag As Boolean, MaxW As Integer
-    Dim Lo As Integer, Hi As Integer, Address As Long, BMASK As Integer, CBMFlag As Boolean, ASMFlag As Boolean
-   
+    Dim C As Single, W As Integer, H As Integer, H2 As Integer, DifCount As Integer
+    Dim Tmp As String, TLine As String, ALine As String, CLine As String
+    Dim Flag As Boolean, MaxW As Integer, LCount As Integer, VLen2 As Integer
+    Dim Lo As Integer, Hi As Integer, Address As Long, BMASK As Integer
+    Dim CBMFlag As Boolean, ASMFlag As Boolean, CmpFlag As Boolean
+
     BMASK = 255: If cb7bit.value = vbChecked Then BMASK = 127 'Enable 7-bit view
     lstBIN.Clear
     
-    If cbHexFmt.value = vbChecked Then ASMFlag = True Else ASMFlag = False  'ASMbler format flag
     If cbWide.value = vbChecked Then MaxW = 15 Else MaxW = 7
-    Flag = False: If cbShowP.value = vbUnchecked Then Flag = True           'Show Printable
-    CBMFlag = False: If cbShowCBM.value = vbChecked Then CBMFlag = True     'Show CBM
     
-    C = 0: W = 0: Tmp = "": TLine = "": ALine = "": LCount = 0  'Initialize
+    If cbHexFmt.value = vbChecked Then ASMFlag = True Else ASMFlag = False  'ASMbler format flag
+    If cbShowP.value = vbChecked Then Flag = True Else Flag = False       'Show Printable
+    If cbShowCBM.value = vbChecked Then CBMFlag = True Else CBMFlag = False 'Show CBM
+    
+    CmpFlag = False 'Compare Show Flag
+    If cbCmpShow.value = vbChecked Then
+        CmpFlag = True
+        VLen2 = Len(VBuf2)
+    End If
+    
+    C = 0: W = 0: Tmp = "": TLine = "": ALine = "": LCount = 0: DifCount = 0 'Initialize
     
     If cbHexSync.value = vbChecked Then
         Address = MyDec(txtLA.Text)                             'Use Address specified in ASM project
@@ -6656,19 +6701,24 @@ Sub HEXView()
         If cbLA.value = vbUnchecked Then Address = MyDec(txtLA.Text)
     End If
     
-    '-- Loop through buffer
+    '-- Loop through buffer(s)
     Do
         If W > MaxW Then
-            If Flag = False Then lstBIN.AddItem TLine & ALine
-            If Flag = True Then lstBIN.AddItem TLine
+            If CmpFlag = True Then
+                lstBIN.AddItem TLine & " " & CLine & ALine
+            Else
+                If Flag = True Then lstBIN.AddItem TLine & ALine
+                If Flag = False Then lstBIN.AddItem TLine
+            End If
             W = 0: LCount = LCount + 1
         End If
         
         W = W + 1
         
-        '-- check for start of new line
+        '-- Check for start of new line
         If W = 1 Then
             ALine = "> "
+            CLine = "; "
             If ASMFlag = True Then
                 ALine = " ; "
                 TLine = MyHex(Address, 4) & " .BYT "            'ASM format so add ".BYT"
@@ -6679,8 +6729,8 @@ Sub HEXView()
         End If
         
         C = C + 1: Address = Address + 1                        'Move to Next byte
-        Tmp = Mid(VBuf, C, 1): H = Asc(Tmp)                     'Get its value
-                
+ 
+        Tmp = Mid(VBuf, C, 1): H = Asc(Tmp)                      'Get its value
         If ASMFlag = True Then
             TLine = TLine & "$" & MyHex(H, 2)                    'Add the hex string
             If W <= MaxW Then TLine = TLine & ","                'Add a comma if not last
@@ -6688,23 +6738,51 @@ Sub HEXView()
             TLine = TLine & MyHex(H, 2) & " "
         End If
         
-        '-- Build the Printable bytes string
-        Select Case (H And BMASK)
-            Case 0 To 31
-                If CBMFlag = True Then
-                    ALine = ALine & Chr((H And Mask) + 64)      'Converts CTRL chrs to Letter range
+        '-- Compare
+        If CmpFlag = True Then
+            If C <= VLen2 Then
+                Tmp = Mid(VBuf2, C, 1): H2 = Asc(Tmp)                 'Get its value
+                If H = H2 Then
+                    CLine = CLine & "== "
                 Else
-                    ALine = ALine & "."                         'Un-Printable
+                    CLine = CLine & MyHex(H2, 2) & " "                    'Build hex string
+                    DifCount = DifCount + 1
                 End If
-            Case 32 To 127: ALine = ALine & Chr(H And BMASK)    'Printable
-            Case Else: ALine = ALine & "."                      'Un-Printable
-        End Select
+            Else
+                CLine = CLine & "   "
+            End If
+        End If
+        
+        '-- Build the Printable bytes string
+        If Flag = True Then
+            Select Case (H And BMASK)
+                Case 0 To 31
+                    If CBMFlag = True Then
+                        ALine = ALine & Chr((H And Mask) + 64)      'Converts CTRL chrs to Letter range
+                    Else
+                        ALine = ALine & "."                         'Un-Printable
+                    End If
+                Case 32 To 127: ALine = ALine & Chr(H And BMASK)    'Printable
+                Case Else: ALine = ALine & "."                      'Un-Printable
+            End Select
+        End If
         
     Loop While (C < VLen) 'And (LCount < 32766)
     
+    '----- Handle the final line
+    
     If TLine <> "" Then
-        If Flag = False Then lstBIN.AddItem TLine & ALine
-        If Flag = True Then lstBIN.AddItem TLine
+        If CmpFlag = True Then
+            lstBIN.AddItem TLine & " " & CLine & ALine
+            If DifCount = 0 Then
+                lblDifTxt.Caption = "Files are IDENTICAL!"
+            Else
+                lblDifTxt.Caption = Str(DifCount) & " differences"
+            End If
+        Else
+            If Flag = False Then lstBIN.AddItem TLine & ALine
+            If Flag = True Then lstBIN.AddItem TLine
+        End If
     End If
     
     If lstBIN.Visible = True Then lstBIN.SetFocus
@@ -6713,9 +6791,9 @@ End Sub
 
 '---- Save HEX Listing
 Private Sub cmdHSave_Click()
-    Dim Filename As String, FIO As Integer, J As Integer, N As Integer
+    Dim Filename As String, FIO As Integer, j As Integer, n As Integer
     
-    N = lstBIN.ListCount: If N = 0 Then MyMsg "No lines to save!": Exit Sub
+    n = lstBIN.ListCount: If n = 0 Then MyMsg "No lines to save!": Exit Sub
     
     Filename = FileOpenSave(FileBase(VFileName), 1, 5, "Save HEX Listing as TXT")
     If Filename = "" Then Exit Sub
@@ -6723,9 +6801,9 @@ Private Sub cmdHSave_Click()
     FIO = FreeFile
     Open Filename For Output As FIO
     
-    For J = 0 To lstBIN.ListCount
-    Print #FIO, lstBIN.List(J)
-    Next J
+    For j = 0 To lstBIN.ListCount
+    Print #FIO, lstBIN.List(j)
+    Next j
     Close FIO
 
 End Sub
@@ -6756,7 +6834,7 @@ End Sub
 
 Private Sub cmdHexFind_Click()
     Dim SS As String, HH As String, SH As String
-    Dim SL As Integer, J As Integer, p As Integer
+    Dim SL As Integer, j As Integer, p As Integer
     
     HH = txtHSS.Text: SL = Len(HH)
     
@@ -6766,10 +6844,10 @@ Private Sub cmdHexFind_Click()
         If (SL Mod 2) > 0 Then MyMsg "HEX digits must be in pairs.": Exit Sub
         
         SS = ""
-        For J = 1 To SL Step 2
-            SH = Mid(HH, J, 2)                                  'Get 2 hex digits
+        For j = 1 To SL Step 2
+            SH = Mid(HH, j, 2)                                  'Get 2 hex digits
             SS = SS & Chr(MyDec(SH))                            'Add character to searchstring
-        Next J
+        Next j
     Else
         SS = HH                                                 'Use original string as entered
     End If
@@ -6816,6 +6894,36 @@ Private Sub HexSearch(ByVal SS As String)
     lblSResults.Caption = "Found at $" & HA & ", Offset:" & Str(p - 1) 'Results message
 
 End Sub
+
+'---- Compare to a second file
+Private Sub cmdCompare_Click()
+    Dim FIO As Integer, Tmp As String, P00Flag As Boolean, FLen As Long
+
+    Filename = FileOpenSave("", 1, 0, "Load Compare file")
+    If Filename = "" Then Exit Sub
+    
+    If Exists(Filename) = False Then MyMsg "Viewer: File '" & Filename & "' not found!": Exit Sub
+        
+    P00Flag = False                                        'Assume normal file
+    If FileExtU(Filename) = "P00" Then P00Flag = True     'P00 file found!
+  
+    '-- Load the file to the buffer, update and display file details
+    FIO = FreeFile
+    Open Filename For Binary As FIO: FLen = intLOF(FIO)
+        If P00Flag = True Then P00Buf = Input(26, FIO): FLen = FLen - 26      'Skip over header
+        If cbLA.value = vbChecked Then
+            VBuf2 = Input(2, FIO): FLen = FLen - 2                               'Read the Load address
+        End If
+        
+        If FLen > 32760 Then FLen = 32760
+        VBuf2 = Input(FLen, FIO)                                                 'Read contents to buffer
+    Close FIO
+    
+    lblCFile.Caption = FileNameOnly(Filename)
+    If VBuf = VBuf2 Then lblDifTxt.Caption = "The files are identical!"
+    
+End Sub
+
 
 '============
 'SEQ Viewer
@@ -6966,11 +7074,11 @@ Private Sub Read_GeoPaint(ByVal Filename As String)
     For i = 0 To 44
         If blocks(i, 1) > 0 Then
             Dat = ""
-            For J = 1 To blocks(i, 1)
+            For j = 1 To blocks(i, 1)
                 PBuf = ReadBlock()
-                If J = blocks(i, 1) Then PBuf = Left(PBuf, blocks(i, 2))
+                If j = blocks(i, 1) Then PBuf = Left(PBuf, blocks(i, 2))
                 Dat = Dat & PBuf
-            Next J
+            Next j
             
             bitposh = 0:  bitposv = 0
             
@@ -7344,6 +7452,9 @@ Private Sub cbShowP_Click()
     HEXView
 End Sub
 Private Sub cbHexFmt_Click()
+    HEXView
+End Sub
+Private Sub cbCmpShow_Click()
     HEXView
 End Sub
 

@@ -1952,7 +1952,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.14 (Feb 8/2021)" & Cr & _
+    MyMsg "CBM-Transfer  V1.15 (Feb 8/2021)" & Cr & _
           "(C)2007-2021 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -2295,7 +2295,7 @@ End Sub
 '---- Save the disk directory to a file
 ' Flag: True=Append, False=Create
 Private Sub WriteDirTextTo(ByVal Filename As String, Flag As Boolean)
-        Dim FIO As Integer, J As Integer
+        Dim FIO As Integer, j As Integer
         
         FIO = FreeFile
         
@@ -2309,9 +2309,9 @@ Private Sub WriteDirTextTo(ByVal Filename As String, Flag As Boolean)
         Print #FIO, Qu & txtImageHeader(MenuNum).Caption & Qu & " " & txtImageID(MenuNum).Caption
         Print #FIO, "========================"
         
-        For J = 0 To lstImageFiles(MenuNum).ListCount - 1
-            Print #FIO, lstImageFiles(MenuNum).List(J)
-        Next J
+        For j = 0 To lstImageFiles(MenuNum).ListCount - 1
+            Print #FIO, lstImageFiles(MenuNum).List(j)
+        Next j
         
         Print #FIO, DFBlocksFree(MenuNum).Caption
         Print #FIO, ""
@@ -2627,10 +2627,10 @@ Private Sub cmdDNone_Click(Index As Integer)
 End Sub
 
 Private Sub DSelector(ByVal B As Boolean, ByVal Index As Integer)
-    Dim J As Integer
-    For J = 0 To lstImageFiles(Index).ListCount - 1
-        lstImageFiles(Index).Selected(J) = B
-    Next J
+    Dim j As Integer
+    For j = 0 To lstImageFiles(Index).ListCount - 1
+        lstImageFiles(Index).Selected(j) = B
+    Next j
 End Sub
 
 Private Sub cmdImageRefresh_Click(Index As Integer)
@@ -2806,11 +2806,11 @@ End Sub
 
 '---- Select or De-Select ALLall Entries in CBMLink list
 Private Sub LSelector(ByVal B As Boolean)
-    Dim J As Integer
+    Dim j As Integer
     
-    For J = 0 To lstLink.ListCount - 1
-      lstLink.Selected(J) = B
-    Next J
+    For j = 0 To lstLink.ListCount - 1
+      lstLink.Selected(j) = B
+    Next j
 End Sub
 
 '====================
@@ -3144,11 +3144,11 @@ End Sub
 
 '---- Select ALL or NONE for all files in X-cable or Zoomfloppy disk
 Private Sub Selector(ByVal B As Boolean)
-    Dim J As Integer
+    Dim j As Integer
     
-    For J = 0 To lstXFiles.ListCount - 1
-      lstXFiles.Selected(J) = B             'Set to desired state
-    Next J
+    For j = 0 To lstXFiles.ListCount - 1
+      lstXFiles.Selected(j) = B             'Set to desired state
+    Next j
 End Sub
 
 '============================
@@ -4017,25 +4017,25 @@ End Sub
 '---- Run a single PRG file in VICE
 ' Runs a file from local PC
 Public Sub RunVicePRG(ByVal Filename As String)
-    Dim J As Integer, LA As Long
+    Dim j As Integer, LA As Long
     
     '---Check PRG option (specified or by load address)
-    J = frmOptions.cboPRG.ListIndex 'Selected EMU for PRG files
-    If J = 0 Then Exit Sub
+    j = frmOptions.cboPRG.ListIndex 'Selected EMU for PRG files
+    If j = 0 Then Exit Sub
     
     If frmOptions.OptPRGMode(1).value = True Then
         '-- Use program Load Address to select emulator.
         '   Note: VIC-20 and TED can have same load address. TODO: Allow selection when multiple choices
         LA = GetLoadAddress(Filename)
-        J = GetMachine(LA)
+        j = GetMachine(LA)
         
-        If J < 2 Then
+        If j < 2 Then
             frmViceSelect.Show vbModal
-            J = frmViceSelect.EmuNum
+            j = frmViceSelect.EmuNum
         End If
     End If
     
-    If J > 0 Then RunVice J, "", Filename
+    If j > 0 Then RunVice j, "", Filename
 
 End Sub
 
@@ -4171,9 +4171,9 @@ Private Sub cboFilter_Click(Index As Integer)
 End Sub
 
 '---- Return Filter string for given Index
-Private Function FilterString(ByVal N As Integer) As String
+Private Function FilterString(ByVal n As Integer) As String
     Dim FX As String
-    Select Case N
+    Select Case n
         Case 1: FX = "*.D64;*.D71;*.D80;*.D81;*.D82;*.NIB;*.G64;*.X64;*.D1M;*.D2M;*.D4M"
         Case 2: FX = "*.NIB;*.NBZ;*.G64;*.D64"
         Case 3: FX = "*.D80;*.D82"
