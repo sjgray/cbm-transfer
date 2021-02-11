@@ -39,7 +39,7 @@ Begin VB.Form frmViewer
          Width           =   885
       End
       Begin VB.CommandButton cmdCompare 
-         Caption         =   "Compare"
+         Caption         =   "Compare..."
          Height          =   315
          Left            =   7920
          TabIndex        =   243
@@ -6672,7 +6672,7 @@ End Sub
 Sub HEXView()
 
     Dim C As Single, W As Integer, H As Integer, H2 As Integer, DifCount As Integer
-    Dim Tmp As String, TLine As String, ALine As String, CLine As String
+    Dim Tmp As String, TLine As String, ALine As String, BLine As String, CLine As String
     Dim Flag As Boolean, MaxW As Integer, LCount As Integer, VLen2 As Integer
     Dim Lo As Integer, Hi As Integer, Address As Long, BMASK As Integer
     Dim CBMFlag As Boolean, ASMFlag As Boolean, CmpFlag As Boolean
@@ -6703,9 +6703,10 @@ Sub HEXView()
     
     '-- Loop through buffer(s)
     Do
+        '-- Reached Width setting... Add to output
         If W > MaxW Then
             If CmpFlag = True Then
-                lstBIN.AddItem TLine & " " & CLine & ALine
+                lstBIN.AddItem TLine & CLine & ALine & BLine
             Else
                 If Flag = True Then lstBIN.AddItem TLine & ALine
                 If Flag = False Then lstBIN.AddItem TLine
@@ -6713,23 +6714,20 @@ Sub HEXView()
             W = 0: LCount = LCount + 1
         End If
         
-        W = W + 1
+        W = W + 1                                               'Count bytes processed
         
         '-- Check for start of new line
         If W = 1 Then
-            ALine = "> "
-            CLine = "; "
-            If ASMFlag = True Then
-                ALine = " ; "
-                TLine = MyHex(Address, 4) & " .BYT "            'ASM format so add ".BYT"
-            Else
-                ALine = "> "
-                TLine = MyHex(Address, 4) & ": "                'Normal format
-            End If
+            ALine = " ; ": BLine = "": CLine = ""               'Set initial strings
+            If Flag = True Then BLine = "; "                    'Compare printable string
+            If CmpFlag = True Then CLine = "; "                 'Compare HEX differences
+            TLine = MyHex(Address, 4) & ": "                    'Start with HEX address
+            If ASMFlag = True Then TLine = TLine & ": .BYT "    'If ASM format add ".BYT"
         End If
         
         C = C + 1: Address = Address + 1                        'Move to Next byte
  
+        '-- Build the HEX string
         Tmp = Mid(VBuf, C, 1): H = Asc(Tmp)                      'Get its value
         If ASMFlag = True Then
             TLine = TLine & "$" & MyHex(H, 2)                    'Add the hex string
@@ -6738,7 +6736,7 @@ Sub HEXView()
             TLine = TLine & MyHex(H, 2) & " "
         End If
         
-        '-- Compare
+        '-- Build the Compare string
         If CmpFlag = True Then
             If C <= VLen2 Then
                 Tmp = Mid(VBuf2, C, 1): H2 = Asc(Tmp)                 'Get its value
@@ -6755,6 +6753,7 @@ Sub HEXView()
         
         '-- Build the Printable bytes string
         If Flag = True Then
+            '-- Original File
             Select Case (H And BMASK)
                 Case 0 To 31
                     If CBMFlag = True Then
@@ -6765,6 +6764,24 @@ Sub HEXView()
                 Case 32 To 127: ALine = ALine & Chr(H And BMASK)    'Printable
                 Case Else: ALine = ALine & "."                      'Un-Printable
             End Select
+            
+            '-- Compare File
+            If CmpFlag = True Then
+                If H = H2 Then
+                    BLine = BLine & "="                                     'Values are the same so show "="
+                Else
+                    Select Case (H2 And BMASK)
+                        Case 0 To 31
+                            If CBMFlag = True Then
+                                BLine = BLine & Chr((H2 And Mask) + 64)      'Converts CTRL chrs to Letter range
+                            Else
+                                BLine = BLine & "."                         'Un-Printable
+                            End If
+                        Case 32 To 127: BLine = BLine & Chr(H2 And BMASK)    'Printable
+                        Case Else: BLine = BLine & "."                      'Un-Printable
+                    End Select
+                End If
+            End If
         End If
         
     Loop While (C < VLen) 'And (LCount < 32766)
@@ -6921,7 +6938,7 @@ Private Sub cmdCompare_Click()
     
     lblCFile.Caption = FileNameOnly(Filename)
     If VBuf = VBuf2 Then lblDifTxt.Caption = "The files are identical!"
-    
+    HEXView
 End Sub
 
 

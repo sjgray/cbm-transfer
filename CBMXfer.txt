@@ -656,7 +656,14 @@ HEX:
    Displays the file as binary, using four-digit hex offset and two-digit hex values (with 16 bytes
   per line). Options are:
 
-    * Load Address..... Uses Load Address from file.
+    * Save............. Save the current view to a TEXT file.
+    * Find............. Enter a string to search for. If you want to search for HEX values begin
+			the string with a "$". Examples:
+			  abcd	...search for 'abcd' 'ABCD' or any combination (case does not matter).
+			  $00	...search for hex byte 00.
+			  $FF00 ...search for hex bytes FF 00 together. You can enter as many as you like.
+    * Next............. Find the next occurance of search string. To start from the top again click FIND.
+
     * Wide............. Displays 16 bytes per line
     * Show Printable... Display the ASCII/CBM equivilent characters. Unprintable characters are
                         represented with a "." character. If you de-select "Show Printable" then
@@ -666,15 +673,15 @@ HEX:
     * ASM Sync......... Uses the Load Address from the ASM project setting for files with no load
                         address. Allows the Hex view to sync with selected line in the ASM listing.
     * ASM Fmt.......... Display in "Assembly" format with bytes listed wit $ and comma separated.
-    * Save............. Save the current view to a TEXT file.
-    * Find............. Enter a string to search for. If you want to search for HEX values begin
-			the string with a "$". Examples:
-			  abcd	...search for 'abcd' 'ABCD' or any combination (case does not matter).
-			  $00	...search for hex byte 00.
-			  $FF00 ...search for hex bytes FF 00 together. You can enter as many as you like.
-    * Next............. Find the next occurance of search string. To start from the top again click FIND.
+
+    * Compare Button... Select a second file to compare. Filename, when loaded, is shown next to this.
+    * Show............. Show or Hide the comparison block. Summary of differences is shown beside this.
 
   At the very top left is the Black/White toggle button to change the listing colours.
+
+  When comparison is turned on the original file is on the left and the second file compare results is on
+  the right. If the two bytes are the same an "==" is shown. If not, the value is shown. If the second file
+  is shorter then only spaces are shown.
 
 
 FONT:
