@@ -6672,10 +6672,11 @@ End Sub
 Sub HEXView()
 
     Dim C As Single, W As Integer, H As Integer, H2 As Integer, DifCount As Integer
-    Dim Tmp As String, TLine As String, ALine As String, BLine As String, CLine As String
+    Dim Tmp As String, Tmp2 As String
+    Dim HXLine As String, TLine As String, ALine As String, BLine As String, CLine As String
     Dim Flag As Boolean, MaxW As Integer, LCount As Integer, VLen2 As Integer
     Dim Lo As Integer, Hi As Integer, Address As Long, BMASK As Integer
-    Dim CBMFlag As Boolean, ASMFlag As Boolean, CmpFlag As Boolean
+    Dim CBMFlag As Boolean, ASMFlag As Boolean, CmpFlag As Boolean, HLen As String
 
     BMASK = 255: If cb7bit.value = vbChecked Then BMASK = 127 'Enable 7-bit view
     lstBIN.Clear
@@ -6683,13 +6684,22 @@ Sub HEXView()
     If cbWide.value = vbChecked Then MaxW = 15 Else MaxW = 7
     
     If cbHexFmt.value = vbChecked Then ASMFlag = True Else ASMFlag = False  'ASMbler format flag
-    If cbShowP.value = vbChecked Then Flag = True Else Flag = False       'Show Printable
+    If cbShowP.value = vbChecked Then Flag = True Else Flag = False         'Show Printable
     If cbShowCBM.value = vbChecked Then CBMFlag = True Else CBMFlag = False 'Show CBM
     
-    CmpFlag = False 'Compare Show Flag
+    CmpFlag = False                                             'Compare Show Flag
+    
+    HLen = (MaxW + 1) * 3                                      'Length of Hex bytes
+    If ASMFlag = True Then HLen = HLen + MaxW                   'Compensate for ASM $
+    
     If cbCmpShow.value = vbChecked Then
         CmpFlag = True
         VLen2 = Len(VBuf2)
+        lstBIN.AddItem "FILE COMPARE"
+        lstBIN.AddItem "Left  File: " & FileNameOnly(VName) & "    Length=" & Str(VLen) & " bytes"
+        lstBIN.AddItem "Right File: " & lblCFile.Caption & "    Length=" & Str(Len(VBuf2)) & " bytes"
+        lstBIN.AddItem ""
+        lstBIN.AddItem String(7 + 6 * (MaxW + 1), "*")
     End If
     
     C = 0: W = 0: Tmp = "": TLine = "": ALine = "": LCount = 0: DifCount = 0 'Initialize
@@ -6706,10 +6716,10 @@ Sub HEXView()
         '-- Reached Width setting... Add to output
         If W > MaxW Then
             If CmpFlag = True Then
-                lstBIN.AddItem TLine & CLine & ALine & BLine
+                lstBIN.AddItem HXLine & TLine & CLine & ALine & BLine
             Else
-                If Flag = True Then lstBIN.AddItem TLine & ALine
-                If Flag = False Then lstBIN.AddItem TLine
+                If Flag = True Then lstBIN.AddItem HXLine & TLine & ALine
+                If Flag = False Then lstBIN.AddItem HXLine & TLine
             End If
             W = 0: LCount = LCount + 1
         End If
@@ -6719,10 +6729,11 @@ Sub HEXView()
         '-- Check for start of new line
         If W = 1 Then
             ALine = " ; ": BLine = "": CLine = ""               'Set initial strings
-            If Flag = True Then BLine = "; "                    'Compare printable string
+            If Flag = True Then BLine = " ; "                    'Compare printable string
             If CmpFlag = True Then CLine = "; "                 'Compare HEX differences
-            TLine = MyHex(Address, 4) & ": "                    'Start with HEX address
-            If ASMFlag = True Then TLine = TLine & ": .BYT "    'If ASM format add ".BYT"
+            TLine = ""
+            HXLine = MyHex(Address, 4) & ": "                    'Start with HEX address
+            If ASMFlag = True Then HXLine = HXLine & ".BYT "    'If ASM format add ".BYT"
         End If
         
         C = C + 1: Address = Address + 1                        'Move to Next byte
@@ -6788,17 +6799,21 @@ Sub HEXView()
     
     '----- Handle the final line
     
+    Tmp = String(HLen, " ")                                                  ' temp spacing string
+    
     If TLine <> "" Then
         If CmpFlag = True Then
-            lstBIN.AddItem TLine & " " & CLine & ALine
+            lstBIN.AddItem HXLine & Left(TLine & Tmp, HLen) & Left(CLine & Tmp, HLen) & "  " & Left(ALine & Tmp, MaxW + 4) & BLine
             If DifCount = 0 Then
-                lblDifTxt.Caption = "Files are IDENTICAL!"
+                Tmp2 = "Files are IDENTICAL!"
             Else
-                lblDifTxt.Caption = Str(DifCount) & " differences"
+                Tmp2 = Str(DifCount) & " differences"
             End If
+            lblDifTxt.Caption = Tmp2
+            lstBIN.List(3) = "RESULTS: " & Tmp2
         Else
-            If Flag = False Then lstBIN.AddItem TLine & ALine
-            If Flag = True Then lstBIN.AddItem TLine
+            If Flag = False Then lstBIN.AddItem HXLine & Left(TLine & Tmp, HLen) & Left(ALine & Tmp, HLen)
+            If Flag = True Then lstBIN.AddItem HXLine & TLine
         End If
     End If
     
