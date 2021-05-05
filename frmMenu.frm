@@ -127,6 +127,10 @@ Begin VB.Form frmMenu
             Caption         =   "Convert 8x14 (EGA ) font"
             Index           =   4
          End
+         Begin VB.Menu mnuConvert 
+            Caption         =   "Convert 8x32 to  8x16 font"
+            Index           =   5
+         End
       End
    End
 End

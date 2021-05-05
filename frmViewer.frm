@@ -12,193 +12,6 @@ Begin VB.Form frmViewer
    ScaleHeight     =   8400
    ScaleWidth      =   11925
    StartUpPosition =   3  'Windows Default
-   Begin VB.Frame frBIN 
-      Caption         =   "Binary Viewer"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   1185
-      Left            =   60
-      TabIndex        =   6
-      Top             =   420
-      Visible         =   0   'False
-      Width           =   14790
-      Begin VB.CheckBox cbCmpShow 
-         Caption         =   "Show"
-         Height          =   285
-         Left            =   7920
-         TabIndex        =   244
-         ToolTipText     =   "File includes Load Address at start"
-         Top             =   480
-         Width           =   885
-      End
-      Begin VB.CommandButton cmdCompare 
-         Caption         =   "Compare..."
-         Height          =   315
-         Left            =   7920
-         TabIndex        =   243
-         ToolTipText     =   "Find NEXT occurance"
-         Top             =   150
-         Width           =   915
-      End
-      Begin VB.CheckBox cbHexFmt 
-         Caption         =   "ASM Fmt"
-         Height          =   285
-         Left            =   5850
-         TabIndex        =   242
-         ToolTipText     =   "File includes Load Address at start"
-         Top             =   540
-         Width           =   945
-      End
-      Begin VB.CommandButton cmdHSave 
-         Caption         =   "Save"
-         Height          =   315
-         Left            =   60
-         TabIndex        =   241
-         ToolTipText     =   "Save Current view as TXT"
-         Top             =   210
-         Width           =   675
-      End
-      Begin VB.CommandButton cmdHNext 
-         Caption         =   "Next"
-         Height          =   315
-         Left            =   5040
-         TabIndex        =   235
-         ToolTipText     =   "Find NEXT occurance"
-         Top             =   150
-         Width           =   555
-      End
-      Begin VB.CommandButton cmdHexFind 
-         Caption         =   "Find"
-         Height          =   315
-         Left            =   4350
-         TabIndex        =   234
-         Top             =   150
-         Width           =   645
-      End
-      Begin VB.TextBox txtHSS 
-         Height          =   315
-         Left            =   1380
-         TabIndex        =   232
-         ToolTipText     =   "Enter text string to search for, or start with ""$""  to search for HEX value(s)"
-         Top             =   180
-         Width           =   2895
-      End
-      Begin VB.CheckBox cbShowCBM 
-         Caption         =   "Show CBM"
-         Height          =   195
-         Left            =   3540
-         TabIndex        =   129
-         ToolTipText     =   "Show CBM screen codes"
-         Top             =   570
-         Width           =   1095
-      End
-      Begin VB.CheckBox cbHexSync 
-         Caption         =   "ASM Sync"
-         Height          =   195
-         Left            =   4740
-         TabIndex        =   128
-         ToolTipText     =   "File includes Load Address at start"
-         Top             =   570
-         Width           =   1095
-      End
-      Begin VB.CheckBox cbWide 
-         Caption         =   "Wide"
-         Height          =   195
-         Left            =   420
-         TabIndex        =   111
-         ToolTipText     =   "File includes Load Address at start"
-         Top             =   570
-         Value           =   1  'Checked
-         Width           =   705
-      End
-      Begin VB.CheckBox cb7bit 
-         Caption         =   "7-bit"
-         Height          =   195
-         Left            =   2760
-         TabIndex        =   32
-         ToolTipText     =   "Enable 7-bit View"
-         Top             =   570
-         Width           =   615
-      End
-      Begin VB.CheckBox cbShowP 
-         Caption         =   "Show Printable"
-         Height          =   195
-         Left            =   1260
-         TabIndex        =   16
-         Top             =   570
-         Value           =   1  'Checked
-         Width           =   1365
-      End
-      Begin VB.ListBox lstBIN 
-         BackColor       =   &H00000000&
-         BeginProperty Font 
-            Name            =   "Courier"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   450
-         Left            =   120
-         TabIndex        =   7
-         Top             =   840
-         Width           =   1275
-      End
-      Begin VB.Label lblCFile 
-         BackColor       =   &H80000018&
-         Caption         =   "no file"
-         Height          =   225
-         Left            =   8880
-         TabIndex        =   246
-         Top             =   210
-         Width           =   2895
-      End
-      Begin VB.Label lblDifTxt 
-         AutoSize        =   -1  'True
-         BackColor       =   &H80000014&
-         Height          =   195
-         Left            =   8850
-         TabIndex        =   245
-         Top             =   510
-         Width           =   2925
-      End
-      Begin VB.Label lblSResults 
-         AutoSize        =   -1  'True
-         BackColor       =   &H80000014&
-         Caption         =   "No search set"
-         Height          =   195
-         Left            =   5700
-         TabIndex        =   236
-         Top             =   210
-         Width           =   990
-      End
-      Begin VB.Label Label18 
-         AutoSize        =   -1  'True
-         Caption         =   "FIND:"
-         Height          =   195
-         Left            =   900
-         TabIndex        =   233
-         Top             =   270
-         Width           =   420
-      End
-      Begin VB.Image imgBWH 
-         Height          =   255
-         Left            =   90
-         Picture         =   "frmViewer.frx":0442
-         Top             =   540
-         Width           =   255
-      End
-   End
    Begin VB.Frame frFont 
       Caption         =   "Font Viewer"
       BeginProperty Font 
@@ -218,9 +31,9 @@ Begin VB.Form frmViewer
       Width           =   14925
       Begin VB.Frame frTools 
          Height          =   6585
-         Left            =   90
+         Left            =   120
          TabIndex        =   192
-         Top             =   720
+         Top             =   960
          Width           =   1515
          Begin VB.CommandButton cmdTool 
             Caption         =   "Set R Point"
@@ -495,7 +308,7 @@ Begin VB.Form frmViewer
             Height          =   435
             Index           =   1
             Left            =   540
-            Picture         =   "frmViewer.frx":07F8
+            Picture         =   "frmViewer.frx":0442
             Style           =   1  'Graphical
             TabIndex        =   196
             ToolTipText     =   "Shift DOWN"
@@ -506,7 +319,7 @@ Begin VB.Form frmViewer
             Height          =   435
             Index           =   3
             Left            =   990
-            Picture         =   "frmViewer.frx":0EFA
+            Picture         =   "frmViewer.frx":0B44
             Style           =   1  'Graphical
             TabIndex        =   195
             ToolTipText     =   "Shift RIGHT"
@@ -517,7 +330,7 @@ Begin VB.Form frmViewer
             Height          =   435
             Index           =   2
             Left            =   90
-            Picture         =   "frmViewer.frx":15FC
+            Picture         =   "frmViewer.frx":1246
             Style           =   1  'Graphical
             TabIndex        =   194
             ToolTipText     =   "Shift LEFT"
@@ -528,7 +341,7 @@ Begin VB.Form frmViewer
             Height          =   435
             Index           =   0
             Left            =   540
-            Picture         =   "frmViewer.frx":1CFE
+            Picture         =   "frmViewer.frx":1948
             Style           =   1  'Graphical
             TabIndex        =   193
             ToolTipText     =   "Shift UP"
@@ -597,7 +410,7 @@ Begin VB.Form frmViewer
          Height          =   6585
          Left            =   1680
          TabIndex        =   185
-         Top             =   720
+         Top             =   840
          Width           =   2205
          Begin VB.PictureBox picChr 
             AutoRedraw      =   -1  'True
@@ -705,9 +518,9 @@ Begin VB.Form frmViewer
          End
          Begin VB.ComboBox cboTheme 
             Height          =   315
-            ItemData        =   "frmViewer.frx":2400
+            ItemData        =   "frmViewer.frx":204A
             Left            =   2700
-            List            =   "frmViewer.frx":241F
+            List            =   "frmViewer.frx":2069
             Style           =   2  'Dropdown List
             TabIndex        =   165
             Top             =   180
@@ -1059,7 +872,7 @@ Begin VB.Form frmViewer
       Begin VB.Image cmdFontMenu 
          Height          =   255
          Left            =   120
-         Picture         =   "frmViewer.frx":247D
+         Picture         =   "frmViewer.frx":20C7
          ToolTipText     =   "Font Menu"
          Top             =   390
          Width           =   255
@@ -1207,9 +1020,9 @@ Begin VB.Form frmViewer
          Width           =   7995
          Begin VB.ComboBox cboMode 
             Height          =   315
-            ItemData        =   "frmViewer.frx":2833
+            ItemData        =   "frmViewer.frx":247D
             Left            =   930
-            List            =   "frmViewer.frx":2849
+            List            =   "frmViewer.frx":2493
             Style           =   2  'Dropdown List
             TabIndex        =   122
             Top             =   0
@@ -1877,9 +1690,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00000000&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28BA
+               ItemData        =   "frmViewer.frx":2504
                Left            =   2370
-               List            =   "frmViewer.frx":28BC
+               List            =   "frmViewer.frx":2506
                Style           =   2  'Dropdown List
                TabIndex        =   84
                Top             =   2820
@@ -1891,9 +1704,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28BE
+               ItemData        =   "frmViewer.frx":2508
                Left            =   810
-               List            =   "frmViewer.frx":28C5
+               List            =   "frmViewer.frx":250F
                Style           =   2  'Dropdown List
                TabIndex        =   82
                Top             =   1200
@@ -1915,9 +1728,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00000000&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28D7
+               ItemData        =   "frmViewer.frx":2521
                Left            =   2370
-               List            =   "frmViewer.frx":28D9
+               List            =   "frmViewer.frx":2523
                Style           =   2  'Dropdown List
                TabIndex        =   79
                Top             =   2520
@@ -1929,9 +1742,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28DB
+               ItemData        =   "frmViewer.frx":2525
                Left            =   810
-               List            =   "frmViewer.frx":28E2
+               List            =   "frmViewer.frx":252C
                Style           =   2  'Dropdown List
                TabIndex        =   78
                Top             =   870
@@ -1960,9 +1773,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":28F4
+               ItemData        =   "frmViewer.frx":253E
                Left            =   1110
-               List            =   "frmViewer.frx":28FB
+               List            =   "frmViewer.frx":2545
                Style           =   2  'Dropdown List
                TabIndex        =   73
                Top             =   2190
@@ -1973,9 +1786,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":290D
+               ItemData        =   "frmViewer.frx":2557
                Left            =   810
-               List            =   "frmViewer.frx":291A
+               List            =   "frmViewer.frx":2564
                Style           =   2  'Dropdown List
                TabIndex        =   71
                Top             =   1860
@@ -2068,9 +1881,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":2935
+               ItemData        =   "frmViewer.frx":257F
                Left            =   810
-               List            =   "frmViewer.frx":2948
+               List            =   "frmViewer.frx":2592
                Style           =   2  'Dropdown List
                TabIndex        =   56
                Top             =   1530
@@ -2181,9 +1994,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":299D
+            ItemData        =   "frmViewer.frx":25E7
             Left            =   90
-            List            =   "frmViewer.frx":299F
+            List            =   "frmViewer.frx":25E9
             TabIndex        =   145
             Top             =   1590
             Width           =   705
@@ -2234,9 +2047,9 @@ Begin VB.Form frmViewer
                EndProperty
                ForeColor       =   &H00000000&
                Height          =   3960
-               ItemData        =   "frmViewer.frx":29A1
+               ItemData        =   "frmViewer.frx":25EB
                Left            =   1380
-               List            =   "frmViewer.frx":29A3
+               List            =   "frmViewer.frx":25ED
                Sorted          =   -1  'True
                TabIndex        =   136
                Top             =   240
@@ -2257,9 +2070,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00000000&
             Height          =   255
-            ItemData        =   "frmViewer.frx":29A5
+            ItemData        =   "frmViewer.frx":25EF
             Left            =   2940
-            List            =   "frmViewer.frx":29A7
+            List            =   "frmViewer.frx":25F1
             Sorted          =   -1  'True
             TabIndex        =   102
             Top             =   1320
@@ -2279,9 +2092,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H80000001&
             Height          =   255
-            ItemData        =   "frmViewer.frx":29A9
+            ItemData        =   "frmViewer.frx":25F3
             Left            =   1980
-            List            =   "frmViewer.frx":29AB
+            List            =   "frmViewer.frx":25F5
             MultiSelect     =   2  'Extended
             Sorted          =   -1  'True
             TabIndex        =   68
@@ -2303,9 +2116,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":29AD
+            ItemData        =   "frmViewer.frx":25F7
             Left            =   2940
-            List            =   "frmViewer.frx":29AF
+            List            =   "frmViewer.frx":25F9
             Sorted          =   -1  'True
             TabIndex        =   54
             Top             =   1590
@@ -2326,9 +2139,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":29B1
+            ItemData        =   "frmViewer.frx":25FB
             Left            =   2190
-            List            =   "frmViewer.frx":29B3
+            List            =   "frmViewer.frx":25FD
             Sorted          =   -1  'True
             TabIndex        =   52
             Top             =   1590
@@ -2349,9 +2162,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   285
-            ItemData        =   "frmViewer.frx":29B5
+            ItemData        =   "frmViewer.frx":25FF
             Left            =   1530
-            List            =   "frmViewer.frx":29B7
+            List            =   "frmViewer.frx":2601
             Sorted          =   -1  'True
             Style           =   1  'Checkbox
             TabIndex        =   51
@@ -2373,9 +2186,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   285
-            ItemData        =   "frmViewer.frx":29B9
+            ItemData        =   "frmViewer.frx":2603
             Left            =   840
-            List            =   "frmViewer.frx":29BB
+            List            =   "frmViewer.frx":2605
             Sorted          =   -1  'True
             Style           =   1  'Checkbox
             TabIndex        =   50
@@ -2576,7 +2389,7 @@ Begin VB.Form frmViewer
       Begin VB.Image imgShowInfo 
          Height          =   255
          Left            =   4410
-         Picture         =   "frmViewer.frx":29BD
+         Picture         =   "frmViewer.frx":2607
          ToolTipText     =   "Toggle Info box"
          Top             =   270
          Width           =   255
@@ -2584,7 +2397,7 @@ Begin VB.Form frmViewer
       Begin VB.Image imgBW 
          Height          =   255
          Left            =   330
-         Picture         =   "frmViewer.frx":2D73
+         Picture         =   "frmViewer.frx":29BD
          Top             =   240
          Width           =   255
       End
@@ -2624,6 +2437,193 @@ Begin VB.Form frmViewer
          ToolTipText     =   "Address range"
          Top             =   270
          Width           =   105
+      End
+   End
+   Begin VB.Frame frBIN 
+      Caption         =   "Binary Viewer"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   1185
+      Left            =   60
+      TabIndex        =   6
+      Top             =   420
+      Visible         =   0   'False
+      Width           =   14790
+      Begin VB.CheckBox cbCmpShow 
+         Caption         =   "Show"
+         Height          =   285
+         Left            =   7920
+         TabIndex        =   244
+         ToolTipText     =   "File includes Load Address at start"
+         Top             =   480
+         Width           =   885
+      End
+      Begin VB.CommandButton cmdCompare 
+         Caption         =   "Compare..."
+         Height          =   315
+         Left            =   7920
+         TabIndex        =   243
+         ToolTipText     =   "Find NEXT occurance"
+         Top             =   150
+         Width           =   915
+      End
+      Begin VB.CheckBox cbHexFmt 
+         Caption         =   "ASM Fmt"
+         Height          =   285
+         Left            =   5850
+         TabIndex        =   242
+         ToolTipText     =   "File includes Load Address at start"
+         Top             =   540
+         Width           =   945
+      End
+      Begin VB.CommandButton cmdHSave 
+         Caption         =   "Save"
+         Height          =   315
+         Left            =   60
+         TabIndex        =   241
+         ToolTipText     =   "Save Current view as TXT"
+         Top             =   210
+         Width           =   675
+      End
+      Begin VB.CommandButton cmdHNext 
+         Caption         =   "Next"
+         Height          =   315
+         Left            =   5040
+         TabIndex        =   235
+         ToolTipText     =   "Find NEXT occurance"
+         Top             =   150
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdHexFind 
+         Caption         =   "Find"
+         Height          =   315
+         Left            =   4350
+         TabIndex        =   234
+         Top             =   150
+         Width           =   645
+      End
+      Begin VB.TextBox txtHSS 
+         Height          =   315
+         Left            =   1380
+         TabIndex        =   232
+         ToolTipText     =   "Enter text string to search for, or start with ""$""  to search for HEX value(s)"
+         Top             =   180
+         Width           =   2895
+      End
+      Begin VB.CheckBox cbShowCBM 
+         Caption         =   "Show CBM"
+         Height          =   195
+         Left            =   3540
+         TabIndex        =   129
+         ToolTipText     =   "Show CBM screen codes"
+         Top             =   570
+         Width           =   1095
+      End
+      Begin VB.CheckBox cbHexSync 
+         Caption         =   "ASM Sync"
+         Height          =   195
+         Left            =   4740
+         TabIndex        =   128
+         ToolTipText     =   "File includes Load Address at start"
+         Top             =   570
+         Width           =   1095
+      End
+      Begin VB.CheckBox cbWide 
+         Caption         =   "Wide"
+         Height          =   195
+         Left            =   420
+         TabIndex        =   111
+         ToolTipText     =   "File includes Load Address at start"
+         Top             =   570
+         Value           =   1  'Checked
+         Width           =   705
+      End
+      Begin VB.CheckBox cb7bit 
+         Caption         =   "7-bit"
+         Height          =   195
+         Left            =   2760
+         TabIndex        =   32
+         ToolTipText     =   "Enable 7-bit View"
+         Top             =   570
+         Width           =   615
+      End
+      Begin VB.CheckBox cbShowP 
+         Caption         =   "Show Printable"
+         Height          =   195
+         Left            =   1260
+         TabIndex        =   16
+         Top             =   570
+         Value           =   1  'Checked
+         Width           =   1365
+      End
+      Begin VB.ListBox lstBIN 
+         BackColor       =   &H00000000&
+         BeginProperty Font 
+            Name            =   "Courier"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   450
+         Left            =   120
+         TabIndex        =   7
+         Top             =   840
+         Width           =   1275
+      End
+      Begin VB.Label lblCFile 
+         BackColor       =   &H80000018&
+         Caption         =   "no file"
+         Height          =   225
+         Left            =   8880
+         TabIndex        =   246
+         Top             =   210
+         Width           =   2895
+      End
+      Begin VB.Label lblDifTxt 
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000014&
+         Height          =   195
+         Left            =   8850
+         TabIndex        =   245
+         Top             =   510
+         Width           =   2925
+      End
+      Begin VB.Label lblSResults 
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000014&
+         Caption         =   "No search set"
+         Height          =   195
+         Left            =   5700
+         TabIndex        =   236
+         Top             =   210
+         Width           =   990
+      End
+      Begin VB.Label Label18 
+         AutoSize        =   -1  'True
+         Caption         =   "FIND:"
+         Height          =   195
+         Left            =   900
+         TabIndex        =   233
+         Top             =   270
+         Width           =   420
+      End
+      Begin VB.Image imgBWH 
+         Height          =   255
+         Left            =   90
+         Picture         =   "frmViewer.frx":2D73
+         Top             =   540
+         Width           =   255
       End
    End
    Begin VB.Shape shOverflow 
@@ -2876,6 +2876,7 @@ Dim Pow(7)              As Integer                              'binary powers a
 Dim Token(358) As String
 
 '==== FONT Viewer
+Dim FontOffset          As Integer                              'Font Offset
 Dim SelChr              As Integer                              'Selected Character (start of range?)
 Dim SelChr2             As Integer                              'End of Range
 Dim RangeFlag           As Boolean                              'True, when Range is valid
@@ -3719,7 +3720,7 @@ Public Sub DrawChrSet()
     Dim j As Integer, k As Integer, X As Integer, Y As Integer, V As Integer, TopX As Integer, TopY As Integer
     Dim R As Integer, C As Integer, MaxR As Integer, MaxC As Integer, MaxH As Integer
     Dim CZ As Integer, RZ As Integer, PZ As Integer 'zoomed size
-    Dim Offset As Long, ChrNum As Integer, OutFlag As Boolean
+    Dim ChrNum As Integer, OutFlag As Boolean
     Dim C1 As Long, Thick As Integer                        'Outline Colour
     Dim CCZ As Integer, RRZ As Integer                      'to help speed up drawing
     
@@ -3733,8 +3734,8 @@ Public Sub DrawChrSet()
     PZ = CW * ChrZoom                                       'Scale factor for drawing one line of pixels
     Thick = ChrZoom \ 2                                     'Outline thickness
     
-    Offset = Val(txtCSkip.Text): If Offset < 1 Then Offset = 1
-    If Offset > 32767 Then Offset = 32767
+    FontOffset = Val(txtCSkip.Text): If FontOffset < 0 Then FontOffset = 0
+    If FontOffset > 32767 Then FontOffset = 32767
     
     If BorderFlag = True Then
         CW = CW + BorderSize
@@ -3764,7 +3765,7 @@ Public Sub DrawChrSet()
     
     CCZ = TopX: RRZ = TopY
     
-    For j = Offset To VLen
+    For j = FontOffset + 1 To VLen
         V = Asc(Mid(VBuf, j, 1))
         '----paintpicture {srceimg},destX,destY,destW,destH ,srcX,srcY,srcW,srcH,mode
         If (RangeFlag = True) And (ChrNum >= SelChr) And (ChrNum <= SelChr2) Then
@@ -3827,7 +3828,7 @@ Public Sub DoFMenu(ByVal Index As Integer)
         Case 4: ToggleEdit
         Case 5: SaveFont 0                      'Save entire font
         Case 6: SaveFont 1                      'Save Range
-        Case 100 To 104                         'Convert Font
+        Case 100 To 105                         'Convert Font
             ConvertFont Index - 100
             SelChr = 0: SelChr2 = 0
             SetSelect
@@ -3936,6 +3937,9 @@ Private Sub txtCSkip_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then FONTView
 End Sub
 
+' Creates a bitmap containing the pixel representation for all values from 0 to 255, using the current colour palette
+' If multicolour mode is disabled then is used the foreground (0) and backgound colour (1)
+' If Multicolour mode is enabled it uses 4 pairs of pixels to determine colour (0 to 3)
 Public Sub CreatePixels()
     Dim j As Integer, k As Integer, CI As Integer
     Dim MC(3) As Long               'Array to hold multicolour values
@@ -4029,7 +4033,7 @@ Public Sub ShowChr()
     C2 = vbWhite
     
     If picV.Height >= FontH * ChrZoom * 15 Then
-        picChr.PaintPicture picV.Image, 0, 0, SelZoom * 8, SelZoom * FontH, X, Y, 8 * ChrZoom, FontH * ChrZoom 'Draw the Character
+        picChr.PaintPicture picV.Image, 0, 0, SelZoom * 8, SelZoom * FontH, X, Y, 8 * ChrZoom, FontH * ChrZoom 'Draw the Character using set on screen (not buffer)
         
         
         If BorderFlag = True Then
@@ -4090,19 +4094,19 @@ End Sub
 
 '---- Change Skip-bytes
 Private Sub cmdSB_Click(Index As Integer)
-    Dim Offset As Integer
+    Dim FontOffset As Integer
     
-    Offset = Val(txtCSkip.Text)
+    FontOffset = Val(txtCSkip.Text)
     Select Case Index
-        Case 0: Offset = Offset - 256
-        Case 1: Offset = Offset - ChrHeight
-        Case 2: Offset = Offset - 1
-        Case 3: Offset = Offset + 1
-        Case 4: Offset = Offset + ChrHeight
-        Case 5: Offset = Offset + 256
+        Case 0: FontOffset = FontOffset - 256
+        Case 1: FontOffset = FontOffset - ChrHeight
+        Case 2: FontOffset = FontOffset - 1
+        Case 3: FontOffset = FontOffset + 1
+        Case 4: FontOffset = FontOffset + ChrHeight
+        Case 5: FontOffset = FontOffset + 256
     End Select
-    If Offset < 0 Then Offset = 0
-    txtCSkip.Text = Format(Offset)
+    If FontOffset < 0 Then FontOffset = 0
+    txtCSkip.Text = Format(FontOffset)
     FONTView
 End Sub
 
@@ -4147,9 +4151,9 @@ Private Sub SaveFont(ByVal Mode As Integer)
     FFIO = FreeFile
     Open Filename For Output As FFIO
     If Mode = 0 Then
-        Print #FFIO, VBuf;                                          'Write entire font
+        Print #FFIO, VBuf;                                                  'Write entire font
     Else
-        Print #FFIO, Mid(VBuf, ChrPos, ChrPosEnd - ChrPos + 1);     'Write RANGE
+        Print #FFIO, Mid(VBuf, FontOffset + ChrPos, ChrPosEnd - ChrPos + 1);  'Write RANGE
     End If
     Close FFIO
     
@@ -4173,7 +4177,7 @@ Private Sub picChr_MouseDown(Button As Integer, Shift As Integer, X As Single, Y
     End If
     
     '-- Edit Pixel
-    PP = ChrPos + R                             'Position of byte to update
+    PP = FontOffset + ChrPos + R                    'Position of byte to update
     bv = Asc(Mid(VBuf, PP, 1))                  'Get byte for row
     p = Pow(7 - C)                              'Get pixel bit value
     
@@ -4581,11 +4585,12 @@ Private Sub ConvertFont(ByVal n As Integer)
     If VLen > 16300 Then MyMsg "Sorry, font is too large to convert!": Exit Sub
     
     Select Case n
-        Case 0: B = 8: H = 16: Pad = ""                         'Read 16 bytes, write 8               - 8x8 font
-        Case 1: B = 8: H = 8: Pad = String(8, Nu)               'Read 8 bytes, write 8 plus 8 padding - 8x16 font
-        Case 2: B = 5: H = 5: Pad = String(3, Nu)               'Read 5 bytes, write 5 plus 3 padding - 5x7 sideways font
-        Case 3: B = 7: H = 7: Pad = Nu                          'Read 7 bytes, write 7 plus 1 padding - 5x7 upright font
+        Case 0: B = 8: H = 16: Pad = ""                         'Read 16 bytes, write 8                 - 8x8 font
+        Case 1: B = 8: H = 8: Pad = String(8, Nu)               'Read 8 bytes, write 8 plus 8 padding   - 8x16 font
+        Case 2: B = 5: H = 5: Pad = String(3, Nu)               'Read 5 bytes, write 5 plus 3 padding   - 5x7 sideways font
+        Case 3: B = 7: H = 7: Pad = Nu                          'Read 7 bytes, write 7 plus 1 padding   - 5x7 upright font
         Case 4: B = 14: H = 14: Pad = String(2, Nu)             'Read 14 bytes, write 14 plus 2 padding - 8x14 EGA font
+        Case 5: B = 16: H = 32: Pad = ""                        'Read 32 bytes, write 16                - 8x16 font
     End Select
     
     VBuf2 = ""                                                  'Converted font built here
@@ -4958,7 +4963,7 @@ Sub MLView()
                             DTCountMax = 6
                             Address = Address + 1: C = C + 1
                             B1A = Asc(Mid(VBuf, C, 1))              'Value of byte
-                            TAddress = B1A * 256 + B0A + 1          'Calculate Target Address (decimal) with offsett
+                            TAddress = B1A * 256 + B0A + 1          'Calculate Target Address (decimal) with Offset
                             JAddress = MyHex(TAddress, 4)           'Make it a string
                             SHL = "$" & JAddress                    'Make string for output
                             
@@ -7414,7 +7419,7 @@ Private Sub cbLA_Click()
 End Sub
 
 Private Sub txtLA_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then ViewIt ViewMode, VFileName, VName, VExt 're-load the file
+    If KeyAscii = 13 Then KeyAscii = 0: ViewIt ViewMode, VFileName, VName, VExt 're-load the file
 End Sub
 
 '==========================================================
