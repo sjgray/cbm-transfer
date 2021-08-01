@@ -800,11 +800,12 @@ FONT:
 
   You can also manually convert fonts using the "Convert" submenu. The following are available:
 
-	* Convert 8x16 to 8x8... Same as above.
-	* Convert 8x8 to 8x16... Same as above.
+	* Convert 8x16 to 8x8... Same as described above.
+	* Convert 8x8 to 8x16... Same as described above.
 	* Convert 5x7 sideways.. Convert 5x7 sideways font to 8x8. You will still need to rotate characters.
 	* Convert 5x7 upright... Convert 5x7 upright font to 8x8.
 	* Convert 8x14.......... Convert 8x14 EGA font to 8x16.
+	* Convert 8x32 to 8x16.. Convert 32 to 16 tall. Some .FON files have 32 lines but characters with only 16.
 
 ASM:
 ----

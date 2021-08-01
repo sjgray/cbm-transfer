@@ -1,7 +1,7 @@
 ; CBMXfer Disassembler, Platform File
 ; For C264 (TED) family computers C16, C116, C232, C264, Plus/4
 ;------------------------------------------------------------------
-; This file was by cleaning up and importing the file:
+; This file was made by cleaning up and importing the file:
 ; "http://www.zimmers.net/anonftp/pub/cbm/maps/C16.MemoryMap"
 ; Chip registers were then added. The Kernal jump table from C128 was used.
 ;------------------------------------------------------------------
@@ -172,6 +172,15 @@
 00FD,XoFF,XoFF    Char to send for a x-off (RS232)
 00FE,SEDT2,SEDT2   Editor temporary use
 00FF,LOFBUF,LOFBUF
+0100,FBUFFR,FBUFFR,
+0110,SAVEA,SAVEA Temp Location for .A register
+0111,SAVEY,SAVEY Temp Location for .Y register
+0112,SAVEX,SAVEY Temp Location for .X register
+0113,COLKEY,Color/luminance table in RAM
+0124,SYSSTK,SYSSTK System stack
+0200,BUF,BUF     Basic/monitor input buffer
+0259,OLDLIN,OLDLIN  Basic storage
+025B,OLDTXT,OLDTXT  Basic storage
 025D,XCNT,XCNT    DOS loop counter
 025E,PNBUFR,PNBUFR  Area for filename
 026E,DOSF1L,DOSF1L  DOS filename 1 length
@@ -198,6 +207,18 @@
 02BF,FCT2,FCT2
 02C1,ERRVAL,ERRVAL
 02E2,ADRAY1,ADRAY1  Ptr to routine: convert float to integer
+02E5,LITCNT,Temp for gshape
+02E6,SCALEM,Scale mode flag
+02E7,WIDTH,Double width flag
+02E8,FILFLG,Box fill flag
+02E9,BITMSK,Temp for bit mask
+02EA,NUMCNT,
+02EB,TRCFLG,Flags trace mode
+02EC,T3,T3
+02ED,T4,T4
+02EF,VTEMP3,VTEMP3 Graphic temp storage
+02F0,VTEMP4,VTEMP4 Graphic temp storage
+02F1,VTEMP5,VTEMP5 Graphic temp storage
 02F4,ADRAY2,ADRAY2  Ptr to routine: convert integer to float
 02FE,BNKVEC,BNKVEC  Vector for function cartridge users
 0300,IERROR,IERROR  Indirect Error (Output Error in .X)
@@ -226,6 +247,7 @@
 032C,USRCMD,USRCMD
 032E,ILOAD,ILOAD
 0330,ISAVE,ISAVE   Savesp
+0333,TAPBUF,TAPEBUF Cassette tape buffer
 03F3,WRLEN,WRLEN   Length of data to be written to tape
 03F5,RDCNT,RDCNT   Length of data to be read from tape
 03F7,INPQUE,INPQUE  RS-232 input queue
@@ -272,6 +294,7 @@
 053A,FLTYPE,FLTYPE  Contains type of current cass file
 053B,COLOR,COLOR   Active attribute byte
 053C,FLASH,FLASH   Character flash flag
+053D,FREE,FREE
 053E,HIBASE,HIBASE  OC Base location of screen (top) [0C]
 053F,XMAX,XMAX
 0540,RPTFLG,RPTFLG  Key repeat flag
@@ -378,11 +401,11 @@
 1C00,BMCOLR,BMCOLR  Color for bit map
 ;---- KERNAL
 EF8A,SETLFS,$EF8A SETLFS  Set LA, FA, SA
-FCF1,,$FCF1 JMP to cartridge IRQ routine
-FCF4,,$FCF4 JMP to PHOENIX routine
-FCF7,,$FCF7 JMP to LONG FETCH routine
-FCFA,,$FCFA JMP to LONG JUMP routine
-FCFD,,$FCFD JMP to LONG IRQ routine
+FCF1,BANKJMP1,BANKING JUMP TABLE - JMP to cartridge IR
+FCF4,BANKJMP2,BANKING JUMP TABLE - JMP to PHOENIX rout
+FCF7,BANKJMP3,BANKING JUMP TABLE - JMP to LONG FETCH r
+FCFA,BANKJMP4,BANKING JUMP TABLE - JMP to LONG JUMP ro
+FCFD,BANKJMP5,BANKING JUMP TABLE - JMP to LONG IRQ rou
 ;---- Chips
 FD00,ACIAREG0,ACIA RS232; DATA port
 FD01,ACIAREG1,ACIA RS232; STATUS port
@@ -392,14 +415,23 @@ FD04,ACIAREG4,ACIA copy
 FD08,ACIAREG5,ACIA copy
 FD0c,ACIAREG6,ACIA copy
 FD10,SPI1REG0,SPI#1; User Port PIO (P0-P7)
+FD20,SPEECH,SPEECH Toshiba Speech Chip (CV364 Computer)
 FD30,SPI2REG0,SPI#2; Keyboard PIO  Keyboard Matrix Connector
+FD40,IO_FD40,IO_FD40 UNUSED IO
 ;--- TCBM Disk Drive Cartridge for C1551
-FEE0,TCBMREG0,TCBM Drive Interface; DATA
-FEE1,TCBMREG1,TCBM Drive Interface; STATUS
-FEE2,TCBMREG2,TCBM Drive Interface; HANDSHAKE
-FEE3,TCBMREG3,TCBM Drive Interface; data direction register
-FEE4,TCBMREG4,TCBM Drive Interface; data direction register
-FEE5,TCBMREG5,TCBM Drive Interface; data direction register
+FEC0,TIA9REG0,TCBM Drive #9  Tri-Port 6523A Interface; DATA
+FEC1,TIA9REG1,TCBM Drive #9  Tri-Port 6523A Interface; STATUS
+FEC2,TIA9REG2,TCBM Drive #9  Tri-Port 6523A Interface; HANDSHAKE
+FEC3,TIA9REG3,TCBM Drive #9  Tri-Port 6523A Interface; data direction register
+FEC4,TIA9REG4,TCBM Drive #9  Tri-Port 6523A Interface; data direction register
+FEC5,TIA9REG5,TCBM Drive #9  Tri-Port 6523A Interface; data direction register
+;--- TCBM Disk Drive Cartridge for C1551
+FEE0,TCBMREG0,TCBM Drive #8  Tri-Port 6523A Interface; DATA
+FEE1,TCBMREG1,TCBM Drive #8  Tri-Port 6523A Interface; STATUS
+FEE2,TCBMREG2,TCBM Drive #8  Tri-Port 6523A Interface; HANDSHAKE
+FEE3,TCBMREG3,TCBM Drive #8  Tri-Port 6523A Interface; data direction register
+FEE4,TCBMREG4,TCBM Drive #8  Tri-Port 6523A Interface; data direction register
+FEE5,TCBMREG5,TCBM Drive #8  Tri-Port 6523A Interface; data direction register
 ;---- TED CHIP
 FF00,TEDREG00,TED; Timer 1 low
 FF01,TEDREG01,TED; Timer 1 high
@@ -436,10 +468,10 @@ FF1F,TEDREG31,TED; Blink, vertical sub address
 FF3E,TEDREG62,TED; ROM select
 FF3F,TEDREG63,TED; RAM select
 ;---- KERNAL (continued)
-FF49,,$FF49 JMP to define function key routine
-FF4C,,$FF4C JMP to PRINT routine
-FF4F,,$FF4F JMP to PRIMM routine
-FF52,,$FF52 JMP to ENTRY routine
+FF49,UNOJMP1,UNOFFICIAL JUMP TABLE - JMP to define function key routine
+FF4C,UNOJMP2,UNOFFICIAL JUMP TABLE - JMP to PRINT routine
+FF4F,UNOJMP3,UNOFFICIAL JUMP TABLE - JMP to PRIMM routine
+FF52,UNOJMP4,UNOFFICIAL JUMP TABLE - JMP to ENTRY routine
 ;---- KERNAL Version Byte
 FF80,KERNALVER,Release# of KERNAL (MSB: 0 = NTSC ; 1 = PAL)
 ;---- KERNAL Jump Table
