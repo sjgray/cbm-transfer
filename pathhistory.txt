@@ -1,3 +1,47 @@
+\
+\\
+\\DNS321\
+\\dns321\volume_1\Computer\Commodore\Computers\CBM-PET Family\_AddOns\SuperSoft Graphics Board\
+\\DNS321\Volume_2\
+\\DNS321\Volume_2\SJG_Personal\
+\\DNS321\Volume_2\SJG_Personal\Dev\
+\\DNS321\Volume_2\SJG_Personal\Dev\CBMXfer\
+\\DNS321\Volume_2\SJG_Personal\Dev\CBMXfer\DiskImages\
+\\DNS321\Volume_2\SJG_Personal\Dev\CBMXfer\Pictures\
+\\DNS321\Volume_2\SJG_Personal\Dev\CBMXfer\test\
+C:\
 c:\
+c:\cbmxfer\
+c:\petapps\
+C:\petapps\SuperGraphics\
+c:\Program Files (x86)\Microsoft Visual Studio\VB98\
+c:\temp\
+C:\temp\
+c:\temp\cbmfiles\
+c:\temp\Delph8000c\
+c:\temp\Delph8000c\firmware\
+C:\temp\koala-pics\
+c:\temp\ptest\
+c:\temp\test\
+c:\temp\xfer\
+C:\temp\xfertemp\
+C:\Users\steve\Desktop\temp\
+C:\Users\steve\Desktop\temp\PacmanHAL-temp\
+C:\Users\steve\Desktop\TempInst\
+C:\Users\steve\Desktop\TempInst\edex from didler\
+C:\Users\steve\Desktop\TempInst\PBE_dubbel-w\
+C:\Users\steve\Desktop\TempInst\WeMon\
+C:\Users\steve\Desktop\V364 Speech MP3\TragicVoice Project\MagicVoice\
+C:\Users\steve\Documents\GitHub\CBMFontUtil\
 C:\Users\steve\Documents\GitHub\cbm-transfer\
-K:\Personal\Steve\Computer\Commodore\Computers\CBM-PET Family\_Firmware\CHARACTER\_SJG\Text-Mode-Modded\_otherfonts\AtariOS_ROMS\
+C:\Users\steve\Downloads\8-bit fonts\
+C:\Users\steve\Downloads\8-bit fonts\ToBeProcessed\
+K:\Personal\Steve\Computer\Commodore\Computers\CBM-PET Family\_Firmware\CHARACTER\_Commodore\
+K:\Personal\Steve\VB_Sourcecode\CBMXfer\
+L:\SJG_Data\WebPages\Webpage-2017_6502org\dj\d64\
+N:\Computer\Commodore\Computers\CBM-II Family\B-Series\Firmware\CHARACTER\256-char hack\
+N:\Computer\Commodore\Computers\CBM-PET Family\_AddOns\SuperSoft Graphics Board\
+N:\Computer\Commodore\Computers\Vic20\Firmware\
+N:\SJG_Personal\Dev\CBMXfer\Pictures\
+N:\SJG_Personal\Dev\CBMXfer\Pictures\koala-pics\
+Private Sub cbPad_Click()\

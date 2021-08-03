@@ -12,872 +12,6 @@ Begin VB.Form frmViewer
    ScaleHeight     =   8400
    ScaleWidth      =   11925
    StartUpPosition =   3  'Windows Default
-   Begin VB.Frame frFont 
-      Caption         =   "Font Viewer"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   7440
-      Left            =   60
-      TabIndex        =   28
-      Top             =   840
-      Visible         =   0   'False
-      Width           =   14925
-      Begin VB.Frame frTools 
-         Height          =   6585
-         Left            =   120
-         TabIndex        =   192
-         Top             =   960
-         Width           =   1515
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Set R Point"
-            Height          =   285
-            Index           =   30
-            Left            =   60
-            TabIndex        =   230
-            Top             =   5610
-            Width           =   1365
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Ins R"
-            Height          =   285
-            Index           =   26
-            Left            =   60
-            TabIndex        =   229
-            ToolTipText     =   "Insert ROW below crosshair"
-            Top             =   2820
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Del R"
-            Height          =   285
-            Index           =   27
-            Left            =   750
-            TabIndex        =   228
-            ToolTipText     =   "Delete ROW below crosshair"
-            Top             =   2820
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Ins C"
-            Height          =   285
-            Index           =   28
-            Left            =   60
-            TabIndex        =   227
-            ToolTipText     =   "Insert COL to right of crosshair"
-            Top             =   3150
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Del C"
-            Height          =   285
-            Index           =   29
-            Left            =   750
-            TabIndex        =   226
-            ToolTipText     =   "Delete COL to right of crosshair"
-            Top             =   3150
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Restore Original"
-            Height          =   285
-            Index           =   25
-            Left            =   60
-            TabIndex        =   221
-            Top             =   6210
-            Width           =   1365
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Restore"
-            Height          =   285
-            Index           =   24
-            Left            =   60
-            TabIndex        =   219
-            ToolTipText     =   "Restore character from original loaded font"
-            Top             =   5910
-            Width           =   1365
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "PASTE"
-            Height          =   285
-            Index           =   23
-            Left            =   750
-            TabIndex        =   217
-            ToolTipText     =   "Paste clipboard to current selected position"
-            Top             =   5190
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "COPY"
-            Height          =   285
-            Index           =   22
-            Left            =   60
-            TabIndex        =   216
-            ToolTipText     =   "Copy CHR or RANGE to clipboard"
-            Top             =   5190
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Sel ALL"
-            Height          =   255
-            Index           =   21
-            Left            =   750
-            TabIndex        =   215
-            ToolTipText     =   "Select ALL"
-            Top             =   4770
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "SWAP"
-            Height          =   255
-            Index           =   20
-            Left            =   60
-            TabIndex        =   214
-            ToolTipText     =   "Swap character sets"
-            Top             =   4770
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Und"
-            Height          =   285
-            Index           =   7
-            Left            =   750
-            TabIndex        =   213
-            ToolTipText     =   "Create Underlined character (below crosshair)"
-            Top             =   1830
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Rot R"
-            Height          =   285
-            Index           =   9
-            Left            =   750
-            TabIndex        =   212
-            ToolTipText     =   "Rotate character RIGHT"
-            Top             =   2160
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Rot L"
-            Height          =   285
-            Index           =   8
-            Left            =   60
-            TabIndex        =   211
-            ToolTipText     =   "Rotate character LEFT"
-            Top             =   2160
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "2x BR"
-            Height          =   285
-            Index           =   19
-            Left            =   750
-            TabIndex        =   210
-            ToolTipText     =   "Create 2x BOTTOM-RIGHT"
-            Top             =   4440
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "2x BL"
-            Height          =   285
-            Index           =   18
-            Left            =   60
-            TabIndex        =   209
-            ToolTipText     =   "Create 2x BOTTOM-LEFT"
-            Top             =   4440
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "2x TR"
-            Height          =   285
-            Index           =   17
-            Left            =   750
-            TabIndex        =   208
-            ToolTipText     =   "Create 2x TOP-RIGHT"
-            Top             =   4110
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "2x TL"
-            Height          =   285
-            Index           =   16
-            Left            =   60
-            TabIndex        =   207
-            ToolTipText     =   "Create 2x TOP-LEFT"
-            Top             =   4110
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Wide R"
-            Height          =   285
-            Index           =   15
-            Left            =   750
-            TabIndex        =   206
-            ToolTipText     =   "Create Double-Wide RIGHT "
-            Top             =   3780
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Wide L"
-            Height          =   285
-            Index           =   14
-            Left            =   60
-            TabIndex        =   205
-            ToolTipText     =   "Create Double-Wide LEFT"
-            Top             =   3780
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Tall B"
-            Height          =   285
-            Index           =   13
-            Left            =   750
-            TabIndex        =   204
-            ToolTipText     =   "Create Double-Tall BOTTOM"
-            Top             =   3450
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Tall T"
-            Height          =   285
-            Index           =   12
-            Left            =   60
-            TabIndex        =   203
-            ToolTipText     =   "Create Double-Tall TOP"
-            Top             =   3450
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Flip V"
-            Height          =   285
-            Index           =   11
-            Left            =   750
-            TabIndex        =   202
-            ToolTipText     =   "Flip character left to right"
-            Top             =   2490
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Flip H"
-            Height          =   285
-            Index           =   10
-            Left            =   60
-            TabIndex        =   201
-            ToolTipText     =   "Flip character top to bottom"
-            Top             =   2490
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Bold"
-            Height          =   285
-            Index           =   6
-            Left            =   60
-            TabIndex        =   200
-            ToolTipText     =   "Create Bold character"
-            Top             =   1830
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "RVS"
-            Height          =   285
-            HelpContextID   =   5
-            Index           =   5
-            Left            =   750
-            TabIndex        =   198
-            ToolTipText     =   "Invert pixels"
-            Top             =   1500
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Caption         =   "Clear"
-            Height          =   285
-            Index           =   4
-            Left            =   60
-            TabIndex        =   197
-            ToolTipText     =   "Clear Character to Bg"
-            Top             =   1500
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdTool 
-            Height          =   435
-            Index           =   1
-            Left            =   540
-            Picture         =   "frmViewer.frx":0442
-            Style           =   1  'Graphical
-            TabIndex        =   196
-            ToolTipText     =   "Shift DOWN"
-            Top             =   630
-            Width           =   435
-         End
-         Begin VB.CommandButton cmdTool 
-            Height          =   435
-            Index           =   3
-            Left            =   990
-            Picture         =   "frmViewer.frx":0B44
-            Style           =   1  'Graphical
-            TabIndex        =   195
-            ToolTipText     =   "Shift RIGHT"
-            Top             =   390
-            Width           =   435
-         End
-         Begin VB.CommandButton cmdTool 
-            Height          =   435
-            Index           =   2
-            Left            =   90
-            Picture         =   "frmViewer.frx":1246
-            Style           =   1  'Graphical
-            TabIndex        =   194
-            ToolTipText     =   "Shift LEFT"
-            Top             =   390
-            Width           =   435
-         End
-         Begin VB.CommandButton cmdTool 
-            Height          =   435
-            Index           =   0
-            Left            =   540
-            Picture         =   "frmViewer.frx":1948
-            Style           =   1  'Graphical
-            TabIndex        =   193
-            ToolTipText     =   "Shift UP"
-            Top             =   180
-            Width           =   435
-         End
-         Begin VB.CheckBox cbShiftMode 
-            Height          =   255
-            Left            =   1110
-            TabIndex        =   199
-            ToolTipText     =   "When checked pixels wrap to opposite side. When unset pixels are LOST!"
-            Top             =   840
-            Value           =   1  'Checked
-            Width           =   195
-         End
-         Begin VB.Label lblPixelMode 
-            Alignment       =   2  'Center
-            BackColor       =   &H0000C0C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "Xor"
-            Height          =   270
-            Index           =   2
-            Left            =   990
-            TabIndex        =   225
-            ToolTipText     =   "Toggle pixel colour"
-            Top             =   1140
-            Width           =   405
-         End
-         Begin VB.Label lblPixelMode 
-            Alignment       =   2  'Center
-            BackColor       =   &H0000C0C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "FG"
-            Height          =   270
-            Index           =   1
-            Left            =   540
-            TabIndex        =   224
-            ToolTipText     =   "Draw using Foreground colour"
-            Top             =   1140
-            Width           =   405
-         End
-         Begin VB.Label lblPixelMode 
-            Alignment       =   2  'Center
-            BackColor       =   &H0000C0C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "BG"
-            Height          =   270
-            Index           =   0
-            Left            =   90
-            TabIndex        =   223
-            ToolTipText     =   "Draw using Background colour"
-            Top             =   1140
-            Width           =   405
-         End
-         Begin VB.Label Label19 
-            AutoSize        =   -1  'True
-            Caption         =   "Shift:"
-            Height          =   195
-            Left            =   60
-            TabIndex        =   218
-            Top             =   210
-            Width           =   360
-         End
-      End
-      Begin VB.Frame frChr 
-         Height          =   6585
-         Left            =   1680
-         TabIndex        =   185
-         Top             =   840
-         Width           =   2205
-         Begin VB.PictureBox picChr 
-            AutoRedraw      =   -1  'True
-            BackColor       =   &H00C00000&
-            ForeColor       =   &H00FFFFFF&
-            Height          =   3960
-            Left            =   90
-            ScaleHeight     =   260
-            ScaleMode       =   3  'Pixel
-            ScaleWidth      =   131
-            TabIndex        =   188
-            Top             =   750
-            Width           =   2025
-         End
-         Begin VB.CommandButton cmdCSNxt 
-            Caption         =   ">"
-            Height          =   255
-            Left            =   1770
-            TabIndex        =   187
-            ToolTipText     =   "Next character"
-            Top             =   180
-            Width           =   300
-         End
-         Begin VB.CommandButton cmdCSPrev 
-            Caption         =   "<"
-            Height          =   255
-            Left            =   1470
-            TabIndex        =   186
-            ToolTipText     =   "Previous character"
-            Top             =   180
-            Width           =   270
-         End
-         Begin VB.Label lblFStat 
-            BackColor       =   &H80000003&
-            Caption         =   "M"
-            Height          =   1695
-            Left            =   90
-            TabIndex        =   222
-            Top             =   4770
-            Width           =   1995
-            WordWrap        =   -1  'True
-         End
-         Begin VB.Label lblRange 
-            BackColor       =   &H0080C0FF&
-            Height          =   3885
-            Left            =   90
-            TabIndex        =   191
-            Top             =   780
-            Visible         =   0   'False
-            Width           =   2025
-         End
-         Begin VB.Label lblChrNum 
-            Alignment       =   2  'Center
-            BackColor       =   &H0080C0FF&
-            Caption         =   "000"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   255
-            Left            =   1470
-            TabIndex        =   190
-            Top             =   450
-            Width           =   615
-         End
-         Begin VB.Label lblChrX 
-            BackColor       =   &H0080C0FF&
-            Height          =   525
-            Left            =   90
-            TabIndex        =   189
-            Top             =   180
-            Width           =   1305
-         End
-      End
-      Begin VB.Frame frControls 
-         Height          =   555
-         Left            =   450
-         TabIndex        =   157
-         Top             =   180
-         Width           =   14355
-         Begin VB.CheckBox cbOutline 
-            Caption         =   "Outline"
-            Height          =   225
-            Left            =   13380
-            TabIndex        =   240
-            Top             =   210
-            Width           =   795
-         End
-         Begin VB.HScrollBar HScroll1 
-            CausesValidation=   0   'False
-            Height          =   285
-            LargeChange     =   2
-            Left            =   12540
-            Max             =   16
-            Min             =   1
-            TabIndex        =   239
-            Top             =   180
-            Value           =   1
-            Width           =   735
-         End
-         Begin VB.ComboBox cboTheme 
-            Height          =   315
-            ItemData        =   "frmViewer.frx":204A
-            Left            =   2700
-            List            =   "frmViewer.frx":2069
-            Style           =   2  'Dropdown List
-            TabIndex        =   165
-            Top             =   180
-            Width           =   1245
-         End
-         Begin VB.TextBox txtCSkip 
-            Height          =   285
-            Left            =   8070
-            TabIndex        =   164
-            Text            =   "0"
-            ToolTipText     =   "Set number of bytes to skip (decimal)"
-            Top             =   180
-            Width           =   675
-         End
-         Begin VB.CommandButton cmdSB 
-            Caption         =   "<<"
-            Height          =   270
-            Index           =   0
-            Left            =   8790
-            TabIndex        =   163
-            Top             =   180
-            Width           =   315
-         End
-         Begin VB.CommandButton cmdSB 
-            Caption         =   "<"
-            Height          =   270
-            Index           =   1
-            Left            =   9120
-            TabIndex        =   162
-            Top             =   180
-            Width           =   255
-         End
-         Begin VB.CommandButton cmdSB 
-            Caption         =   "-"
-            Height          =   270
-            Index           =   2
-            Left            =   9390
-            TabIndex        =   161
-            Top             =   180
-            Width           =   255
-         End
-         Begin VB.CommandButton cmdSB 
-            Caption         =   "+"
-            Height          =   270
-            Index           =   3
-            Left            =   9660
-            TabIndex        =   160
-            Top             =   180
-            Width           =   315
-         End
-         Begin VB.CommandButton cmdSB 
-            Caption         =   ">"
-            Height          =   270
-            Index           =   4
-            Left            =   9990
-            TabIndex        =   159
-            Top             =   180
-            Width           =   315
-         End
-         Begin VB.CommandButton cmdSB 
-            Caption         =   ">>"
-            Height          =   270
-            Index           =   5
-            Left            =   10320
-            TabIndex        =   158
-            Top             =   180
-            Width           =   315
-         End
-         Begin VB.Label lblBorderSize 
-            Alignment       =   2  'Center
-            BackColor       =   &H8000000D&
-            Caption         =   "1"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H8000000B&
-            Height          =   255
-            Left            =   12210
-            TabIndex        =   238
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label Label20 
-            AutoSize        =   -1  'True
-            Caption         =   "Border:"
-            Height          =   195
-            Left            =   11670
-            TabIndex        =   237
-            Top             =   210
-            Width           =   510
-         End
-         Begin VB.Label lblWidth 
-            Alignment       =   2  'Center
-            BackColor       =   &H00008000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "8"
-            Height          =   300
-            Index           =   0
-            Left            =   5940
-            TabIndex        =   220
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblTheme 
-            Appearance      =   0  'Flat
-            BackColor       =   &H80000005&
-            BorderStyle     =   1  'Fixed Single
-            ForeColor       =   &H80000008&
-            Height          =   285
-            Index           =   0
-            Left            =   1410
-            TabIndex        =   184
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblTheme 
-            Appearance      =   0  'Flat
-            BackColor       =   &H00FF0000&
-            BorderStyle     =   1  'Fixed Single
-            ForeColor       =   &H80000008&
-            Height          =   285
-            Index           =   1
-            Left            =   1710
-            TabIndex        =   183
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblTheme 
-            Appearance      =   0  'Flat
-            BackColor       =   &H00000000&
-            BorderStyle     =   1  'Fixed Single
-            ForeColor       =   &H80000008&
-            Height          =   285
-            Index           =   2
-            Left            =   2010
-            TabIndex        =   182
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblTheme 
-            Appearance      =   0  'Flat
-            BackColor       =   &H000000FF&
-            BorderStyle     =   1  'Fixed Single
-            ForeColor       =   &H80000008&
-            Height          =   135
-            Index           =   3
-            Left            =   2340
-            TabIndex        =   181
-            Top             =   180
-            Visible         =   0   'False
-            Width           =   285
-         End
-         Begin VB.Label lblTheme 
-            Appearance      =   0  'Flat
-            BackColor       =   &H0000FFFF&
-            BorderStyle     =   1  'Fixed Single
-            ForeColor       =   &H80000008&
-            Height          =   135
-            Index           =   4
-            Left            =   2340
-            TabIndex        =   180
-            Top             =   330
-            Visible         =   0   'False
-            Width           =   285
-         End
-         Begin VB.Label Label8 
-            AutoSize        =   -1  'True
-            Caption         =   "Offset:"
-            Height          =   195
-            Left            =   7590
-            TabIndex        =   179
-            Top             =   210
-            Width           =   465
-         End
-         Begin VB.Label lblEndRange 
-            AutoSize        =   -1  'True
-            Caption         =   "-"
-            Height          =   195
-            Left            =   10770
-            TabIndex        =   178
-            Top             =   210
-            Width           =   45
-         End
-         Begin VB.Label lblZoom 
-            Alignment       =   2  'Center
-            BackColor       =   &H000080FF&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "1x"
-            Height          =   300
-            Index           =   0
-            Left            =   4050
-            TabIndex        =   177
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblZoom 
-            Alignment       =   2  'Center
-            BackColor       =   &H000080FF&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "2x"
-            Height          =   300
-            Index           =   1
-            Left            =   4350
-            TabIndex        =   176
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblZoom 
-            Alignment       =   2  'Center
-            BackColor       =   &H000080FF&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "3x"
-            Height          =   300
-            Index           =   2
-            Left            =   4650
-            TabIndex        =   175
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblZoom 
-            Alignment       =   2  'Center
-            BackColor       =   &H000080FF&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "4x"
-            Height          =   300
-            Index           =   3
-            Left            =   4950
-            TabIndex        =   174
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblZoom 
-            Alignment       =   2  'Center
-            BackColor       =   &H000080FF&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "5x"
-            Height          =   300
-            Index           =   4
-            Left            =   5250
-            TabIndex        =   173
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblWidth 
-            Alignment       =   2  'Center
-            BackColor       =   &H00008000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "16"
-            Height          =   300
-            Index           =   1
-            Left            =   6240
-            TabIndex        =   172
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblWidth 
-            Alignment       =   2  'Center
-            BackColor       =   &H00008000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "32"
-            Height          =   300
-            Index           =   2
-            Left            =   6540
-            TabIndex        =   171
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblWidth 
-            Alignment       =   2  'Center
-            BackColor       =   &H00008000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "64"
-            Height          =   300
-            Index           =   3
-            Left            =   6840
-            TabIndex        =   170
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblWidth 
-            Alignment       =   2  'Center
-            BackColor       =   &H00008000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "128"
-            Height          =   300
-            Index           =   4
-            Left            =   7140
-            TabIndex        =   169
-            Top             =   180
-            Width           =   345
-         End
-         Begin VB.Label lblZoom 
-            Alignment       =   2  'Center
-            BackColor       =   &H000080FF&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "6x"
-            Height          =   300
-            Index           =   5
-            Left            =   5550
-            TabIndex        =   168
-            Top             =   180
-            Width           =   285
-         End
-         Begin VB.Label lblChrHeight 
-            Alignment       =   2  'Center
-            BackColor       =   &H00C0C000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "8x8"
-            Height          =   300
-            Index           =   0
-            Left            =   60
-            TabIndex        =   167
-            Top             =   180
-            Width           =   615
-         End
-         Begin VB.Label lblChrHeight 
-            Alignment       =   2  'Center
-            BackColor       =   &H00C0C000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "8x16"
-            Height          =   300
-            Index           =   1
-            Left            =   690
-            TabIndex        =   166
-            Top             =   180
-            Width           =   615
-         End
-      End
-      Begin VB.PictureBox picV 
-         AutoRedraw      =   -1  'True
-         BackColor       =   &H00000000&
-         BorderStyle     =   0  'None
-         ForeColor       =   &H00FFFFFF&
-         Height          =   6540
-         Left            =   3960
-         ScaleHeight     =   436
-         ScaleMode       =   3  'Pixel
-         ScaleWidth      =   721
-         TabIndex        =   29
-         Top             =   840
-         Width           =   10815
-      End
-      Begin VB.Image cmdFontMenu 
-         Height          =   255
-         Left            =   120
-         Picture         =   "frmViewer.frx":20C7
-         ToolTipText     =   "Font Menu"
-         Top             =   390
-         Width           =   255
-      End
-   End
    Begin VB.TextBox txtLA 
       BackColor       =   &H00FFFFFF&
       ForeColor       =   &H00000000&
@@ -915,7 +49,17 @@ Begin VB.Form frmViewer
       TabIndex        =   8
       Top             =   3390
       Visible         =   0   'False
-      Width           =   3510
+      Width           =   5610
+      Begin VB.HScrollBar HScroll3 
+         Height          =   285
+         Left            =   3810
+         Max             =   64
+         Min             =   8
+         TabIndex        =   249
+         Top             =   240
+         Value           =   10
+         Width           =   1305
+      End
       Begin VB.CheckBox cbIgnoreLF 
          Caption         =   "&Ignore LF"
          Height          =   195
@@ -992,7 +136,7 @@ Begin VB.Form frmViewer
       TabIndex        =   2
       Top             =   1650
       Visible         =   0   'False
-      Width           =   8070
+      Width           =   8970
       Begin VB.ListBox lstBAS 
          BackColor       =   &H00C00000&
          BeginProperty Font 
@@ -1016,13 +160,32 @@ Begin VB.Form frmViewer
          Height          =   735
          Left            =   270
          TabIndex        =   113
-         Top             =   180
-         Width           =   7995
+         Top             =   210
+         Width           =   8535
+         Begin VB.HScrollBar HScroll2 
+            Height          =   285
+            Left            =   5760
+            Max             =   64
+            Min             =   8
+            TabIndex        =   248
+            Top             =   360
+            Value           =   10
+            Width           =   1305
+         End
+         Begin VB.CheckBox cbMV 
+            Caption         =   "MV"
+            Height          =   210
+            Left            =   5790
+            TabIndex        =   247
+            ToolTipText     =   "Enable Magic Voice tokens"
+            Top             =   30
+            Width           =   660
+         End
          Begin VB.ComboBox cboMode 
             Height          =   315
-            ItemData        =   "frmViewer.frx":247D
+            ItemData        =   "frmViewer.frx":0442
             Left            =   930
-            List            =   "frmViewer.frx":2493
+            List            =   "frmViewer.frx":0458
             Style           =   2  'Dropdown List
             TabIndex        =   122
             Top             =   0
@@ -1031,7 +194,7 @@ Begin VB.Form frmViewer
          Begin VB.CommandButton cmdCpyClip 
             Caption         =   "To &Clipboard"
             Height          =   315
-            Left            =   5970
+            Left            =   7230
             TabIndex        =   121
             ToolTipText     =   "Export current view text to clipboard"
             Top             =   0
@@ -1058,7 +221,7 @@ Begin VB.Form frmViewer
          Begin VB.CommandButton cmdSave 
             Caption         =   "E&xport"
             Height          =   315
-            Left            =   5955
+            Left            =   7215
             TabIndex        =   118
             ToolTipText     =   "Save current view text to file"
             Top             =   360
@@ -1690,9 +853,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00000000&
                Height          =   315
-               ItemData        =   "frmViewer.frx":2504
+               ItemData        =   "frmViewer.frx":04C9
                Left            =   2370
-               List            =   "frmViewer.frx":2506
+               List            =   "frmViewer.frx":04CB
                Style           =   2  'Dropdown List
                TabIndex        =   84
                Top             =   2820
@@ -1704,9 +867,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":2508
+               ItemData        =   "frmViewer.frx":04CD
                Left            =   810
-               List            =   "frmViewer.frx":250F
+               List            =   "frmViewer.frx":04D4
                Style           =   2  'Dropdown List
                TabIndex        =   82
                Top             =   1200
@@ -1728,9 +891,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00000000&
                Height          =   315
-               ItemData        =   "frmViewer.frx":2521
+               ItemData        =   "frmViewer.frx":04E6
                Left            =   2370
-               List            =   "frmViewer.frx":2523
+               List            =   "frmViewer.frx":04E8
                Style           =   2  'Dropdown List
                TabIndex        =   79
                Top             =   2520
@@ -1742,9 +905,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":2525
+               ItemData        =   "frmViewer.frx":04EA
                Left            =   810
-               List            =   "frmViewer.frx":252C
+               List            =   "frmViewer.frx":04F1
                Style           =   2  'Dropdown List
                TabIndex        =   78
                Top             =   870
@@ -1773,9 +936,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":253E
+               ItemData        =   "frmViewer.frx":0503
                Left            =   1110
-               List            =   "frmViewer.frx":2545
+               List            =   "frmViewer.frx":050A
                Style           =   2  'Dropdown List
                TabIndex        =   73
                Top             =   2190
@@ -1786,9 +949,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":2557
+               ItemData        =   "frmViewer.frx":051C
                Left            =   810
-               List            =   "frmViewer.frx":2564
+               List            =   "frmViewer.frx":0529
                Style           =   2  'Dropdown List
                TabIndex        =   71
                Top             =   1860
@@ -1881,9 +1044,9 @@ Begin VB.Form frmViewer
                CausesValidation=   0   'False
                ForeColor       =   &H00FFFFFF&
                Height          =   315
-               ItemData        =   "frmViewer.frx":257F
+               ItemData        =   "frmViewer.frx":0544
                Left            =   810
-               List            =   "frmViewer.frx":2592
+               List            =   "frmViewer.frx":0557
                Style           =   2  'Dropdown List
                TabIndex        =   56
                Top             =   1530
@@ -1994,9 +1157,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":25E7
+            ItemData        =   "frmViewer.frx":05AC
             Left            =   90
-            List            =   "frmViewer.frx":25E9
+            List            =   "frmViewer.frx":05AE
             TabIndex        =   145
             Top             =   1590
             Width           =   705
@@ -2047,9 +1210,9 @@ Begin VB.Form frmViewer
                EndProperty
                ForeColor       =   &H00000000&
                Height          =   3960
-               ItemData        =   "frmViewer.frx":25EB
+               ItemData        =   "frmViewer.frx":05B0
                Left            =   1380
-               List            =   "frmViewer.frx":25ED
+               List            =   "frmViewer.frx":05B2
                Sorted          =   -1  'True
                TabIndex        =   136
                Top             =   240
@@ -2070,9 +1233,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00000000&
             Height          =   255
-            ItemData        =   "frmViewer.frx":25EF
+            ItemData        =   "frmViewer.frx":05B4
             Left            =   2940
-            List            =   "frmViewer.frx":25F1
+            List            =   "frmViewer.frx":05B6
             Sorted          =   -1  'True
             TabIndex        =   102
             Top             =   1320
@@ -2092,9 +1255,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H80000001&
             Height          =   255
-            ItemData        =   "frmViewer.frx":25F3
+            ItemData        =   "frmViewer.frx":05B8
             Left            =   1980
-            List            =   "frmViewer.frx":25F5
+            List            =   "frmViewer.frx":05BA
             MultiSelect     =   2  'Extended
             Sorted          =   -1  'True
             TabIndex        =   68
@@ -2116,9 +1279,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":25F7
+            ItemData        =   "frmViewer.frx":05BC
             Left            =   2940
-            List            =   "frmViewer.frx":25F9
+            List            =   "frmViewer.frx":05BE
             Sorted          =   -1  'True
             TabIndex        =   54
             Top             =   1590
@@ -2139,9 +1302,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   255
-            ItemData        =   "frmViewer.frx":25FB
+            ItemData        =   "frmViewer.frx":05C0
             Left            =   2190
-            List            =   "frmViewer.frx":25FD
+            List            =   "frmViewer.frx":05C2
             Sorted          =   -1  'True
             TabIndex        =   52
             Top             =   1590
@@ -2162,9 +1325,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   285
-            ItemData        =   "frmViewer.frx":25FF
+            ItemData        =   "frmViewer.frx":05C4
             Left            =   1530
-            List            =   "frmViewer.frx":2601
+            List            =   "frmViewer.frx":05C6
             Sorted          =   -1  'True
             Style           =   1  'Checkbox
             TabIndex        =   51
@@ -2186,9 +1349,9 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H00FFFFFF&
             Height          =   285
-            ItemData        =   "frmViewer.frx":2603
+            ItemData        =   "frmViewer.frx":05C8
             Left            =   840
-            List            =   "frmViewer.frx":2605
+            List            =   "frmViewer.frx":05CA
             Sorted          =   -1  'True
             Style           =   1  'Checkbox
             TabIndex        =   50
@@ -2389,7 +1552,7 @@ Begin VB.Form frmViewer
       Begin VB.Image imgShowInfo 
          Height          =   255
          Left            =   4410
-         Picture         =   "frmViewer.frx":2607
+         Picture         =   "frmViewer.frx":05CC
          ToolTipText     =   "Toggle Info box"
          Top             =   270
          Width           =   255
@@ -2397,7 +1560,7 @@ Begin VB.Form frmViewer
       Begin VB.Image imgBW 
          Height          =   255
          Left            =   330
-         Picture         =   "frmViewer.frx":29BD
+         Picture         =   "frmViewer.frx":0982
          Top             =   240
          Width           =   255
       End
@@ -2621,8 +1784,874 @@ Begin VB.Form frmViewer
       Begin VB.Image imgBWH 
          Height          =   255
          Left            =   90
-         Picture         =   "frmViewer.frx":2D73
+         Picture         =   "frmViewer.frx":0D38
          Top             =   540
+         Width           =   255
+      End
+   End
+   Begin VB.Frame frFont 
+      Caption         =   "Font Viewer"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   7440
+      Left            =   60
+      TabIndex        =   28
+      Top             =   840
+      Visible         =   0   'False
+      Width           =   14925
+      Begin VB.Frame frTools 
+         Height          =   6585
+         Left            =   120
+         TabIndex        =   192
+         Top             =   960
+         Width           =   1515
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Set R Point"
+            Height          =   285
+            Index           =   30
+            Left            =   60
+            TabIndex        =   230
+            Top             =   5610
+            Width           =   1365
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Ins R"
+            Height          =   285
+            Index           =   26
+            Left            =   60
+            TabIndex        =   229
+            ToolTipText     =   "Insert ROW below crosshair"
+            Top             =   2820
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Del R"
+            Height          =   285
+            Index           =   27
+            Left            =   750
+            TabIndex        =   228
+            ToolTipText     =   "Delete ROW below crosshair"
+            Top             =   2820
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Ins C"
+            Height          =   285
+            Index           =   28
+            Left            =   60
+            TabIndex        =   227
+            ToolTipText     =   "Insert COL to right of crosshair"
+            Top             =   3150
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Del C"
+            Height          =   285
+            Index           =   29
+            Left            =   750
+            TabIndex        =   226
+            ToolTipText     =   "Delete COL to right of crosshair"
+            Top             =   3150
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Restore Original"
+            Height          =   285
+            Index           =   25
+            Left            =   60
+            TabIndex        =   221
+            Top             =   6210
+            Width           =   1365
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Restore"
+            Height          =   285
+            Index           =   24
+            Left            =   60
+            TabIndex        =   219
+            ToolTipText     =   "Restore character from original loaded font"
+            Top             =   5910
+            Width           =   1365
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "PASTE"
+            Height          =   285
+            Index           =   23
+            Left            =   750
+            TabIndex        =   217
+            ToolTipText     =   "Paste clipboard to current selected position"
+            Top             =   5190
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "COPY"
+            Height          =   285
+            Index           =   22
+            Left            =   60
+            TabIndex        =   216
+            ToolTipText     =   "Copy CHR or RANGE to clipboard"
+            Top             =   5190
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Sel ALL"
+            Height          =   255
+            Index           =   21
+            Left            =   750
+            TabIndex        =   215
+            ToolTipText     =   "Select ALL"
+            Top             =   4770
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "SWAP"
+            Height          =   255
+            Index           =   20
+            Left            =   60
+            TabIndex        =   214
+            ToolTipText     =   "Swap character sets"
+            Top             =   4770
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Und"
+            Height          =   285
+            Index           =   7
+            Left            =   750
+            TabIndex        =   213
+            ToolTipText     =   "Create Underlined character (below crosshair)"
+            Top             =   1830
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Rot R"
+            Height          =   285
+            Index           =   9
+            Left            =   750
+            TabIndex        =   212
+            ToolTipText     =   "Rotate character RIGHT"
+            Top             =   2160
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Rot L"
+            Height          =   285
+            Index           =   8
+            Left            =   60
+            TabIndex        =   211
+            ToolTipText     =   "Rotate character LEFT"
+            Top             =   2160
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "2x BR"
+            Height          =   285
+            Index           =   19
+            Left            =   750
+            TabIndex        =   210
+            ToolTipText     =   "Create 2x BOTTOM-RIGHT"
+            Top             =   4440
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "2x BL"
+            Height          =   285
+            Index           =   18
+            Left            =   60
+            TabIndex        =   209
+            ToolTipText     =   "Create 2x BOTTOM-LEFT"
+            Top             =   4440
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "2x TR"
+            Height          =   285
+            Index           =   17
+            Left            =   750
+            TabIndex        =   208
+            ToolTipText     =   "Create 2x TOP-RIGHT"
+            Top             =   4110
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "2x TL"
+            Height          =   285
+            Index           =   16
+            Left            =   60
+            TabIndex        =   207
+            ToolTipText     =   "Create 2x TOP-LEFT"
+            Top             =   4110
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Wide R"
+            Height          =   285
+            Index           =   15
+            Left            =   750
+            TabIndex        =   206
+            ToolTipText     =   "Create Double-Wide RIGHT "
+            Top             =   3780
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Wide L"
+            Height          =   285
+            Index           =   14
+            Left            =   60
+            TabIndex        =   205
+            ToolTipText     =   "Create Double-Wide LEFT"
+            Top             =   3780
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Tall B"
+            Height          =   285
+            Index           =   13
+            Left            =   750
+            TabIndex        =   204
+            ToolTipText     =   "Create Double-Tall BOTTOM"
+            Top             =   3450
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Tall T"
+            Height          =   285
+            Index           =   12
+            Left            =   60
+            TabIndex        =   203
+            ToolTipText     =   "Create Double-Tall TOP"
+            Top             =   3450
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Flip V"
+            Height          =   285
+            Index           =   11
+            Left            =   750
+            TabIndex        =   202
+            ToolTipText     =   "Flip character left to right"
+            Top             =   2490
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Flip H"
+            Height          =   285
+            Index           =   10
+            Left            =   60
+            TabIndex        =   201
+            ToolTipText     =   "Flip character top to bottom"
+            Top             =   2490
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Bold"
+            Height          =   285
+            Index           =   6
+            Left            =   60
+            TabIndex        =   200
+            ToolTipText     =   "Create Bold character"
+            Top             =   1830
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "RVS"
+            Height          =   285
+            HelpContextID   =   5
+            Index           =   5
+            Left            =   750
+            TabIndex        =   198
+            ToolTipText     =   "Invert pixels"
+            Top             =   1500
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Caption         =   "Clear"
+            Height          =   285
+            Index           =   4
+            Left            =   60
+            TabIndex        =   197
+            ToolTipText     =   "Clear Character to Bg"
+            Top             =   1500
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdTool 
+            Height          =   435
+            Index           =   1
+            Left            =   540
+            Picture         =   "frmViewer.frx":10EE
+            Style           =   1  'Graphical
+            TabIndex        =   196
+            ToolTipText     =   "Shift DOWN"
+            Top             =   630
+            Width           =   435
+         End
+         Begin VB.CommandButton cmdTool 
+            Height          =   435
+            Index           =   3
+            Left            =   990
+            Picture         =   "frmViewer.frx":17F0
+            Style           =   1  'Graphical
+            TabIndex        =   195
+            ToolTipText     =   "Shift RIGHT"
+            Top             =   390
+            Width           =   435
+         End
+         Begin VB.CommandButton cmdTool 
+            Height          =   435
+            Index           =   2
+            Left            =   90
+            Picture         =   "frmViewer.frx":1EF2
+            Style           =   1  'Graphical
+            TabIndex        =   194
+            ToolTipText     =   "Shift LEFT"
+            Top             =   390
+            Width           =   435
+         End
+         Begin VB.CommandButton cmdTool 
+            Height          =   435
+            Index           =   0
+            Left            =   540
+            Picture         =   "frmViewer.frx":25F4
+            Style           =   1  'Graphical
+            TabIndex        =   193
+            ToolTipText     =   "Shift UP"
+            Top             =   180
+            Width           =   435
+         End
+         Begin VB.CheckBox cbShiftMode 
+            Height          =   255
+            Left            =   1110
+            TabIndex        =   199
+            ToolTipText     =   "When checked pixels wrap to opposite side. When unset pixels are LOST!"
+            Top             =   840
+            Value           =   1  'Checked
+            Width           =   195
+         End
+         Begin VB.Label lblPixelMode 
+            Alignment       =   2  'Center
+            BackColor       =   &H0000C0C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Xor"
+            Height          =   270
+            Index           =   2
+            Left            =   990
+            TabIndex        =   225
+            ToolTipText     =   "Toggle pixel colour"
+            Top             =   1140
+            Width           =   405
+         End
+         Begin VB.Label lblPixelMode 
+            Alignment       =   2  'Center
+            BackColor       =   &H0000C0C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "FG"
+            Height          =   270
+            Index           =   1
+            Left            =   540
+            TabIndex        =   224
+            ToolTipText     =   "Draw using Foreground colour"
+            Top             =   1140
+            Width           =   405
+         End
+         Begin VB.Label lblPixelMode 
+            Alignment       =   2  'Center
+            BackColor       =   &H0000C0C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "BG"
+            Height          =   270
+            Index           =   0
+            Left            =   90
+            TabIndex        =   223
+            ToolTipText     =   "Draw using Background colour"
+            Top             =   1140
+            Width           =   405
+         End
+         Begin VB.Label Label19 
+            AutoSize        =   -1  'True
+            Caption         =   "Shift:"
+            Height          =   195
+            Left            =   60
+            TabIndex        =   218
+            Top             =   210
+            Width           =   360
+         End
+      End
+      Begin VB.Frame frChr 
+         Height          =   6585
+         Left            =   1680
+         TabIndex        =   185
+         Top             =   840
+         Width           =   2205
+         Begin VB.PictureBox picChr 
+            AutoRedraw      =   -1  'True
+            BackColor       =   &H00C00000&
+            ForeColor       =   &H00FFFFFF&
+            Height          =   3960
+            Left            =   90
+            ScaleHeight     =   260
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   131
+            TabIndex        =   188
+            Top             =   750
+            Width           =   2025
+         End
+         Begin VB.CommandButton cmdCSNxt 
+            Caption         =   ">"
+            Height          =   255
+            Left            =   1770
+            TabIndex        =   187
+            ToolTipText     =   "Next character"
+            Top             =   180
+            Width           =   300
+         End
+         Begin VB.CommandButton cmdCSPrev 
+            Caption         =   "<"
+            Height          =   255
+            Left            =   1470
+            TabIndex        =   186
+            ToolTipText     =   "Previous character"
+            Top             =   180
+            Width           =   270
+         End
+         Begin VB.Label lblFStat 
+            BackColor       =   &H80000003&
+            Caption         =   "M"
+            Height          =   1695
+            Left            =   90
+            TabIndex        =   222
+            Top             =   4770
+            Width           =   1995
+            WordWrap        =   -1  'True
+         End
+         Begin VB.Label lblRange 
+            BackColor       =   &H0080C0FF&
+            Height          =   3885
+            Left            =   90
+            TabIndex        =   191
+            Top             =   780
+            Visible         =   0   'False
+            Width           =   2025
+         End
+         Begin VB.Label lblChrNum 
+            Alignment       =   2  'Center
+            BackColor       =   &H0080C0FF&
+            Caption         =   "000"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   255
+            Left            =   1470
+            TabIndex        =   190
+            Top             =   450
+            Width           =   615
+         End
+         Begin VB.Label lblChrX 
+            BackColor       =   &H0080C0FF&
+            Height          =   525
+            Left            =   90
+            TabIndex        =   189
+            Top             =   180
+            Width           =   1305
+         End
+      End
+      Begin VB.Frame frControls 
+         Height          =   555
+         Left            =   450
+         TabIndex        =   157
+         Top             =   180
+         Width           =   14355
+         Begin VB.CheckBox cbOutline 
+            Caption         =   "Outline"
+            Height          =   225
+            Left            =   13380
+            TabIndex        =   240
+            Top             =   210
+            Width           =   795
+         End
+         Begin VB.HScrollBar HScroll1 
+            CausesValidation=   0   'False
+            Height          =   285
+            LargeChange     =   2
+            Left            =   12540
+            Max             =   16
+            Min             =   1
+            TabIndex        =   239
+            Top             =   180
+            Value           =   1
+            Width           =   735
+         End
+         Begin VB.ComboBox cboTheme 
+            Height          =   315
+            ItemData        =   "frmViewer.frx":2CF6
+            Left            =   2700
+            List            =   "frmViewer.frx":2D15
+            Style           =   2  'Dropdown List
+            TabIndex        =   165
+            Top             =   180
+            Width           =   1245
+         End
+         Begin VB.TextBox txtCSkip 
+            Height          =   285
+            Left            =   8070
+            TabIndex        =   164
+            Text            =   "0"
+            ToolTipText     =   "Set number of bytes to skip (decimal)"
+            Top             =   180
+            Width           =   675
+         End
+         Begin VB.CommandButton cmdSB 
+            Caption         =   "<<"
+            Height          =   270
+            Index           =   0
+            Left            =   8790
+            TabIndex        =   163
+            Top             =   180
+            Width           =   315
+         End
+         Begin VB.CommandButton cmdSB 
+            Caption         =   "<"
+            Height          =   270
+            Index           =   1
+            Left            =   9120
+            TabIndex        =   162
+            Top             =   180
+            Width           =   255
+         End
+         Begin VB.CommandButton cmdSB 
+            Caption         =   "-"
+            Height          =   270
+            Index           =   2
+            Left            =   9390
+            TabIndex        =   161
+            Top             =   180
+            Width           =   255
+         End
+         Begin VB.CommandButton cmdSB 
+            Caption         =   "+"
+            Height          =   270
+            Index           =   3
+            Left            =   9660
+            TabIndex        =   160
+            Top             =   180
+            Width           =   315
+         End
+         Begin VB.CommandButton cmdSB 
+            Caption         =   ">"
+            Height          =   270
+            Index           =   4
+            Left            =   9990
+            TabIndex        =   159
+            Top             =   180
+            Width           =   315
+         End
+         Begin VB.CommandButton cmdSB 
+            Caption         =   ">>"
+            Height          =   270
+            Index           =   5
+            Left            =   10320
+            TabIndex        =   158
+            Top             =   180
+            Width           =   315
+         End
+         Begin VB.Label lblBorderSize 
+            Alignment       =   2  'Center
+            BackColor       =   &H8000000D&
+            Caption         =   "1"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H8000000B&
+            Height          =   255
+            Left            =   12210
+            TabIndex        =   238
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label Label20 
+            AutoSize        =   -1  'True
+            Caption         =   "Border:"
+            Height          =   195
+            Left            =   11670
+            TabIndex        =   237
+            Top             =   210
+            Width           =   510
+         End
+         Begin VB.Label lblWidth 
+            Alignment       =   2  'Center
+            BackColor       =   &H00008000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "8"
+            Height          =   300
+            Index           =   0
+            Left            =   5940
+            TabIndex        =   220
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblTheme 
+            Appearance      =   0  'Flat
+            BackColor       =   &H80000005&
+            BorderStyle     =   1  'Fixed Single
+            ForeColor       =   &H80000008&
+            Height          =   285
+            Index           =   0
+            Left            =   1410
+            TabIndex        =   184
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblTheme 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FF0000&
+            BorderStyle     =   1  'Fixed Single
+            ForeColor       =   &H80000008&
+            Height          =   285
+            Index           =   1
+            Left            =   1710
+            TabIndex        =   183
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblTheme 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00000000&
+            BorderStyle     =   1  'Fixed Single
+            ForeColor       =   &H80000008&
+            Height          =   285
+            Index           =   2
+            Left            =   2010
+            TabIndex        =   182
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblTheme 
+            Appearance      =   0  'Flat
+            BackColor       =   &H000000FF&
+            BorderStyle     =   1  'Fixed Single
+            ForeColor       =   &H80000008&
+            Height          =   135
+            Index           =   3
+            Left            =   2340
+            TabIndex        =   181
+            Top             =   180
+            Visible         =   0   'False
+            Width           =   285
+         End
+         Begin VB.Label lblTheme 
+            Appearance      =   0  'Flat
+            BackColor       =   &H0000FFFF&
+            BorderStyle     =   1  'Fixed Single
+            ForeColor       =   &H80000008&
+            Height          =   135
+            Index           =   4
+            Left            =   2340
+            TabIndex        =   180
+            Top             =   330
+            Visible         =   0   'False
+            Width           =   285
+         End
+         Begin VB.Label Label8 
+            AutoSize        =   -1  'True
+            Caption         =   "Offset:"
+            Height          =   195
+            Left            =   7590
+            TabIndex        =   179
+            Top             =   210
+            Width           =   465
+         End
+         Begin VB.Label lblEndRange 
+            AutoSize        =   -1  'True
+            Caption         =   "-"
+            Height          =   195
+            Left            =   10770
+            TabIndex        =   178
+            Top             =   210
+            Width           =   45
+         End
+         Begin VB.Label lblZoom 
+            Alignment       =   2  'Center
+            BackColor       =   &H000080FF&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "1x"
+            Height          =   300
+            Index           =   0
+            Left            =   4050
+            TabIndex        =   177
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblZoom 
+            Alignment       =   2  'Center
+            BackColor       =   &H000080FF&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "2x"
+            Height          =   300
+            Index           =   1
+            Left            =   4350
+            TabIndex        =   176
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblZoom 
+            Alignment       =   2  'Center
+            BackColor       =   &H000080FF&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "3x"
+            Height          =   300
+            Index           =   2
+            Left            =   4650
+            TabIndex        =   175
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblZoom 
+            Alignment       =   2  'Center
+            BackColor       =   &H000080FF&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "4x"
+            Height          =   300
+            Index           =   3
+            Left            =   4950
+            TabIndex        =   174
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblZoom 
+            Alignment       =   2  'Center
+            BackColor       =   &H000080FF&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "5x"
+            Height          =   300
+            Index           =   4
+            Left            =   5250
+            TabIndex        =   173
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblWidth 
+            Alignment       =   2  'Center
+            BackColor       =   &H00008000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "16"
+            Height          =   300
+            Index           =   1
+            Left            =   6240
+            TabIndex        =   172
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblWidth 
+            Alignment       =   2  'Center
+            BackColor       =   &H00008000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "32"
+            Height          =   300
+            Index           =   2
+            Left            =   6540
+            TabIndex        =   171
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblWidth 
+            Alignment       =   2  'Center
+            BackColor       =   &H00008000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "64"
+            Height          =   300
+            Index           =   3
+            Left            =   6840
+            TabIndex        =   170
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblWidth 
+            Alignment       =   2  'Center
+            BackColor       =   &H00008000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "128"
+            Height          =   300
+            Index           =   4
+            Left            =   7140
+            TabIndex        =   169
+            Top             =   180
+            Width           =   345
+         End
+         Begin VB.Label lblZoom 
+            Alignment       =   2  'Center
+            BackColor       =   &H000080FF&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "6x"
+            Height          =   300
+            Index           =   5
+            Left            =   5550
+            TabIndex        =   168
+            Top             =   180
+            Width           =   285
+         End
+         Begin VB.Label lblChrHeight 
+            Alignment       =   2  'Center
+            BackColor       =   &H00C0C000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "8x8"
+            Height          =   300
+            Index           =   0
+            Left            =   60
+            TabIndex        =   167
+            Top             =   180
+            Width           =   615
+         End
+         Begin VB.Label lblChrHeight 
+            Alignment       =   2  'Center
+            BackColor       =   &H00C0C000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "8x16"
+            Height          =   300
+            Index           =   1
+            Left            =   690
+            TabIndex        =   166
+            Top             =   180
+            Width           =   615
+         End
+      End
+      Begin VB.PictureBox picV 
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H00000000&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H00FFFFFF&
+         Height          =   6540
+         Left            =   4020
+         ScaleHeight     =   436
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   721
+         TabIndex        =   29
+         Top             =   840
+         Width           =   10815
+      End
+      Begin VB.Image cmdFontMenu 
+         Height          =   255
+         Left            =   120
+         Picture         =   "frmViewer.frx":2D73
+         ToolTipText     =   "Font Menu"
+         Top             =   390
          Width           =   255
       End
    End
@@ -3283,6 +3312,7 @@ Sub SetFrame(ByVal n As Integer, ByVal l As Single, ByVal T As Single, ByVal W A
     
 End Sub
 
+
 Private Sub lblPixelMode_Click(Index As Integer)
     PixelMode = Index
     FONTView
@@ -3520,7 +3550,17 @@ Sub BASView()
                             Case 128 To 203, 255: Tmp = Token(C - 128) 'Common Tokens
                             Case 254 'Expansion C64 Tokens
                                 C2 = Asc(Mid(VBuf, i, 1)): i = i + 1    'Get second Token byte
-                                If (C2 > 127) And (C2 < 159) Then Tmp = Token(266 + C2 - 128): lblGuess.Caption = "C64 Exp"
+                                If cbMV.value = vbChecked Then
+                                    Select Case C2                      'Handle MagicVoice Tokens
+                                        Case 128: Tmp = "SAY": lblGuess.Caption = "C64 MagicVoice"
+                                        Case 129: Tmp = "RATE"
+                                        Case 130: Tmp = "VOC"
+                                        Case 132: Tmp = "RDY"
+                                        Case Else: Tmp = "[" & Format(C2) & "]"
+                                    End Select
+                                Else
+                                    If (C2 > 127) And (C2 < 159) Then Tmp = Token(266 + C2 - 128): lblGuess.Caption = "C64 Exp"
+                                End If
                         End Select
 
                     Case 2 '-- BASIC 4/4+
@@ -3622,6 +3662,11 @@ Private Sub lblBASTheme_Click(Index As Integer)
         Case 1: lstBAS.BackColor = PickedColour
     End Select
     
+End Sub
+
+'Change font size
+Private Sub HScroll2_Change()
+    lstBAS.Font.Size = HScroll2.value: DoEvents
 End Sub
 
 ' Load Token strings into array
@@ -7013,6 +7058,10 @@ Private Sub cbSeqFont_Click()
     End If
 End Sub
 
+Private Sub HScroll3_Change()
+    lstSEQ.Font.Size = HScroll3.value
+End Sub
+
 
 '===============
 ' Bitmap Viewer
@@ -7471,6 +7520,10 @@ End Sub
 Private Sub cbPad_Click()
     BASView
 End Sub
+Private Sub cbMV_Click()
+    BASView
+End Sub
+
 
 '---- HEX updates
 Private Sub cb7bit_Click()

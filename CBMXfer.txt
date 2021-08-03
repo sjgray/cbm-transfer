@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2021 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.18 - May 4,2021
+============ V1.19 - Aug 2,2021
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -459,10 +459,16 @@ Right Pane
   Below in blue, are the Disk Title and ID, the Files, Blocks free, and drive status. On the right edge are 
   action buttons.
 
-  Generally you will first select the device to use from the device# menu, then press the DIRECTORY button
+   Generally you will first select the device to use from the device# menu, then press the DIRECTORY button
   to read the directory from the disk. If you have multiple drives attached you can click on the model# box
   to scan the devices on the bus.  If a 1571 drive is detected as the current device it will ask
   you if you want to use double-sided mode.
+
+  NOTE: If you are using a 3rd-party disk drive, your drive may not be detected properly in OPENCBM. If this
+  is the case your drive will default to being treated as a 1541. Most clone drives should be ok for this,
+  but if you have some non-standard drive or have added some 3rd-party firmware some features of of your
+  drive may not be supported. Click on the "1541" box to display additional information that you can send to
+  the OPENCBM team to have your drive properly recognized.
 
   * Directory......... reads the disk from on the currently selected drive unit
   * Format............ Formats the disk
@@ -629,12 +635,13 @@ BASIC:
 		             	Use the UCase option to make them Uppercase, ie: {RVS} {CLS}		
     * Break Multi........... Breaks multiple statements to separate lines
     * Pad Tokens............ Adds additional spaces between tokens to improve readability
-  
+    * MV.................... Enable decoding of Magic Voice extensions.
     * To Clipboard Button... pastes the listing to the clipboard.
     * Export................ saves the listing to a text file.
 
    The "<<" Button hides the options. Click ">>" to re-show them. There are also two colour boxes to
-  manually set the listing colours.
+  manually set the listing colours. Lastly, there is a slider that allows you to increase or decrease
+  the font size of the listing text.
 
 
 SEQ:
@@ -647,7 +654,8 @@ SEQ:
     * Use 'SEQ Viewer' C64 Font... Uses a font called "SEQ Viewer".
     * Ignore LF................... Ignores LineFeed characters
 
-  There are also two colour boxes to manually set the listing colours.
+  There are also two colour boxes to manually set the listing colours and a slider to adjust the font
+  size of the text.
 
 
 HEX:
@@ -908,6 +916,13 @@ Blue Chip	Untested
 
 Change Log
 ==========
+1.19 - Aug 2, 2021
+   * Add detection for unknown drives (ie: 3rd-party clones etc). These drives default to 1541.
+   * Viewers:
+	BAS: Add support for Magic Voice extensions. Add font size changer.
+	SEQ: Add font size changer.
+        ASM: Fix C264 platform.
+	
 1.18 - May 4, 2021
    * Viewer, remove "ding" sound when changing load address manually.
      FONT: Fix font editor when saving range or editing files with offset>0.

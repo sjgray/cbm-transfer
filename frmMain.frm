@@ -1952,7 +1952,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.18 (May 4/2021)" & Cr & _
+    MyMsg "CBM-Transfer  V1.19 (Aug 2/2021)" & Cr & _
           "(C)2007-2021 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -2844,9 +2844,10 @@ End Function
 ' CBMCTRL returns a list of drives with device#'s like this:
 ' 8:1541<cr>
 ' 9:1571<cr>
+' We look for the ID string for drives 8 to 30 then save them in the array, ie:  Drive(8)="1541"
 ' Flag=true to display results, False=silent
 Public Sub DetectDrives(ByVal Flag As Boolean)
-    Dim What As String, FIO As Integer, D As Integer
+    Dim What As String, FIO As Integer, D As Integer, Tmp As String, Flag2 As Boolean
     
     If Exists(ExeDir & "cbmctrl.exe") = False Then Exit Sub
     
@@ -2860,12 +2861,20 @@ Public Sub DetectDrives(ByVal Flag As Boolean)
         What = Input(LOF(FIO), FIO) 'was LOF(1)???
     Close FIO
     
+    Flag2 = False
     '-- Read returned string for drives - NOTE: May need to adjust this for drives with parallel cable
-    For D = 8 To 30: Drive(D) = MyTrim(GetNamedField(What, Format(D) & ":")): Next D
+    For D = 8 To 30
+        Tmp = MyTrim(GetNamedField(What, Format(D) & ":")) 'Get the string for the specified drive number
+        If InStr(1, Tmp, "*") > 0 Then
+            Tmp = "1541": Flag2 = True 'Unknown drive. We will assume it's a 1541 clone/compatible
+        End If
+        Drive(D) = Tmp
+    Next D
    
     KillTemp                    'And delete both temp files, so we're not cluttering things up
     
     If Flag = True Then
+        If Flag2 = True Then MyMsg "One or more drives are UNKNOWN." & Cr & "Please submit details to the OPENCBM team!" & Cr & "NOTE: Unknown drives are treated as a 1541!"
         If (What = "") Then What = "No drives found, please check CBM-Transfer directory paths!"
         MsgBox What, vbOKOnly, "Drive Detection"
     End If
