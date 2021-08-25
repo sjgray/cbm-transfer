@@ -1,5 +1,6 @@
 ; TOKENS.DAT V1.0 - Data file for CBMXfer
 ;--COMMON TOKENS;basic1/2 (PET,VIC,C64)
+; TOKENS 128 to 203
 END
 FOR
 NEXT
@@ -77,6 +78,7 @@ RIGHT$
 MID$
 GO
 ;--BASIC 3.5/7/10 (single byte tokens)
+; TOKENS 204 to ??
 RGR
 RCLR
 RLUM

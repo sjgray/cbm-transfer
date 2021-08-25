@@ -3570,7 +3570,25 @@ Sub BASView()
                         End Select
                         
                     Case 3 '-- BASIC 3.5
-                            Tmp = Token(C - 128) 'Common Tokens/Basic3.5
+                            
+                        Select Case C
+                            Case 254 'Expansion TED Tokens
+                                C2 = Asc(Mid(VBuf, i, 1)): i = i + 1    'Get second Token byte
+                                If cbMV.value = vbChecked Then
+                                    Select Case C2                      'Handle MagicVoice Tokens
+                                        Case 1: Tmp = "RATE"
+                                        Case 2: Tmp = "VOC"
+                                        Case 4: Tmp = "RDY"
+                                        Case 10: Tmp = "SAY": lblGuess.Caption = "V364 Speech"
+                                        Case Else: Tmp = "[" & Format(C2) & "]"
+                                    End Select
+                                Else
+                                    Tmp = "[" & Format(C2) & "]": lblGuess.Caption = "TED Exp"
+                                End If
+                            Case Else: Tmp = Token(C - 128) 'Common Tokens/Basic3.5
+                        End Select
+
+
 
                     Case 4 '-- BASIC 7
                         Select Case C
