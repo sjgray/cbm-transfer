@@ -111,6 +111,14 @@ Installation
 
      IMPORTANT!: For WinVICE 3 you will also need to copy the "libgcc_s_dw2-1.dll" file or it will not work!
 
+   Some people are reporting problems with newer versions of C1541.EXE. If you are unable to get a directory
+  listing you may need to downgrade to an older version. The following version seems to run without problems:
+
+  ***
+  *** VICE 3.2 native binary distribution, for MS-Windows 32bit:
+  *** http://sourceforge.net/projects/vice-emu/files/releases/binaries/windows/WinVICE-3.2-x86.7z/download
+  ***
+
    If you want to use IEEE drives, copy the "CBMLINK.EXE" file there too. Finally, if you have a Zoom Floppy
   with parallel cable, or 1571, copy the NibTools EXE files (nibread, nibwrite, nibconv) and/or the ImgCopy
   utility as well. 
