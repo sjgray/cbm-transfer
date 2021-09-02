@@ -1,4 +1,4 @@
-CBM-Transfer V1.04 (C)2018 Steve J. Gray
+CBM-Transfer V1.20 (C)2021 Steve J. Gray
 ===================================================
 Interactive Symbolic Disassembler with Code Tracing
 Help File
@@ -101,9 +101,13 @@ View Fmt.................. Set the output format. The first entry is recommended
                            entries are more suited to final outputs for assemblers.
 Target.................... Set the strings used for BYTE/TEXT/WORD special directives.
 Label Prefix.............. Sets the prefix string used for generated labels.
+
 Comment Divider length.... Sets the width of a divider comment.
 Inline Comment Position... Column position to start inline comments.
+Starting Ln# / Increment.. Sets the first line and increment when using a format with 'nnn'
+
 Show Equates.............. Adds used symbols to the top of the output.
+Show Block Comments....... Block comments can be quite long. Uncheck to hide them.
 Add blank line..RTS/RTI... Option to add a blank line after subroutines to make listing more readable.
 Add blank line..labels.... Option to add a blank line before labels to make listing more readable.
 Include Symbol comments... Option to add comments associated with symbols inline.
@@ -208,7 +212,7 @@ Add............... Adds an antry to the selected tab list. You will be prompted 
 Del............... Delete the selected entry.
 Find.............. Finds the selected entry in the disassembly output.
 
-See below for details of each tab.
+You can edit an entry in the list by Double-clicking it. See below for details of each tab.
 
 EntryPt Tab
 -----------
@@ -216,7 +220,7 @@ EntryPt Tab
  This tab shows Entry Points. Entry points are addresses that are known to be code that is executed. This could
 be the address a SYS command might use to initialize the code, or a known Vector that the CPU has etc. These
 are used by the Flow Tracer. Each entry is followed in order to mark addresses as 'code'. In this way the
-Tracer can find non-code (Data Tables).
+Tracer can find non-code (Data Tables). EntryPt items are optional.
 
 
 Symbols Tab
@@ -236,7 +240,7 @@ This will let you see which Symbols are being used. Only referenced Symbols will
 Symbols have three parts: Hex Address, Symbol Name, and Comment
 
 The Hex Address is required, but you may leave out the name or comment. If you leave out the Name, the 4-digit
-hex address will be used and the comment will appear on every line that the symbol appears on. If you include
+Hex Address will be used and the comment will appear on every line that the symbol appears on. If you include
 the name but not the comment then obviously no comment will be shown. Leaving out both doesn't make much sense
 but is allowed.
 
@@ -261,18 +265,18 @@ See below for details.
 Tables Tab
 ----------
 
-This tab shows Tables (or Data Blocks). Tables are ranges within the file that contain non-executing code.
-These tables can contain almost anything including text strings, mathematical tables, vectors, sprite data,
-fonts etc. Finding and identifying the tables in a binary file is key to generating a complete disassembly.
-When adding Tables you will need to enter the start and ending address, the table format/type, and an optional
-comment in the following format:
+This tab shows Tables (or Data Blocks). Tables are ranges within the file that generally contain
+non-executing code. These tables can contain almost anything including text strings, mathematical tables,
+vectors, sprite data, fonts etc. Finding and identifying the tables in a binary file is key to generating
+a complete disassembly. When adding Tables you will need to enter the start and ending address, the table
+format/type, and an optional comment in the following format:
 
-	SSSS,EEEE,T{num}{,COMMENT}
+	SSSS,EEEE,T{num},{COMMENT}
 
  - Where {num} is an optional numeric value that specifies how many entries per line for that table.
 
 Make sure your range is correct and you have the correct block type. For a quicker way, use the top
-line buttons D,H,T,R,V,W,Z. See below for table types.
+line D,H,T,R,V,W,Z buttons. See below for table types.
 
  Each entry has a checkbox. Only selected Tables (ones that have a checkmark) are treated as non-code. By
 un-checking an entry the bytes in the range will be treated as code. This can help you find code segments
@@ -293,11 +297,30 @@ or code sections. Give labels a meaningful name to help you remember the code's 
 Comments Tab
 ------------
 
-This tab show Comments. Comments are text added to the disassembly to help document, clarify or divide
-the code sections, and/or any individual line. When adding comments you need to enter the address that
-corresponds to an opcode byte, otherwise the comment will be skipped. For quick comments first select a
-line with address label from the output then use the top line "C" buttons, or for divider lines use the
-dashed buttons.
+This tab shows Comments. Comments are text added to the disassembly to help document, clarify or divide
+the code sections, and/or any individual line. There are 3 types of comments:
+
+Inline.......... Appear after program code.
+Standalone...... Are on their own line(s). 
+Block........... Multi-line comment blocks.
+
+ You add comments by using the "Add" button from the Comments tab, or by first selecting a line then
+using the top line buttons. Your output format must include addresses!
+
+ When adding comments with the "Add" button you need to enter an address containing an opcode byte,
+the comment type (See below for CODEs), and optional description. Addresses of Operand bytes will
+not display!
+
+ The "[ ]" button can be used for block comments. You could use the "Add" button but adding multi-line
+comments is awkward. You must put a ";" character to separate lines.
+
+ Instead first select the line with the address and use the "[ ]" button. The ML area will be replaced
+by the Block Comment editor. You can enter any characters here and use as many lines as you want.
+Press ENTER to go to the next line, or up/down etc. Do not use any ";" characters in your comment as it
+is used as a line break when added to the comment list. Click "SAVE" when done. Use "CANCEL" to abort
+changes. The ML listing will be displayed again.
+
+Remember, the "Show Block Comments" option can be used to hide or show block comments.
 
 
 Top Line
@@ -346,14 +369,21 @@ W....................... Word - Treats the block as simple hex words.
 X....................... Hidden - Hides the block.
 
 Comment Buttons:
-;C ..................... Adds an inline comment.
-C ...................... Adds a standalone comment as a single line.
--C- .................... Adds a standalone comment with "-" divider lines above and below the comment.
-=C= .................... Adds a standalone comment with "=" divider lines.
-*C* .................... Adds a standalone comment with "*" divider lines.
---- .................... Adds a single "-" divider line.
-=== .................... Adds a single "=" divider line.
-*** .................... Adds a single "*" divider line.
+
+BUTTON  CODE
+[ ] .... [  ............ Adds a block comment.
+;C ..... i  ............ Adds an inline comment.
+C ...... s  ............ Adds a standalone comment as a single line.
+-C- .... -  ............ Adds a standalone comment with "-" divider lines above and below the comment.
+=C= .... =  ............ Adds a standalone comment with "=" divider lines.
+*C* .... *  ............ Adds a standalone comment with "*" divider lines.
+--- .... -  ............ Adds a single "-" divider line.
+=== .... =  ............ Adds a single "=" divider line.
+*** .... *  ............ Adds a single "*" divider line.
+
+Pro Tip: You can manually edit the comment CODE and any character that is not "[","i", or "s" will be
+used as the divider line character. If you supply a comment then you get a line above and below. If
+you do not supply a comment you will get a single line.
 
 And lastly, there is a status message. This will show the code range while you are working. When
 disassembling it will display which pass it is working on.

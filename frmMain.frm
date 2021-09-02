@@ -1952,7 +1952,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.19a (Aug 25/2021)" & Cr & _
+    MyMsg "CBM-Transfer  V1.20 (Sept 1/2021)" & Cr & _
           "(C)2007-2021 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -2295,7 +2295,7 @@ End Sub
 '---- Save the disk directory to a file
 ' Flag: True=Append, False=Create
 Private Sub WriteDirTextTo(ByVal Filename As String, Flag As Boolean)
-        Dim FIO As Integer, j As Integer
+        Dim FIO As Integer, J As Integer
         
         FIO = FreeFile
         
@@ -2309,9 +2309,9 @@ Private Sub WriteDirTextTo(ByVal Filename As String, Flag As Boolean)
         Print #FIO, Qu & txtImageHeader(MenuNum).Caption & Qu & " " & txtImageID(MenuNum).Caption
         Print #FIO, "========================"
         
-        For j = 0 To lstImageFiles(MenuNum).ListCount - 1
-            Print #FIO, lstImageFiles(MenuNum).List(j)
-        Next j
+        For J = 0 To lstImageFiles(MenuNum).ListCount - 1
+            Print #FIO, lstImageFiles(MenuNum).List(J)
+        Next J
         
         Print #FIO, DFBlocksFree(MenuNum).Caption
         Print #FIO, ""
@@ -2379,11 +2379,11 @@ End Sub
 
 '---- Add Path to History List
 Sub AddPathHistory(ByVal SPath As String)
-    Dim a As Integer, Flag As Integer
+    Dim A As Integer, Flag As Integer
     Flag = True
     
-    For a = 0 To txtLocalDir(0).ListCount - 1
-        If txtLocalDir(0).List(a) = SPath Then Flag = False: Exit For
+    For A = 0 To txtLocalDir(0).ListCount - 1
+        If txtLocalDir(0).List(A) = SPath Then Flag = False: Exit For
     Next
     
     If Flag = True Then
@@ -2395,12 +2395,12 @@ End Sub
 
 '---- Remove Path from History List
 Sub RemovePathHistory(ByVal SPath As String)
-    Dim a As Integer
+    Dim A As Integer
 
-    For a = txtLocalDir(0).ListCount - 1 To 0 Step -1
-        If txtLocalDir(0).List(a) = SPath Then
-            txtLocalDir(0).RemoveItem (a)
-            txtLocalDir(1).RemoveItem (a)
+    For A = txtLocalDir(0).ListCount - 1 To 0 Step -1
+        If txtLocalDir(0).List(A) = SPath Then
+            txtLocalDir(0).RemoveItem (A)
+            txtLocalDir(1).RemoveItem (A)
         End If
     Next
     
@@ -2408,14 +2408,14 @@ End Sub
 
 '---- Hilight Selected Tab
 Sub SetSrcFrame()
-    Dim a As Integer
+    Dim A As Integer
     
     If Layout = 0 Then frSrc(0).Visible = False: frDDF(0).Visible = False
         
-    For a = 0 To 1
-        lblSrcMode(a).Font.Bold = False
-        lblSrcMode(a).ForeColor = vbBlack
-    Next a
+    For A = 0 To 1
+        lblSrcMode(A).Font.Bold = False
+        lblSrcMode(A).ForeColor = vbBlack
+    Next A
         
     Select Case SrcMode
         Case 0: frSrc(0).Visible = True
@@ -2429,7 +2429,7 @@ End Sub
 
 '---- Make a NEW Disk Image File
 Private Sub cmdNewImage_Click(Index As Integer)
-    Dim Filename As String, Ext As String, p As Integer
+    Dim Filename As String, Ext As String, P As Integer
     
     frmPrompt.Reply.Text = "new.d64"
     frmPrompt.Ask "Create new Image File", "Enter Image Filename (include correct extension):", 1, False
@@ -2627,10 +2627,10 @@ Private Sub cmdDNone_Click(Index As Integer)
 End Sub
 
 Private Sub DSelector(ByVal B As Boolean, ByVal Index As Integer)
-    Dim j As Integer
-    For j = 0 To lstImageFiles(Index).ListCount - 1
-        lstImageFiles(Index).Selected(j) = B
-    Next j
+    Dim J As Integer
+    For J = 0 To lstImageFiles(Index).ListCount - 1
+        lstImageFiles(Index).Selected(J) = B
+    Next J
 End Sub
 
 Private Sub cmdImageRefresh_Click(Index As Integer)
@@ -2806,11 +2806,11 @@ End Sub
 
 '---- Select or De-Select ALLall Entries in CBMLink list
 Private Sub LSelector(ByVal B As Boolean)
-    Dim j As Integer
+    Dim J As Integer
     
-    For j = 0 To lstLink.ListCount - 1
-      lstLink.Selected(j) = B
-    Next j
+    For J = 0 To lstLink.ListCount - 1
+      lstLink.Selected(J) = B
+    Next J
 End Sub
 
 '====================
@@ -3153,11 +3153,11 @@ End Sub
 
 '---- Select ALL or NONE for all files in X-cable or Zoomfloppy disk
 Private Sub Selector(ByVal B As Boolean)
-    Dim j As Integer
+    Dim J As Integer
     
-    For j = 0 To lstXFiles.ListCount - 1
-      lstXFiles.Selected(j) = B             'Set to desired state
-    Next j
+    For J = 0 To lstXFiles.ListCount - 1
+      lstXFiles.Selected(J) = B             'Set to desired state
+    Next J
 End Sub
 
 '============================
@@ -3913,11 +3913,11 @@ End Sub
 '---- Handle automatic viewing of Disk Image when LocalPC entry is selected
 ' The LEFT disk image must be visible, and the RIGHT disk image must NOT
 Private Sub lstLocal_Click(Index As Integer)
-    Dim Filename As String, Ext As String, p As Integer
+    Dim Filename As String, Ext As String, P As Integer
     
     If Layout = 1 Then
-        p = lstLocal(Index).ListIndex
-        Filename = LocalDir(Index) & lstLocal(Index).List(p)
+        P = lstLocal(Index).ListIndex
+        Filename = LocalDir(Index) & lstLocal(Index).List(P)
         Ext = FileExtU(Filename)
         
         If SupportedImg(Ext, False) = True Then
@@ -4026,25 +4026,25 @@ End Sub
 '---- Run a single PRG file in VICE
 ' Runs a file from local PC
 Public Sub RunVicePRG(ByVal Filename As String)
-    Dim j As Integer, LA As Long
+    Dim J As Integer, LA As Long
     
     '---Check PRG option (specified or by load address)
-    j = frmOptions.cboPRG.ListIndex 'Selected EMU for PRG files
-    If j = 0 Then Exit Sub
+    J = frmOptions.cboPRG.ListIndex 'Selected EMU for PRG files
+    If J = 0 Then Exit Sub
     
     If frmOptions.OptPRGMode(1).value = True Then
         '-- Use program Load Address to select emulator.
         '   Note: VIC-20 and TED can have same load address. TODO: Allow selection when multiple choices
         LA = GetLoadAddress(Filename)
-        j = GetMachine(LA)
+        J = GetMachine(LA)
         
-        If j < 2 Then
+        If J < 2 Then
             frmViceSelect.Show vbModal
-            j = frmViceSelect.EmuNum
+            J = frmViceSelect.EmuNum
         End If
     End If
     
-    If j > 0 Then RunVice j, "", Filename
+    If J > 0 Then RunVice J, "", Filename
 
 End Sub
 
@@ -4208,17 +4208,17 @@ End Function
 
 '---- Set Destination Frame TAB
 Sub SetDstFrame()
-    Dim a As Integer
+    Dim A As Integer
     
     frLink.Visible = False
     frSrc(1).Visible = False
     frX.Visible = False
     frDDF(1).Visible = False
     
-    For a = 0 To 2
-        lblDstMode(a).Font.Bold = False
-        lblDstMode(a).ForeColor = vbBlack
-    Next a
+    For A = 0 To 2
+        lblDstMode(A).Font.Bold = False
+        lblDstMode(A).ForeColor = vbBlack
+    Next A
             
     Select Case DstMode
         Case 0: frX.Visible = True
@@ -4247,7 +4247,7 @@ End Sub
 '---- Read Disk Image Directory
 Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     Dim temp As String, Temp2 As String, Results As ReturnStringType
-    Dim p As Integer, PP As Integer
+    Dim P As Integer, PP As Integer
 
     On Local Error GoTo GIError
              
@@ -4267,8 +4267,8 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     '-- Throw away extraneous strings containing "GetProc" etc
     PP = 1
     Do
-        p = InStr(PP, temp, LF): If p = 0 Then Exit Do
-        Temp2 = Mid(temp, PP, p - PP): PP = p + 1
+        P = InStr(PP, temp, LF): If P = 0 Then Exit Do
+        Temp2 = Mid(temp, PP, P - PP): PP = P + 1
     Loop While Left(Temp2, 1) > "9"
        
     txtImageHeader(Index).Caption = ExtractQuotes(Temp2)
@@ -4277,8 +4277,8 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
 
     '-- Now parse remaining entries
     Do
-        p = InStr(PP, temp, LF): If p = 0 Then Exit Do
-        Temp2 = Mid(temp, PP, p - PP): PP = p + 1
+        P = InStr(PP, temp, LF): If P = 0 Then Exit Do
+        Temp2 = Mid(temp, PP, P - PP): PP = P + 1
         If InStr(1, Temp2, "blocks free", vbTextCompare) = 0 Then lstImageFiles(Index).AddItem Temp2 Else Exit Do 'Lowercase
     Loop
     
@@ -4336,15 +4336,15 @@ End Sub
 
 '---- Save Source Path Drop-down list (Path History)
 Public Sub SaveHistory()
-    Dim FIO As Integer, Tmp As String, a As Integer
+    Dim FIO As Integer, Tmp As String, A As Integer
         
     KillFile PathFile
     
     FIO = FreeFile
     Open PathFile For Output As FIO
     
-    For a = 0 To txtLocalDir(0).ListCount - 1
-        Print #FIO, txtLocalDir(0).List(a)
+    For A = 0 To txtLocalDir(0).ListCount - 1
+        Print #FIO, txtLocalDir(0).List(A)
     Next
     Close FIO
     

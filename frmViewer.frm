@@ -2,16 +2,1263 @@ VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "Comdlg32.ocx"
 Begin VB.Form frmViewer 
    Caption         =   "Viewer:"
-   ClientHeight    =   8400
+   ClientHeight    =   8280
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   11925
+   ClientWidth     =   11955
    Icon            =   "frmViewer.frx":0000
    LinkTopic       =   "Form1"
    OLEDropMode     =   1  'Manual
-   ScaleHeight     =   8400
-   ScaleWidth      =   11925
+   ScaleHeight     =   8280
+   ScaleWidth      =   11955
    StartUpPosition =   3  'Windows Default
+   Begin VB.Frame frML 
+      Caption         =   "Machine Language Disassembler"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   9345
+      Left            =   240
+      TabIndex        =   4
+      Top             =   780
+      Visible         =   0   'False
+      Width           =   16980
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   "[ ]"
+         Height          =   315
+         HelpContextID   =   7
+         Index           =   8
+         Left            =   9030
+         TabIndex        =   255
+         ToolTipText     =   "Add Block Comment"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.Frame frBlock 
+         Caption         =   "Add/Edit Block Comment"
+         Height          =   2325
+         Left            =   3990
+         TabIndex        =   250
+         Top             =   1770
+         Visible         =   0   'False
+         Width           =   7245
+         Begin VB.CommandButton cmdBCancel 
+            Caption         =   "Cancel"
+            Height          =   435
+            Left            =   1050
+            TabIndex        =   253
+            Top             =   270
+            Width           =   855
+         End
+         Begin VB.CommandButton cmdSaveBlock 
+            Caption         =   "Save"
+            Height          =   435
+            Left            =   150
+            TabIndex        =   252
+            Top             =   270
+            Width           =   855
+         End
+         Begin VB.TextBox txtBlock 
+            BeginProperty Font 
+               Name            =   "Courier New"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   1425
+            Left            =   120
+            MultiLine       =   -1  'True
+            ScrollBars      =   2  'Vertical
+            TabIndex        =   251
+            Top             =   780
+            Width           =   5955
+         End
+         Begin VB.Label Label22 
+            BackColor       =   &H80000018&
+            Caption         =   "Enter comment. You can use any character except "";"" which is used to separate the lines."
+            Height          =   405
+            Left            =   3720
+            TabIndex        =   258
+            Top             =   240
+            Width           =   3285
+            WordWrap        =   -1  'True
+         End
+         Begin VB.Label lblCPos 
+            AutoSize        =   -1  'True
+            BackColor       =   &H00000080&
+            ForeColor       =   &H8000000E&
+            Height          =   195
+            Left            =   1980
+            TabIndex        =   257
+            Top             =   570
+            Visible         =   0   'False
+            Width           =   585
+         End
+         Begin VB.Label Label21 
+            AutoSize        =   -1  'True
+            Caption         =   "At Location:"
+            Height          =   195
+            Left            =   1980
+            TabIndex        =   256
+            Top             =   360
+            Width           =   855
+         End
+         Begin VB.Label lblBlockAddress 
+            AutoSize        =   -1  'True
+            BackColor       =   &H00000080&
+            Caption         =   "0000"
+            ForeColor       =   &H8000000E&
+            Height          =   195
+            Left            =   2910
+            TabIndex        =   254
+            Top             =   390
+            Width           =   360
+         End
+      End
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "Z"
+         Height          =   315
+         Index           =   7
+         Left            =   8610
+         TabIndex        =   156
+         ToolTipText     =   "Make Binary Byte Block"
+         Top             =   210
+         Width           =   315
+      End
+      Begin VB.CommandButton cmdNext 
+         Caption         =   "< ]"
+         Height          =   315
+         Index           =   3
+         Left            =   3930
+         TabIndex        =   155
+         ToolTipText     =   "Bottom Up "
+         Top             =   210
+         Width           =   345
+      End
+      Begin VB.CommandButton cmdNext 
+         Caption         =   "<"
+         Height          =   315
+         Index           =   2
+         Left            =   3630
+         TabIndex        =   154
+         ToolTipText     =   "Next Up"
+         Top             =   210
+         Width           =   285
+      End
+      Begin VB.CommandButton cmdNext 
+         Caption         =   ">"
+         Height          =   315
+         Index           =   1
+         Left            =   3330
+         TabIndex        =   153
+         ToolTipText     =   "Next Down"
+         Top             =   210
+         Width           =   285
+      End
+      Begin VB.Frame frInfo 
+         Height          =   525
+         Left            =   3990
+         TabIndex        =   151
+         Top             =   570
+         Width           =   8715
+         Begin VB.Label lblInfo 
+            BackColor       =   &H00000080&
+            BackStyle       =   0  'Transparent
+            Caption         =   "Click table entry for info"
+            BeginProperty Font 
+               Name            =   "Courier"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00000000&
+            Height          =   225
+            Left            =   120
+            TabIndex        =   152
+            Top             =   180
+            Width           =   8430
+         End
+      End
+      Begin VB.CommandButton cmdAddEP 
+         Caption         =   "EntryPt"
+         Height          =   315
+         Left            =   5520
+         TabIndex        =   150
+         ToolTipText     =   "Add Label"
+         Top             =   210
+         Width           =   675
+      End
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "X"
+         Height          =   315
+         Index           =   6
+         Left            =   8280
+         TabIndex        =   147
+         ToolTipText     =   "Make Hidden Block"
+         Top             =   210
+         Width           =   315
+      End
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   "*C*"
+         Height          =   315
+         Index           =   4
+         Left            =   11220
+         TabIndex        =   100
+         ToolTipText     =   "Add Comment with * Separator"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   "***"
+         Height          =   315
+         HelpContextID   =   7
+         Index           =   7
+         Left            =   12540
+         TabIndex        =   99
+         ToolTipText     =   "Add * Separator"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "W"
+         Height          =   315
+         Index           =   5
+         Left            =   7950
+         TabIndex        =   98
+         ToolTipText     =   "Make Word Block"
+         Top             =   210
+         Width           =   315
+      End
+      Begin VB.CommandButton cmdAddLabel 
+         Caption         =   "Label"
+         Height          =   315
+         Left            =   4830
+         TabIndex        =   97
+         ToolTipText     =   "Add Label"
+         Top             =   210
+         Width           =   645
+      End
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   "==="
+         Height          =   315
+         Index           =   6
+         Left            =   12120
+         TabIndex        =   96
+         ToolTipText     =   "Add = Separator"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   "----"
+         Height          =   315
+         Index           =   5
+         Left            =   11700
+         TabIndex        =   95
+         ToolTipText     =   "Add - Separator"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   "=C="
+         Height          =   315
+         Index           =   3
+         Left            =   10800
+         TabIndex        =   94
+         ToolTipText     =   "Add Comment with = Separator"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   "--C--"
+         Height          =   315
+         Index           =   2
+         Left            =   10380
+         TabIndex        =   93
+         ToolTipText     =   "Add Comment with - Separator"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   "C"
+         Height          =   315
+         Index           =   1
+         Left            =   9900
+         TabIndex        =   92
+         ToolTipText     =   "Add Standalone Comment"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.CommandButton cmdAddComment 
+         Caption         =   ";C"
+         Height          =   315
+         Index           =   0
+         Left            =   9480
+         TabIndex        =   91
+         ToolTipText     =   "Add Inline Comment"
+         Top             =   210
+         Width           =   405
+      End
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "V"
+         Height          =   315
+         Index           =   4
+         Left            =   7620
+         TabIndex        =   90
+         ToolTipText     =   "Make Vector Block"
+         Top             =   210
+         Width           =   315
+      End
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "R"
+         Height          =   315
+         Index           =   3
+         Left            =   7290
+         TabIndex        =   89
+         ToolTipText     =   "Make RTS vector block"
+         Top             =   210
+         Width           =   315
+      End
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "T"
+         Height          =   315
+         Index           =   2
+         Left            =   6960
+         TabIndex        =   88
+         ToolTipText     =   "Make Text Block"
+         Top             =   210
+         Width           =   315
+      End
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "H"
+         Height          =   315
+         Index           =   1
+         Left            =   6630
+         TabIndex        =   87
+         ToolTipText     =   "Make Hex Block"
+         Top             =   210
+         Width           =   315
+      End
+      Begin VB.CommandButton cmdDTAdd 
+         Caption         =   "D"
+         Height          =   315
+         Index           =   0
+         Left            =   6300
+         TabIndex        =   86
+         ToolTipText     =   "Make Dec Byte Block"
+         Top             =   210
+         Width           =   315
+      End
+      Begin VB.CommandButton cmdFindAll 
+         Caption         =   "All"
+         Height          =   315
+         Left            =   2580
+         TabIndex        =   40
+         ToolTipText     =   "Find all occurences"
+         Top             =   210
+         Width           =   375
+      End
+      Begin VB.CommandButton cmdNext 
+         Caption         =   "[ >"
+         Height          =   315
+         Index           =   0
+         Left            =   2970
+         TabIndex        =   31
+         ToolTipText     =   "Top Down"
+         Top             =   210
+         Width           =   345
+      End
+      Begin VB.CommandButton cmdFind 
+         Caption         =   "Find"
+         Height          =   315
+         Left            =   1980
+         TabIndex        =   30
+         ToolTipText     =   "Find Text"
+         Top             =   210
+         Width           =   555
+      End
+      Begin VB.CommandButton cmdRefresh 
+         Caption         =   "Refresh"
+         Height          =   315
+         Left            =   1140
+         TabIndex        =   27
+         Top             =   210
+         Width           =   705
+      End
+      Begin VB.ListBox lstML 
+         BackColor       =   &H00FFFFFF&
+         BeginProperty Font 
+            Name            =   "Courier"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   450
+         Left            =   3990
+         MultiSelect     =   2  'Extended
+         TabIndex        =   5
+         Top             =   1200
+         Width           =   1275
+      End
+      Begin VB.Frame frTView 
+         Height          =   8625
+         Left            =   90
+         TabIndex        =   41
+         Top             =   570
+         Width           =   3825
+         Begin VB.ListBox lstEntryPt 
+            BackColor       =   &H00000080&
+            BeginProperty Font 
+               Name            =   "Courier"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   255
+            ItemData        =   "frmViewer.frx":0442
+            Left            =   90
+            List            =   "frmViewer.frx":0444
+            TabIndex        =   145
+            Top             =   1590
+            Width           =   705
+         End
+         Begin VB.ListBox lstJSR 
+            BackColor       =   &H00C0C000&
+            CausesValidation=   0   'False
+            BeginProperty Font 
+               Name            =   "Courier"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00000000&
+            Height          =   255
+            ItemData        =   "frmViewer.frx":0446
+            Left            =   2940
+            List            =   "frmViewer.frx":0448
+            Sorted          =   -1  'True
+            TabIndex        =   102
+            Top             =   1320
+            Visible         =   0   'False
+            Width           =   750
+         End
+         Begin VB.ListBox lstLabels 
+            BackColor       =   &H00C0C000&
+            BeginProperty Font 
+               Name            =   "Courier"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H80000001&
+            Height          =   255
+            ItemData        =   "frmViewer.frx":044A
+            Left            =   1980
+            List            =   "frmViewer.frx":044C
+            MultiSelect     =   2  'Extended
+            Sorted          =   -1  'True
+            TabIndex        =   68
+            Top             =   1320
+            Visible         =   0   'False
+            Width           =   855
+         End
+         Begin VB.ListBox lstCmnt 
+            BackColor       =   &H00000080&
+            CausesValidation=   0   'False
+            BeginProperty Font 
+               Name            =   "Courier"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   255
+            ItemData        =   "frmViewer.frx":044E
+            Left            =   2940
+            List            =   "frmViewer.frx":0450
+            Sorted          =   -1  'True
+            TabIndex        =   54
+            Top             =   1590
+            Visible         =   0   'False
+            Width           =   720
+         End
+         Begin VB.ListBox lstULabels 
+            BackColor       =   &H00000080&
+            CausesValidation=   0   'False
+            BeginProperty Font 
+               Name            =   "Courier"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   255
+            ItemData        =   "frmViewer.frx":0452
+            Left            =   2190
+            List            =   "frmViewer.frx":0454
+            Sorted          =   -1  'True
+            TabIndex        =   52
+            Top             =   1590
+            Visible         =   0   'False
+            Width           =   690
+         End
+         Begin VB.ListBox lstDT 
+            BackColor       =   &H00000080&
+            CausesValidation=   0   'False
+            BeginProperty Font 
+               Name            =   "Courier"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   285
+            ItemData        =   "frmViewer.frx":0456
+            Left            =   1530
+            List            =   "frmViewer.frx":0458
+            Sorted          =   -1  'True
+            Style           =   1  'Checkbox
+            TabIndex        =   51
+            Top             =   1590
+            Visible         =   0   'False
+            Width           =   660
+         End
+         Begin VB.ListBox lstSYM 
+            BackColor       =   &H00000080&
+            CausesValidation=   0   'False
+            BeginProperty Font 
+               Name            =   "Courier"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   285
+            ItemData        =   "frmViewer.frx":045A
+            Left            =   840
+            List            =   "frmViewer.frx":045C
+            Sorted          =   -1  'True
+            Style           =   1  'Checkbox
+            TabIndex        =   50
+            Top             =   1590
+            Visible         =   0   'False
+            Width           =   690
+         End
+         Begin VB.CommandButton cmdSymAdd 
+            Caption         =   "Add"
+            Height          =   315
+            Left            =   2070
+            TabIndex        =   49
+            ToolTipText     =   "Add an entry"
+            Top             =   930
+            Width           =   495
+         End
+         Begin VB.CommandButton cmdSymDel 
+            Caption         =   "Del"
+            Height          =   315
+            Left            =   2610
+            TabIndex        =   48
+            ToolTipText     =   "Delete current entry"
+            Top             =   930
+            Width           =   495
+         End
+         Begin VB.CommandButton cmdSYMGoto 
+            Caption         =   "Find"
+            Height          =   315
+            Left            =   3180
+            TabIndex        =   47
+            ToolTipText     =   "Find Selected"
+            Top             =   930
+            Width           =   555
+         End
+         Begin VB.CommandButton cmdSymSave 
+            Caption         =   "Save"
+            Height          =   315
+            Left            =   690
+            TabIndex        =   46
+            ToolTipText     =   "Save file"
+            Top             =   930
+            Width           =   555
+         End
+         Begin VB.CommandButton cmdSymLoad 
+            Caption         =   "Load"
+            Height          =   315
+            Left            =   90
+            TabIndex        =   45
+            ToolTipText     =   "Load a file"
+            Top             =   930
+            Width           =   555
+         End
+         Begin VB.CommandButton cmdRemDupLbls 
+            Caption         =   "Remove Duplicates"
+            Height          =   315
+            Left            =   90
+            TabIndex        =   104
+            ToolTipText     =   "Remove Duplicate Entries"
+            Top             =   930
+            Width           =   1845
+         End
+         Begin VB.CommandButton cmdRemDupJSR 
+            Caption         =   "Remove Duplicates"
+            Height          =   315
+            Left            =   90
+            TabIndex        =   103
+            ToolTipText     =   "Remove Duplicate Entries"
+            Top             =   930
+            Width           =   1845
+         End
+         Begin VB.Frame frMLSettings 
+            Height          =   6345
+            Left            =   0
+            TabIndex        =   55
+            Top             =   2400
+            Width           =   3615
+            Begin VB.TextBox txtLineInc 
+               BackColor       =   &H00000080&
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               Left            =   3000
+               MaxLength       =   3
+               TabIndex        =   262
+               Text            =   "10"
+               Top             =   3180
+               Width           =   435
+            End
+            Begin VB.TextBox txtStartLine 
+               BackColor       =   &H00000080&
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               Left            =   1290
+               MaxLength       =   4
+               TabIndex        =   260
+               Text            =   "100"
+               Top             =   3180
+               Width           =   675
+            End
+            Begin VB.CheckBox cbBlock 
+               Caption         =   "Show Block Comments"
+               Height          =   195
+               Left            =   150
+               TabIndex        =   259
+               ToolTipText     =   "Include Equates in output"
+               Top             =   3750
+               Value           =   1  'Checked
+               Width           =   3165
+            End
+            Begin VB.TextBox txtInlineCol 
+               BackColor       =   &H00000080&
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               Left            =   1920
+               MaxLength       =   2
+               TabIndex        =   149
+               Text            =   "50"
+               Top             =   2850
+               Width           =   345
+            End
+            Begin VB.CommandButton cmdImport 
+               Caption         =   "Import"
+               Height          =   345
+               Left            =   2040
+               TabIndex        =   106
+               ToolTipText     =   "Import Symbols"
+               Top             =   5280
+               Width           =   1455
+            End
+            Begin VB.CheckBox cbIncSym 
+               Caption         =   "Include Symbol comments"
+               Height          =   375
+               Left            =   150
+               TabIndex        =   85
+               Top             =   4410
+               Value           =   1  'Checked
+               Width           =   3255
+            End
+            Begin VB.ComboBox cboCPUFile 
+               BackColor       =   &H00FFFFFF&
+               CausesValidation=   0   'False
+               ForeColor       =   &H00000000&
+               Height          =   315
+               ItemData        =   "frmViewer.frx":045E
+               Left            =   2370
+               List            =   "frmViewer.frx":0460
+               Style           =   2  'Dropdown List
+               TabIndex        =   84
+               Top             =   2820
+               Visible         =   0   'False
+               Width           =   1305
+            End
+            Begin VB.ComboBox cboCPU 
+               BackColor       =   &H00000080&
+               CausesValidation=   0   'False
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               ItemData        =   "frmViewer.frx":0462
+               Left            =   810
+               List            =   "frmViewer.frx":0469
+               Style           =   2  'Dropdown List
+               TabIndex        =   82
+               Top             =   1200
+               Width           =   2715
+            End
+            Begin VB.TextBox txtDivLen 
+               BackColor       =   &H00000080&
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               Left            =   1920
+               MaxLength       =   2
+               TabIndex        =   81
+               Text            =   "80"
+               Top             =   2520
+               Width           =   345
+            End
+            Begin VB.ComboBox cboPlatFile 
+               BackColor       =   &H00FFFFFF&
+               CausesValidation=   0   'False
+               ForeColor       =   &H00000000&
+               Height          =   315
+               ItemData        =   "frmViewer.frx":047B
+               Left            =   2370
+               List            =   "frmViewer.frx":047D
+               Style           =   2  'Dropdown List
+               TabIndex        =   79
+               Top             =   2520
+               Visible         =   0   'False
+               Width           =   1305
+            End
+            Begin VB.ComboBox cboPlatform 
+               BackColor       =   &H00000080&
+               CausesValidation=   0   'False
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               ItemData        =   "frmViewer.frx":047F
+               Left            =   810
+               List            =   "frmViewer.frx":0486
+               Style           =   2  'Dropdown List
+               TabIndex        =   78
+               Top             =   870
+               Width           =   2715
+            End
+            Begin VB.CommandButton cmdMLHelp 
+               Caption         =   "Help"
+               Height          =   465
+               Left            =   600
+               TabIndex        =   76
+               ToolTipText     =   "Display HELP file"
+               Top             =   5760
+               Width           =   2385
+            End
+            Begin VB.CheckBox cbLabelBlanks 
+               Caption         =   "Add blank line before Labels"
+               Height          =   375
+               Left            =   150
+               TabIndex        =   75
+               Top             =   4140
+               Value           =   1  'Checked
+               Width           =   3285
+            End
+            Begin VB.ComboBox cboPrefix 
+               BackColor       =   &H00000080&
+               CausesValidation=   0   'False
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               ItemData        =   "frmViewer.frx":0498
+               Left            =   1110
+               List            =   "frmViewer.frx":049F
+               Style           =   2  'Dropdown List
+               TabIndex        =   73
+               Top             =   2190
+               Width           =   2415
+            End
+            Begin VB.ComboBox cboTarget 
+               BackColor       =   &H00000080&
+               CausesValidation=   0   'False
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               ItemData        =   "frmViewer.frx":04B1
+               Left            =   810
+               List            =   "frmViewer.frx":04BE
+               Style           =   2  'Dropdown List
+               TabIndex        =   71
+               Top             =   1860
+               Width           =   2715
+            End
+            Begin VB.CommandButton cmdSaveASM 
+               Caption         =   "Save..."
+               Height          =   375
+               Left            =   1050
+               TabIndex        =   67
+               ToolTipText     =   "Save disassembly to file"
+               Top             =   4830
+               Width           =   915
+            End
+            Begin VB.CheckBox cbSpaceRTS 
+               Caption         =   "Add blank line after RTS/RTI instructions"
+               Height          =   375
+               Left            =   150
+               TabIndex        =   66
+               Top             =   3900
+               Value           =   1  'Checked
+               Width           =   3285
+            End
+            Begin VB.CommandButton cmdPurge 
+               Caption         =   "Purge"
+               Height          =   345
+               Left            =   1050
+               TabIndex        =   65
+               ToolTipText     =   "Purge unselected symbol entries"
+               Top             =   5280
+               Width           =   915
+            End
+            Begin VB.CommandButton cmdClrTables 
+               Caption         =   "New"
+               Height          =   315
+               Left            =   2580
+               TabIndex        =   64
+               ToolTipText     =   "Clear Lists and start a new project"
+               Top             =   180
+               Width           =   915
+            End
+            Begin VB.CheckBox cbClearOnLoad 
+               Caption         =   "Clear Lists on Load"
+               Height          =   375
+               Left            =   120
+               TabIndex        =   63
+               ToolTipText     =   "Uncheck if you want to keep existing entries when loading"
+               Top             =   510
+               Value           =   1  'Checked
+               Width           =   1815
+            End
+            Begin VB.CommandButton cmdProjSave 
+               Caption         =   "Save..."
+               Height          =   315
+               Left            =   1050
+               TabIndex        =   62
+               ToolTipText     =   "Save Lists to file"
+               Top             =   180
+               Width           =   915
+            End
+            Begin VB.CommandButton cmdProjLoad 
+               Caption         =   "Load..."
+               Height          =   315
+               Left            =   90
+               TabIndex        =   61
+               ToolTipText     =   "Load Lists from a file"
+               Top             =   180
+               Width           =   915
+            End
+            Begin VB.CommandButton cmdCopyClip2 
+               Caption         =   "Copy To &Clipboard"
+               Height          =   375
+               Left            =   2040
+               TabIndex        =   59
+               ToolTipText     =   "Paste disassembly to clipboard"
+               Top             =   4830
+               Width           =   1455
+            End
+            Begin VB.CheckBox cbEquates 
+               Caption         =   "Show Equates"
+               Height          =   195
+               Left            =   150
+               TabIndex        =   58
+               ToolTipText     =   "Include Equates in output"
+               Top             =   3510
+               Width           =   3105
+            End
+            Begin VB.ComboBox cboMLFmt 
+               BackColor       =   &H00000080&
+               CausesValidation=   0   'False
+               ForeColor       =   &H00FFFFFF&
+               Height          =   315
+               ItemData        =   "frmViewer.frx":04D9
+               Left            =   810
+               List            =   "frmViewer.frx":04EC
+               Style           =   2  'Dropdown List
+               TabIndex        =   56
+               Top             =   1530
+               Width           =   2715
+            End
+            Begin VB.Label Label24 
+               AutoSize        =   -1  'True
+               Caption         =   "Increment:"
+               Height          =   195
+               Left            =   2160
+               TabIndex        =   263
+               Top             =   3210
+               Width           =   750
+            End
+            Begin VB.Label Label23 
+               AutoSize        =   -1  'True
+               Caption         =   "Starring Line#:"
+               Height          =   195
+               Left            =   150
+               TabIndex        =   261
+               Top             =   3210
+               Width           =   1035
+            End
+            Begin VB.Label Label7 
+               AutoSize        =   -1  'True
+               Caption         =   "Inline Comment column:"
+               Height          =   195
+               Left            =   150
+               TabIndex        =   148
+               Top             =   2880
+               Width           =   1680
+            End
+            Begin VB.Label lblChanged 
+               BackColor       =   &H00FFFFFF&
+               BorderStyle     =   1  'Fixed Single
+               Height          =   225
+               Left            =   2160
+               TabIndex        =   107
+               ToolTipText     =   "Project Status (Green=OK, Red=Changed, White=No Project Loaded)"
+               Top             =   240
+               Width           =   225
+            End
+            Begin VB.Label Label16 
+               AutoSize        =   -1  'True
+               Caption         =   "Symbols:"
+               Height          =   195
+               Left            =   330
+               TabIndex        =   105
+               Top             =   5280
+               Width           =   630
+            End
+            Begin VB.Label Label15 
+               AutoSize        =   -1  'True
+               Caption         =   "CPU:"
+               Height          =   195
+               Left            =   390
+               TabIndex        =   83
+               Top             =   1260
+               Width           =   375
+            End
+            Begin VB.Label Label14 
+               AutoSize        =   -1  'True
+               Caption         =   "Comment Divider length:"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   80
+               Top             =   2550
+               Width           =   1725
+            End
+            Begin VB.Label Label13 
+               AutoSize        =   -1  'True
+               Caption         =   "Platform:"
+               Height          =   195
+               Left            =   150
+               TabIndex        =   77
+               Top             =   930
+               Width           =   615
+            End
+            Begin VB.Label Label12 
+               AutoSize        =   -1  'True
+               Caption         =   "Disassembly:"
+               Height          =   195
+               Left            =   90
+               TabIndex        =   74
+               Top             =   4890
+               Width           =   915
+            End
+            Begin VB.Label Label11 
+               AutoSize        =   -1  'True
+               Caption         =   "Label Prefix:"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   72
+               Top             =   2250
+               Width           =   870
+            End
+            Begin VB.Label Label10 
+               AutoSize        =   -1  'True
+               Caption         =   "Target:"
+               Height          =   195
+               Left            =   270
+               TabIndex        =   70
+               Top             =   1920
+               Width           =   510
+            End
+            Begin VB.Label Label4 
+               AutoSize        =   -1  'True
+               Caption         =   "View Fmt:"
+               Height          =   195
+               Left            =   90
+               TabIndex        =   57
+               Top             =   1590
+               Width           =   690
+            End
+         End
+         Begin VB.Frame frTrace 
+            Height          =   4425
+            Left            =   150
+            TabIndex        =   135
+            Top             =   1980
+            Width           =   3675
+            Begin VB.CheckBox cbMLAddLabels 
+               Caption         =   " Add Labels"
+               Height          =   255
+               Left            =   150
+               TabIndex        =   146
+               Top             =   2130
+               Value           =   1  'Checked
+               Width           =   1155
+            End
+            Begin VB.CommandButton cmdAddTables 
+               Caption         =   "Add To Tables"
+               Height          =   645
+               Left            =   120
+               TabIndex        =   138
+               Top             =   1230
+               Visible         =   0   'False
+               Width           =   1125
+            End
+            Begin VB.CommandButton cmdTrace 
+               Caption         =   "START"
+               Height          =   795
+               Left            =   90
+               TabIndex        =   137
+               Top             =   270
+               Width           =   1155
+            End
+            Begin VB.ListBox lstEP 
+               BackColor       =   &H00FFFFFF&
+               CausesValidation=   0   'False
+               BeginProperty Font 
+                  Name            =   "Courier"
+                  Size            =   9.75
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00000000&
+               Height          =   3960
+               ItemData        =   "frmViewer.frx":0541
+               Left            =   1380
+               List            =   "frmViewer.frx":0543
+               Sorted          =   -1  'True
+               TabIndex        =   136
+               Top             =   240
+               Width           =   2160
+            End
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H000000C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "EntryPt"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   2
+            Left            =   60
+            TabIndex        =   144
+            Top             =   540
+            Width           =   720
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H00008000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "TRACER"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   1
+            Left            =   1050
+            TabIndex        =   134
+            Top             =   180
+            Width           =   870
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H00C0C000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Ext JSR"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   8
+            Left            =   2910
+            TabIndex        =   101
+            Top             =   180
+            Width           =   840
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H00C0C000&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Gen Labels"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   7
+            Left            =   1950
+            TabIndex        =   69
+            Top             =   180
+            Width           =   930
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H0000C0C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "PROJECT"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   0
+            Left            =   60
+            TabIndex        =   60
+            Top             =   180
+            Width           =   960
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H000000C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Comments"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   6
+            Left            =   2910
+            TabIndex        =   53
+            Top             =   540
+            Width           =   840
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H000000C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Tables"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   4
+            Left            =   1560
+            TabIndex        =   44
+            Top             =   540
+            Width           =   630
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H000000C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Labels"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   5
+            Left            =   2220
+            TabIndex        =   43
+            Top             =   540
+            Width           =   660
+         End
+         Begin VB.Label lblTView 
+            Alignment       =   2  'Center
+            BackColor       =   &H000000C0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Symbols"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   300
+            Index           =   3
+            Left            =   810
+            TabIndex        =   42
+            Top             =   540
+            Width           =   720
+         End
+      End
+      Begin VB.CheckBox cbAuto 
+         Height          =   195
+         Left            =   900
+         TabIndex        =   39
+         ToolTipText     =   "Automatically Refresh"
+         Top             =   300
+         Value           =   1  'Checked
+         Width           =   195
+      End
+      Begin VB.Image imgShowInfo 
+         Height          =   255
+         Left            =   4410
+         Picture         =   "frmViewer.frx":0545
+         ToolTipText     =   "Toggle Info box"
+         Top             =   270
+         Width           =   255
+      End
+      Begin VB.Image imgBW 
+         Height          =   255
+         Left            =   330
+         Picture         =   "frmViewer.frx":08FB
+         Top             =   240
+         Width           =   255
+      End
+      Begin VB.Label lblShw 
+         Caption         =   ">>"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   90
+         TabIndex        =   38
+         Top             =   240
+         Width           =   255
+      End
+      Begin VB.Label lblGood 
+         BackColor       =   &H0000FFFF&
+         BorderStyle     =   1  'Fixed Single
+         Height          =   225
+         Left            =   630
+         TabIndex        =   26
+         ToolTipText     =   "Disassembly Status (Green=OK, Red=Problems)"
+         Top             =   270
+         Width           =   225
+      End
+      Begin VB.Label lblEA 
+         AutoSize        =   -1  'True
+         Caption         =   "X"
+         Height          =   195
+         Left            =   13050
+         TabIndex        =   25
+         ToolTipText     =   "Address range"
+         Top             =   270
+         Width           =   105
+      End
+   End
    Begin VB.TextBox txtLA 
       BackColor       =   &H00FFFFFF&
       ForeColor       =   &H00000000&
@@ -32,93 +1279,6 @@ Begin VB.Form frmViewer
       Top             =   60
       Value           =   1  'Checked
       Width           =   555
-   End
-   Begin VB.Frame frSEQ 
-      Caption         =   "SEQ Viewer"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   1155
-      Left            =   4110
-      TabIndex        =   8
-      Top             =   3390
-      Visible         =   0   'False
-      Width           =   5610
-      Begin VB.HScrollBar HScroll3 
-         Height          =   285
-         Left            =   3810
-         Max             =   64
-         Min             =   8
-         TabIndex        =   249
-         Top             =   240
-         Value           =   10
-         Width           =   1305
-      End
-      Begin VB.CheckBox cbIgnoreLF 
-         Caption         =   "&Ignore LF"
-         Height          =   195
-         Left            =   2280
-         TabIndex        =   127
-         Top             =   300
-         Value           =   1  'Checked
-         Width           =   1005
-      End
-      Begin VB.CheckBox cbSeqFont 
-         Caption         =   "&Use C64 Font"
-         Height          =   195
-         Left            =   870
-         TabIndex        =   10
-         Top             =   300
-         Width           =   1455
-      End
-      Begin VB.ListBox lstSEQ 
-         BackColor       =   &H00008080&
-         BeginProperty Font 
-            Name            =   "Courier"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   450
-         Left            =   120
-         TabIndex        =   9
-         Top             =   585
-         Width           =   1245
-      End
-      Begin VB.Label lblSEQTheme 
-         Appearance      =   0  'Flat
-         BackColor       =   &H00008080&
-         BorderStyle     =   1  'Fixed Single
-         ForeColor       =   &H80000008&
-         Height          =   285
-         Index           =   1
-         Left            =   450
-         TabIndex        =   133
-         Top             =   240
-         Width           =   285
-      End
-      Begin VB.Label lblSEQTheme 
-         Appearance      =   0  'Flat
-         BackColor       =   &H00FFFFFF&
-         BorderStyle     =   1  'Fixed Single
-         ForeColor       =   &H80000008&
-         Height          =   285
-         Index           =   0
-         Left            =   120
-         TabIndex        =   130
-         Top             =   240
-         Width           =   285
-      End
    End
    Begin VB.Frame frBasic 
       Caption         =   "BASIC Lister"
@@ -183,9 +1343,9 @@ Begin VB.Form frmViewer
          End
          Begin VB.ComboBox cboMode 
             Height          =   315
-            ItemData        =   "frmViewer.frx":0442
+            ItemData        =   "frmViewer.frx":0CB1
             Left            =   930
-            List            =   "frmViewer.frx":0458
+            List            =   "frmViewer.frx":0CC7
             Style           =   2  'Dropdown List
             TabIndex        =   122
             Top             =   0
@@ -498,1108 +1658,6 @@ Begin VB.Form frmViewer
          TabIndex        =   20
          Top             =   480
          Width           =   45
-      End
-   End
-   Begin VB.Frame frML 
-      Caption         =   "Machine Language Disassembler"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   9345
-      Left            =   120
-      TabIndex        =   4
-      Top             =   7260
-      Visible         =   0   'False
-      Width           =   12900
-      Begin VB.CommandButton cmdDTAdd 
-         Caption         =   "Z"
-         Height          =   315
-         Index           =   7
-         Left            =   8610
-         TabIndex        =   156
-         ToolTipText     =   "Make Binary Byte Block"
-         Top             =   210
-         Width           =   315
-      End
-      Begin VB.CommandButton cmdNext 
-         Caption         =   "< ]"
-         Height          =   315
-         Index           =   3
-         Left            =   3930
-         TabIndex        =   155
-         ToolTipText     =   "Bottom Up "
-         Top             =   210
-         Width           =   345
-      End
-      Begin VB.CommandButton cmdNext 
-         Caption         =   "<"
-         Height          =   315
-         Index           =   2
-         Left            =   3630
-         TabIndex        =   154
-         ToolTipText     =   "Next Up"
-         Top             =   210
-         Width           =   285
-      End
-      Begin VB.CommandButton cmdNext 
-         Caption         =   ">"
-         Height          =   315
-         Index           =   1
-         Left            =   3330
-         TabIndex        =   153
-         ToolTipText     =   "Next Down"
-         Top             =   210
-         Width           =   285
-      End
-      Begin VB.Frame frInfo 
-         Height          =   525
-         Left            =   3990
-         TabIndex        =   151
-         Top             =   570
-         Width           =   8715
-         Begin VB.Label lblInfo 
-            BackColor       =   &H00000080&
-            BackStyle       =   0  'Transparent
-            Caption         =   "Click table entry for info"
-            BeginProperty Font 
-               Name            =   "Courier"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00000000&
-            Height          =   225
-            Left            =   120
-            TabIndex        =   152
-            Top             =   180
-            Width           =   8430
-         End
-      End
-      Begin VB.CommandButton cmdAddEP 
-         Caption         =   "EntryPt"
-         Height          =   315
-         Left            =   5520
-         TabIndex        =   150
-         ToolTipText     =   "Add Label"
-         Top             =   210
-         Width           =   675
-      End
-      Begin VB.CommandButton cmdDTAdd 
-         Caption         =   "X"
-         Height          =   315
-         Index           =   6
-         Left            =   8280
-         TabIndex        =   147
-         ToolTipText     =   "Make Hidden Block"
-         Top             =   210
-         Width           =   315
-      End
-      Begin VB.CommandButton cmdAddComment 
-         Caption         =   "*C*"
-         Height          =   315
-         Index           =   4
-         Left            =   10920
-         TabIndex        =   100
-         ToolTipText     =   "Add Comment with * Separator"
-         Top             =   210
-         Width           =   405
-      End
-      Begin VB.CommandButton cmdAddComment 
-         Caption         =   "***"
-         Height          =   315
-         HelpContextID   =   7
-         Index           =   7
-         Left            =   12180
-         TabIndex        =   99
-         ToolTipText     =   "Add * Separator"
-         Top             =   210
-         Width           =   405
-      End
-      Begin VB.CommandButton cmdDTAdd 
-         Caption         =   "W"
-         Height          =   315
-         Index           =   5
-         Left            =   7950
-         TabIndex        =   98
-         ToolTipText     =   "Make Word Block"
-         Top             =   210
-         Width           =   315
-      End
-      Begin VB.CommandButton cmdAddLabel 
-         Caption         =   "Label"
-         Height          =   315
-         Left            =   4830
-         TabIndex        =   97
-         ToolTipText     =   "Add Label"
-         Top             =   210
-         Width           =   645
-      End
-      Begin VB.CommandButton cmdAddComment 
-         Caption         =   "==="
-         Height          =   315
-         Index           =   6
-         Left            =   11760
-         TabIndex        =   96
-         ToolTipText     =   "Add = Separator"
-         Top             =   210
-         Width           =   405
-      End
-      Begin VB.CommandButton cmdAddComment 
-         Caption         =   "----"
-         Height          =   315
-         Index           =   5
-         Left            =   11340
-         TabIndex        =   95
-         ToolTipText     =   "Add - Separator"
-         Top             =   210
-         Width           =   405
-      End
-      Begin VB.CommandButton cmdAddComment 
-         Caption         =   "=C="
-         Height          =   315
-         Index           =   3
-         Left            =   10500
-         TabIndex        =   94
-         ToolTipText     =   "Add Comment with = Separator"
-         Top             =   210
-         Width           =   405
-      End
-      Begin VB.CommandButton cmdAddComment 
-         Caption         =   "--C--"
-         Height          =   315
-         Index           =   2
-         Left            =   10080
-         TabIndex        =   93
-         ToolTipText     =   "Add Comment with - Separator"
-         Top             =   210
-         Width           =   405
-      End
-      Begin VB.CommandButton cmdAddComment 
-         Caption         =   "C"
-         Height          =   315
-         Index           =   1
-         Left            =   9660
-         TabIndex        =   92
-         ToolTipText     =   "Add Standalone Comment"
-         Top             =   210
-         Width           =   405
-      End
-      Begin VB.CommandButton cmdAddComment 
-         Caption         =   ";C"
-         Height          =   315
-         Index           =   0
-         Left            =   9240
-         TabIndex        =   91
-         ToolTipText     =   "Add Inline Comment"
-         Top             =   210
-         Width           =   405
-      End
-      Begin VB.CommandButton cmdDTAdd 
-         Caption         =   "V"
-         Height          =   315
-         Index           =   4
-         Left            =   7620
-         TabIndex        =   90
-         ToolTipText     =   "Make Vector Block"
-         Top             =   210
-         Width           =   315
-      End
-      Begin VB.CommandButton cmdDTAdd 
-         Caption         =   "R"
-         Height          =   315
-         Index           =   3
-         Left            =   7290
-         TabIndex        =   89
-         ToolTipText     =   "Make RTS vector block"
-         Top             =   210
-         Width           =   315
-      End
-      Begin VB.CommandButton cmdDTAdd 
-         Caption         =   "T"
-         Height          =   315
-         Index           =   2
-         Left            =   6960
-         TabIndex        =   88
-         ToolTipText     =   "Make Text Block"
-         Top             =   210
-         Width           =   315
-      End
-      Begin VB.CommandButton cmdDTAdd 
-         Caption         =   "H"
-         Height          =   315
-         Index           =   1
-         Left            =   6630
-         TabIndex        =   87
-         ToolTipText     =   "Make Hex Block"
-         Top             =   210
-         Width           =   315
-      End
-      Begin VB.CommandButton cmdDTAdd 
-         Caption         =   "D"
-         Height          =   315
-         Index           =   0
-         Left            =   6300
-         TabIndex        =   86
-         ToolTipText     =   "Make Dec Byte Block"
-         Top             =   210
-         Width           =   315
-      End
-      Begin VB.CommandButton cmdFindAll 
-         Caption         =   "All"
-         Height          =   315
-         Left            =   2580
-         TabIndex        =   40
-         ToolTipText     =   "Find all occurences"
-         Top             =   210
-         Width           =   375
-      End
-      Begin VB.CommandButton cmdNext 
-         Caption         =   "[ >"
-         Height          =   315
-         Index           =   0
-         Left            =   2970
-         TabIndex        =   31
-         ToolTipText     =   "Top Down"
-         Top             =   210
-         Width           =   345
-      End
-      Begin VB.CommandButton cmdFind 
-         Caption         =   "Find"
-         Height          =   315
-         Left            =   1980
-         TabIndex        =   30
-         ToolTipText     =   "Find Text"
-         Top             =   210
-         Width           =   555
-      End
-      Begin VB.CommandButton cmdRefresh 
-         Caption         =   "Refresh"
-         Height          =   315
-         Left            =   1140
-         TabIndex        =   27
-         Top             =   210
-         Width           =   705
-      End
-      Begin VB.ListBox lstML 
-         BackColor       =   &H00FFFFFF&
-         BeginProperty Font 
-            Name            =   "Courier"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   450
-         Left            =   3990
-         MultiSelect     =   2  'Extended
-         TabIndex        =   5
-         Top             =   1200
-         Width           =   1275
-      End
-      Begin VB.Frame frTView 
-         Height          =   8625
-         Left            =   90
-         TabIndex        =   41
-         Top             =   570
-         Width           =   3825
-         Begin VB.Frame frMLSettings 
-            Height          =   6345
-            Left            =   1680
-            TabIndex        =   55
-            Top             =   2430
-            Width           =   3615
-            Begin VB.TextBox txtInlineCol 
-               BackColor       =   &H00000080&
-               ForeColor       =   &H00FFFFFF&
-               Height          =   315
-               Left            =   1920
-               MaxLength       =   2
-               TabIndex        =   149
-               Text            =   "50"
-               Top             =   2850
-               Width           =   345
-            End
-            Begin VB.CommandButton cmdImport 
-               Caption         =   "Import"
-               Height          =   345
-               Left            =   2040
-               TabIndex        =   106
-               ToolTipText     =   "Import Symbols"
-               Top             =   4680
-               Width           =   1455
-            End
-            Begin VB.CheckBox cbIncSym 
-               Caption         =   "Include Symbol comments"
-               Height          =   375
-               Left            =   150
-               TabIndex        =   85
-               Top             =   3900
-               Value           =   1  'Checked
-               Width           =   3255
-            End
-            Begin VB.ComboBox cboCPUFile 
-               BackColor       =   &H00FFFFFF&
-               CausesValidation=   0   'False
-               ForeColor       =   &H00000000&
-               Height          =   315
-               ItemData        =   "frmViewer.frx":04C9
-               Left            =   2370
-               List            =   "frmViewer.frx":04CB
-               Style           =   2  'Dropdown List
-               TabIndex        =   84
-               Top             =   2820
-               Visible         =   0   'False
-               Width           =   1305
-            End
-            Begin VB.ComboBox cboCPU 
-               BackColor       =   &H00000080&
-               CausesValidation=   0   'False
-               ForeColor       =   &H00FFFFFF&
-               Height          =   315
-               ItemData        =   "frmViewer.frx":04CD
-               Left            =   810
-               List            =   "frmViewer.frx":04D4
-               Style           =   2  'Dropdown List
-               TabIndex        =   82
-               Top             =   1200
-               Width           =   2715
-            End
-            Begin VB.TextBox txtDivLen 
-               BackColor       =   &H00000080&
-               ForeColor       =   &H00FFFFFF&
-               Height          =   315
-               Left            =   1920
-               MaxLength       =   2
-               TabIndex        =   81
-               Text            =   "80"
-               Top             =   2520
-               Width           =   345
-            End
-            Begin VB.ComboBox cboPlatFile 
-               BackColor       =   &H00FFFFFF&
-               CausesValidation=   0   'False
-               ForeColor       =   &H00000000&
-               Height          =   315
-               ItemData        =   "frmViewer.frx":04E6
-               Left            =   2370
-               List            =   "frmViewer.frx":04E8
-               Style           =   2  'Dropdown List
-               TabIndex        =   79
-               Top             =   2520
-               Visible         =   0   'False
-               Width           =   1305
-            End
-            Begin VB.ComboBox cboPlatform 
-               BackColor       =   &H00000080&
-               CausesValidation=   0   'False
-               ForeColor       =   &H00FFFFFF&
-               Height          =   315
-               ItemData        =   "frmViewer.frx":04EA
-               Left            =   810
-               List            =   "frmViewer.frx":04F1
-               Style           =   2  'Dropdown List
-               TabIndex        =   78
-               Top             =   870
-               Width           =   2715
-            End
-            Begin VB.CommandButton cmdMLHelp 
-               Caption         =   "Help"
-               Height          =   465
-               Left            =   600
-               TabIndex        =   76
-               ToolTipText     =   "Display HELP file"
-               Top             =   5190
-               Width           =   2385
-            End
-            Begin VB.CheckBox cbLabelBlanks 
-               Caption         =   "Add blank line before Labels"
-               Height          =   375
-               Left            =   150
-               TabIndex        =   75
-               Top             =   3630
-               Value           =   1  'Checked
-               Width           =   3285
-            End
-            Begin VB.ComboBox cboPrefix 
-               BackColor       =   &H00000080&
-               CausesValidation=   0   'False
-               ForeColor       =   &H00FFFFFF&
-               Height          =   315
-               ItemData        =   "frmViewer.frx":0503
-               Left            =   1110
-               List            =   "frmViewer.frx":050A
-               Style           =   2  'Dropdown List
-               TabIndex        =   73
-               Top             =   2190
-               Width           =   2415
-            End
-            Begin VB.ComboBox cboTarget 
-               BackColor       =   &H00000080&
-               CausesValidation=   0   'False
-               ForeColor       =   &H00FFFFFF&
-               Height          =   315
-               ItemData        =   "frmViewer.frx":051C
-               Left            =   810
-               List            =   "frmViewer.frx":0529
-               Style           =   2  'Dropdown List
-               TabIndex        =   71
-               Top             =   1860
-               Width           =   2715
-            End
-            Begin VB.CommandButton cmdSaveASM 
-               Caption         =   "Save..."
-               Height          =   375
-               Left            =   1050
-               TabIndex        =   67
-               ToolTipText     =   "Save disassembly to file"
-               Top             =   4260
-               Width           =   915
-            End
-            Begin VB.CheckBox cbSpaceRTS 
-               Caption         =   "Add blank line after RTS/RTI instructions"
-               Height          =   375
-               Left            =   150
-               TabIndex        =   66
-               Top             =   3360
-               Value           =   1  'Checked
-               Width           =   3285
-            End
-            Begin VB.CommandButton cmdPurge 
-               Caption         =   "Purge"
-               Height          =   345
-               Left            =   1050
-               TabIndex        =   65
-               ToolTipText     =   "Purge unselected symbol entries"
-               Top             =   4680
-               Width           =   915
-            End
-            Begin VB.CommandButton cmdClrTables 
-               Caption         =   "New"
-               Height          =   315
-               Left            =   2580
-               TabIndex        =   64
-               ToolTipText     =   "Clear Lists and start a new project"
-               Top             =   180
-               Width           =   915
-            End
-            Begin VB.CheckBox cbClearOnLoad 
-               Caption         =   "Clear Lists on Load"
-               Height          =   375
-               Left            =   120
-               TabIndex        =   63
-               ToolTipText     =   "Uncheck if you want to keep existing entries when loading"
-               Top             =   510
-               Value           =   1  'Checked
-               Width           =   1815
-            End
-            Begin VB.CommandButton cmdProjSave 
-               Caption         =   "Save..."
-               Height          =   315
-               Left            =   1050
-               TabIndex        =   62
-               ToolTipText     =   "Save Lists to file"
-               Top             =   180
-               Width           =   915
-            End
-            Begin VB.CommandButton cmdProjLoad 
-               Caption         =   "Load..."
-               Height          =   315
-               Left            =   90
-               TabIndex        =   61
-               ToolTipText     =   "Load Lists from a file"
-               Top             =   180
-               Width           =   915
-            End
-            Begin VB.CommandButton cmdCopyClip2 
-               Caption         =   "Copy To &Clipboard"
-               Height          =   375
-               Left            =   2040
-               TabIndex        =   59
-               ToolTipText     =   "Paste disassembly to clipboard"
-               Top             =   4260
-               Width           =   1455
-            End
-            Begin VB.CheckBox cbEquates 
-               Caption         =   "Show Equates"
-               Height          =   195
-               Left            =   150
-               TabIndex        =   58
-               ToolTipText     =   "Include Equates in output"
-               Top             =   3180
-               Width           =   1515
-            End
-            Begin VB.ComboBox cboMLFmt 
-               BackColor       =   &H00000080&
-               CausesValidation=   0   'False
-               ForeColor       =   &H00FFFFFF&
-               Height          =   315
-               ItemData        =   "frmViewer.frx":0544
-               Left            =   810
-               List            =   "frmViewer.frx":0557
-               Style           =   2  'Dropdown List
-               TabIndex        =   56
-               Top             =   1530
-               Width           =   2715
-            End
-            Begin VB.Label Label7 
-               AutoSize        =   -1  'True
-               Caption         =   "Inline Comment column:"
-               Height          =   195
-               Left            =   150
-               TabIndex        =   148
-               Top             =   2880
-               Width           =   1680
-            End
-            Begin VB.Label lblChanged 
-               BackColor       =   &H00FFFFFF&
-               BorderStyle     =   1  'Fixed Single
-               Height          =   225
-               Left            =   2160
-               TabIndex        =   107
-               ToolTipText     =   "Project Status (Green=OK, Red=Changed, White=No Project Loaded)"
-               Top             =   240
-               Width           =   225
-            End
-            Begin VB.Label Label16 
-               AutoSize        =   -1  'True
-               Caption         =   "Symbols:"
-               Height          =   195
-               Left            =   330
-               TabIndex        =   105
-               Top             =   4710
-               Width           =   630
-            End
-            Begin VB.Label Label15 
-               AutoSize        =   -1  'True
-               Caption         =   "CPU:"
-               Height          =   195
-               Left            =   390
-               TabIndex        =   83
-               Top             =   1260
-               Width           =   375
-            End
-            Begin VB.Label Label14 
-               AutoSize        =   -1  'True
-               Caption         =   "Comment Divider length:"
-               Height          =   195
-               Left            =   120
-               TabIndex        =   80
-               Top             =   2550
-               Width           =   1725
-            End
-            Begin VB.Label Label13 
-               AutoSize        =   -1  'True
-               Caption         =   "Platform:"
-               Height          =   195
-               Left            =   150
-               TabIndex        =   77
-               Top             =   930
-               Width           =   615
-            End
-            Begin VB.Label Label12 
-               AutoSize        =   -1  'True
-               Caption         =   "Disassembly:"
-               Height          =   195
-               Left            =   90
-               TabIndex        =   74
-               Top             =   4320
-               Width           =   915
-            End
-            Begin VB.Label Label11 
-               AutoSize        =   -1  'True
-               Caption         =   "Label Prefix:"
-               Height          =   195
-               Left            =   120
-               TabIndex        =   72
-               Top             =   2250
-               Width           =   870
-            End
-            Begin VB.Label Label10 
-               AutoSize        =   -1  'True
-               Caption         =   "Target:"
-               Height          =   195
-               Left            =   270
-               TabIndex        =   70
-               Top             =   1920
-               Width           =   510
-            End
-            Begin VB.Label Label4 
-               AutoSize        =   -1  'True
-               Caption         =   "View Fmt:"
-               Height          =   195
-               Left            =   90
-               TabIndex        =   57
-               Top             =   1590
-               Width           =   690
-            End
-         End
-         Begin VB.ListBox lstEntryPt 
-            BackColor       =   &H00000080&
-            BeginProperty Font 
-               Name            =   "Courier"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00FFFFFF&
-            Height          =   255
-            ItemData        =   "frmViewer.frx":05AC
-            Left            =   90
-            List            =   "frmViewer.frx":05AE
-            TabIndex        =   145
-            Top             =   1590
-            Width           =   705
-         End
-         Begin VB.Frame frTrace 
-            Height          =   4425
-            Left            =   150
-            TabIndex        =   135
-            Top             =   1980
-            Width           =   3675
-            Begin VB.CheckBox cbMLAddLabels 
-               Caption         =   " Add Labels"
-               Height          =   255
-               Left            =   150
-               TabIndex        =   146
-               Top             =   2130
-               Value           =   1  'Checked
-               Width           =   1155
-            End
-            Begin VB.CommandButton cmdAddTables 
-               Caption         =   "Add To Tables"
-               Height          =   645
-               Left            =   120
-               TabIndex        =   138
-               Top             =   1230
-               Visible         =   0   'False
-               Width           =   1125
-            End
-            Begin VB.CommandButton cmdTrace 
-               Caption         =   "START"
-               Height          =   795
-               Left            =   90
-               TabIndex        =   137
-               Top             =   270
-               Width           =   1155
-            End
-            Begin VB.ListBox lstEP 
-               BackColor       =   &H00FFFFFF&
-               CausesValidation=   0   'False
-               BeginProperty Font 
-                  Name            =   "Courier"
-                  Size            =   9.75
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H00000000&
-               Height          =   3960
-               ItemData        =   "frmViewer.frx":05B0
-               Left            =   1380
-               List            =   "frmViewer.frx":05B2
-               Sorted          =   -1  'True
-               TabIndex        =   136
-               Top             =   240
-               Width           =   2160
-            End
-         End
-         Begin VB.ListBox lstJSR 
-            BackColor       =   &H00C0C000&
-            CausesValidation=   0   'False
-            BeginProperty Font 
-               Name            =   "Courier"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00000000&
-            Height          =   255
-            ItemData        =   "frmViewer.frx":05B4
-            Left            =   2940
-            List            =   "frmViewer.frx":05B6
-            Sorted          =   -1  'True
-            TabIndex        =   102
-            Top             =   1320
-            Visible         =   0   'False
-            Width           =   750
-         End
-         Begin VB.ListBox lstLabels 
-            BackColor       =   &H00C0C000&
-            BeginProperty Font 
-               Name            =   "Courier"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H80000001&
-            Height          =   255
-            ItemData        =   "frmViewer.frx":05B8
-            Left            =   1980
-            List            =   "frmViewer.frx":05BA
-            MultiSelect     =   2  'Extended
-            Sorted          =   -1  'True
-            TabIndex        =   68
-            Top             =   1320
-            Visible         =   0   'False
-            Width           =   855
-         End
-         Begin VB.ListBox lstCmnt 
-            BackColor       =   &H00000080&
-            CausesValidation=   0   'False
-            BeginProperty Font 
-               Name            =   "Courier"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00FFFFFF&
-            Height          =   255
-            ItemData        =   "frmViewer.frx":05BC
-            Left            =   2940
-            List            =   "frmViewer.frx":05BE
-            Sorted          =   -1  'True
-            TabIndex        =   54
-            Top             =   1590
-            Visible         =   0   'False
-            Width           =   720
-         End
-         Begin VB.ListBox lstULabels 
-            BackColor       =   &H00000080&
-            CausesValidation=   0   'False
-            BeginProperty Font 
-               Name            =   "Courier"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00FFFFFF&
-            Height          =   255
-            ItemData        =   "frmViewer.frx":05C0
-            Left            =   2190
-            List            =   "frmViewer.frx":05C2
-            Sorted          =   -1  'True
-            TabIndex        =   52
-            Top             =   1590
-            Visible         =   0   'False
-            Width           =   690
-         End
-         Begin VB.ListBox lstDT 
-            BackColor       =   &H00000080&
-            CausesValidation=   0   'False
-            BeginProperty Font 
-               Name            =   "Courier"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00FFFFFF&
-            Height          =   285
-            ItemData        =   "frmViewer.frx":05C4
-            Left            =   1530
-            List            =   "frmViewer.frx":05C6
-            Sorted          =   -1  'True
-            Style           =   1  'Checkbox
-            TabIndex        =   51
-            Top             =   1590
-            Visible         =   0   'False
-            Width           =   660
-         End
-         Begin VB.ListBox lstSYM 
-            BackColor       =   &H00000080&
-            CausesValidation=   0   'False
-            BeginProperty Font 
-               Name            =   "Courier"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00FFFFFF&
-            Height          =   285
-            ItemData        =   "frmViewer.frx":05C8
-            Left            =   840
-            List            =   "frmViewer.frx":05CA
-            Sorted          =   -1  'True
-            Style           =   1  'Checkbox
-            TabIndex        =   50
-            Top             =   1590
-            Visible         =   0   'False
-            Width           =   690
-         End
-         Begin VB.CommandButton cmdSymAdd 
-            Caption         =   "Add"
-            Height          =   315
-            Left            =   2070
-            TabIndex        =   49
-            ToolTipText     =   "Add an entry"
-            Top             =   930
-            Width           =   495
-         End
-         Begin VB.CommandButton cmdSymDel 
-            Caption         =   "Del"
-            Height          =   315
-            Left            =   2610
-            TabIndex        =   48
-            ToolTipText     =   "Delete current entry"
-            Top             =   930
-            Width           =   495
-         End
-         Begin VB.CommandButton cmdSYMGoto 
-            Caption         =   "Find"
-            Height          =   315
-            Left            =   3180
-            TabIndex        =   47
-            ToolTipText     =   "Find Selected"
-            Top             =   930
-            Width           =   555
-         End
-         Begin VB.CommandButton cmdSymSave 
-            Caption         =   "Save"
-            Height          =   315
-            Left            =   690
-            TabIndex        =   46
-            ToolTipText     =   "Save file"
-            Top             =   930
-            Width           =   555
-         End
-         Begin VB.CommandButton cmdSymLoad 
-            Caption         =   "Load"
-            Height          =   315
-            Left            =   90
-            TabIndex        =   45
-            ToolTipText     =   "Load a file"
-            Top             =   930
-            Width           =   555
-         End
-         Begin VB.CommandButton cmdRemDupLbls 
-            Caption         =   "Remove Duplicates"
-            Height          =   315
-            Left            =   90
-            TabIndex        =   104
-            ToolTipText     =   "Remove Duplicate Entries"
-            Top             =   930
-            Width           =   1845
-         End
-         Begin VB.CommandButton cmdRemDupJSR 
-            Caption         =   "Remove Duplicates"
-            Height          =   315
-            Left            =   90
-            TabIndex        =   103
-            ToolTipText     =   "Remove Duplicate Entries"
-            Top             =   930
-            Width           =   1845
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H000000C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "Entry Pt"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   2
-            Left            =   60
-            TabIndex        =   144
-            Top             =   540
-            Width           =   720
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H00008000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "TRACER"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   1
-            Left            =   1050
-            TabIndex        =   134
-            Top             =   180
-            Width           =   870
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H00C0C000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "Ext JSR"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   8
-            Left            =   2910
-            TabIndex        =   101
-            Top             =   180
-            Width           =   840
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H00C0C000&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "Gen Labels"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   7
-            Left            =   1950
-            TabIndex        =   69
-            Top             =   180
-            Width           =   930
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H0000C0C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "PROJECT"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   0
-            Left            =   60
-            TabIndex        =   60
-            Top             =   180
-            Width           =   960
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H000000C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "Comments"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   6
-            Left            =   2910
-            TabIndex        =   53
-            Top             =   540
-            Width           =   840
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H000000C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "Tables"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   4
-            Left            =   1560
-            TabIndex        =   44
-            Top             =   540
-            Width           =   630
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H000000C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "Labels"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   5
-            Left            =   2220
-            TabIndex        =   43
-            Top             =   540
-            Width           =   660
-         End
-         Begin VB.Label lblTView 
-            Alignment       =   2  'Center
-            BackColor       =   &H000000C0&
-            BorderStyle     =   1  'Fixed Single
-            Caption         =   "Symbols"
-            ForeColor       =   &H00FFFFFF&
-            Height          =   300
-            Index           =   3
-            Left            =   810
-            TabIndex        =   42
-            Top             =   540
-            Width           =   720
-         End
-      End
-      Begin VB.CheckBox cbAuto 
-         Height          =   195
-         Left            =   900
-         TabIndex        =   39
-         ToolTipText     =   "Automatically Refresh"
-         Top             =   300
-         Value           =   1  'Checked
-         Width           =   195
-      End
-      Begin VB.Image imgShowInfo 
-         Height          =   255
-         Left            =   4410
-         Picture         =   "frmViewer.frx":05CC
-         ToolTipText     =   "Toggle Info box"
-         Top             =   270
-         Width           =   255
-      End
-      Begin VB.Image imgBW 
-         Height          =   255
-         Left            =   330
-         Picture         =   "frmViewer.frx":0982
-         Top             =   240
-         Width           =   255
-      End
-      Begin VB.Label lblShw 
-         Caption         =   ">>"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   90
-         TabIndex        =   38
-         Top             =   240
-         Width           =   255
-      End
-      Begin VB.Label lblGood 
-         BackColor       =   &H0000FFFF&
-         BorderStyle     =   1  'Fixed Single
-         Height          =   225
-         Left            =   630
-         TabIndex        =   26
-         ToolTipText     =   "Disassembly Status (Green=OK, Red=Problems)"
-         Top             =   270
-         Width           =   225
-      End
-      Begin VB.Label lblEA 
-         AutoSize        =   -1  'True
-         Caption         =   "X"
-         Height          =   195
-         Left            =   12750
-         TabIndex        =   25
-         ToolTipText     =   "Address range"
-         Top             =   270
-         Width           =   105
       End
    End
    Begin VB.Frame frBIN 
@@ -2224,9 +2282,9 @@ Begin VB.Form frmViewer
             BackColor       =   &H80000003&
             Caption         =   "M"
             Height          =   1695
-            Left            =   90
+            Left            =   180
             TabIndex        =   222
-            Top             =   4770
+            Top             =   4620
             Width           =   1995
             WordWrap        =   -1  'True
          End
@@ -2655,6 +2713,93 @@ Begin VB.Form frmViewer
          Width           =   255
       End
    End
+   Begin VB.Frame frSEQ 
+      Caption         =   "SEQ Viewer"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   1155
+      Left            =   4110
+      TabIndex        =   8
+      Top             =   3390
+      Visible         =   0   'False
+      Width           =   5610
+      Begin VB.HScrollBar HScroll3 
+         Height          =   285
+         Left            =   3810
+         Max             =   64
+         Min             =   8
+         TabIndex        =   249
+         Top             =   240
+         Value           =   10
+         Width           =   1305
+      End
+      Begin VB.CheckBox cbIgnoreLF 
+         Caption         =   "&Ignore LF"
+         Height          =   195
+         Left            =   2280
+         TabIndex        =   127
+         Top             =   300
+         Value           =   1  'Checked
+         Width           =   1005
+      End
+      Begin VB.CheckBox cbSeqFont 
+         Caption         =   "&Use C64 Font"
+         Height          =   195
+         Left            =   870
+         TabIndex        =   10
+         Top             =   300
+         Width           =   1455
+      End
+      Begin VB.ListBox lstSEQ 
+         BackColor       =   &H00008080&
+         BeginProperty Font 
+            Name            =   "Courier"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   450
+         Left            =   120
+         TabIndex        =   9
+         Top             =   585
+         Width           =   1245
+      End
+      Begin VB.Label lblSEQTheme 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00008080&
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H80000008&
+         Height          =   285
+         Index           =   1
+         Left            =   450
+         TabIndex        =   133
+         Top             =   240
+         Width           =   285
+      End
+      Begin VB.Label lblSEQTheme 
+         Appearance      =   0  'Flat
+         BackColor       =   &H00FFFFFF&
+         BorderStyle     =   1  'Fixed Single
+         ForeColor       =   &H80000008&
+         Height          =   285
+         Index           =   0
+         Left            =   120
+         TabIndex        =   130
+         Top             =   240
+         Width           =   285
+      End
+   End
    Begin VB.Shape shOverflow 
       FillColor       =   &H000000FF&
       FillStyle       =   0  'Solid
@@ -2948,6 +3093,25 @@ Public OpCodeFlag As Boolean, ShowTables As Boolean
 Public DOTORG As String, DOTWORD As String, DOTBYTE As String, DOTTEXT As String
 Public LPrefix As String, ProjFilename As String
 
+Private Sub cmdBCancel_Click()
+    frBlock.Visible = False
+End Sub
+
+Private Sub cmdSaveBlock_Click()
+    Dim Tmp As String, V As Integer
+   
+    
+    If lblCPos.Caption <> "" Then
+        V = Val(lblCPos.Caption)
+        lstCmnt.RemoveItem V 'Remove the previous comment first
+    End If
+    
+    Tmp = Replace(txtBlock.Text, Cr & LF, ";")                   'Replace CR+LF with ";"
+    lstCmnt.AddItem lblBlockAddress.Caption & ",[," & Tmp   'Add it
+    frBlock.Visible = False
+    
+    MLReViewC
+End Sub
 
 '---- Load the Form
 Private Sub Form_Load()
@@ -3280,6 +3444,10 @@ Sub SetFrame(ByVal n As Integer, ByVal l As Single, ByVal T As Single, ByVal W A
             frInfo.Move LL, T + 145, WW                         'Position Info frame
             lblInfo.Width = WW - 240                            'Size the Info text area
             lstML.Move LL, TT, WW, HH                           'Position The output list
+            
+            frBlock.Move LL, TT, WW, HH                         'Make Block Comment frame equal to ML list
+            txtBlock.Width = WW - 300
+            txtBlock.Height = HH - 900
             
             If ShowTables = True Then
                 LL = 60: TT = 1320: WW = 3825: HH = H3 - TT - 60: W4 = WW - 120
@@ -3645,8 +3813,8 @@ Private Sub cmdSave_Click()
     
     FIO = FreeFile
     Open Filename For Output As FIO
-    For j = 0 To lstBAS.ListCount - 1
-        Print #FIO, lstBAS.List(j)
+    For J = 0 To lstBAS.ListCount - 1
+        Print #FIO, lstBAS.List(J)
     Next
     Close FIO
     ChDir Exepath
@@ -3656,11 +3824,11 @@ End Sub
 
 '---- Copy BASIC listing to clipboard
 Private Sub cmdCpyClip_Click()
-    Dim j As Integer, Tmp As String
+    Dim J As Integer, Tmp As String
     
-    For j = 0 To lstBAS.ListCount - 1
-        Tmp = Tmp & lstBAS.List(j) & vbCrLf
-    Next j
+    For J = 0 To lstBAS.ListCount - 1
+        Tmp = Tmp & lstBAS.List(J) & vbCrLf
+    Next J
     
     Clipboard.Clear
     Clipboard.SetText Tmp
@@ -3780,7 +3948,7 @@ End Sub
 '---- Draws the Complete Character Set
 ' Uses offset, BorderFlag,OutlineFlag,Zoom and selected colours
 Public Sub DrawChrSet()
-    Dim j As Integer, k As Integer, X As Integer, Y As Integer, V As Integer, TopX As Integer, TopY As Integer
+    Dim J As Integer, k As Integer, X As Integer, Y As Integer, V As Integer, TopX As Integer, TopY As Integer
     Dim R As Integer, C As Integer, MaxR As Integer, MaxC As Integer, MaxH As Integer
     Dim CZ As Integer, RZ As Integer, PZ As Integer 'zoomed size
     Dim ChrNum As Integer, OutFlag As Boolean
@@ -3828,8 +3996,8 @@ Public Sub DrawChrSet()
     
     CCZ = TopX: RRZ = TopY
     
-    For j = FontOffset + 1 To VLen
-        V = Asc(Mid(VBuf, j, 1))
+    For J = FontOffset + 1 To VLen
+        V = Asc(Mid(VBuf, J, 1))
         '----paintpicture {srceimg},destX,destY,destW,destH ,srcX,srcY,srcW,srcH,mode
         If (RangeFlag = True) And (ChrNum >= SelChr) And (ChrNum <= SelChr2) Then
             picV.PaintPicture Pix.Image, CCZ, RRZ + Y * ChrZoom, PZ, ChrZoom, 0, V, 8, 1, vbNotSrcCopy  'blit the pixels - Selected character
@@ -3848,7 +4016,7 @@ Public Sub DrawChrSet()
             RRZ = TopY + R * RZ 'speed up
         End If
         If R > MaxR Then Exit For
-    Next j
+    Next J
     
     If R < MaxR Then
         If R = 0 Then R = 1                                     'Fix if single row
@@ -3856,7 +4024,7 @@ Public Sub DrawChrSet()
     End If
     
     DoEvents
-    lblEndRange.Caption = "to" & Str(j)
+    lblEndRange.Caption = "to" & Str(J)
     picV.Visible = True
     DoEvents
     
@@ -4004,7 +4172,7 @@ End Sub
 ' If multicolour mode is disabled then is used the foreground (0) and backgound colour (1)
 ' If Multicolour mode is enabled it uses 4 pairs of pixels to determine colour (0 to 3)
 Public Sub CreatePixels()
-    Dim j As Integer, k As Integer, CI As Integer
+    Dim J As Integer, k As Integer, CI As Integer
     Dim MC(3) As Long               'Array to hold multicolour values
     
     MC(0) = lblTheme(1).BackColor   'Background colour
@@ -4018,23 +4186,23 @@ Public Sub CreatePixels()
         
     If MCFlag = True Then
         '-- Create a 4-colour bitmap with pixels to match binary representation of pixel pairs (row=value,cols 0 to 7=pixel)
-        For j = 0 To 255
+        For J = 0 To 255
             For k = 0 To 7 Step 2
                 CI = 0                                      'Colour Index
-                If (j And Pow(k)) Then CI = CI + 2          'Check first bit
-                If (j And Pow(k + 1)) Then CI = CI + 1      'Check second bit
+                If (J And Pow(k)) Then CI = CI + 2          'Check first bit
+                If (J And Pow(k + 1)) Then CI = CI + 1      'Check second bit
                 Pix.ForeColor = MC(CI)                      'Set the colour of the pixel to draw
-                Pix.PSet (7 - k, j)                         'Set the first pixel
-                Pix.PSet (6 - k, j)                         'Set the second pixel
+                Pix.PSet (7 - k, J)                         'Set the first pixel
+                Pix.PSet (6 - k, J)                         'Set the second pixel
             Next k
-        Next j
+        Next J
     Else
         '-- Create a 2-colour bitmap with pixels to match binary representation of value (row=value,cols 0 to 7=pixel)
-        For j = 0 To 255
+        For J = 0 To 255
             For k = 0 To 7
-                If (j And Pow(k)) Then Pix.PSet (7 - k, j)
+                If (J And Pow(k)) Then Pix.PSet (7 - k, J)
             Next k
-        Next j
+        Next J
     End If
     
     BitFlag = False                                         'Bitmaps are created
@@ -4223,7 +4391,7 @@ Private Sub SaveFont(ByVal Mode As Integer)
 End Sub
 '---- Edit the Selected Character
 Private Sub picChr_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Dim R As Integer, C As Integer, bv As Integer, nv As Integer, TV As Integer, p As Integer
+    Dim R As Integer, C As Integer, bv As Integer, nv As Integer, TV As Integer, P As Integer
     Dim PP As Integer
     
     If ChrEditMode = False Then Exit Sub
@@ -4242,12 +4410,12 @@ Private Sub picChr_MouseDown(Button As Integer, Shift As Integer, X As Single, Y
     '-- Edit Pixel
     PP = FontOffset + ChrPos + R                    'Position of byte to update
     bv = Asc(Mid(VBuf, PP, 1))                  'Get byte for row
-    p = Pow(7 - C)                              'Get pixel bit value
+    P = Pow(7 - C)                              'Get pixel bit value
     
     Select Case PixelMode
-        Case 0: nv = bv And (255 - p)           'Set to Background
-        Case 1: nv = bv Or p                    'Set to Foreground
-        Case 2: nv = bv Xor p                   'XOR
+        Case 0: nv = bv And (255 - P)           'Set to Background
+        Case 1: nv = bv Or P                    'Set to Foreground
+        Case 2: nv = bv Xor P                   'XOR
     End Select
     
     Mid(VBuf, PP, 1) = Chr(nv)                  'update the pixel
@@ -4257,7 +4425,7 @@ End Sub
 
 '---- Perform Tool Operation
 Private Sub cmdTool_Click(Index As Integer)
-    Dim a As Integer, B As Integer, C As Integer, cc As Integer, cStart As Integer
+    Dim A As Integer, B As Integer, C As Integer, cc As Integer, cStart As Integer
     Dim Row As Integer, Col As Integer
     Dim V As Integer, nv As Integer, nv2 As Integer, nv3 As Integer
     Dim Tmp As String, Tmp2 As String
@@ -4308,90 +4476,90 @@ Private Sub cmdTool_Click(Index As Integer)
     
 '--------------------
 ShiftUp:
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
-        Tmp = Mid(VBuf, j, 1)
+        Tmp = Mid(VBuf, J, 1)
         For k = 1 To ChrHeight - 1
-            Mid(VBuf, j + k - 1, 1) = Mid(VBuf, j + k, 1)   'copy to byte above
+            Mid(VBuf, J + k - 1, 1) = Mid(VBuf, J + k, 1)   'copy to byte above
         Next k
         If Flag = True Then
-            Mid(VBuf, j + ChrHeight - 1, 1) = Tmp           'wrap to bottom line
+            Mid(VBuf, J + ChrHeight - 1, 1) = Tmp           'wrap to bottom line
         Else
-            Mid(VBuf, j + ChrHeight - 1, 1) = Nu            'clear bottom line
+            Mid(VBuf, J + ChrHeight - 1, 1) = Nu            'clear bottom line
         End If
-    Next j
+    Next J
     Return
 
 ShiftDown:
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
-        Tmp = Mid(VBuf, j + ChrHeight - 1, 1)
+        Tmp = Mid(VBuf, J + ChrHeight - 1, 1)
         For k = ChrHeight - 2 To 0 Step -1
-            Mid(VBuf, j + k + 1, 1) = Mid(VBuf, j + k, 1)   'copy to byte above
+            Mid(VBuf, J + k + 1, 1) = Mid(VBuf, J + k, 1)   'copy to byte above
         Next k
         If Flag = True Then
-            Mid(VBuf, j, 1) = Tmp                           'wrap to top line
+            Mid(VBuf, J, 1) = Tmp                           'wrap to top line
         Else
-            Mid(VBuf, j, 1) = Nu                            'clear top line
+            Mid(VBuf, J, 1) = Nu                            'clear top line
         End If
-    Next j
+    Next J
     Return
 
 ShiftLeft:
-    For j = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, j, 1))                    'Read a byte
+    For J = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, J, 1))                    'Read a byte
         Bit = 0: If (V And 128) > 0 Then Bit = 1
         nv = (V * 2) Mod 256                        'Shift the pixels
         If Flag = True Then nv = nv + Bit
-        Mid(VBuf, j, 1) = Chr(nv)                   'Write it
-    Next j
+        Mid(VBuf, J, 1) = Chr(nv)                   'Write it
+    Next J
     Return
 
 ShiftRight:
-    For j = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, j, 1))                    'Read a byte
+    For J = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, J, 1))                    'Read a byte
         Bit = 0: If (V And 1) > 0 Then Bit = 128
         nv = V \ 2                                  'Shift the pixels
         If Flag = True Then nv = nv + Bit
-        Mid(VBuf, j, 1) = Chr(nv)                   'Write it
-    Next j
+        Mid(VBuf, J, 1) = Chr(nv)                   'Write it
+    Next J
     Return
   
 Clear:
-    For j = ChrPos To ChrPosEnd
-        Mid(VBuf, j, 1) = Nu
-    Next j
+    For J = ChrPos To ChrPosEnd
+        Mid(VBuf, J, 1) = Nu
+    Next J
     Return
     
 RVS:
-    For j = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, j, 1))
-        Mid(VBuf, j, 1) = Chr(255 - V)
-    Next j
+    For J = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, J, 1))
+        Mid(VBuf, J, 1) = Chr(255 - V)
+    Next J
     Return
     
 BoldFont:
-    For j = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, j, 1))
+    For J = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, J, 1))
         nv2 = Int(V / 2)                            'Shift the pixels
         nv = V Or nv2                               'Merge them
-        Mid(VBuf, j, 1) = Chr(nv)                   'write it
-    Next j
+        Mid(VBuf, J, 1) = Chr(nv)                   'write it
+    Next J
     Return
     
 Underlined:
-    For j = ChrPos To ChrPosEnd Step ChrHeight
-        Mid(VBuf, j + ChrPixelR, 1) = Chr(255)
-    Next j
+    For J = ChrPos To ChrPosEnd Step ChrHeight
+        Mid(VBuf, J + ChrPixelR, 1) = Chr(255)
+    Next J
     Return
     
 RotateRight:
     If ChrHeight = 16 Then MyMsg "Rotation only supported on 8x8 characters!": Return
     C = 0
 
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
-        ChrTop = j                              'Set current character position
+        ChrTop = J                              'Set current character position
         GoSub ClearBitArrays                    'Clear arrays for next character (all bits to zero)
         GoSub ReadChr                           'Get bytes and fill Source Bit array
         '---- Do Rotation 90
@@ -4401,15 +4569,15 @@ RotateRight:
             Next Col
         Next Row
         GoSub WriteChr                          'Write the Dest Bit Array back as bytes
-    Next j
+    Next J
     Return
 
 RotateLeft:
     If ChrHeight = 16 Then MyMsg "Rotation only supported on 8x8 characters!": Return
     
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
-        ChrTop = j                              'Set current character position
+        ChrTop = J                              'Set current character position
         GoSub ClearBitArrays                    'Clear arrays for next character (all bits to zero)
         GoSub ReadChr                           'Read 8 bytes and fill Source Bit array
         '---- Do Rotation 270
@@ -4419,128 +4587,128 @@ RotateLeft:
             Next Col
         Next Row
         GoSub WriteChr                          'Write the Dest Bit Array back as bytes
-    Next j
+    Next J
     Return
 
 MirrorH:
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
         For k = 0 To ChrHeight - 1
-            CMat(k) = Mid(VBuf, j + k, 1)                       'Read to array in order
+            CMat(k) = Mid(VBuf, J + k, 1)                       'Read to array in order
         Next k
        
         For k = 0 To ChrHeight - 1
-            Mid(VBuf, j + k, 1) = CMat(ChrHeight - k - 1)         'Write to output in reverse order
+            Mid(VBuf, J + k, 1) = CMat(ChrHeight - k - 1)         'Write to output in reverse order
         Next k
-    Next j
+    Next J
     Return
 
 MirrorV:
     GoSub SetupMirrorArray
 
-    For j = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, j, 1))                                'Read to array in order
-        a = Int(V / 16): B = V Mod 16                           'Calculate HI and LO nibbles
-        nv = Tr(B) * 16 + Tr(a)                                 'Reverse the bits
-        Mid(VBuf, j, 1) = Chr(nv)                               'Write to output
-    Next j
+    For J = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, J, 1))                                'Read to array in order
+        A = Int(V / 16): B = V Mod 16                           'Calculate HI and LO nibbles
+        nv = Tr(B) * 16 + Tr(A)                                 'Reverse the bits
+        Mid(VBuf, J, 1) = Chr(nv)                               'Write to output
+    Next J
     Return
 
 DoubleTall:
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         DoEvents
         For k = 0 To ChrHeight - 1
-            CMat(k) = Mid(VBuf, j + k, 1)
+            CMat(k) = Mid(VBuf, J + k, 1)
         Next k
         C = cStart
         For k = 1 To ChrHeight - 1 Step 2
-            Mid(VBuf, j + k - 1, 1) = CMat(C)
-            Mid(VBuf, j + k, 1) = CMat(C)
+            Mid(VBuf, J + k - 1, 1) = CMat(C)
+            Mid(VBuf, J + k, 1) = CMat(C)
             C = C + 1
         Next k
-    Next j
+    Next J
     Return
 
 DoubleWide:
     GoSub Setup2XArray
-    For j = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, j, 1))                                'Read byte, convert to ascii
-        a = Int(V / 16): B = V Mod 16                           'Calculate HI/LO nibbles
+    For J = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, J, 1))                                'Read byte, convert to ascii
+        A = Int(V / 16): B = V Mod 16                           'Calculate HI/LO nibbles
         If cc = 0 Then
-            nv = Tr(a)                                          'Translate HI
+            nv = Tr(A)                                          'Translate HI
         Else
             nv = Tr(B)                                          'Translate LO
         End If
-        Mid(VBuf, j, 1) = Chr(nv)                               'Write
-    Next j
+        Mid(VBuf, J, 1) = Chr(nv)                               'Write
+    Next J
     Return
 
 DoubleSize:
     GoSub Setup2XArray
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         For k = 0 To ChrHeight - 1
-            CMat(k) = Mid(VBuf, j + k, 1)                           'Read byte, convert to ascii
+            CMat(k) = Mid(VBuf, J + k, 1)                           'Read byte, convert to ascii
         Next k
         C = cStart
         For k = 1 To ChrHeight Step 2
             V = Asc(CMat(C))                                        'Get row byte
-            a = Int(V / 16): B = V Mod 16                           'Calculate HI/LO nibbles
+            A = Int(V / 16): B = V Mod 16                           'Calculate HI/LO nibbles
             If cc = 0 Then
-                nv = Tr(a)                                          'Translate HI
+                nv = Tr(A)                                          'Translate HI
             Else
                 nv = Tr(B)                                          'Translate LO
             End If
-            Mid(VBuf, j + k - 1, 1) = Chr(nv)                       'Write
-            Mid(VBuf, j + k, 1) = Chr(nv)                           'Write
+            Mid(VBuf, J + k - 1, 1) = Chr(nv)                       'Write
+            Mid(VBuf, J + k, 1) = Chr(nv)                           'Write
             C = C + 1
         Next k
-    Next j
+    Next J
     Return
 
 InsRow:
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         For k = ChrHeight - 2 To ChrPixelR Step -1
-            Mid(VBuf, j + k + 1, 1) = Mid(VBuf, j + k, 1)
+            Mid(VBuf, J + k + 1, 1) = Mid(VBuf, J + k, 1)
         Next k
-        Mid(VBuf, j + ChrPixelR, 1) = Nu
-    Next j
+        Mid(VBuf, J + ChrPixelR, 1) = Nu
+    Next J
     Return
     
 DelRow:
-    For j = ChrPos To ChrPosEnd Step ChrHeight
+    For J = ChrPos To ChrPosEnd Step ChrHeight
         For k = ChrPixelR To ChrHeight - 2
-            Mid(VBuf, j + k, 1) = Mid(VBuf, j + k + 1, 1)
+            Mid(VBuf, J + k, 1) = Mid(VBuf, J + k + 1, 1)
         Next k
-        Mid(VBuf, j + ChrHeight - 1, 1) = Nu
-    Next j
+        Mid(VBuf, J + ChrHeight - 1, 1) = Nu
+    Next J
     Return
     
 InsCol:
     '-- calculate pixel masks
-    a = 0: For j = 7 To (8 - ChrPixelC) Step -1: a = a + Pow(j): Next j     'LEFT side mask
-    B = 0: For j = (7 - ChrPixelC) To 0 Step -1: B = B + Pow(j): Next j     'RIGHT side mask
+    A = 0: For J = 7 To (8 - ChrPixelC) Step -1: A = A + Pow(J): Next J     'LEFT side mask
+    B = 0: For J = (7 - ChrPixelC) To 0 Step -1: B = B + Pow(J): Next J     'RIGHT side mask
     
     '-- insert
-    For j = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, j, 1))                                            'Get byte value
-        nv2 = V And a                                                       'mask left side
+    For J = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, J, 1))                                            'Get byte value
+        nv2 = V And A                                                       'mask left side
         nv3 = (V And B) \ 2                                                 'mask right side and shift
-        Mid(VBuf, j, 1) = Chr(nv2 + nv3)                                    'recombine and write
-    Next j
+        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                    'recombine and write
+    Next J
     Return
 
 DelCol:
     '-- calculate pixel masks
-    a = 0: For j = 7 To (8 - ChrPixelC) Step -1: a = a + Pow(j): Next j     'LEFT side mask
-    B = 0: For j = (6 - ChrPixelC) To 0 Step -1: B = B + Pow(j): Next j     'RIGHT side mask
+    A = 0: For J = 7 To (8 - ChrPixelC) Step -1: A = A + Pow(J): Next J     'LEFT side mask
+    B = 0: For J = (6 - ChrPixelC) To 0 Step -1: B = B + Pow(J): Next J     'RIGHT side mask
     
     '-- delete
-    For j = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, j, 1))                                            'Get byte value
-        nv2 = V And a                                                       'mask left side
+    For J = ChrPos To ChrPosEnd
+        V = Asc(Mid(VBuf, J, 1))                                            'Get byte value
+        nv2 = V And A                                                       'mask left side
         nv3 = (V And B) * 2                                                 'mask right side and shift
-        Mid(VBuf, j, 1) = Chr(nv2 + nv3)                                    'recombine and write
-    Next j
+        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                    'recombine and write
+    Next J
     Return
 
     
@@ -4551,22 +4719,22 @@ CopyClip:
 
 PasteClip:
     V = Len(VClip): If V = 0 Then Return
-    For j = ChrPos To ChrPosEnd Step V
-        Mid(VBuf, j, V) = VClip                                             'Paste it once
-    Next j
+    For J = ChrPos To ChrPosEnd Step V
+        Mid(VBuf, J, V) = VClip                                             'Paste it once
+    Next J
     Return
     
 Restore1:
     If VRestore = "" Then VRestore = VBuf2
-    For j = ChrPos To ChrPosEnd
-        Mid(VBuf, j, 1) = Mid(VRestore, j, 1)
-    Next j
+    For J = ChrPos To ChrPosEnd
+        Mid(VBuf, J, 1) = Mid(VRestore, J, 1)
+    Next J
     Return
     
 Restore2:
-    For j = ChrPos To ChrPosEnd
-        Mid(VBuf, j, 1) = Mid(VBuf2, j, 1)
-    Next j
+    For J = ChrPos To ChrPosEnd
+        Mid(VBuf, J, 1) = Mid(VBuf2, J, 1)
+    Next J
     Return
     
 SetRestorePoint:
@@ -4642,7 +4810,7 @@ End Sub
 ' n=0 --> 16 to 8 = truncate character, no padding
 ' n=1 --> 8 to 16 = pad with 8 blank rows
 Private Sub ConvertFont(ByVal n As Integer)
-    Dim j As Integer, k As Integer, l As Integer, H As Integer, B As Integer
+    Dim J As Integer, k As Integer, l As Integer, H As Integer, B As Integer
     Dim Tmp As String, Pad As String
     
     If VLen > 16300 Then MyMsg "Sorry, font is too large to convert!": Exit Sub
@@ -4658,10 +4826,10 @@ Private Sub ConvertFont(ByVal n As Integer)
     
     VBuf2 = ""                                                  'Converted font built here
     
-    For j = 1 To Len(VBuf) Step H
-        Tmp = Mid(VBuf, j, B)                                   'Get 8 bytes
+    For J = 1 To Len(VBuf) Step H
+        Tmp = Mid(VBuf, J, B)                                   'Get 8 bytes
         VBuf2 = VBuf2 & Tmp & Pad                               'Copy them plus padding if needed
-    Next j
+    Next J
 
     VBuf = VBuf2                                                'Update main buffer
     VClip = ""                                                  'Clear clipboard
@@ -4673,7 +4841,7 @@ End Sub
 '==================================
 Sub MLView()
     Dim GoodFlag As Boolean
-    Dim j As Integer
+    Dim J As Integer
     Dim C As Integer                                                    'Counter
     Dim Tmp As String, TmpB As String                                   'Temp strings
     
@@ -4693,20 +4861,21 @@ Sub MLView()
     Dim T3 As String, T4 As String, T5 As String
     Dim OutFmt As Integer, ALabel As String, UComment As String
     Dim Padd As String, CommentCol As Integer
+    Dim DivStr As String                                                'Divider String
     
     Dim LNum As Long, LInc As Integer                                   'Line Numbers
-    Dim a As Integer, p As Integer
+    Dim A As Integer, P As Integer, P2 As Integer
     
     Dim DTMode As Boolean, DTCount As Integer, DTType As String         'Data Table variables
     Dim DTCountMax As Integer, DTMax As Integer, DTPos As Integer       'Data Table variables
     Dim DTStart As Long, DTEnd As Long, DTAscMode As Integer            'Data Table variables
     Dim DTComment As String, DTAddress As String, DTOutStr As String    'Data Table variables
-    
+        
     Dim Pass As Integer
     Dim RTSOption As Boolean, SymComment As Boolean, DivLen As Integer  'options
     
-    Padd = Space(80)            'spaces for padding byte lists
-    LInc = 10                   'Line# Increment
+    Padd = Space(80)                                                    'Spaces for padding byte lists
+    LInc = Val(txtLineInc.Text)                                         'Get Line# Increment
         
     '---- Options
     RTSOption = False: If cbSpaceRTS.value = vbChecked Then RTSOption = True
@@ -4767,7 +4936,7 @@ Sub MLView()
         lstML.Clear                                         'Clear the output
         DTMode = False
         DTCount = 0: DTPos = -1: DTStart = 0: DTEnd = 0     'Reset Data Table pointer
-        LNum = 1000
+        LNum = Val(txtStartLine.Text)                       'Set the Starting Line#
         C = 1
         Address = VLA: If cbLA.value = vbUnchecked Then Address = MyDec(txtLA.Text)
         txtLA.Text = MyHex(Address, 4)
@@ -4789,13 +4958,13 @@ Sub MLView()
                 lstML.AddItem ";"
             End If
             
-            For j = 0 To lstSYM.ListCount - 1
-                If lstSYM.Selected(j) = True Then
-                    Tmp = lstSYM.List(j)
+            For J = 0 To lstSYM.ListCount - 1
+                If lstSYM.Selected(J) = True Then
+                    Tmp = lstSYM.List(J)
                     T1 = "": If OutFmt = 2 Then T1 = Format(LNum) & " ": LNum = LNum + LInc
                     lstML.AddItem Left(T1 & GetField(Tmp, 2) & " = $" & GetField(Tmp, 1) & Padd, CommentCol) & ";" & GetField(Tmp, 3)
                 End If
-            Next j
+            Next J
             If OutFmt = 2 Then lstML.AddItem Format(LNum) & " ;" Else lstML.AddItem ";"
         End If
         
@@ -4809,8 +4978,6 @@ Sub MLView()
                 lstML.AddItem Format(LNum) & " ;": LNum = LNum + LInc
             Else
                 lstML.AddItem DOTORG & "$" & StartAddress
-                lstML.AddItem ";"
-                lstML.AddItem "; ---- Code"
                 lstML.AddItem ";"
             End If
         End If
@@ -4839,28 +5006,60 @@ Sub MLView()
             
             If Pass = 2 Then
                 '---- Handle Comments
-                UComment = FindComment(T0)                          'Check for a comment here
+                UComment = FindComment(T0)                          'Check for a comment here. FindComment returns: type,text
                 If UComment > "" Then
                     TmpB = UCase(Left(UComment, 1))                 'Check comment type (I,S or divider)
                     UComment = Mid(UComment, 3)                     'Strip away comment type
-                    If TmpB <> "I" Then
-                        '---- add standalone comment
-                        Select Case OutFmt
-                            Case 2
-                                If TmpB <> "S" Then lstML.AddItem Format(LNum) & " ; " & String(DivLen, TmpB): LNum = LNum + LInc
-                                If UComment > "" Then
-                                    lstML.AddItem Format(LNum) & " ; " & UComment: LNum = LNum + LInc
-                                    If TmpB <> "S" Then lstML.AddItem Format(LNum) & " ; " & String(DivLen, TmpB): LNum = LNum + LInc
-                                End If
-                            Case Else
-                                If TmpB <> "S" Then lstML.AddItem ";" & String(DivLen, TmpB): LNum = LNum + LInc
-                                If UComment > "" Then
-                                    lstML.AddItem "; " & UComment
-                                    If TmpB <> "S" Then lstML.AddItem ";" & String(DivLen, TmpB): LNum = LNum + LInc
-                                End If
-                        End Select
-                        UComment = "" 'clear it since it's been used. if type is "i" (inline) then we'll add it later
+                    DivStr = ""
+                    If TmpB <> "S" Then
+                        DivStr = ";" & String(DivLen, TmpB)         'Generate comment with Divider using specified character
+                        If OutFmt = 2 Then DivStr = " " & DivStr    'Format 2 need additional space infront
                     End If
+                    
+                    Select Case TmpB
+                        Case "I"                                    'Inline Comment (ignore)
+                        Case "["                                    'Block Comment
+                            If cbBlock.value = vbChecked Then
+                                UComment = ";" & UComment               'All block comments will have at least one ";" at the start.
+                                P = 1
+                                
+                                Do
+                                    P2 = InStr(P + 1, UComment, ";")
+                                    If P2 = 0 Then Tmp = Mid(UComment, P)           'The rest of the line
+                                    If P2 > 0 Then Tmp = Mid(UComment, P, P2 - P)   'The string up to the ";"
+                                    
+                                    If OutFmt = 2 Then
+                                        lstML.AddItem Format(LNum) & " " & Tmp      'Line# and Comment
+                                    Else
+                                        lstML.AddItem Tmp                           'Comment only
+                                    End If
+                                    LNum = LNum + LInc                              'Increase Line #
+                                    P = P2                                          'Position to the ";"
+                                Loop While P2 > 0
+                            End If
+                            
+                            UComment = ""       'clear it since it's been used. if type is "i" (inline) then we'll add it later
+                            
+                        Case Else                                   'All other comment types
+                        
+                            If OutFmt = 2 Then
+                                    ' FORMAT=2 has line# on every line
+                                    If TmpB <> "S" Then lstML.AddItem Format(LNum) & DivStr: LNum = LNum + LInc
+                                    If UComment > "" Then
+                                        lstML.AddItem Format(LNum) & " ; " & UComment: LNum = LNum + LInc
+                                        If TmpB <> "S" Then lstML.AddItem Format(LNum) & DivStr: LNum = LNum + LInc
+                                    End If
+                            Else
+                                    'Other formats have no line numbers
+                                    If TmpB <> "S" Then lstML.AddItem DivStr: LNum = LNum + LInc
+                                    If UComment > "" Then
+                                        lstML.AddItem "; " & UComment
+                                        If TmpB <> "S" Then lstML.AddItem DivStr: LNum = LNum + LInc
+                                    End If
+                            End If
+                            UComment = ""       'clear it since it's been used. if type is "i" (inline) then we'll add it later
+                            
+                    End Select
                 End If
                 
                 '---- PASS2 - Handle Labels
@@ -4900,14 +5099,14 @@ Sub MLView()
                     DTStart = MyDec(Mid(Tmp, 1, 4))              'Get Range Start
                     DTEnd = MyDec(Mid(Tmp, 6, 4))                'Get Range End
                     Tmp = Mid(Tmp, 11)                           'Get just the Type and Comment
-                    p = InStr(Tmp, ","): If p = 0 Then p = 1     'Check for comma
+                    P = InStr(Tmp, ","): If P = 0 Then P = 1     'Check for comma
                     DTType = UCase(Left(Tmp, 1))                 'Get Type (Asc,Byte,Word,Vector,RVector)
                     
                     DTCountMax = 8                                 'Default Items per line
-                    If p > 1 Then DTCountMax = Val(Mid(Tmp, 2, p - 2)) 'If specified, use {num} entries. Num must be single digit
+                    If P > 1 Then DTCountMax = Val(Mid(Tmp, 2, P - 2)) 'If specified, use {num} entries. Num must be single digit
                     If DTCountMax < 1 Then DTCountMax = 8         'If Num=0 then use default
                     
-                    If Pass = 2 Then DTComment = Mid(Tmp, p + 1)  'Get Comment
+                    If Pass = 2 Then DTComment = Mid(Tmp, P + 1)  'Get Comment
                 Else
                     '---- No more ranges, B0H set to highest byte $FFFF
                     DTStart = CLng(65536): DTEnd = CLng(65536): DTComment = "end"
@@ -5073,8 +5272,8 @@ Sub MLView()
                                         ALabel = ""                                     'blank it for multi-line tables
                                 End Select
                                 
-                                j = Len(Tmp) + 1: If CommentCol > j Then j = CommentCol     'Comment position
-                                lstML.AddItem Left(Tmp + Padd, j) & ";" & DTComment     'Add it to output
+                                J = Len(Tmp) + 1: If CommentCol > J Then J = CommentCol     'Comment position
+                                lstML.AddItem Left(Tmp + Padd, J) & ";" & DTComment     'Add it to output
                                 
                                 LNum = LNum + LInc
                             End If
@@ -5211,8 +5410,8 @@ Sub MLView()
                             Tmp = ALabel & T3 & T4                          'label cmd param
                     End Select
                     
-                    j = Len(Tmp) + 1: If CommentCol > j Then j = CommentCol     'position for comment
-                    lstML.AddItem Left(Tmp + Padd, j) & T5                  'Add to output
+                    J = Len(Tmp) + 1: If CommentCol > J Then J = CommentCol     'position for comment
+                    lstML.AddItem Left(Tmp + Padd, J) & T5                  'Add to output
                                         
                     If MD = 9 Then
                         '-- Space after RTS/RTI option
@@ -5270,7 +5469,37 @@ End Sub
 Private Sub lstCmnt_Click()
     lblInfo.Caption = lstCmnt.List(lstCmnt.ListIndex)
 End Sub
+'---- Edit User Comment Table Entry
+Private Sub lstCmnt_dblClick()
+    Dim i As Integer, Tmp As String, Tmp2 As String, Tmp3 As String
+    
+    i = lstCmnt.ListIndex
 
+    If i >= 0 Then
+        Tmp = lstCmnt.List(i)
+        
+        If Mid(Tmp, 6, 1) = "[" Then
+            'Block Comment
+            Tmp2 = Mid(Tmp, 8)                          'Get the comment text
+            Tmp3 = Replace(Tmp2, ";", Cr & LF)           'Replace ";" with CR+LF
+            lblCPos.Caption = Format(i)                 'The Comment Position
+            lblBlockAddress.Caption = Left(Tmp, 4)      'The Comment Address
+            txtBlock.Text = Tmp3                        'The Comment Text
+            frBlock.Visible = True                      'Make the Frame visible
+            txtBlock.SetFocus
+            DoEvents
+        Else
+            'Normal Comment
+            Tmp2 = InputBox("Edit Comment:", "Edit Comment", Tmp)
+            If Tmp2 > "" Then
+                lstCmnt.RemoveItem i
+                lstCmnt.AddItem Tmp2
+                MLReViewC
+            End If
+        End If
+    End If
+    
+End Sub
 Private Sub lstEntryPt_Click()
     lblInfo.Caption = lstEntryPt.List(lstEntryPt.ListIndex)
 End Sub
@@ -5300,7 +5529,7 @@ End Sub
 '---- Flow Tracing
 Private Sub TraceIt()
 
-    Dim i As Long, j As Integer                     'Loop counters
+    Dim i As Long, J As Integer                     'Loop counters
     Dim Tmp As String                               'Temp strings
     Dim PC  As Long, EA As Long                     'Program Counter, Effective Address
     Dim CodeOffset As Long                          'For calculating position in buffer
@@ -5469,7 +5698,7 @@ End Sub
 
 '---- Save ASM ouput to file
 Private Sub cmdSaveASM_Click()
-    Dim j As Integer, Filename As String, FIO As Integer
+    Dim J As Integer, Filename As String, FIO As Integer
     
     Filename = FileOpenSave(FileBase(VFileName), 1, 4, "Save ASM code")
     If Filename = "" Then Exit Sub
@@ -5478,20 +5707,20 @@ Private Sub cmdSaveASM_Click()
     FIO = FreeFile
     Open Filename For Output As FIO
     
-    For j = 0 To lstML.ListCount - 1
-        Print #FIO, lstML.List(j)
-    Next j
+    For J = 0 To lstML.ListCount - 1
+        Print #FIO, lstML.List(J)
+    Next J
     Close FIO
 
 End Sub
 
 '---- Copy ASM ouput to Clipboard
 Private Sub cmdCopyClip2_Click()
-    Dim j As Integer, Tmp As String
+    Dim J As Integer, Tmp As String
     
-    For j = 0 To lstML.ListCount - 1
-        Tmp = Tmp & lstML.List(j) & vbCrLf
-    Next j
+    For J = 0 To lstML.ListCount - 1
+        Tmp = Tmp & lstML.List(J) & vbCrLf
+    Next J
     
     Clipboard.Clear
     Clipboard.SetText Tmp
@@ -5539,39 +5768,42 @@ Private Sub cmdSYMGoto_Click()
         
     Select Case MLTabNum
         Case 2
-            If lstEntryPt.ListCount = -1 Then Exit Sub
-            i = lstEntryPt.ListIndex: If i < 0 Then i = 0
-            Tmp = Left(lstEntryPt.List(i), 4)
+            If lstEntryPt.ListCount = -1 Then Exit Sub      'No Entries, so exit
+            i = lstEntryPt.ListIndex: If i < 0 Then i = 0   'Get index
+            Tmp = Left(lstEntryPt.List(i), 4)               'Extract HEX Addres
     
         Case 3
-            If lstSYM.ListCount = -1 Then Exit Sub
-            i = lstSYM.ListIndex: If i < 0 Then i = 0
-            Tmp = GetField(lstSYM.List(i), 2)
+            If lstSYM.ListCount = -1 Then Exit Sub          'No Entries, so exit
+            i = lstSYM.ListIndex: If i < 0 Then i = 0       'Get index
+            Tmp = GetField(lstSYM.List(i), 2)               'Get 2nd field = Symbol
         
         Case 4
-            If lstDT.ListCount = -1 Then Exit Sub
-            i = lstDT.ListIndex: If i < 0 Then i = 0
-            Tmp = Left(lstDT.List(i), 4)
+            If lstDT.ListCount = -1 Then Exit Sub           'No Entries, so exit
+            i = lstDT.ListIndex: If i < 0 Then i = 0        'Get Index
+            Tmp = Left(lstDT.List(i), 4)                    'Extract HEX Address
             
         Case 5
-            If lstULabels.ListCount = -1 Then Exit Sub
-            i = lstULabels.ListIndex: If i < 0 Then i = 0
-            Tmp = Left(lstULabels.List(i), 4)
+            If lstULabels.ListCount = -1 Then Exit Sub      'No Entries, so exit
+            i = lstULabels.ListIndex: If i < 0 Then i = 0   'Get Index
+            Tmp = Left(lstULabels.List(i), 4)               'Extract HEX address
+            
         Case 6
-            If lstCmnt.ListCount = -1 Then Exit Sub
-            i = lstCmnt.ListIndex: If i < 0 Then i = 0
-            Tmp = Left(lstCmnt.List(i), 4)
+            If lstCmnt.ListCount = -1 Then Exit Sub         'No Entries, so exit
+            i = lstCmnt.ListIndex: If i < 0 Then i = 0      'Get Index
+            Tmp = Left(lstCmnt.List(i), 4)                  'Extract HEX Address
+            
         Case 7
-            If lstLabels.ListCount = -1 Then Exit Sub
-            i = lstLabels.ListIndex: If i < 0 Then i = 0
-            Tmp = Left(lstLabels.List(i), 4)
+            If lstLabels.ListCount = -1 Then Exit Sub       'No Entries, so exit
+            i = lstLabels.ListIndex: If i < 0 Then i = 0    'Get Index
+            Tmp = Left(lstLabels.List(i), 4)                'Extract HEX Address
+            
         Case 8
-            If lstJSR.ListCount = -1 Then Exit Sub
-            i = lstJSR.ListIndex: If i < 0 Then i = 0
-            Tmp = Left(lstJSR.List(i), 4)
+            If lstJSR.ListCount = -1 Then Exit Sub          'No Entries, so exit
+            i = lstJSR.ListIndex: If i < 0 Then i = 0       'Get Index
+            Tmp = Left(lstJSR.List(i), 4)                   'Extract HEX Address
     End Select
     
-    JumpList Tmp, 1, False               'Find next match
+    JumpList Tmp, 1, False                                  'Find next match from current down, only hightlight 1
 
 End Sub
 
@@ -5594,7 +5826,7 @@ End Sub
 
 '---- Find ALL occurances of last search string
 Private Sub cmdFindAll_Click()
-    JumpList "", 0, True
+    JumpList "", 0, True                                    'Find from TOP, highlight all lines
 End Sub
 
 '---- Jump to next occurance of search string
@@ -5609,7 +5841,7 @@ End Sub
 Sub JumpList(ByVal Txt As String, Mode As Integer, ByVal Flag As Boolean)
     Static LastTxt As String, Count As Integer 'These values are retained between calls
     
-    Dim i As Integer, j As Integer, Max As Integer, Direction As Integer
+    Dim i As Integer, J As Integer, Max As Integer, Direction As Integer
     Dim Tmp As String
     
     If Txt = "" Then Txt = LastTxt
@@ -5635,8 +5867,8 @@ Sub JumpList(ByVal Txt As String, Mode As Integer, ByVal Flag As Boolean)
             Count = Count + 1                                       'Count it
             
             If Flag = False Then
-                j = i - 5: If j < 0 Or j > Max Then j = i
-                lstML.TopIndex = j                                  'Move top of list to near found line
+                J = i - 5: If J < 0 Or J > Max Then J = i
+                lstML.TopIndex = J                                  'Move top of list to near found line
                 lstML.ListIndex = i                                 'Move to selected line
                 Exit Do                                             'Do only one search
             End If
@@ -5833,10 +6065,20 @@ Private Sub cmdAddComment_Click(Index As Integer)
     i = lstML.ListIndex: If i < 0 Then MyMsg Tmp: Exit Sub     'Oops, no line selected!
     RS = ExtractAddr(lstML.List(i)): If RS = "" Then MyMsg Tmp: Exit Sub   'Opps, line didn't have an address!
         
-    Tmp = Mid("is-=*-=*", Index + 1, 1): Tmp2 = ""
+    Tmp = Mid("is-=*-=*[", Index + 1, 1): Tmp2 = ""
     
-    '---- 0 to 4 need a Comment, 5 to 8 are dividers
-    If Index < 5 Then Tmp2 = InputBox("Enter a comment at position " & RS & ":", "Enter Comment", ""): If Tmp2 = "" Then Exit Sub
+    '---- 0 to 4 need a Comment, 5 to 7 are dividers, 8 is BLOCK
+    Select Case Index
+        Case 0 To 4
+            Tmp2 = InputBox("Enter a comment at position " & RS & ":", "Enter Comment", ""): If Tmp2 = "" Then Exit Sub
+        Case 8
+            'Block Comment
+            lblBlockAddress.Caption = RS        'Remember/Display Address
+            lblCPos.Caption = ""                'Clear POSition index for add
+            txtBlock.Text = ""                  'Clear the Comment
+            frBlock.Visible = True: Exit Sub    'Make it visible
+    End Select
+    
     lstCmnt.AddItem RS & "," & Tmp & "," & Tmp2     'Add it
     MLReViewC
 End Sub
@@ -5844,7 +6086,7 @@ End Sub
 '---- Quick Add Data Table (DHSRVW)
 Private Sub cmdDTAdd_Click(Index As Integer)
     Dim Tmp As String, Tmp2 As String
-    Dim Flag As Boolean, p As Integer, RS As String, RE As String
+    Dim Flag As Boolean, P As Integer, RS As String, RE As String
 
     Flag = False
     
@@ -5852,9 +6094,9 @@ Private Sub cmdDTAdd_Click(Index As Integer)
     For i = 0 To lstML.ListCount - 1
         If lstML.Selected(i) = True Then
             If Flag = False Then RS = ExtractAddr(lstML.List(i)): Flag = True   'Found first selected line
-            p = i                                                               'remember it
+            P = i                                                               'remember it
         Else
-            If Flag = True Then RE = ExtractAddr(lstML.List(p)): Exit For       'Not selected so use last remembered line for end
+            If Flag = True Then RE = ExtractAddr(lstML.List(P)): Exit For       'Not selected so use last remembered line for end
         End If
     Next i
          
@@ -5975,28 +6217,17 @@ Private Sub lstULabels_dblClick()
     i = lstULabels.ListIndex
     If i >= 0 Then
         Tmp = lstULabels.List(i)
-        Tmp2 = InputBox("Edit Label:", "Edit Label", Tmp)
-        If Tmp2 > "" Then
-            lstULabels.RemoveItem i
-            lstULabels.AddItem Tmp2
-            MLReViewC
-        End If
-    End If
-    
-End Sub
-
-'---- Edit USer Comment Table Entry
-Private Sub lstCmnt_dblClick()
-    Dim i As Integer, Tmp As String, Tmp2 As String
-    
-    i = lstCmnt.ListIndex
-    If i >= 0 Then
-        Tmp = lstCmnt.List(i)
-        Tmp2 = InputBox("Edit Comment:", "Edit Comment", Tmp)
-        If Tmp2 > "" Then
-            lstCmnt.RemoveItem i
-            lstCmnt.AddItem Tmp2
-            MLReViewC
+        If Mid(Tmp, 6, 1) = "[" Then
+            lblBlockAddress.Caption = Left(Tmp, 4)          'Remember the address
+            txtBlock.Text = Mid(Tmp, 8)
+            frBlock.Visible = True
+        Else
+            Tmp2 = InputBox("Edit Label:", "Edit Label", Tmp)
+            If Tmp2 > "" Then
+                lstULabels.RemoveItem i
+                lstULabels.AddItem Tmp2
+                MLReViewC
+            End If
         End If
     End If
     
@@ -6231,7 +6462,7 @@ End Sub
 
 Private Sub SaveProjFile(ByVal Filename As String)
 
-    Dim FIO As Integer, Tmp As String, j As Integer
+    Dim FIO As Integer, Tmp As String, J As Integer
         
     If Overwrite(Filename) = False Then Exit Sub
         
@@ -6248,41 +6479,41 @@ Private Sub SaveProjFile(ByVal Filename As String)
     '-- [ENTRY POINTS]
     If lstSYM.ListCount > 0 Then
         Print #FIO, "[ENTRYPT]"
-        For j = 0 To lstEntryPt.ListCount - 1
-            Print #FIO, lstEntryPt.List(j)
-        Next j
+        For J = 0 To lstEntryPt.ListCount - 1
+            Print #FIO, lstEntryPt.List(J)
+        Next J
     End If
     
     '-- [SYMBOLS]
     If lstSYM.ListCount > 0 Then
         Print #FIO, "[SYMBOLS]"
-        For j = 0 To lstSYM.ListCount - 1
-            Print #FIO, lstSYM.List(j)
-        Next j
+        For J = 0 To lstSYM.ListCount - 1
+            Print #FIO, lstSYM.List(J)
+        Next J
     End If
       
     '-- [TABLES]
     If lstDT.ListCount > 0 Then
         Print #FIO, "[TABLES]"
-        For j = 0 To lstDT.ListCount - 1
-            Print #FIO, lstDT.List(j)
-        Next j
+        For J = 0 To lstDT.ListCount - 1
+            Print #FIO, lstDT.List(J)
+        Next J
     End If
     
     '-- [LABELS]
     If lstULabels.ListCount > 0 Then
         Print #FIO, "[LABELS]"
-        For j = 0 To lstULabels.ListCount - 1
-            Print #FIO, lstULabels.List(j)
-        Next j
+        For J = 0 To lstULabels.ListCount - 1
+            Print #FIO, lstULabels.List(J)
+        Next J
     End If
     
     '-- [COMMENTS]
     If lstCmnt.ListCount > 0 Then
         Print #FIO, "[COMMENTS]"
-        For j = 0 To lstCmnt.ListCount - 1
-            Print #FIO, lstCmnt.List(j)
-        Next j
+        For J = 0 To lstCmnt.ListCount - 1
+            Print #FIO, lstCmnt.List(J)
+        Next J
     End If
 
     Close FIO
@@ -6407,7 +6638,7 @@ End Sub
 
 '---- Add a new List Entry
 Private Sub cmdSymAdd_Click()
-    Dim i As Integer, p As Integer, Flag As Boolean
+    Dim i As Integer, P As Integer, Flag As Boolean
     Dim RS As String, RE As String, Tmp As String, Tmp2 As String
     
     i = lstML.ListIndex
@@ -6421,41 +6652,54 @@ Private Sub cmdSymAdd_Click()
         Case 2 'Entry Points
             Tmp = Tmp2 & ",-"                                                           'Make default text entry string
             Tmp2 = InputBox("HHHH,DESCRIPTION", "Add Entry Pointl", Tmp)
-            If Len(Tmp2) > 3 Then lstEntryPt.AddItem Tmp2: MLReViewC                    'Review plus set changeflag=true
-        
+            If Len(Tmp2) > 3 Then
+                Tmp = UCase(Mid(Tmp2, 1, 4)): Mid(Tmp2, 1, 4) = Tmp                     'Force address to uppercase
+                lstEntryPt.AddItem Tmp2: MLReViewC                                      'Review plus set changeflag=true
+            End If
+            
         Case 3 'Symbols
             Tmp = Tmp2 & ",symbol,-"                                                    'Make default text entry string
             Tmp2 = InputBox("HHHH,SYMBOL,DESCRIPTION", "Add Symbol", Tmp)
-            If Len(Tmp2) > 12 Then lstSYM.AddItem Tmp2: MLReViewC                       'Review plus set changeflag=true
-        
+            If Len(Tmp2) > 5 Then
+                Tmp = UCase(Mid(Tmp2, 1, 4)): Mid(Tmp2, 1, 4) = Tmp                     'Force address to uppercase
+                lstSYM.AddItem Tmp2: MLReViewC                                          'Review plus set changeflag=true
+            End If
+            
         Case 4 'Data Tables
             'Check if there is a range selected
             For i = 0 To lstML.ListCount - 1
                 If lstML.Selected(i) = True Then
                     If Flag = False Then RS = ExtractAddr(lstML.List(i)): Flag = True   'Found first selected line
-                    p = i                                                               'remember it
+                    P = i                                                               'remember it
                 Else
-                    If Flag = True Then RE = ExtractAddr(lstML.List(p)): Exit For       'Not selected so use last remembered line for end
+                    If Flag = True Then RE = ExtractAddr(lstML.List(P)): Exit For       'Not selected so use last remembered line for end
                 End If
             Next i
             
             If Flag = True Then Tmp = RS & "," & RE & ",b,-"
-            Tmp2 = InputBox("Types: Byte Tables(A/T=Text,B/H=Hex,D=Decimal,Z=Binary),W=Word,R=RTS,V=Vect" & Cr & Cr & "HHHH,HHHH,TYPE{##},DESCRIPTION", "Add Table", Tmp)
+            Tmp2 = InputBox("Types: Byte Tables:" & Cr & "A/T=Text,B/H=Hex,D=Decimal,Z=Binary," & Cr & "W=Word,R=RTS,V=Vector" & Cr & Cr & "HHHH,HHHH,TYPE{##},DESCRIPTION", "Add Table", Tmp)
             If Len(Tmp2) > 12 Then
+                Tmp = UCase(Mid(Tmp2, 1, 9)): Mid(Tmp2, 1, 9) = Tmp                     'Force addresses to uppercase
                 lstDT.AddItem Tmp2
                 lstDT.Selected(lstDT.NewIndex) = True
-                MLReViewC
+                MLReViewC                                                               'Review plus set changeflag=true
             End If
             
         Case 5 'User Labels
             Tmp = Tmp2 & ",name,-"                                                      'Make default text entry string
             Tmp2 = InputBox("HHHH,LABELNAME,DESCRIPTION", "Add Label", Tmp)
-            If Len(Tmp2) > 12 Then lstULabels.AddItem Tmp2: MLReViewC
-        
+            If Len(Tmp2) > 7 Then
+                Tmp = UCase(Mid(Tmp2, 1, 4)): Mid(Tmp2, 1, 4) = Tmp                     'Force addresses to uppercase
+                lstULabels.AddItem Tmp2: MLReViewC
+            End If
+            
         Case 6 'Comments
             Tmp = Tmp2 & ",s,-"                                                         'Make default text entry string
             Tmp2 = InputBox("Types: I=In-line,S=Single,OTHER=Double Divider Chr" & Cr & "(For Single Divider leave comment empty)" & Cr & Cr & "HHHH,TYPE,COMMENT", "Add Comment", Tmp)
-            If Len(Tmp2) > 6 Then lstCmnt.AddItem Tmp2: MLReViewC
+            If Len(Tmp2) > 6 Then
+                Tmp = UCase(Mid(Tmp2, 1, 4)): Mid(Tmp2, 1, 4) = Tmp                     'Force address to uppercase
+                lstCmnt.AddItem Tmp2: MLReViewC                                         'Review plus set changeflag=true
+            End If
     End Select
     
 End Sub
@@ -6463,12 +6707,12 @@ End Sub
 '---- Extracts the HEX Address from the string using current PREFIX
 ' If PREFIX is not found then look at start of line
 Private Function ExtractAddr(ByVal Str As String) As String
-    Dim p As Integer, Tmp As String, Tmp2 As String, l As Integer
+    Dim P As Integer, Tmp As String, Tmp2 As String, l As Integer
     
     l = Len(LPrefix)
-    p = 1
-    If Left(Str, l) = LPrefix Then p = l + 1          'Skip over prefix
-    Tmp = UCase(Mid(Str, p, 4))                                             'Extract the hex address
+    P = 1
+    If Left(Str, l) = LPrefix Then P = l + 1          'Skip over prefix
+    Tmp = UCase(Mid(Str, P, 4))                                             'Extract the hex address
     Tmp2 = Left(Tmp, 1)                                                     'Get first character
     If (Tmp2 < "0") Or (Tmp2 > "F") Then Exit Function                      'Exit if not 0-F
     If (Tmp2 <= "9") Or (Tmp2 >= "A") Then ExtractAddr = Tmp                'Check for valid 0-9 or A-F
@@ -6527,7 +6771,7 @@ End Sub
 
 '---- Load opcodes from specified file
 Private Sub LoadOpcodes(ByVal Filename As String)
-    Dim Tmp As String, j As Integer
+    Dim Tmp As String, J As Integer
     
     If Exists(Filename) = False Then Exit Sub
     FIO = FreeFile
@@ -6537,9 +6781,9 @@ Private Sub LoadOpcodes(ByVal Filename As String)
     Line Input #FIO, OpDesc                             'CPU description string
     Line Input #FIO, Tmp                                'Divider line
     
-    For j = 0 To 255
-        Input #FIO, Tmp: OP(j) = Tmp
-    Next j
+    For J = 0 To 255
+        Input #FIO, Tmp: OP(J) = Tmp
+    Next J
     
     Line Input #FIO, Tmp                                'Divider line
     Line Input #FIO, OpModeLen                          'Opcode lengths
@@ -6558,7 +6802,7 @@ Private Sub cmdImport_Click()
     Dim Tmp As String, Tmp2 As String, Meth As String
     Dim Filename As String, FIO As Integer
     Dim Par(6) As Integer, Out As String, Flag As Boolean
-    Dim C As Integer, i As Integer, p1 As Integer, p2 As Integer
+    Dim C As Integer, i As Integer, p1 As Integer, P2 As Integer
     
     Tmp2 = "Enter Import control string: TYPE,n,n,n..." & Cr & Cr _
          & "Where 'TYPE' is: 'C','T', or 'F'" & Cr _
@@ -6592,8 +6836,8 @@ Private Sub cmdImport_Click()
                     Case "T": Tmp2 = GetDField(Tmp, "", Par(i))  'Extract field from delimited line (Null Delimiter defaults to TAB)
                     Case "F"
                         p1 = Par(i * 2 - 1)                     'Start Position
-                        p2 = Par(i * 2)                         'Length
-                        If p2 > 0 Then Tmp2 = MyTrim(Mid(Tmp, p1, p2)) 'Extract the field at position p1 with length p2 and trim it
+                        P2 = Par(i * 2)                         'Length
+                        If P2 > 0 Then Tmp2 = MyTrim(Mid(Tmp, p1, P2)) 'Extract the field at position p1 with length p2 and trim it
                  End Select
                  If (i = 1) And (Left(Tmp2, 1) = "$") Then Tmp2 = Mid(Tmp2, 2)  'If Addr begins with "$" remove it!
                  Out = Out & Tmp2                               'Build the string
@@ -6701,22 +6945,22 @@ Private Sub LoadMLConfig()
             End Select
         Else
             If (Left(Tmp, 1) <> ";") And (Tmp <> "") Then
-                p = InStr(1, Tmp, ",") 'look for comma separator
+                P = InStr(1, Tmp, ",") 'look for comma separator
                 '---- Process according to current section marker
                 Select Case TMode
                     Case 1 '-- PLATFORM
-                        If p > 0 Then
-                            Tmp2 = Left(Tmp, p - 1)
+                        If P > 0 Then
+                            Tmp2 = Left(Tmp, P - 1)
                             cboPlatform.List(C1) = Tmp2
-                            cboPlatFile.List(C1) = Mid(Tmp, p + 1)
+                            cboPlatFile.List(C1) = Mid(Tmp, P + 1)
                             C1 = C1 + 1
                         End If
 
                     Case 2 '-- CPU
-                        If p > 0 Then
-                            Tmp2 = Left(Tmp, p - 1)
+                        If P > 0 Then
+                            Tmp2 = Left(Tmp, P - 1)
                             cboCPU.List(C2) = Tmp2
-                            cboCPUFile.List(C2) = Mid(Tmp, p + 1)
+                            cboCPUFile.List(C2) = Mid(Tmp, P + 1)
                             C2 = C2 + 1
                         End If
                         
@@ -6891,7 +7135,7 @@ End Sub
 
 '---- Save HEX Listing
 Private Sub cmdHSave_Click()
-    Dim Filename As String, FIO As Integer, j As Integer, n As Integer
+    Dim Filename As String, FIO As Integer, J As Integer, n As Integer
     
     n = lstBIN.ListCount: If n = 0 Then MyMsg "No lines to save!": Exit Sub
     
@@ -6901,9 +7145,9 @@ Private Sub cmdHSave_Click()
     FIO = FreeFile
     Open Filename For Output As FIO
     
-    For j = 0 To lstBIN.ListCount
-    Print #FIO, lstBIN.List(j)
-    Next j
+    For J = 0 To lstBIN.ListCount
+    Print #FIO, lstBIN.List(J)
+    Next J
     Close FIO
 
 End Sub
@@ -6934,7 +7178,7 @@ End Sub
 
 Private Sub cmdHexFind_Click()
     Dim SS As String, HH As String, SH As String
-    Dim SL As Integer, j As Integer, p As Integer
+    Dim SL As Integer, J As Integer, P As Integer
     
     HH = txtHSS.Text: SL = Len(HH)
     
@@ -6944,10 +7188,10 @@ Private Sub cmdHexFind_Click()
         If (SL Mod 2) > 0 Then MyMsg "HEX digits must be in pairs.": Exit Sub
         
         SS = ""
-        For j = 1 To SL Step 2
-            SH = Mid(HH, j, 2)                                  'Get 2 hex digits
+        For J = 1 To SL Step 2
+            SH = Mid(HH, J, 2)                                  'Get 2 hex digits
             SS = SS & Chr(MyDec(SH))                            'Add character to searchstring
-        Next j
+        Next J
     Else
         SS = HH                                                 'Use original string as entered
     End If
@@ -6967,7 +7211,7 @@ End Sub
 
 Private Sub HexSearch(ByVal SS As String)
     Static LastPos As Integer, LastSS As String                 'Remembers these between calls
-    Dim MaxW As Integer, LL As Integer, L2 As Integer, p As Integer
+    Dim MaxW As Integer, LL As Integer, L2 As Integer, P As Integer
     Dim HA As String
     
     If SS = "" Then SS = LastSS Else LastPos = 1                'If no searchstring then use previous, else start from top
@@ -6975,23 +7219,23 @@ Private Sub HexSearch(ByVal SS As String)
     
     If LastPos > Len(VBuf) Then LastPos = 1                     'Wrap back to top
    
-    p = InStr(LastPos, VBuf, SS)                                'Do a binary search
-    If p = 0 Then p = InStr(LastPos, VBuf, SS, vbTextCompare)   'If not found search textually
+    P = InStr(LastPos, VBuf, SS)                                'Do a binary search
+    If P = 0 Then P = InStr(LastPos, VBuf, SS, vbTextCompare)   'If not found search textually
     
-    If p = 0 Then
+    If P = 0 Then
         MyMsg "No more occurances."                             'No results. Display message and exit
         Exit Sub
     End If
     
-    LastPos = p + Len(SS)                                       'Set position for next search
+    LastPos = P + Len(SS)                                       'Set position for next search
     If cbWide.value = vbChecked Then MaxW = 16 Else MaxW = 8    'What is the view line lenght?
-    LL = (p - 1) \ MaxW                                         'Which line is the found string on?
-    L2 = p - LL * MaxW - 1                                      'offset on line
+    LL = (P - 1) \ MaxW                                         'Which line is the found string on?
+    L2 = P - LL * MaxW - 1                                      'offset on line
     
     lstBIN.ListIndex = LL                                       'Select the line containing the string
     HA = MyHex(MyDec(Left(lstBIN.List(LL), 4)) + L2, 4)         'Hex Address of found
     
-    lblSResults.Caption = "Found at $" & HA & ", Offset:" & Str(p - 1) 'Results message
+    lblSResults.Caption = "Found at $" & HA & ", Offset:" & Str(P - 1) 'Results message
 
 End Sub
 
@@ -7178,11 +7422,11 @@ Private Sub Read_GeoPaint(ByVal Filename As String)
     For i = 0 To 44
         If blocks(i, 1) > 0 Then
             Dat = ""
-            For j = 1 To blocks(i, 1)
+            For J = 1 To blocks(i, 1)
                 PBuf = ReadBlock()
-                If j = blocks(i, 1) Then PBuf = Left(PBuf, blocks(i, 2))
+                If J = blocks(i, 1) Then PBuf = Left(PBuf, blocks(i, 2))
                 Dat = Dat & PBuf
-            Next j
+            Next J
             
             bitposh = 0:  bitposv = 0
             
@@ -7503,6 +7747,10 @@ End Sub
 Private Sub cbEquates_Click()
     MLReViewA
 End Sub
+Private Sub cbBlock_Click()
+    MLReViewA
+End Sub
+
 Private Sub cbIncSym_Click()
     MLReViewA
 End Sub
