@@ -1,4 +1,4 @@
-CBM-Transfer V1.20 (C)2021 Steve J. Gray
+CBM-Transfer V1.21 (C)2021 Steve J. Gray
 ===================================================
 Interactive Symbolic Disassembler with Code Tracing
 Help File
@@ -347,6 +347,8 @@ Find All................ Hi-light all lines containing search string.
 
 "v" Button.............. Toggles Info display area. Lets you see a wider display of information in the Tab lists. Click
                          on an entry and it will be shown here. Also shows the Find string.
+/ ...................... Toggles ML listing Split view. Shows two independent views of the ML listing. Note: Only the
+                         Top View can be used for adding labels, comments etc.
 
 Quick Add Buttons
 -----------------
