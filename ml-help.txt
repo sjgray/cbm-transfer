@@ -1,4 +1,4 @@
-CBM-Transfer V1.21 (C)2021 Steve J. Gray
+CBM-Transfer V1.21a (C)2021 Steve J. Gray
 ===================================================
 Interactive Symbolic Disassembler with Code Tracing
 Help File
@@ -311,14 +311,23 @@ using the top line buttons. Your output format must include addresses!
 the comment type (See below for CODEs), and optional description. Addresses of Operand bytes will
 not display!
 
- The "[ ]" button can be used for block comments. You could use the "Add" button but adding multi-line
-comments is awkward. You must put a ";" character to separate lines.
+ The "[ ]" button can be used for block comments. First select the line with the address and use the
+"[ ]" button. The ML area will be replaced by the Block Comment editor. You can enter any characters
+here and use as many lines as you want. Press ENTER to go to the next line, or up/down etc. Do not
+use any ";" characters in your comment as it is used to break lines. To edit a block comment,
+double-click it in the comment tab.
 
- Instead first select the line with the address and use the "[ ]" button. The ML area will be replaced
-by the Block Comment editor. You can enter any characters here and use as many lines as you want.
-Press ENTER to go to the next line, or up/down etc. Do not use any ";" characters in your comment as it
-is used as a line break when added to the comment list. Click "SAVE" when done. Use "CANCEL" to abort
-changes. The ML listing will be displayed again.
+ You can add one or more divider lines by starting a line with the "/" character followed by the
+character you wish to use for the divider. For example:
+
+/=
+/-
+/*
+
+Always start the line with the "/" and use only a single character after that, with no other characters
+on the line. The divider length is set in the project tab.
+
+Click "SAVE" when done. Use "CANCEL" to abort changes. The ML listing will be displayed again.
 
 Remember, the "Show Block Comments" option can be used to hide or show block comments.
 
