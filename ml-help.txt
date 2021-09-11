@@ -69,10 +69,10 @@ specifying information to help the disassembler do its thing. There are 9 tabs:
 
 1) Project..... Has settings and buttons to control the overall operation.
 2) Tracer...... Flow tracer. Traces code and finds data blocks.
-3) Gen Labels.. Shows generated labels and will be updated each time the ASM code is refreshed.
+3) Gen Labels... Shows generated labels and will be updated each time the ASM code is refreshed.
 4) Ext JSR..... Lists External JSR target addresses, updated on refresh.
 5) Entry Pt.... Entry points into the code. Used for the Tracer.
-6) Symbols..... Shows Symbolic addresses, names and comments for known machine locations.
+6) Symbols..... Shows Symbolic addresses, names and comments, for known machine locations.
 7) Tables...... Shows various data tables.
 8) Labels...... Shows user entered labels.
 9) Comments.... Shows user entered comments.
@@ -104,12 +104,12 @@ Label Prefix.............. Sets the prefix string used for generated labels.
 
 Comment Divider length.... Sets the width of a divider comment.
 Inline Comment Position... Column position to start inline comments.
-Starting Ln# / Increment.. Sets the first line and increment when using a format with 'nnn'
+Starting Ln# / Increment... Sets the first line and increment when using a format with 'nnn'
 
 Show Equates.............. Adds used symbols to the top of the output.
 Show Block Comments....... Block comments can be quite long. Uncheck to hide them.
-Add blank line..RTS/RTI... Option to add a blank line after subroutines to make listing more readable.
-Add blank line..labels.... Option to add a blank line before labels to make listing more readable.
+Add blank line...RTS/RTI... Option to add a blank line after subroutines to make listing more readable.
+Add blank line...labels.... Option to add a blank line before labels to make listing more readable.
 Include Symbol comments... Option to add comments associated with symbols inline.
 
 Disassembly: 
@@ -122,12 +122,12 @@ Symbols:
 
 Help...................... Displays this file.
 
- When the ML Disassembler is first selected it will load it's configuration info from the file
+ When the ML Disassembler is first selected it will load its configuration info from the file
 "ml-config.txt". You may edit this file to add additional platforms, CPUs, or Prefix's. Look at the existing
 entries to make sure your new entries are compatible.
 
  There is a Platform called "CBM Identifier". If you are disassembling a CBM binary and you don't know
-what Platform it is for, selct this one first. This platform contains a collection of callable ROM
+what Platform it is for, select this one first. This platform contains a collection of callable ROM
 routine addresses for multiple platforms, with each entry marked with the platform it is for. These will
 be displayed in the "Ext JSR" list. Once you identify the target platform you can select it from the
 platform list to get platform-specific symbols.
@@ -139,20 +139,20 @@ inclusion in future CBM-Transfer releases. I will be sure to credit you as well.
 Tracer Tab
 ----------
 
- The Flow Tracer is a simple CPU simulator that tries to determine what is code and what is data automatically.
+ The Flow Tracer is a simple CPU simulator that tries to determine what is code, and what is data, automatically.
 As the simulator reads instructions they are marked as "code". Anything not marked is considered "data". For
 the tracer to function it is important to add all Entry Points into the EntryPt (EP) list. If an entry point
 is missed then the Flow Tracer will not flow and potential code will not be marked, and will be treated as
 "data". This process is not perfect but may help in identifying data vs code.
 
- The Flow Tracer starts from the last EP in the list. The EP is deleted, then code "execution" starts from that
+ The Flow Tracer starts from the last EP in the list. The EP is deleted, and then code "execution" starts from that
 point. If an instruction does not change the flow of execution it is ignored. When an instruction is reached
 that changes the flow, each possible path is added to the EP list. When code reaches an instruction that stops
 execution in that path, it is done that branch. New entry points are read from the EP list until the list is
 empty.
 
  When the list is empty the tracer is done. Any bytes that have not been marked are assumed to be data. The
-entire code range is checked and a list of data blocks are built up.
+entire code range is checked and a list of data blocks is built up.
 
  For example, if you were to disassemble the C64 KERNAL ROM you would know that there are 3 fixed entry points
 for RESET, IRQ and NMI (FFF7, FFFA, FFFD) at the end. These addresses would be entered into the EP list.
@@ -207,7 +207,7 @@ Load.............. Loads a text file containing entries for the selected tab lis
                    the "Clear Lists on Load" option is checked in the Project tab. If you un-check this option then
                    new entries will be added to existing entries and will be sorted by address.
 Save.............. Saves entries to a text file.
-Add............... Adds an antry to the selected tab list. You will be prompted to input the data and shown
+Add............... Adds an entry to the selected tab list. You will be prompted to input the data and shown
                    the proper data format. All addresses must be in hex.
 Del............... Delete the selected entry.
 Find.............. Finds the selected entry in the disassembly output.
@@ -340,7 +340,7 @@ At the top are options for Refreshing the output, quickly specifying blocks, or 
 ">>" or "<<"............ Hide or Show the side panel.
 Black/White Toggle...... Toggles the output from White on Black to Black on White
 Status Box.............. Shows Disassembly errors as yellow, or green when no errors are found. Errors are
-                         illegal opcodes of the 6502. This box will not be relevent if a CPU with completely filled
+                         illegal opcodes of the 6502. This box will not be relevant if a CPU with completely filled
                          instruction set is selected.
 Refresh Checkbox........ When checked, most actions will cause a refresh. If you plan to make a lot of changes/additions
                          and your code is large, turn off auto refresh, and then click the Refresh Button when desired.
@@ -404,7 +404,7 @@ Tips and Tricks
 ===============
 * Start with standard 6502 unless you know there are 'illegal' opcodes in your file.
 * Turn on Dual View and have the HEX listing as the second view.
-  Clicking on a line the ML ouput window will highlight the matching line in the HEX listing!
+  Clicking on a line the ML output window will highlight the matching line in the HEX listing!
 * Dual View with BASIC as the second view will show if there is a BASIC loader in front of the ML code.
 * Click on the "Gen Labels" Tab. The address with the most duplicate entries is probably important.
 * Click on the "Ext JSR" Tab. Can quickly show you routines in BASIC or KERNAL that get called.
@@ -486,5 +486,5 @@ Thank-you to the following who have provided resources or inspiration:
 * DA65 by Ullrich von Bassewitz - I wanted my disassembler to be a kind of GUI version of DA65's info files
 * Mike from 6502.org for great 6502 resources and hosting for my project and software webpages.
 * Bo from zimmers.net for great CBM resources
-* ReGenerator by n0stalgia - Inspired the Platforms feature (you can import it's system files too!)
+* ReGenerator by n0stalgia - Inspired the Platforms feature (you can import its system files too!)
 * ACME by Marco Baye - Assembler I use for all my 6502 projects

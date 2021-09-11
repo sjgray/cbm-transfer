@@ -5072,7 +5072,7 @@ Sub MLView()
                                     
                                     If Len(Tmp) = 3 Then
                                         If Left(Tmp, 2) = ";/" Then
-                                            Tmp = String(DivLen, Mid(Tmp, 3, 1))    'Convert to divider line
+                                            Tmp = ";" & String(DivLen, Mid(Tmp, 3, 1))   'Convert to divider line"
                                         End If
                                     End If
                                     If OutFmt = 2 Then

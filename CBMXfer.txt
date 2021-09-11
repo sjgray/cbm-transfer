@@ -14,7 +14,7 @@ CBM-Transfer (C)2007-2021 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
     * Vice....... Emulators plus C1541 utility - Works with Commodore Disk Image files (like D64)
     * NibTools... Low-level disk "nibbler" utilities using parallel port cables, or 1571 drive
 
-   CBM-Transfer will have limited use without at least one of the above utilties. Please see
+   CBM-Transfer will have limited use without at least one of the above utilities. Please see
   below for installation instructions!
 
   CBM-Transfer is based on GUI4CBM4WIN by Leif Bloomquist, Wolfgang Moser, and Spiro Trikaliotis.
@@ -59,7 +59,7 @@ Installation
 ============
 
    CBM-Transfer is compatible with machines running Windows95 or later, and has been tested on
-  versions upto and including Windows 10. It is a 32-bit Windows app but will also run on
+  versions up to and including Windows 10. It is a 32-bit Windows app but will also run on
   64-bit Windows.
 
   There are three different releases:
@@ -100,8 +100,8 @@ Installation
            Windows VISTA and higher. OpenCBM 4.99 now has special installation instructions.
            Please refer to the OpenCBM documentation.
 
-   Once OpenCBM is installed you can install CBM-Transfer. Unzip the download file to a temporary location, then
-  do ONE of the following depending on which you downloaded:
+   Once OpenCBM is installed you can install CBM-Transfer. Unzip the download file to a temporary location,
+  then do ONE of the following depending on which you downloaded:
 
   For (1): Run setup.exe and change the installation to the location that OpenCBM was installed.
   For (2): Copy the files into the OpenCBM folder.
@@ -280,7 +280,7 @@ PETSCII, ASCII, CBMDOS, MSDOS etc
    There are fundamental differences between Commodore PETSCII vs ASCII, and CBMDOS vs MSDOS. This means you
   must be aware of how to handle these differences. Commodore disks use PETSCII and may contain files with
   names that can not be represented using ASCII. Therefore, some translation may be necessary when
-  transfering files to MSDOS, which uses ASCII. The OpenCBM utilities, and C1541.EXE show these files using
+  transferring files to MSDOS, which uses ASCII. The OpenCBM utilities, and C1541.EXE show these files using
   ASCII so you may not be able to see the true filename or even transfer the file.
 
 
@@ -426,7 +426,7 @@ Left Pane
   swap between the Local PC directory and the Disk Image.
 
   NOTE: PETSII as used by Commodore contains many special symbols and graphics characters that have no
-        equivilent in ASCII and therefor are "non-printable". The "C1541.EXE" program that allows
+        equivalent in ASCII and therefore are "non-printable". The "C1541.EXE" program that allows
         CBMXfer to view disk images, will display any non-printable characters as PERIODS. Most likely
         you will not be able to copy these files to the LocalPC directory, however when disk images are
         written to real CBM disk drives these files will appear as normal.
@@ -474,7 +474,7 @@ Right Pane
 
   NOTE: If you are using a 3rd-party disk drive, your drive may not be detected properly in OPENCBM. If this
   is the case your drive will default to being treated as a 1541. Most clone drives should be ok for this,
-  but if you have some non-standard drive or have added some 3rd-party firmware some features of of your
+  but if you have some non-standard drive or have added some 3rd-party firmware some features of your
   drive may not be supported. Click on the "1541" box to display additional information that you can send to
   the OPENCBM team to have your drive properly recognized.
 
@@ -497,7 +497,7 @@ Right Pane
   CBM Drive via CBMLink:
   
    The CBMLink (or PRLink) cable connects a PC to a Commodore computer via the PC's serial port.
-  This cable usually attaches to the Commodore machine's cassete port, but may also be connected to
+  This cable usually attaches to the Commodore machine's cassette port, but may also be connected to
   a serial port if available. The Commodore drives are connected to the Commodore computer as usual.
   The CBMLink program must be loaded on the Commodore computer. There is a version specific to each
   Commodore machine.
@@ -505,7 +505,7 @@ Right Pane
   Once CBMLink is running, any drive that is attached can be accessed. CBMLink is commonly used on
   the older PET machines to access IEEE drives (4040, 8050 etc).
 
-  At the top is a drop-down menu to select the device number and drive number (to accomodate dual
+  At the top is a drop-down menu to select the device number and drive number (to accommodate dual
   drive units).
 
   Make sure that the correct speed and COM port are set in the CBM-Transfer options!
@@ -558,12 +558,12 @@ File Transfer
   option and create additional image types NIB, NBZ or G64 in a similar fashion. NibTools has many options,
   so please refer to the Nibtools documentation for correct usage of the various switches.
 
-   When transfering files from Commodore disk, PRG and SEQ extensions will added automatically to the
+   When transferring files from Commodore disk, PRG and SEQ extensions will added automatically to the
   filename on the PC. When PRG and SEQ files are written to Commodore disk the PRG and SEQ will be
   removed but will appear properly as PRG or SEQ in the directory listing.
 
   NOTE:	Commodore uses PETSCII characters. This is a different standard than ASCII on the PC!
-	Some Commodore characters or symbols do not have a matching ASCII equivilent and you may
+	Some Commodore characters or symbols do not have a matching ASCII equivalent and you may
 	be asked to enter a new filename when transferring files to the PC. If you wish to preserve the
 	Commodore filename then you can enable the "Write P00" option.
 
@@ -601,7 +601,7 @@ File Viewer
    You can enable DUAL VIEW by clicking on the "+" button to the right of the VIEW MODE buttons. The button
   will change to "-". Press the "-" button to return to SINGLE VIEW.
 
-   When DUAL VIEW is enable you can view the same file two different ways at the same time. Several new
+   When DUAL VIEW is enabled you can view the same file two different ways at the same time. Several new
   buttons will appear. The ">" button shows which side (left or right) will be changed when a VIEW MODE
   button is clicked. Clicking this button toggles it between "<" and ">".  To swap left and right views,
   look at this button then click on the tab for the opposite view.
@@ -609,7 +609,7 @@ File Viewer
    There will also be a set of three buttons ( "<<" "|" and ">>" ) that change the sizing of the left and
   right frames from 20% to 80%. The "|" button returns it to 50%.
 
-   Normally when viewing PRG, SEQ or BIN fles the view will change to BASIC, SEQ or BIN automatically. The
+   Normally when viewing PRG, SEQ or BIN files the view will change to BASIC, SEQ or BIN automatically. The
   "Lock View" option overrides this behaviour. You can also view "P00" files. The header will be skipped
   automatically. If you select a file that is not recognized you will be prompted to choose either the
   CBM-Transfer built-in viewer, or the application associated with the file extension.
@@ -660,7 +660,7 @@ SEQ:
   view below.
 
     * Use 'SEQ Viewer' C64 Font... Uses a font called "SEQ Viewer".
-    * Ignore LF................... Ignores LineFeed characters
+    * Ignore LF................... Ignores Linefeed characters
 
   There are also two colour boxes to manually set the listing colours and a slider to adjust the font
   size of the text.
@@ -678,10 +678,10 @@ HEX:
 			  abcd	...search for 'abcd' 'ABCD' or any combination (case does not matter).
 			  $00	...search for hex byte 00.
 			  $FF00 ...search for hex bytes FF 00 together. You can enter as many as you like.
-    * Next............. Find the next occurance of search string. To start from the top again click FIND.
+    * Next............. Find the next occurrence of search string. To start from the top again click FIND.
 
     * Wide............. Displays 16 bytes per line
-    * Show Printable... Display the ASCII/CBM equivilent characters. Unprintable characters are
+    * Show Printable... Display the ASCII/CBM equivalent characters. Unprintable characters are
                         represented with a "." character. If you de-select "Show Printable" then
                         only the hex values will be shown (with 32 bytes per line).
     * 7-bit View....... Masks off the upper bit which will allow "RVS" CBM text to be seen.
@@ -736,7 +736,7 @@ FONT:
 	* Toggle Border........ Turns Border space between characters on or off.
 	* Save as BMP.......... Saves the current view, including theme and zoom to a BMP file (see tip).
 	* Edit Mode............ Toggle Edit Mode
-	* Save Font As......... Save the curent font to a file.
+	* Save Font As......... Save the current font to a file.
 	* Save Range As........ Save selected range to a file (see selecting a range below).
 	* Convert.............. Submenu to convert various font formats (see below)
 
@@ -779,7 +779,7 @@ FONT:
   Clear............ Erases the character/range.
   RVS.............. Inverts the character/range - AKA Reverse.
   Bold............. Bolds the character to the right.
-  Und.............. Underline (or strikethru). The line is drawn below the crosshair.
+  Und.............. Underline (or strikethrough). The line is drawn below the crosshair.
   Rot L / Rot R.... Rotate the character [L]eft or [R]ight. (8x8 characters only)
   Flip H / Flip V.. Flip the character on the [H]orizontal or [V]ertical plane.
   Ins R / Del R.... Insert or Delete ROWs below the crosshair.
@@ -997,7 +997,7 @@ Change Log
      *      Check for project changes when attempting to close viewer.
      *      Fix error with disassemblies ending at $FFFF.
      *      Fix illegal opcode status box (green/yellow).
-     *      Fix unnessessary reading of source file on second pass (file is in buffer).
+     *      Fix unnecessary reading of source file on second pass (file is in buffer).
      * HEX: Sync selected line to FONT offset.
      * BMP: Optimized pixel drawing for faster speed.
    * Batch Imaging now saves last batch#.
@@ -1068,8 +1068,8 @@ Change Log
    * Enable "Cancel All" option for multi-file rename.
    * Fix "Lock View" in viewer.
    * Add 16/32 character wide font view option.
-   * Temp fix for TRUE/FALSE settings in INI not recognized in non-english Windows
-     (German,French,Spanish now recognized - Will need to properly change INI save/load routines at
+   * Temp fix for TRUE/FALSE settings in INI not recognized in non-English Windows
+     (German, French, Spanish now recognized - Will need to properly change INI save/load routines at
      some point).
    * Add option to remember/use SRC/DEST paths .
    * Config options/settings are now automatically saved when you click OK and when you exit the app
@@ -1081,7 +1081,7 @@ Change Log
    
 0.40 Aug 12,2014
    * Added DAD window and option.
-   * ML: Add "Find" buttons to SYM and DT lists. Select an entry then click to find the next occurence.
+   * ML: Add "Find" buttons to SYM and DT lists. Select an entry then click to find the next occurrence.
    * ML: Click status box to find next "???" (unknown instruction).
    * Changed directory listings to lowercase so graphics characters now appear as uppercase letters.
    * Changed Default fonts in lister to be courier fixed-width.
@@ -1129,7 +1129,7 @@ Change Log
    * Better 1581 progress bar.
    * Fix Hex viewer missing bytes.
    * Fix ASM calculating wrong relative branch address, Added Symbol Table.
-   * Formatting single-sided on 1571 drive now uses fast format again. Double-sided uses cbmdos command.
+   * Formatting single-sided on 1571 drive now uses fast format again. Double-sided uses CBMDOS command.
    * Handle unknown disk ID's with prompt.
    * ASM-Loads faster, bug fixes.
    * ASM-Adding Load/Save/Add/Delete and Edit for tables.
@@ -1141,7 +1141,7 @@ Change Log
    * BIN Viewer-Added "Load Address in file" option.
    * Double-click on Source file entry defaults to VIEW the file.
    * Double-click on Disk Image file entry defaults to VIEW the file.
-   * Add support for CMD floppy images (D1M,D2M,D4M) in file filter.
+   * Add support for CMD floppy images (D1M, D2M, and D4M) in file filter.
    * Add support for VICE xcbm5x0 emulator.
    * You can now drag and drop a folder to the Source or Destination Path to change to it.
    * Fix bug causing crash if you click on a file in source directory that was renamed or
@@ -1222,7 +1222,7 @@ Change Log
     * Added X-cable and CBMLINK enable checkboxes to options.
     * Improved error handling (still needs work. Thanks to Kees Zaaijer for feedback!).
     * Changed Basic Lister to Multi-format viewer.
-	 - View as: BASIC, Font, SEQ, Disassembler.
+	 - View as: BASIC, Font, SEQ, and Disassembler.
 	 - Not Working: Binary viewer.
     * Changelog file now in this readme    .
     * Preliminary Documentation - Let me know what topics need more attention ;-)
@@ -1250,7 +1250,7 @@ Change Log
     * Added File Filter menu.
     * Added separate SOURCE and DESTINATION directories.
     	* Path Swap/Copy functions.
-    * Added support for Vice Team's C1541 commandline utility to work with Disk Images.
+    * Added support for Vice Team's C1541 command line utility to work with Disk Images.
 	* View Image Directory.
 	* Create new Image.
 	* Copy files from Image to Local PC or X-Device.
@@ -1264,7 +1264,7 @@ Change Log
     * Added CBM BASIC Lister.
 	* Requires "tokens.dat" data file.
 	* Supports all released version Tokens.
-	* Autodetect correct BASIC version (override with dropdown menu).
+	* Auto detect correct BASIC version (override with dropdown menu).
 	* Displays Load Address and Best-guess of target Machine.
 	* List Formatting options.
 		* Select Text/Graphic mode.
@@ -1275,7 +1275,7 @@ Change Log
 	* Resizable window.
 	* Export to clipboard.
 	* Export to text File.
-	* View with PRG files on LocalPC,inside Image or on X-drive.
+	* View with PRG files on LocalPC, inside Image or on X-drive.
     * This release 8 of 12 possible copy operations are complete (The others display a "sorry" message).
 
 
