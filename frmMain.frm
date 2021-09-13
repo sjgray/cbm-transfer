@@ -1952,7 +1952,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.21a (Sept 10/2021)" & Cr & _
+    MyMsg "CBM-Transfer  V1.22 (Sept 13/2021)" & Cr & _
           "(C)2007-2021 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -3622,7 +3622,7 @@ Private Sub Copy_LocalToX(ByVal Index As Integer)
                         Else
                             WriteImageToX FileOut, ImgFlag
                         End If
-                    Case "NIB", "NBZ", "G64"
+                    Case "NIB", "NBZ", "G64", "G71"
                         WriteNIBtoX FileOut, ImgFlag
                     Case "D80", "D81", "D82"
                         WriteImageToX FileOut, ImgFlag
@@ -4099,7 +4099,7 @@ Private Sub CheckSelected(Index As Integer, Target As Integer)
             
             Ext = FileExtU(lstLocal(Index).List(T))
             Select Case Ext
-                Case "D64", "X64", "G64", "D71", "D80", "D81", "D82", "D2M", "D4M", "DNP"
+                Case "D64", "X64", "G64", "G71", "D71", "D80", "D81", "D82", "D2M", "D4M", "DNP"
                     SelectImage Filename, Target
                     
                 Case "NIB", "NBZ"
@@ -4183,8 +4183,8 @@ End Sub
 Private Function FilterString(ByVal n As Integer) As String
     Dim FX As String
     Select Case n
-        Case 1: FX = "*.D64;*.D71;*.D80;*.D81;*.D82;*.NIB;*.G64;*.X64;*.D1M;*.D2M;*.D4M"
-        Case 2: FX = "*.NIB;*.NBZ;*.G64;*.D64"
+        Case 1: FX = "*.D64;*.D71;*.D80;*.D81;*.D82;*.NIB;*.G64;*.G71;*.X64;*.D1M;*.D2M;*.D4M"
+        Case 2: FX = "*.NIB;*.NBZ;*.G64;*.G71;*.D64"
         Case 3: FX = "*.D80;*.D82"
         Case 4: FX = "*.PRG"
         Case 5: FX = "*.SEQ"
@@ -4194,7 +4194,7 @@ Private Function FilterString(ByVal n As Integer) As String
         Case 9: FX = "*.D80"
         Case 10: FX = "*.D81"
         Case 11: FX = "*.D82"
-        Case 12: FX = "*.G64"
+        Case 12: FX = "*.G64;*.G71"
         Case 13: FX = "*.NIB;*.NBZ"
         Case 14: FX = "*.D1M;*.D2M;*.D4M"
         Case 15: FX = "*.BIN;*.ROM;*.ASM-PROJ"
@@ -4245,9 +4245,13 @@ Private Sub SelectImage(ByVal Filename As String, Index As Integer)
 End Sub
 
 '---- Read Disk Image Directory
+' This calls the C1541 program to read the directory of the DISK IMAGE file
+' Output of the C1541 program is saved to TEMPFILE1.
+' It then parses the output file and loads it into the LIST
+'
 Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     Dim temp As String, Temp2 As String, Results As ReturnStringType
-    Dim p As Integer, PP As Integer
+    Dim p As Integer, PP As Integer, Terminator As String
 
     On Local Error GoTo GIError
              
@@ -4261,13 +4265,20 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
     
     If EOF(1) Then Exit Sub     'Check for empty file
     
-    Input #1, temp              'Output is in one long string. Must Parse!...
+    'NOTE: Early versions of C1541 used only the LF terminator which means that the entire file
+    '      would load in all at once. Newer versions use CRLF and must be loaded in line-by-line.
+    While Not EOF(1)
+        Input #1, Temp2              'Output is in one long string. Must Parse!...
+        temp = temp & Temp2 & LF
+    Wend
     Close #1
     
+    Terminator = LF
+        
     '-- Throw away extraneous strings containing "GetProc" etc
     PP = 1
     Do
-        p = InStr(PP, temp, LF): If p = 0 Then Exit Do
+        p = InStr(PP, temp, Terminator): If p = 0 Then Exit Do
         Temp2 = Mid(temp, PP, p - PP): PP = p + 1
     Loop While Left(Temp2, 1) > "9"
        
@@ -4277,7 +4288,7 @@ Private Sub GetImageDir(Index As Integer, ByVal Filename As String)
 
     '-- Now parse remaining entries
     Do
-        p = InStr(PP, temp, LF): If p = 0 Then Exit Do
+        p = InStr(PP, temp, Terminator): If p = 0 Then Exit Do
         Temp2 = Mid(temp, PP, p - PP): PP = p + 1
         If InStr(1, Temp2, "blocks free", vbTextCompare) = 0 Then lstImageFiles(Index).AddItem Temp2 Else Exit Do 'Lowercase
     Loop
@@ -4396,7 +4407,7 @@ Private Sub lstImageFiles_OLEDragDrop(Index As Integer, Data As DataObject, Effe
             Filename = (vFn)
             Ext = FileExtU(Filename)
             Select Case Ext
-                Case "D64", "X64", "G64", "D71", "D80", "D81", "D82", "D1M", "D2M", "D3M"
+                Case "D64", "X64", "G64", "D71", "G71", "D80", "D81", "D82", "D1M", "D2M", "D3M"
                     SelectImage Filename, Index: Exit For
                 Case Else: MyMsg "Sorry, only Disk Image files can be dropped!"
             End Select

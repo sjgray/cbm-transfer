@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2021 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.21a - Sept 10,2021
+============ V1.22 - Sept 13,2021
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -110,9 +110,12 @@ Installation
   Now copy the "C1541.EXE" file from the WinVice directory to the same.
 
      IMPORTANT!: For WinVICE 3 you will also need to copy the "libgcc_s_dw2-1.dll" file or it will not work!
+		 For the GKT3 versions you need to copy a whole bunch of DLLs...
+		(best to copy ALL *.DLL files from the \BIN folder)
 
-   Some people are reporting problems with newer versions of C1541.EXE. If you are unable to get a directory
-  listing you may need to downgrade to an older version. The following version seems to run without problems:
+  Starting from V1.22 any version of C1541 should work provided you have the correct support files in the
+  OpenCBM folder. If you are unable to get a directory listing you may try downgrading to an older version.
+  The following version seems to run without problems:
 
   ***
   *** VICE 3.2 native binary distribution, for MS-Windows 32bit:
@@ -924,6 +927,10 @@ Blue Chip	Untested
 
 Change Log
 ==========
+1.22 - Sept 13,2021
+   * Fixed Disk Image reading when using newer C1541.EXE versions.
+   * Add support for G71 images - Tested with VICE 3.5 GTK3 64bit version
+
 1.21a - Sept 10, 2021
    * ASM: Add ML output split view. Add divider feature to block comments.
 
