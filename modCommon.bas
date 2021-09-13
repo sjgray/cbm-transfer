@@ -108,6 +108,7 @@ End Function
 Public Function FileExt(ByVal Filename As String) As String
     Dim p As Integer
     
+    If Right(Filename, 1) = Qu Then Filename = Left(Filename, Len(Filename) - 1)
     p = InStrRev(Filename, ".")
     If p > 0 Then FileExt = Mid(Filename, p + 1) Else FileExt = ""
 End Function
@@ -115,9 +116,10 @@ End Function
 '---- Return file Extension Uppercased
 Public Function FileExtU(ByVal Filename As String) As String
     Dim p As Integer
-    
+    If Right(Filename, 1) = Qu Then Filename = Left(Filename, Len(Filename) - 1)
     p = InStrRev(Filename, ".")
     If p > 0 Then FileExtU = UCase(Mid(Filename, p + 1)) Else FileExtU = ""
+    
 End Function
 
 '---- Return Path without filename
@@ -217,7 +219,7 @@ End Function
 ' Flag: False=reading, True=writing
 Public Function SupportedImg(ByVal Ext As String, ByVal WriteFlag As Boolean) As Boolean
     Select Case UCase(Ext)
-        Case "D64", "D71", "D80", "D81", "D82", "G64", "X64": SupportedImg = True
+        Case "D64", "D71", "D80", "D81", "D82", "G64", "G71", "X64": SupportedImg = True
         Case "NIB", "NBZ": If WriteFlag = True Then SupportedImg = True Else SupportedImg = False
         Case "D1M", "D2M", "D4M": If WriteFlag = True Then SupportedImg = False Else SupportedImg = True
         Case Else: SupportedImg = False
@@ -547,18 +549,18 @@ End Sub
 
 '---- Makes filename given template. Uses *, % and ^ as substitution characters
 Public Function BatchName(ByVal Num As Integer, ByVal Side As Integer, FStr As String) As String
-    Dim p As Integer, p2 As Integer, l As Integer
+    Dim p As Integer, P2 As Integer, l As Integer
     
     BatchName = FStr
     l = Len(FStr): p = InStr(1, FStr, "#"):    If p = 0 Then Exit Function
     
-    p2 = 1
-    Do While p2 < l
-        If Mid(FStr, p + p2, 1) <> "#" Then Exit Do
-        p2 = p2 + 1
+    P2 = 1
+    Do While P2 < l
+        If Mid(FStr, p + P2, 1) <> "#" Then Exit Do
+        P2 = P2 + 1
     Loop
     
-    Mid(BatchName, p, p2) = Right("000000" & Format(Num), p2)
+    Mid(BatchName, p, P2) = Right("000000" & Format(Num), P2)
     p = InStr(1, BatchName, "*"): If p > 0 Then Mid(BatchName, p, 1) = Format(Side)
     p = InStr(1, BatchName, "%"): If p > 0 Then Mid(BatchName, p, 1) = Chr(96 + Side)
     p = InStr(1, BatchName, "^"): If p > 0 Then Mid(BatchName, p, 1) = Chr(64 + Side)
@@ -575,8 +577,8 @@ Public Function GetNamedField(ByVal Tmp As String, FS As String) As String
     Tmp2 = ""
     
     If p > 0 Then
-        p2 = InStr(p + l, Tmp, Cr) 'Now look for carriage return
-        If p2 > 0 Then Tmp2 = Mid(Tmp, p + l, p2 - p - l)
+        P2 = InStr(p + l, Tmp, Cr) 'Now look for carriage return
+        If P2 > 0 Then Tmp2 = Mid(Tmp, p + l, P2 - p - l)
     End If
     
     GetNamedField = Tmp2
@@ -595,18 +597,18 @@ End Function
 '---- Retrieve Field number 'n' from record string 'Tmp'. Record is comma-delimited
 ' There must not be any commas in a field. It treats a NULL string between two commas as a NULL field.
 Public Function GetField(ByVal Tmp As String, n As Integer) As String
-    Dim C As Integer, p As Integer, p2 As Integer, Comma As String, T2 As String
+    Dim C As Integer, p As Integer, P2 As Integer, Comma As String, T2 As String
     
-    Comma = ",": p2 = 1: C = 1
+    Comma = ",": P2 = 1: C = 1
 
     Do
-        p = InStr(p2, Tmp, Comma)           'Look for the Comma
+        p = InStr(P2, Tmp, Comma)           'Look for the Comma
         If p = 0 Then Exit Do               'None, then exit
         If p > 0 And C = n Then Exit Do     'We found the last record (no comma after it)
-        p2 = p + 1: C = C + 1               'Move the start, count the comma
+        P2 = p + 1: C = C + 1               'Move the start, count the comma
     Loop
     
-    If p = 0 Then T2 = Mid(Tmp, p2) Else T2 = Mid(Tmp, p2, p - p2) 'Extract record
+    If p = 0 Then T2 = Mid(Tmp, P2) Else T2 = Mid(Tmp, P2, p - P2) 'Extract record
     GetField = T2                           'Return the string
     
 End Function
@@ -615,24 +617,24 @@ End Function
 ' Delimiter is passed to function. If Delimiter is null then TAB will be used
 ' Note: There MAY be multiple TABs between fields!
 Public Function GetDField(ByVal Tmp As String, Delim As String, n As Integer) As String
-    Dim C As Integer, p As Integer, p2 As Integer, T2 As String
+    Dim C As Integer, p As Integer, P2 As Integer, T2 As String
     
     T2 = ""
     If Delim = "" Then Delim = Chr(9)       'Use TAB delimiter if not specified
-    p2 = 1: C = 1                           'String starts at position 1 and is Field#1
+    P2 = 1: C = 1                           'String starts at position 1 and is Field#1
     
     Do
-        p = InStr(p2, Tmp, Delim)           'Look for the TAB
+        p = InStr(P2, Tmp, Delim)           'Look for the TAB
         If p = 0 Then Exit Do               'None, then exit
-        If p > p2 Then
+        If p > P2 Then
             If C = n Then Exit Do           'We found the last record (no TAB after it)
-            p2 = p + 1: C = C + 1           'Move the start, increment the Field#
+            P2 = p + 1: C = C + 1           'Move the start, increment the Field#
         Else
-            p2 = p + 1                      'if p=p2 then we found two delimiters together, so we increment pointer but not field#
+            P2 = p + 1                      'if p=p2 then we found two delimiters together, so we increment pointer but not field#
         End If
     Loop
     
-    If p = 0 Then T2 = Mid(Tmp, p2) Else T2 = Mid(Tmp, p2, p - p2) 'Extract record
+    If p = 0 Then T2 = Mid(Tmp, P2) Else T2 = Mid(Tmp, P2, p - P2) 'Extract record
     
     GetDField = T2                          'Return the string
 
