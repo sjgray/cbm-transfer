@@ -1,4 +1,4 @@
-CBM-Transfer V1.21a (C)2021 Steve J. Gray
+CBM-Transfer V1.23 (C)2021 Steve J. Gray
 ===================================================
 Interactive Symbolic Disassembler with Code Tracing
 Help File
@@ -115,6 +115,8 @@ Include Symbol comments... Option to add comments associated with symbols inline
 Disassembly: 
   Save.................... Save output to a file.
   Copy to Clipboard....... Places output in the clipboard.
+  Re-Assemble............. Assemble using current view format
+  Compare................. Check to load Re-ASM binary to HEX viewer
 
 Symbols:
   Purge................... Removes symbols not referenced in the code.
@@ -134,6 +136,19 @@ platform list to get platform-specific symbols.
 
  If you create a new platform and you think it might be useful for others, feel free to email it to me for
 inclusion in future CBM-Transfer releases. I will be sure to credit you as well.
+
+ The Current Disassembly VIEW FMT can be re-assembled using ACME. Make sure the ACME.EXE file is in the CBM-Transfer
+folder. Make sure to select a VIEW FMT that is compatible for ACME (IE: no line numbers or byte values before
+the assembly mneumonics. Enable the "Compare" option if you want to load the resulting binary into a SPLIT VIEW
+with the HEX Viewer. 
+
+ Click the Re-Assemble button. The current ASM lising will be saved to the same folder as the source file but with
+a ".REASM" extension. The output will have a ".OUT" extension and previous versions will be deleted before ACME runs.
+If there are errors in the reassembly a pop-up window will display them. Note any line numbers with errors. Enable
+the info line ("v" button) to show the line# of the selected line. Or, click on the box to enter a line# to jump to.
+This will let you see where the error is. If there are no errors and you have the Compare option clicked, the 
+SPLIT VIEW mode, with the HEX viewer on the right side. The .OUT file will be loaded and the comparison report will
+be visible.
 
 
 Tracer Tab
@@ -355,7 +370,7 @@ Find All................ Hi-light all lines containing search string.
 <]...................... From BOTTOM UP, find line containing string.
 
 "v" Button.............. Toggles Info display area. Lets you see a wider display of information in the Tab lists. Click
-                         on an entry and it will be shown here. Also shows the Find string.
+                         on an entry and it will be shown here. Also shows the LINE NUMBER and Find string.
 / ...................... Toggles ML listing Split view. Shows two independent views of the ML listing. Note: Only the
                          Top View can be used for adding labels, comments etc.
 

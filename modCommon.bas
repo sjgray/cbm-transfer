@@ -57,6 +57,7 @@ Attribute VB_Name = "modCommon"
 ' GetVstr.......... Return Value from string as above
 ' GetCharWidth..... Return Width based on character width index
 ' C64Colour........ Return the RGB value for specified C64 colour
+' PadString........ Pad a string to sepecified length
 
 '---- MessageBox popup with default title
 Public Sub MyMsg(ByVal Tmp As String)
@@ -300,13 +301,13 @@ Public Function CBMType(ByVal Str As String) As String
 End Function
 
 '---- Reverse Case of PETSCII Text (Mostly for original PET BASIC 1 text strings
-Public Function Reverse(ByVal n As Integer) As Integer
-    Select Case n
-        Case 65 To 90: n = n + 32
-        Case 97 To 122: n = n - 32
+Public Function Reverse(ByVal N As Integer) As Integer
+    Select Case N
+        Case 65 To 90: N = N + 32
+        Case 97 To 122: N = N - 32
     End Select
     
-    Reverse = n
+    Reverse = N
 End Function
 
 '---- Validate PC filename - Check for invalid characters
@@ -422,8 +423,8 @@ Function MyDec(ByVal H As String) As Long
 End Function
 
 '---- Convert decimal value to fixed-length HEX value with leading zeros
-Function MyHex(ByVal n As Single, D As Integer) As String
-    MyHex = Right("00000000" & Hex(n), D)
+Function MyHex(ByVal N As Single, D As Integer) As String
+    MyHex = Right("00000000" & Hex(N), D)
 End Function
 
 '---- Convert decimal value to fixed-length HEX value with leading zeros
@@ -512,22 +513,22 @@ End Function
 
 '---- Converts a Commodore file Load Address to associated computer family or model
 Public Function GetMachine(ByVal LA As Long) As Integer
-    Dim n As Integer
+    Dim N As Integer
     
     Select Case LA
-        Case 2049:       n = 2 'C64
+        Case 2049:       N = 2 'C64
         '                n = 3 'C64sc as of VICE 2.3
         '                n = 4 'C64DTV
-        Case 7169:       n = 5 'C128 Basic 7 [Also? 16385 - C128 mode++]
-        Case 4097, 4609: n = 6 'Vic20
-        Case 1024, 1025: n = 7 'PET (1025 conflict with VIC-20 +3K)
-        Case 3:          n = 8 'CBM2
+        Case 7169:       N = 5 'C128 Basic 7 [Also? 16385 - C128 mode++]
+        Case 4097, 4609: N = 6 'Vic20
+        Case 1024, 1025: N = 7 'PET (1025 conflict with VIC-20 +3K)
+        Case 3:          N = 8 'CBM2
         'Case 3:         N = 9 'CBM2 P500 as of VICE 2.4
-        Case 8193:       n = 10 'C16/Plus4 (Also 4097 which conflicts with VIC-20)  [Also? 8193 - Plus/4-C16++]
-        Case Else:       n = 0 'Unknown
+        Case 8193:       N = 10 'C16/Plus4 (Also 4097 which conflicts with VIC-20)  [Also? 8193 - Plus/4-C16++]
+        Case Else:       N = 0 'Unknown
     End Select
     
-    GetMachine = n
+    GetMachine = N
 End Function
 
 '---- Converts Commodore DOS Disk ID to model number string
@@ -549,13 +550,13 @@ End Sub
 
 '---- Makes filename given template. Uses *, % and ^ as substitution characters
 Public Function BatchName(ByVal Num As Integer, ByVal Side As Integer, FStr As String) As String
-    Dim p As Integer, P2 As Integer, l As Integer
+    Dim p As Integer, P2 As Integer, L As Integer
     
     BatchName = FStr
-    l = Len(FStr): p = InStr(1, FStr, "#"):    If p = 0 Then Exit Function
+    L = Len(FStr): p = InStr(1, FStr, "#"):    If p = 0 Then Exit Function
     
     P2 = 1
-    Do While P2 < l
+    Do While P2 < L
         If Mid(FStr, p + P2, 1) <> "#" Then Exit Do
         P2 = P2 + 1
     Loop
@@ -570,15 +571,15 @@ End Function
 'String contains multiple <CR> delimited lines (could be an entire text file)
 'Note: string to search must end with <CR>!
 Public Function GetNamedField(ByVal Tmp As String, FS As String) As String
-    Dim p As Integer, PP As Integer, l As Integer, Tmp2 As String
+    Dim p As Integer, PP As Integer, L As Integer, Tmp2 As String
         
-    l = Len(FS)                 'Length of Field String
+    L = Len(FS)                 'Length of Field String
     p = InStr(1, Tmp, FS)       'Look for the string
     Tmp2 = ""
     
     If p > 0 Then
-        P2 = InStr(p + l, Tmp, Cr) 'Now look for carriage return
-        If P2 > 0 Then Tmp2 = Mid(Tmp, p + l, P2 - p - l)
+        P2 = InStr(p + L, Tmp, Cr) 'Now look for carriage return
+        If P2 > 0 Then Tmp2 = Mid(Tmp, p + L, P2 - p - L)
     End If
     
     GetNamedField = Tmp2
@@ -596,7 +597,7 @@ End Function
 
 '---- Retrieve Field number 'n' from record string 'Tmp'. Record is comma-delimited
 ' There must not be any commas in a field. It treats a NULL string between two commas as a NULL field.
-Public Function GetField(ByVal Tmp As String, n As Integer) As String
+Public Function GetField(ByVal Tmp As String, N As Integer) As String
     Dim C As Integer, p As Integer, P2 As Integer, Comma As String, T2 As String
     
     Comma = ",": P2 = 1: C = 1
@@ -604,7 +605,7 @@ Public Function GetField(ByVal Tmp As String, n As Integer) As String
     Do
         p = InStr(P2, Tmp, Comma)           'Look for the Comma
         If p = 0 Then Exit Do               'None, then exit
-        If p > 0 And C = n Then Exit Do     'We found the last record (no comma after it)
+        If p > 0 And C = N Then Exit Do     'We found the last record (no comma after it)
         P2 = p + 1: C = C + 1               'Move the start, count the comma
     Loop
     
@@ -616,7 +617,7 @@ End Function
 '---- Retrieve Field number 'n' from delimited record string 'Tmp'.
 ' Delimiter is passed to function. If Delimiter is null then TAB will be used
 ' Note: There MAY be multiple TABs between fields!
-Public Function GetDField(ByVal Tmp As String, Delim As String, n As Integer) As String
+Public Function GetDField(ByVal Tmp As String, Delim As String, N As Integer) As String
     Dim C As Integer, p As Integer, P2 As Integer, T2 As String
     
     T2 = ""
@@ -627,7 +628,7 @@ Public Function GetDField(ByVal Tmp As String, Delim As String, n As Integer) As
         p = InStr(P2, Tmp, Delim)           'Look for the TAB
         If p = 0 Then Exit Do               'None, then exit
         If p > P2 Then
-            If C = n Then Exit Do           'We found the last record (no TAB after it)
+            If C = N Then Exit Do           'We found the last record (no TAB after it)
             P2 = p + 1: C = C + 1           'Move the start, increment the Field#
         Else
             P2 = p + 1                      'if p=p2 then we found two delimiters together, so we increment pointer but not field#
@@ -662,9 +663,9 @@ End Function
 
 
 '---- Return C64 Colour
-Public Function C64Colour(ByVal n As Integer) As Long
+Public Function C64Colour(ByVal N As Integer) As Long
     
-    Select Case n
+    Select Case N
         Case 0: C64Colour = RGB(0, 0, 0)
         Case 1: C64Colour = RGB(255, 255, 255)
         Case 2: C64Colour = RGB(255, 0, 0)
@@ -696,9 +697,11 @@ Public Function MyRGB(ByVal R As String, G As String, B As String) As Long
     MyRGB = RGB(RD, GD, BD)
     
 End Function
-Public Function GetCharWidth(ByVal n As Integer) As Integer
 
-    Select Case n
+'---- Convert index to character width
+Public Function GetCharWidth(ByVal N As Integer) As Integer
+
+    Select Case N
         Case 0: GetCharWidth = 8
         Case 1: GetCharWidth = 16
         Case 2: GetCharWidth = 32
@@ -709,3 +712,9 @@ Public Function GetCharWidth(ByVal n As Integer) As Integer
     
 End Function
 
+'---- Pad a string to a specified length. Warning!: Will truncate string if longer than pad length!
+Public Function PadString(ByVal S1 As String, L As Integer) As String
+    
+    PadString = Left(S1 & String(L, " "), L)
+    
+End Function

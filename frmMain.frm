@@ -1994,7 +1994,7 @@ Dim Drive(31) As String
 
 '---- Display Program info and acknowlegements
 Private Sub About_Click()
-    MyMsg "CBM-Transfer  V1.22a (Sept 13/2021)" & Cr & _
+    MyMsg "CBM-Transfer  V1.23 (Sept 17/2021)" & Cr & _
           "(C)2007-2021 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -4222,9 +4222,9 @@ Private Sub cboFilter_Click(Index As Integer)
 End Sub
 
 '---- Return Filter string for given Index
-Private Function FilterString(ByVal n As Integer) As String
+Private Function FilterString(ByVal N As Integer) As String
     Dim FX As String
-    Select Case n
+    Select Case N
         Case 1: FX = "*.D64;*.D71;*.D80;*.D81;*.D82;*.NIB;*.G64;*.G71;*.X64;*.D1M;*.D2M;*.D4M"
         Case 2: FX = "*.NIB;*.NBZ;*.G64;*.G71;*.D64"
         Case 3: FX = "*.D80;*.D82"
@@ -4470,7 +4470,19 @@ End Sub
 ' SHELL COMMANDS - The real work is done here!
 '=============================================
 
-'This function must be private, because of the return type.
+'---- Do Command
+' This function checks if there is another command in progress and if so exits immediately.
+' Check to make sure the DOS command EXE exists and if not displays message then exits.
+' Checks of PREVIEW is enable and if so displays the command string
+' Opens a WAITING status window if needed.
+' Builds a Command Line string with all arguments. paths, and redirection
+' Logs the command if enabled.
+' Calls the SHELLWAIT routine to actually execute the command
+' Reads the results
+' Sets LastCMDError variable that can be checked by calling routine
+
+' **** This function must be private, because of the return type.
+'
 Private Function DoCommand(Action As String, Args As String, WaitMessage As String, Optional DeleteOutFile As Boolean = True) As ReturnStringType
     Dim CmdLine As String, CmdLine2 As String, ErrorString As String, FIO As Integer
     Static InProgress As Boolean
@@ -4529,11 +4541,16 @@ Private Function DoCommand(Action As String, Args As String, WaitMessage As Stri
         lblR.ToolTipText = ErrorString          'Set Last Result as Tooltip
     End If
     
+    '-- Save Error Message so Calling routine can decide what to do
     LastCMDError = ErrorString                  'Remember the error results
+    
+    '-- Close Waiting window and allow other commands to execute
     InProgress = False: frmWaiting.Hide         'We are done, so clear InProgress Flag and hide the dialog
     
 End Function
 
+'---- PubDoCommand
+'
 Public Function PubDoCommand(Action As String, Args As String, WaitMessage As String, Optional DeleteOutFile As Boolean = True) As String
     Dim Returns As ReturnStringType
     
