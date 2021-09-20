@@ -1,5 +1,5 @@
 CBM-Transfer (C)2007-2021 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-============ V1.23 - Sept 17,2021
+============ V1.24 - Sept 20,2021
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -13,6 +13,8 @@ CBM-Transfer (C)2007-2021 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
     * CBMLink.... Talks to a Commodore computer via serial cable
     * Vice....... Emulators plus C1541 utility - Works with Commodore Disk Image files (like D64)
     * NibTools... Low-level disk "nibbler" utilities using parallel port cables, or 1571 drive
+    * ACME....... Open Source Assembler for 6502 family CPUs.
+    * MD5........ File checksum utility.
 
    CBM-Transfer will have limited use without at least one of the above utilities. Please see
   below for installation instructions!
@@ -693,6 +695,8 @@ HEX:
                         address. Allows the Hex view to sync with selected line in the ASM listing.
     * ASM Fmt.......... Display in "Assembly" format with bytes listed wit $ and comma separated.
 
+    * MD5 Button....... Calculate MD5 checksum for file. Creates {sourcefile}.MD5 with the checksum
+			and displays results.
     * Compare Button... Select a second file to compare. Filename, when loaded, is shown next to this.
     * Show............. Show or Hide the comparison block. Summary of differences is shown beside this.
 
@@ -927,6 +931,9 @@ Blue Chip	Untested
 
 Change Log
 ==========
+1.24 - Pending
+   * Viewer,HEX: Add MD5 checksum button. Needs MD5.EXE in opencbm path.
+
 1.23 - Sept 17,2021
    * Viewer, ASM: Add Re-Assemble feature, current line# display, and Jump-to-line option.
 
