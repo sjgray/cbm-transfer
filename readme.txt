@@ -21,7 +21,8 @@ MD5      - File ID utility
 Please read the CBMxfer.txt file for complete instructions on installation and use!
 
 This GITHUB repository contains the source code. If you are not interested in the
-source code you do not need to all the files in the repository to use CBM-Transfer!
+source code you do not need all the files in the repository to use CBM-Transfer!
+
 For more information and downloads please go to the website:
 
 http://www.6502.org/users/sjgray/software/cbmxfer/cbmxfer.html
