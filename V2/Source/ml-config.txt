@@ -1,0 +1,26 @@
+;---- This is a CBMXfer Disassembler Config File
+[PLATFORM]
+From Project File,*
+Commodore PET 2.0    ,ml-plat-pet2.txt
+Commodore PET 4.0    ,ml-plat-pet4.txt
+Commodore VIC-20     ,ml-plat-vic20.txt
+Commodore C64 Series ,ml-plat-c64.txt
+Commodore C128       ,ml-plat-c128.txt
+Commodore C264 Series,ml-plat-c264.txt
+Commodore 1541       ,ml-plat-1541.txt
+Commodore CLCD       ,ml-plat-clcd.txt
+Commodore Platform Identifier,ml-plat-cbm-identifier.txt
+[CPU]
+MOS 6502/6510/850x etc,ml-cpu-6502.txt
+MOS 6502 illegal,ml-cpu-6502-i.txt
+WDC 65C02       ,ml-cpu-wdc65c02.txt
+WDC 65SC02      ,ml-cpu-wdc65sc02.txt
+Rockwell R65C02 ,ml-cpu-r65c02.txt
+[PREFIX]
+L_
+L
+LBL_
+LBL
+X_
+X
+[END]

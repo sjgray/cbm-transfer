@@ -8,6 +8,7 @@ Commodore C64 Series ,ml-plat-c64.txt
 Commodore C128       ,ml-plat-c128.txt
 Commodore C264 Series,ml-plat-c264.txt
 Commodore 1541       ,ml-plat-1541.txt
+Commodore CLCD       ,ml-plat-clcd.txt
 Commodore Platform Identifier,ml-plat-cbm-identifier.txt
 [CPU]
 MOS 6502/6510/850x etc,ml-cpu-6502.txt

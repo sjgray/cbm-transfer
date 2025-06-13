@@ -1,12 +1,5 @@
-  CBM-Transfer (C)2007-2022 Steve J. Gray (sjgray@rogers.com)  www.stevegray.ca
-  ============ V2.0 BETA 1 - Jan 1,2022
-
-  ********************************************************************************************
-  ****                                                                                    ****
-  ****  BETA Version. Use at own risk! Please send bug reports and feedback to me at the  ****
-  ****  above address. Check Github for additional updates.                               ****
-  ****                                                                                    ****
-  ********************************************************************************************
+  CBM-Transfer (C)2007-2022 Steve J. Gray (sjgray@rogers.com)  www.cbmsteve.ca
+  ============ V2.0 RELEASE - Jun 13,20252
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -67,8 +60,8 @@
   Steve J. Gray
 
 	Email............: sjgray@rogers.com
-	Web..............: http://www.6502.org/users/sjgray/index.html
-	CBM-Transfer Page: http://www.6502.org/users/sjgray/software/CBMXfer/CBMXfer.html
+	Web..............: www.cbmsteve.ca
+	CBM-Transfer Page: www.cbmsteve.ca/cbmxfer
 	Github...........: https://github.com/sjgray/cbm-transfer
 
 
@@ -91,7 +84,7 @@
 		   > sourceforge.net/projects/opencbm/files/opencbm/
 		   
 	WinVice... Enulator and C1541 disk image utility - SEE NOTES!		
-		   Version 3.5 is latest as of Oct'2021 - Version2.3 or higher recommended.
+		   Version 3.9 is latest as of Jun '2025 - Version2.3 or higher recommended.
                    
 		   > vice-emu.sourceforge.net/
 
@@ -122,7 +115,7 @@
 	into the OpenCBM folder but it is not recommended. It should work as-is but may have
 	restrictions due to Windows permissions.
 
-   I recommend installing OpenCBM, WinVICE and any optional utilities you want to use first,
+    I recommend installing OpenCBM, WinVICE and any optional utilities you want to use first,
    rebooting, and making sure they work properly. Installation of OpenCBM may require
    administrative access to install correctly!
 
@@ -209,7 +202,7 @@
   
   ** General:
 
-   Proper operation requires that the utilties are properly installed and working before running CBM-Transer!
+   Proper operation requires that the utilties are installed and working before running CBM-Transer!
   If you are having trouble reading from X-cable or Viewing Disk Images make sure that the required files
   are in the directory, AND that they work on their own. Use the "RESULTS" button to view any error messages
   that might be generated. This could indicate an improper installation of OpenCBM or VICE files.
@@ -238,7 +231,7 @@
 
    When you start the program for the first time you will be taken directly to the options window where
   you can set the program options. On the left are the available option categories. Selecting one will
-  change which options are visible. First-time users should go to the "Utility Paths" option and set up
+  change which options are visible. First-time users should go to the "Utility Paths" section and set up
   the various paths to OpenCBM, VICE/C1541, CBMLink and Others.
 
    Click OK when you are done. The next time the program runs you will go to the main screen and won't
@@ -246,19 +239,19 @@
 
   ** General:
 
-    These are general option that control the GUI operation.
+    These are general options that control the GUI operation.
 
     Default Destination Mode.. Selects which will be the default view in the right pane.
     Log all commands.......... Writes exact command to logfile.
 					Use the "Show Log" button to view the log.
 					Use the "Clear Log" button to start a fresh log file.
 
-    Preview shell commands.... Display command-line before operation.
-    Write P00 files........... Determines if DOS filenames or P00 files are created when copying from
+    Preview shell commands.... Display the command-line before the operation.
+    Write P00 files........... Determines if DOS filenames or P00 files are created when copying files
                                within Disk Images.
-    Automatically refresh..... Normally checked.
-    Confirm D64 creation...... Asks confirmation.
-    Treat Dxx files........... Normally unchecked. Disables image writing.
+    Automatically refresh..... Normally checked. Refreshes the Directory after options that change files.
+    Confirm D64 creation...... Asks confirmation when creating Disk Images.
+    Treat Dxx files........... Enables writing Disk Image files to actual drives as FILES. Normally OFF.
     Ignore BAD disk ID's...... Lets disks with bad Disk ID's still be imaged with D64COPY rather than NIBTOOLS
     For results button also... Opens the CBMXFERERR.TXT file when the results button is pressed. 
     Start with DAD............ Opens the DAD window and minimizes the main window at startup.
@@ -270,7 +263,7 @@
     then leave all the paths empty EXCEPT for the VICE path. The Paths are:
 
 	OpenCBM............... Where CBMCTRL, CBMCOPY, D64COPY, IMGCOPY etc are located.
-	VICE and C1541 ....... Where the Emulators and the C1541 Image utility are located.
+	VICE and C1541 ....... Where the Emulators and the C1541 Image utility are located (select BIN folder!)
 	NIBTools.............. Where NibRead, NibWrite and NibConv are located.
 	CBM-Link.............. Where CBM-LINK is located.
 	Other................. Where ACME and MD5 are located
@@ -280,7 +273,7 @@
 
     These are the settings for the LEFT and RIGHT "Local PC" paths and history.
 
-    Remember PATHs............ Check to remember the last PATHs used, and restore then on startup.
+    Remember PATHs............ Check to remember the last PATHs used, and restore them on startup.
     Default LEFT Directory.... Default folder of your files (probably images). Click "..." to select.
     Default RIGHT Directory... Default folder of right-side Local PC. Click "..." to select.
     Use Current Button........ Take the current path as the default.
@@ -293,9 +286,9 @@
     These are settings that control the X-Cable (including Zoom Floppy) settings.
 
     Default Device Number..... Usually 8.
-    Use First Detected Drive.. Check which devices are available and default to the first one
+    Use First Detected Drive.. Checks which devices are available, and default to the first one.
     Mode...................... The protocol used to communicate (see OpenCBM manual).
-    Disable warp mode......... Check if you have trouble (see opencbm manual).
+    Disable warp mode......... If you have trouble check this option (see opencbm manual).
 
 
   ** CBMLink:
@@ -348,14 +341,14 @@
 
     When CBM filenames........ Commodore filenames can contain characters that are not allowed in
                                the Windows file system. These must be fixed before saving to the local PC.
-	- Leave as-is......... Lets you edit the filename manually (forces Confirm/Edit filename)
-	- Remove invalid...... Removes all invalid characters (caution: May remove entire filename!)
+	- Leave as-is......... Lets you edit the filename manually (forces Confirm/Edit filename).
+	- Remove invalid...... Removes all invalid characters (caution: May remove entire filename!).
 	- Replace invalid..... Replaces with specified character(s).
-	- Confirm/Edit........ Enable to allow additional editing after any substitutions above
+	- Confirm/Edit........ Enable to allow additional editing after any substitutions above.
 
        NOTE: If the Commodore application requires specific filenames that contain invalid characters
              it is recommended that you create a Disk Image rather than copying the files to the
-             local PC. Alternately you can enable the "Write P00" option to create P00 files. P00 files
+             local PC. Alternately, you can enable the "Write P00" option to create P00 files. P00 files
              contain a header that preserves the true CBM filename in the header but uses a
 	     file-system friendly filename on disk.
 
@@ -400,10 +393,11 @@
   must be aware of how to handle these differences. Commodore disks use PETSCII and may contain files with
   names that can not be represented using ASCII. Therefore, some translation may be necessary when
   transferring files to MSDOS, which uses ASCII. The OpenCBM utilities, and C1541.EXE generally manipulate
-  these files using ASCII so you may not be able to see the true filename or even transfer the file.
+  these files using ASCII so you may not be able to see the true filename or even transfer the file. In these
+  cases it it best to make a Disk Image instead.
 
   * UPDATE * 	OpenCBM has a "raw" mode that lets you see true CBM filenames. CBM-Transfer now uses this mode.
-  		However, the C1541 utility does not, so transferring files in and out of disk images may
+  		However, the C1541 utility does not, so transferring files in and out of Disk Images may
 		require files to be renamed.
 
 
@@ -412,7 +406,7 @@
   ==================
 
    One of the major changes in CBM-Transfer V2 is the use of real Commodore Fonts thoughout the program
-  where possible. This means that Directories show up as they would appear in a real machine, and the
+  where possible. This means that Directories show up as they would appear on a real machine, and the
   Viewer uses them to show you an accurate view of BASIC, SEQ, and HEX files. You can also switch between
   upper and lower case (Graphic and Text Mode) to see actual Commodore graphics characters. When viewing
   HEX files you can change from PETSCII to SCREEN CODES to look for embedded screens or text.
@@ -437,8 +431,8 @@
   Themes
   ======
 
-   New to V2 are Themes. This allows the look of the interface to be changed, as well as the Fonts used to
-  display CBM characters. So, for example the PET Theme could be Green shades, with green buttons, and use
+   New to V2 are Themes. This allows the look of the interface to be customized, including the Fonts used to
+  display CBM characters. So, for example the PET Theme could be green shades, with green buttons, and use
   the actual PET character set to render the directory. The C64 Theme could be blue and use the C64 Font
   (which is thicker than the PET) in true C64 colours to give you the feeling you are really using a C64.
   As well, some buttons and icons could be customized with different graphics to give a completely new look.
@@ -475,7 +469,8 @@
 
   Feel free to rename the theme files if you don't like the theme name edit the 'nnnn' part. If you
   want to use a different font with a theme just change the 'ffff' part. You can load the CXFONT files
-  into the font editor to modify or create your own fonts.
+  into the font editor to modify or create your own fonts. If you rename themes you don't like to
+  "xtheme-blah.blah.bmp" then it will not be included. You can rename later to get it back.
 
   NOTE!: The Theme BITMAP layout is currently in development and is subject to change!
 
@@ -508,14 +503,14 @@
     * Options button............. Brings up program options window (see above).
     * About button............... For program information etc. 
     * Help button................ Displays this Help text file.
-    * DAD button................. Shows or Hides the "Drag And Drop" window.
+    * DAD (CX) button............ Shows or Hides the "Drag And Drop" window.
 
     * Right Arrow ("->") button.. Copies from the LEFT to the RIGHT.
     * Left Arrow ("<-") button... Copies from the RIGHT to the LEFT.
 
-    * Theme Name................. Shows the name of the current Theme. Click to select a Theme from the menu.
     * < and >.................... Lets you cycle through available themes.
     * FG/BF boxes................ Lets you select custom colours for CBM Fonts (only BIN fonts)
+    * Theme Name................. Shows the name of the current Theme. Click to select a Theme from the menu.
 
    Also at the top left and bottom right are two expander buttons (">>" and "<<") that expand or hide
   elements on the left and right.
@@ -524,15 +519,13 @@
   Left Pane
   ---------
 
-   The LEFT pane is your "Source" pane. At the top are two coloured buttons to select which information
-  is displayed:
+   The LEFT pane is your "Source" pane. At the top are two buttons to select which information is displayed:
  
     * Local PC.... Standard PC files; Floppy, Hard drive, or Mapped Network drives. 
     * Disk Image.. The contents of a Commodore Disk Image (D64, D80, NIB etc).
 
-   The selected button will have the name in bold white text. Un-selected buttons have black text. You
-  may also click the ">>" button in the top centre section to expand the left pane to dual view and show
-  BOTH local PC and Disk Image. Click "<<" to return to single view. You can still use the top buttons to
+   You may also click the ">>" button in the top centre section to expand the left pane to dual view and show
+  BOTH Local PC and Disk Image. Click "<<" to return to single view. You can still use the top buttons to
   select the source when transferring to the right side pane.
 
   NOTE: When in dual view, clicking on a supported image file on the left side listing will automatically
@@ -547,33 +540,32 @@
   Click the "..." button to select a new directory to view. The ">>"  control lets you toggle separate
   drive and path controls. Click "<<" to hide them again.
 
-  The DOWN ARROW button brings up a drop-down menu to work with the paths:
+  The DOWN ARROW button shows drop-down menu to work with the paths:
 
-  * Explore LEFT Directory........ Opens the LEFT directory in an explorer Window
-  * Explore RIGHT Directory....... Opens the RIGHT directory in an explorer Window
+  * Explore LEFT Directory........ Opens the LEFT directory in an explorer Window.
+  * Explore RIGHT Directory....... Opens the RIGHT directory in an explorer Window.
   * Swap LEFT and RIGHT........... Swaps LEFT and RIGHT paths.
   * Set LEFT...................... Makes LEFT path same as the RIGHT.
   * Set RIGHT..................... Makes RIGHT path the same as the LEFT.
-  * Add Current Path to History... Adds the path
-  * Remove Current Path........... Removes the path
+  * Add Current Path to History... Adds the path.
+  * Remove Current Path........... Removes the path.
   * Clear History................. Clears the Source Path history list.
-  * Create New Folder............. Prompts for new folder name and creates it in the current folder
+  * Create New Folder............. Prompts for new folder name and creates it in the current folder.
 
-  NOTE: You can enable "Auto add Path" in the Options/path tab to automatically add new paths to the
-        drop-down menu. Paths will be saved on exit.
+  NOTE: You can enable "Auto add Path" in the Options/Local Paths tab to automatically add new paths
+	to the drop-down menu. Paths will be saved on exit.
 
   Below those buttons are the files from the selected directory. At the bottom are the file-related
-  buttons and totals KB and Blocks for any selected file(s).
+  buttons and total KB and Blocks for any selected file(s).
 
-  * Refresh...... Refreshes the file list
-
+  * Refresh...... Refreshes the file list.
   * Rename....... Rename selected file(s). If multiple files are selected it will prompt for each file.
                   To abort click the "Cancel All" button.
 
-  * Delete....... Delete selected file(s)
+  * Delete....... Delete selected file(s).
   * New Dnn...... Creates a new, blank Disk Image. The extension determines the type.
 
-  * Run.......... Smart button. Runs EXE files, edits TXT files, or runs VICE
+  * Run.......... Smart button. Runs EXE files, edits TXT files, or runs VICE.
   * View......... Smart button. View Commodore files.
   * 2............ Smart button. Select Disk Image to be viewed in Destination (right pane).
                   The Disk Image tab must be selected for this to work, otherwise it operates
@@ -613,12 +605,15 @@
   and dropping the file to the file list area. Only one file may be dropped at a time.
 
   The following icon/buttons are available:
+
   Top:
+
   * UP/DOWN........ Menu to change the character height.
   * A/a............ Menu to change Charachter Encoding.
   * DOWN TRIANGLE.. Drop-down menu with options to save the disk directory as a text file, add it to the
                     Catalog, View the Catalog, and Sort the listing.
   Bottom:
+
   * Refresh........ Re-read the image file.
   * ++/-- ......... Selects ALL files in the list, or deselect ALL files.
   * Del............ Deletes selected file(s) file from the image.
@@ -634,7 +629,7 @@
   NOTE: PETSCII as used by Commodore contains many special symbols and graphics characters that have no
         equivalent in ASCII and therefore are "non-printable". The "C1541.EXE" program that allows
         CBMXfer to view disk images, will display any non-printable characters as PERIODS. Most likely
-        you will not be able to copy these files to the LocalPC directory, however when disk images are
+        you will not be able to copy these files to the LocalPC directory, however when Disk Images are
         written to real CBM disk drives these files will appear as normal.
 
 
@@ -642,7 +637,7 @@
   ----------
 
    This lets you view directories on Commodore drives connected via OpenCBM or CBMLink. Click on the
-  coloured button at the top to select which to view.
+  button at the top to select which to view.
 
 
   **** CBM Drive on X-Cable:
@@ -661,7 +656,7 @@
 	Note: Make sure you are using the latest release of OpenCBM that includes
 	      Zoom Floppy support! Version 4.99.103 is current as of this writing.
 
-   For older computer without USB your computer will need a printer/parallel port in order to use an
+   For older computers without USB, your computer will need a printer/parallel port in order to use an
   "X-cable". The X-cable connects a Commodore IEC drive (1541, 1571, 1581 etc) or other drive (1541-III,
   uIEC, sd2iec etc) to the PC via the printer port and uses OpenCBM for communication.
 
@@ -691,12 +686,12 @@
 
 
   IMPORTANT!: CBM-Transfer now uses OpenCBM's "RAW" mode to read the directory. This allows CBM-Transfer to
-  get the real filenames, including any special PETSCII characters/graphics and view them exactly as you
-  would see on a real machine. The encoding button lets you see the directory in different modes, such as
-  PETSCII, Screen, SuperPET, or ASCII. The encoding you select does not change the filenames, only the way
-  they are displayed. When you transfer a file it will always transfer using the real filename from the disk.
+	get the real filenames, including any special PETSCII characters/graphics and view them exactly as you
+	would see on a real machine. The encoding button lets you see the directory in different modes, such as
+	PETSCII, Screen, or ASCII. The encoding you select does not change the filenames, only the way they are
+	displayed. When you transfer a file it will always transfer using the real filename from the disk.
 
-  Below those is the directory files lising, Blocks free and Number of files, and drive status. On the
+   Below those is the directory files lising, Blocks free and Number of files, and drive status. On the
   right edge are action buttons.
 
    Generally you will first select the device to use from the device# menu, then press the DIRECTORY button
@@ -705,10 +700,10 @@
   you if you want to use double-sided mode.
 
   NOTE: If you are using a 3rd-party disk drive, your drive may not be detected properly in OpenCBM. If this
-  is the case your drive will default to being treated as a 1541. Most clone drives should be ok for this,
-  but if you have some non-standard drive or have added some 3rd-party firmware some features of your
-  drive may not be supported. Click on the "1541" box to display additional information that you can send to
-  the OpenCBM team to have your drive properly recognized.
+        is the case your drive will default to being treated as a 1541. Most clone drives should be ok for
+        this, but if you have some non-standard drive or have added some 3rd-party firmware some features of
+        your drive may not be supported. Click on the "1541" box to display additional information that you
+        can send to the OpenCBM team to have your drive properly recognized.
 
   Disk:
   * Directory......... reads the disk from on the currently selected drive unit
@@ -792,8 +787,8 @@
   so please refer to the NIBTOOLS documentation for correct usage of the various switches.
 
    When transferring files from Commodore disk, PRG and SEQ extensions will added automatically to the
-  filename on the PC. When PRG and SEQ files are written to Commodore disk the PRG and SEQ will be
-  removed but will appear properly as PRG or SEQ in the directory listing.
+  filename on the PC. When PRG and SEQ files are written to Commodore disk the PRG and SEQ will be removed
+  but will appear properly as PRG or SEQ in the directory listing.
 
   NOTE:	Commodore uses PETSCII characters. This is a different standard than ASCII on the PC!
 	Some Commodore characters or symbols do not have a matching ASCII equivalent and you may
@@ -810,10 +805,10 @@
   supported at this time). You can also view ROM/BIN files, which are commonly used for ROM contents. We can
   assume SEQ files are plain data, probably text. However, without an extension we don't know what
   type of file a PRG might be. There must be a way for the user to change how the file is viewed. At the
-  top of the viewer window are coloured buttons to select the VIEW MODE. You can select:
+  top of the viewer window are buttons to select the VIEW MODE. You can select:
 
     * BASIC... Displays tokenized Commodore BASIC files.  Most dialects and versions are supported.
-    * SEQ..... Displays as text.
+    * SEQ..... Displays as unformated bytes (commonly text).
     * HEX..... Displays Binary file as HEX values plus Text (non-printing characters are shown as ".")
     * FONT.... Displays as 8x8 or 8x16 format FONT file. Is also a font editor with Screen Designer!
     * ASM..... Displays 6502 Assembly code with various formatting options.
@@ -845,8 +840,8 @@
   toggles it between "<" and ">".  To swap left and right views, look at this button then click on the tab
   for the opposite view.
 
-   There will also be a set of three buttons ( "<<" "|" and ">>" ) that change the sizing of the left and
-  right frames from 20% to 80%. The "|" button returns it to 50%.
+   There are a set of three buttons ( "<<" "|" and ">>" ) that change the sizing of the left and right
+  frames from 20% to 80%. The "|" button returns it to 50%.
 
    You may also drag and drop a file into the viewer window. Drag to an empty area of the viewer window
   until the pointer shows the drop symbol.
@@ -913,7 +908,7 @@
   HEX / BINARY
   ------------
 
-   Displays the file as binary, using four-digit hex offset and two-digit hex values (with 16 bytes
+   Displays the file as binary, using four-digit hex offset and two-digit hex values (with 8 or 16 bytes
   per line). Options are:
   
     * Find............. Enter a string to search for. If you want to search for HEX values begin
@@ -921,7 +916,9 @@
 			  abcd	...search for 'abcd' 'ABCD' or any combination (case does not matter).
 			  $00	...search for hex byte 00.
 			  $FF00 ...search for hex bytes FF 00 together. You can enter as many as you like.
+
     * Next............. Find the next occurrence of search string. To start from the top again click FIND.
+
     * Export........... Save the current view to a TEXT file.
     * Compare Button... Select a second file to compare. Filename, when loaded, is shown next to this.
     * Difs only........ Displays only lines that contain differences
@@ -940,12 +937,10 @@
     * HEX Case......... Toggle the case of the HEX characters ie: $ff or $FF. Is needed for SCREEN encoding.
     * MD5 Button....... Calculate MD5 checksum for file. Creates {sourcefile}.MD5 with the checksum
 			and displays results.
-
-  At the very top left is the Black/White toggle button to change the listing colours.
-
-  When comparison is turned on the original file is on the left and the second file compare results is on
-  the right. If the two bytes are the same an "==" is shown. If not, the value is shown. If the second file
-  is shorter then only spaces are shown.
+  
+   When comparison mode is turned on, the original file is on the left and the second file compare results
+  is on the right. If the two bytes are the same an "==" is shown. If not, the value is shown. If the second
+  file is shorter then only spaces are shown.
 
 
   ----
@@ -979,14 +974,15 @@
 
         * 256.......... Enable for complete size (256 character) sets. These include the RVS characters.
 			Unckeck for 128 character sets which do not include RVS characters.
-			This checkbox should be set in order to correctly calculare character code numbers.
+			This checkbox should be set in order to correctly calculate character code numbers.
 
-	* Colours...... Boxes for all the colour for font, and screen Designer. Click to change.
+	* Colours...... Boxes for various colours for font, and screen Designer. Click to change.
 			* Foreground. Colour for "on"  (bit=1) pixels.
 			* Background. Colour for "off" (bit=0) pixels.
 			* Multicolour Mode - Two boxes appear when MC Mode is enabled.			
 			* Border. For the Screen Designer border.
 			* Divider. Colour between pixels/characters when enabled.
+			* Selected Character Outline when enabled.
 
 	* Theme........ Colour themes to match different computers (VIC,64,TED,PET etc)
 	* Zoom Factor.. 1x to 6x magnification
@@ -1001,12 +997,12 @@
 
    The Offset lets you start from any position in the file which may help when trying to view character sets
   embedded in programs or other binary files. To the right of the offset are six buttons that adjust the offset
-  by -256,-8,-1,+1,+8, or +256. When Dual-View is enabled and the HEX tab is selected as the other view, clicking
-  on a HEX line will set the offset value in the FONT tab. This lets you scroll through the file searching for
-  embedded fonts.
+  by -256,-8,-1,+1,+8, or +256. When Dual-View is enabled and the HEX tab is selected as the other view,
+  clicking on a HEX line will set the offset value in the FONT tab. This lets you scroll through the file
+  searching for embedded fonts.
 
    Below the top line and on the left we have the Buffer selection buttons, "selected character" controls and
-   an enlarged character editing area where the pixels that make up the currently select character are shown.
+  an enlarged character editing area where the pixels that make up the currently select character are shown.
 
    There are 4 Buffers you can view/edit. The font initially gets loaded into buffer#1. Buffer#2 is available
   for a second set. The Clip buffer is the clipboard. Characters go there when you copy or cut from any of the
@@ -1063,18 +1059,18 @@
   RVS.............. Inverts the character/range - AKA Reverse.
   Bold............. Bolds the character to the right.
   Und.............. Underline (or strikethrough). The line is drawn below the crosshair.
-  Rot L / Rot R.... Rotate the character [L]eft or [R]ight. (8x8 characters only)
+  Rot L / Rot R.... Rotate the character [L]eft or [R]ight. (8x8 characters only).
   Flip H / Flip V.. Flip the character on the [H]orizontal or [V]ertical plane.
   Ins R / Del R.... Insert or Delete ROWs below the crosshair.
   Ins C / Del C.... Insert or Delete COLUMNs to the right of the crosshair.
   Tall T / Tall B.. Creates a double-tall character [T]op or [B]ottom half.
-  Wide L / Wide R.. Creates a double-wide character [L]eft or [R]ight
+  Wide L / Wide R.. Creates a double-wide character [L]eft or [R]ight.
   2x TL/TR/BL/BR... Creates a double-size character [TL]top-left,[TR]top-right,[BL]bottom-left, or [BR]bottom-right.
 
-  Sel Set.......... Selects the entire "set" (128 or 256 characters)
-  Sel All.......... Selects ALL characters
+  Sel Set.......... Selects the entire current "set" (128 or 256 characters).
+  Sel All.......... Selects ALL characters.
 
-  Copy............. Copies the current character/range to the clipboard
+  Copy............. Copies the current character/range to the clipboard.
 
   Paste............ Pastes the clipboard to the current character/range. If you select a character it becomes the
                     start character where the clipboard is pasted. If you copied more than one character they ALL
@@ -1118,7 +1114,9 @@
 	* Convert 5x7 upright... Convert 5x7 upright font to 8x8.
 	* Convert 8x14.......... Convert 8x14 EGA font to 8x16.
 	* Convert 8x32 to 8x16.. Convert 32 to 16 tall. Some .FON files have 32 lines but characters with only 16.
-
+	* Convert 6x8 sideways.. Convert 6x8 sideways font to 8x8. You will still need to rotate characters.
+	* Convert 128 CHR..RVS.. Convert Font(s) with 128 Characters and adds 128 RVS characters to each set.
+	* Convert Galaksija..... Convert weird Galaksija RASTER ordered font to normal order.
 
   ---------------
   SCREEN DESIGNER
@@ -1127,13 +1125,13 @@
    The Screen Designer lets you test how fonts can look in actual use, or Design screens for game menus etc. You
   can move the cursor around and type, insert and delete characters.  Use the Font Menu to enable the Screen
   Designer. You can select a Theme from a list of CBM Machines and the colours will be set the same as the
-  machine including the boarder colour. It looks just like the real thing! In fact, it will even start with the
+  machine including the border colour. It looks just like the real thing! In fact, it will even start with the
   same power-on message. If you change the theme the colours will change without erasing the screen contents.
   You can also change the SET to see how the screen looks in Lowercase or Uppercase, or any custom font.
 
-   The Screen Designer Buffer can handle 4000 character for a Maximum of an 80x50 screen. From that you can select
-  the screen format to display. Internally each Row is 80 columns, so if you switch between 40 or 80 colums you
-  will not loose the current screen arrangement.
+   The Screen Designer Buffer can handle 4000 characters, for a Maximum of an 80x50 screen. From that you can
+  select the screen format to display. Internally each Row is 80 columns, so if you switch between 40 or 80
+  colums you will not loose the current screen arrangement.
 
   At the top of the Screen Designer window are the following:
 
@@ -1240,9 +1238,10 @@
 						calculates the Load Address from the first two
 						bytes. This will determine which machine it is for.
 
-   If you select "ASK ME", a window will be displayed with the various emulators listed. Click the
-  one you wish to use. Note: You will need Vice 2.3 or higher to select the "C64 SC" emulation, and
-  Vice 2.4 or higher to select the "P500" emulation. Version 3.5 is current as of this writing.
+   If you select "ASK ME", a window will be displayed with the various emulators listed. Dending on
+  the version of VICE you have installed, some emulations may be disabled. Click the one you wish to
+  use. Note: You will need Vice 2.3 or higher to select the "C64 SC" emulation, and Vice 2.4 or
+  higher to select the "P500" emulation. Version 3.6 is current as of this writing.
 
 
   ===============
@@ -1274,17 +1273,15 @@
   Change Log
   ==========
 
-2.00 BETA #1 - Jan 1,2022
+2.00 RELEASE - Jun 13,2025
    * Major New Features:
-
    	* Total GUI Overhaul with Themes.
    	* True CBM Font rendering for Directory Lists and Viewer.
    	* Uses OpenCBM "raw" mode to get real filenames.
-	* Can be installed in it's own directory with paths to the utilties.
+	* Can be installed in it's own directory with paths to the utilities.
 	* Screen Designer with authentic Machine power-on messages and colours.
 
-   * Tested with Windows 11
-   * Tested with VICE 3.6
+   * Tested with Windows 11, VICE 3.6
    * Tweaked formatting of headers and indenting of this help file.
    * Add check and warning if deleting the Disk Image File currently in use.
    * Add message if trying to write an image INTO another image.
@@ -1306,6 +1303,7 @@
    * Add elapsed timer to progress window.
    * Replaced X-cable Device dropdown and Model# box with single dropdown listing only available drives.
    * Moved rarely used X-cable Directory options to drop-down menu beside the Device dropdown.
+   * Fix Custom NIBread commandline missing space separator
 
    * Themes:
 	New feature!
@@ -1323,6 +1321,7 @@
 	Add Encoding and Font Size menus.
 	Add Line Length menu.
 	Real CBM Font rendering shows BASIC listings like on a real machine.
+	Add detection of CLCD BASIC 3.6 files.
 
    * Viewer, SEQ:
 	Add Encoding and Font Size menus.
@@ -1332,6 +1331,7 @@
 	
    * Viewer, HEX:
 	Add Encoding and Font Size menus.
+	Add Show Bytes option. When deselected shows 4x per line.
 	Add Graphics option.
 	Add HEX case option.
 	Add Difs Only option for Compared files.
@@ -1342,6 +1342,7 @@
 	Re-vamped Font Menu. Now uses checkmarks when features are enabled. Disables items when not available.
 	Added Screen Designer (see below).
 	Add SET# and CHR# display when mousing overtop the character set.
+	Add additional font conversion options (8x32, 6x8 etc).
 
    * Viewer, SCREEN DESIGNER:
 	Brand new feature integrated into Font Viewer/Editor.
@@ -1353,7 +1354,8 @@
 	Supports Load/Save Buffer, and Export in current screen format.
 	Supports direct entry of characters from the Font Viewer.
 	Supports Cursor, Home, CLS (shift-home), Insert, Delete, Backspace, Insert Selected (shift-Insert).
-	
+	Supports keyboard MACRO recording and playback.
+
    * Viewer, ASM:
 	Add SAVE AS.. button and change SAVE to use current project filename
 		(ie: No prompting for filename each time).
@@ -1365,6 +1367,7 @@
 	You can now specify the number of table entries per line for all table types.
 	Remove table width restrictions.
 	Add support for AS6500 assembler format
+	Improved Code Tracer with verbose output option.
 
    * Config:
 	Now uses selected Theme

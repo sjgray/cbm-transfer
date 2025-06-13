@@ -1,0 +1,36 @@
+=== 2025-06-13, 11:32:28 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" detect" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:32:28 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" detect" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:32:28 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" --raw dir 0" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:42:15 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" detect" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:42:16 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" detect" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:42:16 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" --raw dir 0" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:48:16 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" detect" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:48:16 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" detect" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:48:16 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" --raw dir 0" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:52:09 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" detect" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:52:09 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" detect" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 
+=== 2025-06-13, 11:52:09 AMCMD: cmd /c ""C:\Program Files\opencbm\cbmctrl.exe" --raw dir 0" 1>C:\Users\sjgra\AppData\Local\Temp\cbmxferout.txt 2>C:\Users\sjgra\AppData\Local\Temp\cbmxfererr.txtERR: error: no xum1541 device found
+An error occurred opening OpenCBM, aborting...
+OUT: 

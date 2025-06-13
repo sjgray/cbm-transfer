@@ -1,0 +1,222 @@
+; CBMXfer Disassembler, Platform File
+; For Commodore LCD
+;---------------------------------------------------
+
+0015,MEM_0015                 ,$0015
+0041,MEM_0041                 ,$0041
+0081,MEM_0081                 ,$0081
+00A0,VidMemHi                 ,Video Memory HI Byte
+00A1,CursorX                  ,Cursor X Position
+00A2,CursorY                  ,Cursor Y Position
+00A3,WIN_TOP_LEFT_X           ,Window Top Left
+00A4,WIN_BTM_RGHT_X           ,Window Bottom Right
+00A5,WIN_TOP_LEFT_Y           ,Window Top Left
+00A6,WIN_BTM_RGHT_Y           ,Window Bot
+00A7,QTSW                     ,Quote mode flag (0=quote mode off, nonzero=on)
+00A8,INSRT                    ,Number of chars to insert (1 for each time SHIFT-INS/DEL is pressed)
+00A9,INSFLG                   ,Auto-insert mode flag (0=auto-insert off, nonzero=on)
+00AA,MEM_00AA                 ,Screen editor or maybe keyboard related
+00AB,MEM_00AB                 ,Keyboard scan related
+00AC,MEM_00AC                 ,Keyboard scan related
+00AD,MODKEY                   ,"Modifier" key byte read directly from keyboard shift register
+00AE,FNADR                    ,$00AE Filename Address
+00B2,EAL                      ,$00B2
+00B3,EAH                      ,$00B3
+00B6,STAL                     ,$00B6
+00B7,STAH                     ,$00B7
+00B8,SAL                      ,$00B8
+00B9,SAH                      ,$00B9
+00BA,SATUS                    ,$00BA
+00C1,VidPtrLo                 ,$00C1 Video Pointer Lo
+00C2,VidPtrHi                 ,$00C2 Video Pointer Hi
+00C4,SA                       ,$00C4 File Secondary Address
+00C5,FA                       ,$00C5 File Address
+00C6,LA                       ,$00C6 Logical Address
+00C7,T0                       ,$00C7  ;2 bytes
+00C9,T1                       ,$00C9  ;2 bytes
+00CB,T2                       ,$00CB  ;2 bytes
+00CD,CHRPTR                   ,$00CD Character Pointer?
+00CE,BUFEND                   ,$00CE Buffer End
+00CF,LENGTH                   ,$00CF Buffer Length
+00D0,WRAP                     ,$00D0 Wrap
+00D1,TMPC                     ,$00D1 Temp Character
+00D2,MSAL                     ,$00D2
+00E2,V1541_FNADR              ,$00E2  ;2 bytes
+00E6,V1541_DEFAULT_CHAN      ,$00E6 Default Channel
+00E7,V1541_ACTIV_FLAGS       ,$00E7 Active Flags
+00E8,V1541_ACTIV_E8          ,$00E8 Active Channel
+00E9,V1541_ACTIV_E9          ,$00E9 4 bytes
+00EA,V1541_ACTIV_EA          ,$00EA 
+00EF,BLNCT                   ,$00EF Counter for cursor blink
+00F0,CHAR_UNDER_CURSOR       ,$00F0 Character under the cursor (used with blinking)
+00F4,MEM_00F4                ,$00F4  ;Keyboard scan related
+00F5,MEM_00F5                ,$00F5  ;Keyboard scan related
+0100,STACK                   ,$0100
+0204,ROM_ENV_A               ,$0204
+0205,ROM_ENV_X               ,$0205
+0206,ROM_ENV_Y               ,$0206
+0218,V1541_DATA_BUF          ,$0218 basic line for dir listing, other unknown uses
+024D,V1541_CHAN_BUF          ,$024D 71 bytes, all data for all channels, see V1541_SELECT_CHANNEL_A
+0295,V1541_CMD_BUF           ,$0295 ;command sent to command channel
+02D5,V1541_CMD_LEN           ,$02D5
+02D6,V1541_02D6              ,$02d6
+02D7,V1541_02D7              ,$02d7
+02DB,LAT                     ,$02DB
+02F3,SAT                     ,$02F3
+02E7,FAT                     ,$02E7
+0300,MEM_0300                ,$0300
+0314,RAMVEC_IRQ              ,$0314 KERNAL RAM vectors - 36 bytes: $0314-0337
+0316,RAMVEC_BRK              ,$0316
+0318,RAMVEC_NMI              ,$0318
+031A,RAMVEC_OPEN             ,$031A
+031C,RAMVEC_CLOSE            ,$031C
+031E,RAMVEC_CHKIN            ,$031E
+0320,RAMVEC_CHKOUT           ,$0320
+0322,RAMVEC_CLRCHN           ,$0322
+0324,RAMVEC_CHRIN            ,$0324
+0326,RAMVEC_CHROUT           ,$0326
+0328,RAMVEC_STOP             ,$0328
+032A,RAMVEC_GETIN            ,$032A
+032C,RAMVEC_CLALL            ,$032C
+032E,RAMVEC_WTF              ,$032E
+0330,RAMVEC_LOAD             ,$0330
+0332,RAMVEC_SAVE             ,$0332
+0334,RAMVEC_MEM_0334         ,$0334
+0336,RAMVEC_MEM_0336         ,$0336
+0338,GO_RAM_LOAD_GO_APPL     ,$0338
+0341,GO_RAM_STORE_GO_APPL    ,$0341 RAM-resident code loaded from:
+034A,GO_RAM_LOAD_GO_KERN     ,$034A MMU_HELPER_ROUTINES
+034D,GO_NOWHERE_LOAD_GO_KERN ,$034D
+034E,SINNER                  ,$034E "SINNER" name is from TED-series KERNAL,
+0353,GO_APPL_LOAD_GO_KERN    ,$0353 where similar RAM-resident code is
+035C,GO_RAM_STORE_GO_KERN    ,$035C modified at runtime.
+035F,GO_NOWHERE_STORE_GO_KERN,$035F
+0365,MEM_0365                ,$0365 Keyboard related
+0366,MEM_0366                ,$0366 Keyboard related
+0367,MEM_0367                ,$0367 Keyboard related
+036C,REVERSE                 ,$036C RVS Flag 0=Off, 0x80=On
+036E,LSTCHR                  ,$036E Last char typed. Used to test for ESC sequence
+036F,BLNOFF                  ,$036F Cursor Blink Flag 0=On, 0x80=Off
+0370,TABMAP                  ,$0370 TAB map
+037A,SETUP_LCD_A             ,$037A
+037B,SETUP_LCD_X             ,$037B
+037C,SETUP_LCD_Y             ,$037C
+037E,CurMaxY                 ,$037E
+0380,MEM_0380                ,$0380
+0381,CurMaxX                 ,$0381
+0383,MSGFLG                  ,$0383 Message Flag
+0385,DFLTN                   ,$0385
+0386,DFLTO                   ,$0386
+0387,FNLEN                   ,$0387
+038E,MEM_038E                ,$038E Keyboard related
+038F,JIFFIES                 ,$038F
+0390,TOD_SECS                ,$0390 TOD Clock Seconds
+0391,TOD_MINS                ,$0391 TOD Clock Minutes
+0392,TOD_HOURS               ,$0392 TOD Clock Hours
+0393,ALARM_SECS              ,$0393 Alarm Seconds
+0394,ALARM_MINS              ,$0394 Alarm Minutes
+0395,ALARM_HOURS             ,$0395 Alarm Hours
+0396,UNKNOWN_SECS            ,$0396 Unknown Seconds
+0397,UNKNOWN_MINS            ,$0397 Unknown Minutes
+0398,MemBotLoByte            ,$0398 Mem Bottom Lo
+0399,MemBotHiByte            ,$0399 Mem Bottom Hi
+039A,MemTopLoByte            ,$039A Mem Top Lo
+039B,MemTopHiByte            ,$039B Mem Top Hi
+039E,V1541_BYTE_TO_WRITE     ,$039E
+039F,V1541_FNLEN             ,$039F
+03A0,BAD                     ,$03A0
+03A1,MON_MMU_MODE            ,$03A1 MMU Mode 0=RAM, 1=APPL, 2=KERN
+03A3,V1541_FILE_MODE         ,$03A3
+03A4,V1541_FILE_TYPE         ,$03A4
+03AC,MEM_03AC                ,$03AC
+039D,SXREG                   ,$039D
+03B4,FORMAT                  ,$03B4
+03B7,MEM_03B7                ,$03B7
+03C0,MEM_03C0                ,$03C0
+03C3,RAMVEC_BACKUP           ,$03C3 Backs up KERNAL RAM vectors, 36 bytes: $03C3-$03E6
+03E8,LSTP                    ,$03E8
+03E9,LSXP                    ,$03E9
+03EA,SavedCursorX            ,$03EA Saved Cursor X
+03EB,SavedCursorY            ,$03EB Saved Cursor Y
+03EC,KEYD                    ,$03EC Key Down
+03F6,MEM_03F6                ,$03F6 Keyboard related
+03F7,MEM_03F7                ,$03F7 Keyboard related
+03F8,MEM_03F8                ,$03F8 Keyboard related
+03F9,MEM_03F9                ,$03F9 Keyboard related
+03FA,MEM_03FA                ,$03FA Possibly Virtual 1541 or Keyboard related
+03FB,SWITCH_COUNT            ,$03FB Counts down to debounce switching upper/lowercase on Shift-Commodore
+03FC,CAPS_FLAGS              ,$03FC Caps Flags
+0405,LDTND                   ,$0405
+0406,VERCHK                  ,$0406
+0407,WRBASE                  ,$0407 Temp storage (was low byte of tape write pointer in other CBMs)
+0408,BSOUR                   ,$0408
+0409,BSOUR1                  ,$0409
+040A,R2D2                    ,$040A Star Wars droid
+040B,C3P0                    ,$040B Star Wars robot
+040C,IECCNT                  ,$040C IEC
+0411,RTC_IDX                 ,$0411 RTC Index
+0412,RTC_DATA                ,$0412 8 bytes (see RTC_ constants below)
+0450,HULP                    ,$0450
+0470,LINE_INPUT_BUF          ,$0470 Line Input Buffer. Used for a line of input in the monitor and menu
+04C0,MEM_04C0                ,$04C0
+
+;-- VIA #1 Registers
+F800,VIA1_PORTB              ,$F800
+F801,VIA1_PORTA              ,$F801
+F802,VIA1_DDRB               ,$F802
+F803,VIA1_DDRA               ,$F803
+F804,VIA1_T1CL               ,$F804
+F805,VIA1_T1CH               ,$F805
+F806,VIA1_T1LL               ,$F806
+F807,VIA1_T1LH               ,$F807
+F808,VIA1_T2CL               ,$F808
+F809,VIA1_T2CH               ,$F809
+F80A,VIA1_SR                 ,$F80A
+F80B,VIA1_ACR                ,$F80B
+F80C,VIA1_PCR                ,$F80C
+F80D,VIA1_IFR                ,$F80D
+F80E,VIA1_IER                ,$F80E
+F80F,VIA1_PORTANHS           ,$F80F
+
+;-- VIA #2 Registers
+F880,VIA2_PORTB              ,$F880
+F881,VIA2_PORTA              ,$F881
+F882,VIA2_DDRB               ,$F882
+F883,VIA2_DDRA               ,$F883
+F884,VIA2_T1CL               ,$F884
+F885,VIA2_T1CH               ,$F885
+F886,VIA2_T1LL               ,$F886
+F887,VIA2_T1LH               ,$F887
+F888,VIA2_T2CL               ,$F888
+F889,VIA2_T2CH               ,$F889
+F88A,VIA2_SR                 ,$F88A
+F88B,VIA2_ACR                ,$F88B
+F88C,VIA2_PCR                ,$F88C
+F88D,VIA2_IFR                ,$F88D
+F88E,VIA2_IER                ,$F88E
+F88F,VIA2_PORTANHS           ,$F88F
+
+;-- ACIA Registers
+F980,ACIA_DATA               ,$F980
+F981,ACIA_ST                 ,$F981
+F982,ACIA_CMD                ,$F982
+F983,ACIA_CTRL               ,$F983
+
+;-- MMU Registers
+FA00,MMU_MODE_KERN           ,$FA00 Any write here switches to the "KERN" MMU mode.
+FA80,MMU_MODE_APPL           ,$FA80 Any write here switches to the "APPL" MMU mode.
+FB00,MMU_MODE_RAM            ,$FB00 Any write here switches to the "RAM" MMU mode.
+FB80,MMU_RECALL_MODE         ,$FB80 Any write here recalls the previously saved mode.
+FC00,MMU_SAVE_MODE           ,$FC00 Any write here saves the current mode so it can be recalled.
+FC80,MMU_MODE_TEST           ,$FC80 Any write here switches to the "TEST" MMU mode. (Unused)
+FD00,MMU_OFFS_APPL_W1        ,$FD00 Sets offset for $1000-3FFF "APPL Window 1" in the "APPL" MMU mode.
+FD80,MMU_OFFS_APPL_W2        ,$FD80 Sets offset for $4000-7FFF "APPL Window 2" in the "APPL" MMU mode.
+FE00,MMU_OFFS_APPL_W3        ,$FE00 Sets offset for $8000-BFFF "APPL Window 3" in the "APPL" MMU mode.
+FE80,MMU_OFFS_APPL_W4        ,$FE80 Sets offset for $C000-F7FF "APPL Window 4" in the "APPL" MMU mode.
+FF00,MMU_OFFS_KERN_W         ,$FF00 Sets offset for $4000-7FFF "KERN Window" in the "KERN" MMU mode.
+
+;-- LCD Controller Registers
+FF80,LCDCTRL_REG0            ,$FF80
+FF81,LCDCTRL_REG1            ,$FF81
+FF82,LCDCTRL_REG2            ,$FF82
+FF83,LCDCTRL_REG3            ,$FF83

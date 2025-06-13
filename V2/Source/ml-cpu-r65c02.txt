@@ -1,0 +1,45 @@
+CBM-Transfer Disassembler Opcode File
+Rockwell 65C02
+0--- 1--- 2--- 3--- 4--- 5--- 6--- 7---- 8--- 9--- a--- b--- c--- d--- e--- f----
+brki,orak,nopb,nopi,tsbc,orac,aslc,rmb0c,phpi,orab,asla,nopi,tsbf,oraf,aslf,bbr0j
+bplj,oral,orap,nopi,trbd,orad,asld,rmb1c,clci,orah,inci,nopi,trbf,orag,aslg,bbr1j
+jsrf,andk,nopb,nopi,bitc,andc,rolc,rmb2c,plpi,andb,rola,nopi,bitf,andf,rolf,bbr2j
+bmij,andl,andp,nopi,bitd,andd,rold,rmb3c,seci,andh,deci,nopi,bitg,andg,rolg,bbr3j
+rtii,eork,nopb,nopi,nopc,eorc,lsrc,rmb4c,phai,eorb,lsra,nopi,jmpf,eorf,lsrf,bbr4j
+bvcj,eorl,eorp,nopi,nopd,eord,lsrd,rmb5c,clii,eorh,phyi,nopi,nopg,eorg,lsrg,bbr5j
+rtsi,adck,nopb,nopi,stzc,adcc,rorc,rmb6c,plai,adcb,rora,nopi,jmpm,adcf,rorf,bbr6j
+bvsj,adcl,adcp,nopi,stzd,adcd,rord,rmb7c,seii,adch,plyi,nopi,jmp-,adcg,rorg,bbr7j
+braj,stak,nopb,nopi,styc,stac,stxc,smb0c,deyi,bitb,txai,nopi,styf,staf,stxf,bbs0j
+bccj,stal,stap,nopi,styd,stad,stxe,smb1c,tyai,stah,txsi,nopi,stzf,stag,stzf,bbs1j
+ldyb,ldak,ldxb,nopi,ldyc,ldac,ldxc,smb2c,tayi,ldab,taxi,nopi,ldyf,ldaf,ldxf,bbs2j
+bcsj,ldal,ldap,nopi,ldyd,ldad,ldxe,smb3c,clvi,ldah,tsxi,nopi,ldyg,ldag,ldxh,bbs3j
+cpyb,cmpk,nopb,nopi,cpyc,cmpc,decc,smb4c,inyi,cmpb,dexi,???i,cpyf,cmpf,decf,bbs4j
+bnej,cmpl,cmpp,nopi,nopd,cmpd,decd,smb5c,cldi,cmph,phxi,???i,nopf,cmpg,decg,bbs5j
+cpxb,sbck,nopb,nopi,cpxc,sbcc,incc,smb6c,inxi,sbcb,nopi,nopi,cpxf,sbcf,incf,bbs6j
+beqj,sbcl,sbcp,nopi,nopd,sbcd,incd,smb7c,sedi,sbch,plxi,nopi,nopf,sbcg,incg,bbs7j
+0--- 1--- 2--- 3--- 4--- 5--- 6--- 7---- 8--- 9--- a--- b--- c--- d--- e--- f----
+1222233312223332
+JMP BRA
+JSR BEQ BNE BPL BMI BCC BCS BVC BVS
+RTS RTI BRK
+----------------------------------------------- Do not modify the above lines!
+
+C MODE LEN Addressing Mode                      Example
+- ---- --- ----------------                     -------
+a acc  1   Accumulator Adressing............... INC
+b imm  2   Immediate Addressing................ LDA #$01
+c zp   2   Zero Page........................... LDA $01
+d zpx  2   Indexed Zero page with X............ LDA $01,X
+e zpy  2   Indexed Zero page with Y............ LDA $01,Y
+f abs  3   Absolute Addressing................. LDA $1234
+g abx  3   Indexed Absolute with X............. LDA $1234,X
+h aby  3   Indexed Absolute with Y............. LDA $1234,Y
+i imp  1   Implied............................. NOP
+j rel  2   Relative Addressing................. BNE XX
+k izx  2   Indexed Indirect Addressing with X.. LDA ($01,X)
+l izy  2   Indexed Indirect Addressing with Y.. LDA ($01),Y
+m ind  3   Absolute Indirect................... JMP ($1234)
+n iax  3 ++Absolute Indexed Indirect........... JMP ($1234,X) 
+o zpr  3 ++Zero Page Relative Addressing....... BBR0 $01,$1234
+p izp  2 ++Indirect Zero Page.................. LDA ($01)
+

@@ -1,0 +1,444 @@
+[Root]
+Most Recent Package=CBMTransferScript
+
+
+[Package|Standard Setup Package 1|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=N:\SJG_Personal\Dev\CBMXfer\Package
+
+[Package|Standard Setup Package 1|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Standard Setup Package 1|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Standard Setup Package 1|Files Found]
+
+[Package|Standard Setup Package 1|Files Released]
+
+[Package|Standard Setup Package 1|Missing Dependency Information]
+C:\Windows\SysWOW64\MSSTDFMT.DLL=
+
+[Package|Standard Setup Package 1|Out-of-Date Dependency Information]
+C:\Windows\SysWOW64\comdlg32.ocx=
+
+[Package|Standard Setup Package 1|Files Added]
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=
+
+[Package|Standard Setup Package 1|Files Removed]
+
+[Package|Standard Setup Package 1|Files In Project]
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=Yes
+C:\Windows\System32\msvbvm60.dll=Yes
+C:\Windows\System32\oleaut32.dll=Yes
+C:\Windows\System32\olepro32.dll=Yes
+C:\Windows\System32\asycfilt.dll=Yes
+C:\Windows\System32\stdole2.tlb=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Windows\SysWOW64\MSSTDFMT.DLL=Yes
+C:\Windows\SysWOW64\comdlg32.ocx=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Windows\System32\VB6STKIT.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=Yes
+
+[Package|Standard Setup Package 1|Configure Registry Files]
+Applicable=No
+
+[Package|Standard Setup Package 1|Configure Remote Servers]
+Applicable=No
+
+[Package|Standard Setup Package 1|Install Locations]
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=$(AppPath)
+C:\Windows\System32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Windows\System32\oleaut32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\olepro32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\asycfilt.dll=$(WinSysPathSysFile)
+C:\Windows\System32\stdole2.tlb=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Windows\SysWOW64\MSSTDFMT.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\comdlg32.ocx=$(WinSysPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\Windows\System32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=$(AppPath)
+
+[Package|Standard Setup Package 1|Configure Shared Files]
+Applicable=Yes
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=No
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=No
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=No
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=No
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=No
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=No
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=No
+
+[Package|Standard Setup Package 1|Distribution]
+Type=single
+Size=
+Title=CBMXfer
+
+[Package|Standard Setup Package 1|IconGroups]
+Group0=CBMXfer
+PrivateGroup0=True
+Parent0=$(Programs)
+
+[Package|Standard Setup Package 1|CBMXfer]
+Icon1=CBMXfer.exe
+Title1=CBMXfer
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Standard Setup Package 1|Package]
+PackageFolder=N:\SJG_Personal\Dev\CBMXfer\Package
+ProjectFolder=N:\SJG_Personal\Dev\CBMXfer
+ServerSideCab=
+File1=N:\SJG_Personal\Dev\CBMXfer\Package\setup.exe
+File2=N:\SJG_Personal\Dev\CBMXfer\Package\Setup.Lst
+File3=N:\SJG_Personal\Dev\CBMXfer\Package\CBMXfer.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+[Package|CBMXfer|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=N:\SJG_Personal\Dev\CBMXfer\Package
+
+[Package|CBMXfer|Configure DAO ISAMs]
+Applicable=No
+
+[Package|CBMXfer|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|CBMXfer|Files Found]
+
+[Package|CBMXfer|Files Released]
+
+[Package|CBMXfer|Missing Dependency Information]
+C:\Windows\SysWOW64\MSSTDFMT.DLL=
+
+[Package|CBMXfer|Out-of-Date Dependency Information]
+C:\Windows\SysWOW64\comdlg32.ocx=
+
+[Package|CBMXfer|Files Added]
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=
+
+[Package|CBMXfer|Files Removed]
+
+[Package|CBMXfer|Files In Project]
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=Yes
+C:\Windows\System32\msvbvm60.dll=Yes
+C:\Windows\System32\oleaut32.dll=Yes
+C:\Windows\System32\olepro32.dll=Yes
+C:\Windows\System32\asycfilt.dll=Yes
+C:\Windows\System32\stdole2.tlb=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Windows\SysWOW64\MSSTDFMT.DLL=Yes
+C:\Windows\SysWOW64\comdlg32.ocx=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Windows\System32\VB6STKIT.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=Yes
+
+[Package|CBMXfer|Configure Registry Files]
+Applicable=No
+
+[Package|CBMXfer|Configure Remote Servers]
+Applicable=No
+
+[Package|CBMXfer|Install Locations]
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=$(AppPath)
+C:\Windows\System32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Windows\System32\oleaut32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\olepro32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\asycfilt.dll=$(WinSysPathSysFile)
+C:\Windows\System32\stdole2.tlb=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Windows\SysWOW64\MSSTDFMT.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\comdlg32.ocx=$(WinSysPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\Windows\System32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=$(AppPath)
+
+[Package|CBMXfer|Configure Shared Files]
+Applicable=Yes
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=No
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=No
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=No
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=No
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=No
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=No
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=No
+
+[Package|CBMXfer|Distribution]
+Type=single
+Size=
+Title=CBMXfer
+
+[Package|CBMXfer|IconGroups]
+Group0=CBMXfer
+PrivateGroup0=True
+Parent0=$(Programs)
+
+[Package|CBMXfer|CBMXfer]
+Icon1=CBMXfer.exe
+Title1=CBMXfer
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|CBMXfer|Package]
+PackageFolder=N:\SJG_Personal\Dev\CBMXfer\Package
+ProjectFolder=N:\SJG_Personal\Dev\CBMXfer
+ServerSideCab=
+File1=N:\SJG_Personal\Dev\CBMXfer\Package\setup.exe
+File2=N:\SJG_Personal\Dev\CBMXfer\Package\Setup.Lst
+File3=N:\SJG_Personal\Dev\CBMXfer\Package\CBMXfer.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+
+[Package|CBMTransferScript|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=N:\SJG_Personal\Dev\CBMXfer\Package
+
+[Package|CBMTransferScript|Configure DAO ISAMs]
+Applicable=No
+
+[Package|CBMTransferScript|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|CBMTransferScript|Files Found]
+
+[Package|CBMTransferScript|Files Released]
+6502opcodes.txt=
+
+[Package|CBMTransferScript|Missing Dependency Information]
+C:\Windows\SysWOW64\MSSTDFMT.DLL=
+
+[Package|CBMTransferScript|Out-of-Date Dependency Information]
+C:\Windows\SysWOW64\comdlg32.ocx=
+
+[Package|CBMTransferScript|Files Added]
+n:\sjg_personal\dev\cbmxfer\c1541.exe=
+n:\sjg_personal\dev\cbmxfer\nibread.exe=
+n:\sjg_personal\dev\cbmxfer\nibwrite.exe=
+n:\sjg_personal\dev\cbmxfer\cbmxfer.txt=
+n:\sjg_personal\dev\cbmxfer\picformats.txt=
+n:\sjg_personal\dev\cbmxfer\font-c64.bmp=
+n:\sjg_personal\dev\cbmxfer\image-d64.txt=
+n:\sjg_personal\dev\cbmxfer\image-d71.txt=
+n:\sjg_personal\dev\cbmxfer\image-d80.txt=
+n:\sjg_personal\dev\cbmxfer\image-d81.txt=
+n:\sjg_personal\dev\cbmxfer\image-d82.txt=
+n:\sjg_personal\dev\cbmxfer\ml-config.txt=
+n:\sjg_personal\dev\cbmxfer\ml-cpu-6502.txt=
+n:\sjg_personal\dev\cbmxfer\ml-cpu-6502-i.txt=
+n:\sjg_personal\dev\cbmxfer\ml-cpu-r65c02.txt=
+n:\sjg_personal\dev\cbmxfer\ml-cpu-wdc65c02.txt=
+n:\sjg_personal\dev\cbmxfer\ml-cpu-wdc65sc02.txt=
+n:\sjg_personal\dev\cbmxfer\ml-help.txt=
+n:\sjg_personal\dev\cbmxfer\ml-plat-1541.txt=
+n:\sjg_personal\dev\cbmxfer\ml-plat-c64.txt=
+n:\sjg_personal\dev\cbmxfer\ml-plat-c128.txt=
+n:\sjg_personal\dev\cbmxfer\ml-plat-c264.txt=
+n:\sjg_personal\dev\cbmxfer\ml-plat-cbm-identifier.txt=
+n:\sjg_personal\dev\cbmxfer\ml-plat-pet2.txt=
+n:\sjg_personal\dev\cbmxfer\ml-plat-pet4.txt=
+n:\sjg_personal\dev\cbmxfer\ml-plat-vic20.txt=
+n:\sjg_personal\dev\cbmxfer\nibconv.exe=
+n:\sjg_personal\dev\cbmxfer\tokens.dat=
+n:\sjg_personal\dev\cbmxfer\libgcc_s_dw2-1.dll=
+
+[Package|CBMTransferScript|Files Removed]
+
+[Package|CBMTransferScript|Files In Project]
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=Yes
+C:\Windows\System32\msvbvm60.dll=Yes
+C:\Windows\System32\oleaut32.dll=Yes
+C:\Windows\System32\olepro32.dll=Yes
+C:\Windows\System32\asycfilt.dll=Yes
+C:\Windows\System32\stdole2.tlb=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Windows\SysWOW64\MSSTDFMT.DLL=Yes
+C:\Windows\SysWOW64\comdlg32.ocx=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Windows\System32\VB6STKIT.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\font-c64.bmp=Yes
+N:\SJG_Personal\Dev\CBMXfer\image-d64.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\image-d71.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\image-d80.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\image-d81.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\image-d82.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-config.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-6502.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-6502-i.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-r65c02.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-wdc65c02.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-wdc65sc02.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-help.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-1541.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c64.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c128.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c264.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-cbm-identifier.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-pet2.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-pet4.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-vic20.txt=Yes
+N:\SJG_Personal\Dev\CBMXfer\nibconv.exe=Yes
+N:\SJG_Personal\Dev\CBMXfer\tokens.dat=Yes
+N:\SJG_Personal\Dev\CBMXfer\libgcc_s_dw2-1.dll=Yes
+
+[Package|CBMTransferScript|Configure Registry Files]
+Applicable=No
+
+[Package|CBMTransferScript|Configure Remote Servers]
+Applicable=No
+
+[Package|CBMTransferScript|Install Locations]
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=$(AppPath)
+C:\Windows\System32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Windows\System32\oleaut32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\olepro32.dll=$(WinSysPathSysFile)
+C:\Windows\System32\asycfilt.dll=$(WinSysPathSysFile)
+C:\Windows\System32\stdole2.tlb=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Windows\SysWOW64\MSSTDFMT.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\comdlg32.ocx=$(WinSysPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\Windows\System32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\font-c64.bmp=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\image-d64.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\image-d71.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\image-d80.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\image-d81.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\image-d82.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-config.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-6502.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-6502-i.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-r65c02.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-wdc65c02.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-wdc65sc02.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-help.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-1541.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c64.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c128.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c264.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-cbm-identifier.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-pet2.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-pet4.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-vic20.txt=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\nibconv.exe=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\tokens.dat=$(AppPath)
+N:\SJG_Personal\Dev\CBMXfer\libgcc_s_dw2-1.dll=$(AppPath)
+
+[Package|CBMTransferScript|Configure Shared Files]
+Applicable=Yes
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.exe=No
+N:\SJG_Personal\Dev\CBMXfer\c1541.exe=No
+N:\SJG_Personal\Dev\CBMXfer\nibread.exe=No
+N:\SJG_Personal\Dev\CBMXfer\nibwrite.exe=No
+N:\SJG_Personal\Dev\CBMXfer\6502opcodes.txt=No
+N:\SJG_Personal\Dev\CBMXfer\CBMXfer.txt=No
+N:\SJG_Personal\Dev\CBMXfer\picformats.txt=No
+N:\SJG_Personal\Dev\CBMXfer\font-c64.bmp=No
+N:\SJG_Personal\Dev\CBMXfer\image-d64.txt=No
+N:\SJG_Personal\Dev\CBMXfer\image-d71.txt=No
+N:\SJG_Personal\Dev\CBMXfer\image-d80.txt=No
+N:\SJG_Personal\Dev\CBMXfer\image-d81.txt=No
+N:\SJG_Personal\Dev\CBMXfer\image-d82.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-config.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-6502.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-6502-i.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-r65c02.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-wdc65c02.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-cpu-wdc65sc02.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-help.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-1541.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c64.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c128.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-c264.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-cbm-identifier.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-pet2.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-pet4.txt=No
+N:\SJG_Personal\Dev\CBMXfer\ml-plat-vic20.txt=No
+N:\SJG_Personal\Dev\CBMXfer\nibconv.exe=No
+N:\SJG_Personal\Dev\CBMXfer\tokens.dat=No
+N:\SJG_Personal\Dev\CBMXfer\libgcc_s_dw2-1.dll=No
+
+[Package|CBMTransferScript|Distribution]
+Type=single
+Size=
+Title=CBM-Transfer V1.00
+
+[Package|CBMTransferScript|Package]
+PackageFolder=N:\SJG_Personal\Dev\CBMXfer\Package
+ProjectFolder=N:\SJG_Personal\Dev\CBMXfer
+ServerSideCab=
+File1=N:\SJG_Personal\Dev\CBMXfer\Package\setup.exe
+File2=N:\SJG_Personal\Dev\CBMXfer\Package\Setup.Lst
+File3=N:\SJG_Personal\Dev\CBMXfer\Package\CBMXfer.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+[Package|CBMTransferScript|IconGroups]
+Group0=CBMXfer
+PrivateGroup0=True
+Parent0=$(Programs)
+
+[Package|CBMTransferScript|CBMXfer]
+Icon1=CBMXfer.exe
+Title1=CBMXfer
+StartIn1=$(AppPath)
+Key1=Icon1

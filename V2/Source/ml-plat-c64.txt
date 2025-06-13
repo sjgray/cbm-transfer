@@ -1,0 +1,418 @@
+; CBMXfer Disassembler, Platform File
+; For C64 family (C64,64C,SX64,PET64,Educator64, or C128 in C64 mode)
+;--------------------------------------------------------------------------
+0000,D6510  ,6510 On-chip Data Direction Register.
+0001,R6510  ,6510 On-chip 8-bit Input/Output Register
+0002,TEMP1  ,Unused. Free for user programs.
+0003,ADRAY1 ,Jump Vector: Convert FAC to Integer in (
+0005,ADRAY2 ,Jump Vector: Convert Integer in (A/Y) to
+0007,CHARAC ,Search Character/Temporary Integer durin
+0007,INTEGR ,Temporary Integer during OR/AND.
+0008,ENDCHR ,Flag: Scan for Quote at end of String.
+0009,TRMPOS ,Screen Column for last TAB.
+000A,VERCK  ,Flag: 0=Load; 1=Verify.
+000B,COUNT  ,Input Buffer Pointer/Number of Subscript
+000C,DIMFLG ,Flag: Default Array dimension.
+000D,VALTYP ,Data type Flag: $00=Numeric; $FF=String.
+000E,INTFLG ,Data type Flag: $00=Floating point $80=I
+000F,GARBFL ,Flag: DATA scan/List Quote/Garbage colle
+0010,SUBFLG ,Flag: Subscript reference/User Function 
+0011,INPFLG ,Input Flag: $00=INPUT; $40=GET $98 =READ
+0012,TANSGN ,Flag: TAN sign/Comparative result.
+0013,CHANNL ,File number of current Input Device.
+0014,LINNUM ,Temporary: Integer value.
+0016,TEMPPT ,Pointer: Temporary String Stack.
+0017,LASTPT ,Last temporary String Address.
+0019,TEMPST ,Stack for temporary Strings.
+0022,INDEX  ,Utility Pointer Area.
+0022,INDEX1 ,First Utility Pointer.
+0024,INDEX2 ,Second Utility Pointer.
+0026,RESHO  ,Floating point product of Multiply and D
+002B,TXTTAB ,Pointer: Start of BASIC Text Area ($0801
+002D,VARTAB ,Pointer: Start of BASIC Variables.
+002F,ARYTAB ,Pointer: Start of BASIC Arrays.
+0031,STREND ,Pointer: End of BASIC Arrays + 1.
+0033,FRETOP ,Pointer: Bottom of String space.
+0035,FRESPC ,Utility String Pointer.
+0037,MEMSIZ ,Pointer: Highest Address available to BA
+0039,CURLIN ,Current BASIC Line number.
+003B,OLDLIN ,Previous BASIC Line number.
+003D,OLDTXT ,Pointer: BASIC Statement for CONT.
+003F,DATLIN ,Current DATA Line number.
+0041,DATPTR ,Pointer: Used by READ - current DATA Ite
+0043,INPPTR ,Pointer: Temporary storage of Pointer du
+0045,VARNAM ,Name of Variable being sought in Variabl
+0047,VARPNT ,Pointer: to value of (VARNAM) if Integer
+0049,FORPNT ,Pointer: Index Variable for FOR/NEXT loo
+004B,VARTXT ,Temporary storage for TXTPTR during READ
+004D,OPMASK ,Mask used during FRMEVL.
+004E,TEMPF3 ,Temporary storage for FLPT value.
+0053,FOUR6  ,Length of String Variable during Garbage
+0054,JMPER  ,Jump Vector used in Function Evaluation 
+0057,TEMPF1 ,Temporary storage for FLPT value.
+005C,TEMPF2 ,Temporary storage for FLPT value.
+0061,FAC    ,Main Floating point Accumulator.
+0061,FACEXP ,FAC Exponent.
+0062,FACHO  ,FAC Mantissa.
+0066,FACSGN ,FAC Sign.
+0067,SGNFLG ,Pointer: Series Evaluation Constant.
+0068,BITS   ,Bit Overflow Area during normalisation R
+0069,AFAC   ,Auxiliary Floating point Accumulator.
+0069,ARGEXP ,AFAC Exponent.
+006A,ARGHO  ,AFAC Mantissa.
+006E,ARGSGN ,AFAC Sign.
+006F,ARISGN ,Sign of result of Arithmetic Evaluation.
+0070,FACOV  ,FAC low-order rounding.
+0071,FBUFPT ,Pointer: Used during CRUNCH/ASCII conver
+0073,CHRGET ,Subroutine: Get next Byte of BASIC Text.
+0079,CHRGOT ,Entry to Get same Byte again.
+007A,TXTPTR ,Pointer: Current Byte of BASIC Text.
+008B,RNDX  ,Floating RND Function Seed Value.
+0090,STATUS ,Kernal I/O Status Word ST.
+0091,STKEY  ,Flag: $7F=STOP key.
+0092,SVXT   ,Timing Constant for Tape.
+0093,VERCKK ,Flag: 0=Load; 1=Verify.
+0094,C3PO   ,Flag: Serial Bus - Output Character buff
+0095,BSOUR  ,Buffered Character for Serial Bus.
+0096,SYNO   ,Cassette Sync. number.
+0097,TEMPX  ,Temporary storage of X Register during C
+0097,TEMPY  ,Temporary storage of Y Register during R
+0098,LDTND  ,Number of Open Files/Index to File Table
+0099,DFLTN  ,Default Input Device (0).
+009A,DFLTO  ,Default Output Device (3).
+009B,PRTY   ,Parity of Byte Output to Tape.
+009C,DPSW   ,Flag: Byte received from Tape.
+009D,MSGFLG ,Flag: $00=Prog mode: Suppress Err Msgs; 
+009E,FNMIDX ,Index to Cassette File name/Header ID fo
+009E,PTR1   ,Tape Error log pass 1.
+009F,PTR2   ,Tape Error log pass 2.
+00A0,TIME   ,Real-time jiffy Clock (Updated by IRQ In
+00A3,TSFCNT ,Bit Counter Tape Read or Write/Serial Bu
+00A4,TBTCNT ,Pulse Counter Tape Read or Write/Serial 
+00A5,CNTDN  ,Tape Synchronising count down.
+00A6,BUFPNT ,Pointer: Tape I/O buffer.
+00A7,INBIT  ,RS232 temporary for received Bit/Tape te
+00A8,BITC1  ,RS232 Input Bit count/Tape temporary.
+00A9,RINONE ,RS232 Flag: Start Bit check/Tape tempora
+00AA,RIDATA ,RS232 Input Byte Buffer/Tape temporary.
+00AB,RIPRTY ,RS232 Input parity/Tape temporary.
+00AC,SAL    ,Pointer: Tape Buffer/Screen scrolling.
+00AE,EAL    ,Tape End Address/End of Program.
+00B0,CMPO   ,Tape timing Constants.
+00B2,TAPE1  ,Pointer: Start Address of Tape Buffer ($
+00B4,BITTS  ,RS232 Write bit count/Tape Read timing F
+00B5,NXTBIT ,RS232 Next Bit to send/Tape Read - End o
+00B6,RODATA ,RS232 Output Byte Buffer/Tape Read Error
+00B7,FNLEN  ,Number of Characters in Filename.
+00B8,LA     ,Current File - Logical File number.
+00B9,SA     ,Current File - Secondary Address.
+00BA,FA     ,Current File - First Address (Device num
+00BB,FNADR  ,Pointer: Current File name Address.
+00BD,ROPRTY ,RS232 Output Parity/Tape Byte to be Inpu
+00BE,FSBLK  ,Tape Input/Output Block count.
+00BF,MYCH   ,Serial Word Buffer.
+00C0,CAS1   ,Tape Motor Switch.
+00C1,STAL   ,Start Address for LOAD and Cassette Writ
+00C3,MEMUSS ,Pointer: Type 3 Tape LOAD and general us
+00C5,LSTX   ,Matrix value of last Key pressed; No Key
+00C6,NDX    ,Number of Characters in Keyboard Buffer 
+00C7,RVS    ,Flag: Reverse On/Off; On=$01; Off=$00.
+00C8,INDX   ,Pointer: End of Line for Input (Used to 
+00C9,LXSP   ,Cursor X/Y (Line/Column) position at sta
+00CB,SFDX   ,Flag: Print shifted Characters.
+00CC,BLNSW  ,Flag: Cursor blink; $00=Enabled; $01=Dis
+00CD,BLNCT  ,Timer: Count down for Cursor blink toggl
+00CE,GDBLN  ,Character under Cursor while Cursor Inve
+00CF,BLNON  ,Flag: Cursor Status; $00=Off; $01=On.
+00D0,CRSW   ,Flag: Input from Screen=$03; or Keyboard
+00D1,PNT    ,Pointer: Current Screen Line Address.
+00D3,PNTR   ,Cursor Column on current Line; including
+00D4,QTSW   ,Flag: Editor in Quote Mode; $00=Not.
+00D5,LNMX   ,Current logical Line length: 39 or 79.
+00D6,TBLX   ,Current Screen Line number of Cursor.
+00D7,SCHAR  ,Screen value of current Input Character/
+00D8,INSRT  ,Count of number of inserts outstanding.
+00D9,LDTB1  ,Screen Line link Table/Editor temporarie
+00F3,USER   ,Pointer: Current Colour RAM Location.
+00F5,KEYTAB ,Vector: Current Keyboard decoding Table.
+00F7,RIBUF  ,RS232 Input Buffer Pointer.
+00F9,ROBUF  ,RS232 Output Buffer Pointer.
+00FB,FREKZP ,Free Zero Page space for User Programs.
+00FF,ASCWRK ,Assembly Area for Floating point to ASCI
+00FF,BASZPT ,BASIC temporary Data Area.
+0100,BAD    ,Tape Input Error log.
+0100,STACK  ,6510 Hardware Stack Area.
+013F,BSTACK ,BASIC Stack Area.
+0200,BUF    ,BASIC Input Buffer (Input Line from Scre
+0259,LAT    ,Kernal Table: Active logical File number
+0263,FAT    ,Kernal Table: Active File First Addresse
+026D,SAT    ,Kernal Table: Active File Secondary Addr
+0277,KEYD   ,Keyboard Buffer Queue (FIFO).
+0281,MEMSTR ,Pointer: Bottom of Memory for Operating 
+0283,MEMSIZ ,Pointer: Top of Memory for Operating Sys
+0285,TIMOUT ,Serial IEEE Bus timeout defeat Flag.
+0286,COLOR  ,Current Character Colour code.
+0287,GDCOL  ,Background Colour under Cursor.
+0288,HIBASE ,High Byte of Screen Memory Address ($04)
+0289,XMAX   ,Maximum number of Bytes in Keyboard Buff
+028A,RPTFLG ,Flag: Repeat keys; $00=Cursors; INST/DEL
+028B,KOUNT  ,Repeat Key: Speed Counter ($04).
+028C,DELAY  ,Repeat Key: First repeat delay Counter (
+028D,SHFLAG ,Flag: Shift Keys: Bit 1=Shift; Bit 2=CBM
+028E,LSTSHF ,Last Shift Key used for debouncing.
+028F,KEYLOG ,Vector: Routine to determine Keyboard ta
+0291,MODE   ,Flag: Upper/Lower Case change: $00=Disab
+0292,AUTODN ,Flag: Auto scroll down: $00=Disabled ($0
+0293,M51CTR ,RS232 Pseudo 6551 control Register Image
+0294,M51CDR ,RS232 Pseudo 6551 command Register Image
+0295,M51AJB ,RS232 Non-standard Bits/Second.
+0297,RSSTAT ,RS232 Pseudo 6551 Status Register Image.
+0298,BITNUM ,RS232 Number of Bits left to send.
+0299,BAUDOF ,RS232 Baud Rate; Full Bit time microseco
+029B,RIDBE  ,RS232 Index to End of Input Buffer.
+029C,RIDBS  ,RS232 Pointer: High Byte of Address of I
+029D,RODBS  ,RS232 Pointer: High Byte of Address of O
+029E,RODBE  ,RS232 Index to End of Output Buffer.
+029F,IRQTMP ,Temporary store for IRQ Vector during Ta
+02A1,ENABL  ,RS232 Enables.
+02A2,TODSNS ,TOD sense during Tape I/O.
+02A3,TRDTMP ,Temporary storage during Tape READ.
+02A4,TD1IRQ ,Temporary D1IRQ Indicator during Tape RE
+02A5,TLNIDX ,Temporary for Line Index.
+02A6,TVSFLG ,Flag: TV Standard: $00=NTSC; $01=PAL.
+02A7,TEMP2  ,Unused.
+02C0,SPR11  ,Sprite #11 Data Area.
+0300,IERROR ,Vector: Indirect entry to BASIC Error
+0302,IMAIN  ,Vector: Indirect entry to BASIC Input Li
+0304,ICRNCH ,Vector: Indirect entry to BASIC Tokenise
+0306,IQPLOP ,Vector: Indirect entry to BASIC LIST Rou
+0308,IGONE  ,Vector: Indirect entry to BASIC Characte
+030A,IEVAL  ,Vector: Indirect entry to BASIC Token ev
+030C,SAREG  ,Storage for 6510 Accumulator during SYS.
+030D,SXREG  ,Storage for 6510 X-Register during SYS.
+030E,SYREG  ,Storage for 6510 Y-Register during SYS.
+030F,SPREG  ,Storage for 6510 Status Register during 
+0310,USRPOK ,USR Function JMP Instruction ($4C).
+0311,USRADD ,USR Address ($LB;$MB).
+0313,TEMP3  ,Unused.
+0314,CINV   ,Vector: Hardware IRQ Interrupt Address (
+0316,CNBINV ,Vector: BRK Instruction Interrupt Addres
+0318,NMINV  ,Vector: Hardware NMI Interrupt Address (
+031A,IOPEN  ,Vector: Indirect entry to Kernal OPEN Ro
+031C,ICLOSE ,Vector: Indirect entry to Kernal CLOSE R
+031E,ICHKIN ,Vector: Indirect entry to Kernal CHKIN R
+0320,ICKOUT ,Vector: Indirect entry to Kernal CHKOUT 
+0322,ICLRCH ,Vector: Indirect entry to Kernal CLRCHN 
+0324,IBASIN ,Vector: Indirect entry to Kernal CHRIN R
+0326,IBSOUT ,Vector: Indirect entry to Kernal CHROUT 
+0328,ISTOP  ,Vector: Indirect entry to Kernal STOP Ro
+032A,IGETIN ,Vector: Indirect entry to Kernal GETIN R
+032C,ICLALL ,Vector: Indirect entry to Kernal CLALL R
+032E,USRCMD ,User Defined Vector ($FE66). 
+0330,ILOAD  ,Vector: Indirect entry to Kernal LOAD Ro
+0332,ISAVE  ,Vector: Indirect entry to Kernal SAVE Ro
+0334,TEMP4  ,Unused.
+033C,TBUFFR ,Tape I/O Buffer.
+0340,SPR13  ,Sprite #13.
+0380,SPR14  ,Sprite #14.
+03C0,SPR15  ,Sprite #15.
+03FC,TEMP5  ,Unused.
+;---- BASIC 2.0
+
+;---- Chips
+D000,VICREG0,Sprite 0
+D001,VICREG1,Sprite 0
+D002,VICREG2,Sprite 1
+D003,VICREG3,Sprite 1
+D004,VICREG4,Sprite 2
+D005,VICREG5,Sprite 2
+D006,VICREG6,Sprite 3
+D007,VICREG7,Sprite 3
+D008,VICREG8,Sprite 4
+D009,VICREG9,Sprite 4
+D00A,VICREG10,Sprite 5
+D00B,VICREG11,Sprite 5
+D00C,VICREG12,Sprite 6
+D00D,VICREG13,Sprite 6
+D00E,VICREG14,Sprite 7
+D00F,VICREG15,Sprite 7
+D010,VICREG16,M.S. Bit of X-Location for Sprites 0 - 7
+D011,VICREG17,VIC Control Register 1
+D012,VICREG18,Raster Position
+D013,VICREG19,Latch X Pos
+D014,VICREG20,Latch Y Pos
+D015,VICREG21,Sprite display Enable
+D016,VICREG22,VIC Control Register 2
+D017,VICREG23,Sprites Expand 2x Vertical (Y)
+D018,VICREG24,VIC Memory Control Register
+D019,VICREG25,VIC Interrupt Request Register (IRR)
+D01A,VICREG26,VIC Interrupt Mask Register (IMR)
+D01B,VICREG27,Sprite to Background Display Priority
+D01C,VICREG28,Sprites Multi-Color Mode Select
+D01D,VICREG29,Sprites Expand 2x Horizontal (X)
+D01E,VICREG30,Sprite to Sprite Collision Detect
+D01F,VICREG31,Sprite to Background Collision Detect
+D020,VICREG32,Border Color
+D021,VICREG33,Background Color 0
+D022,VICREG34,Background Color 1, Multi-Color Register 0
+D023,VICREG35,Background Color 2, Multi-Color Register 1
+D024,VICREG36,Background Color 3
+D025,VICREG37,Sprite Multi-Color Register 0
+D026,VICREG38,Sprite Multi-Color Register 1
+D027,VICREG39,Sprite 0 Color
+D028,VICREG40,Sprite 1 Color
+D029,VICREG41,Sprite 2 Color
+D02A,VICREG42,Sprite 3 Color
+D02B,VICREG43,Sprite 4 Color
+D02C,VICREG44,Sprite 5 Color
+D02D,VICREG45,Sprite 6 Color
+D02E,VICREG46,Sprite 7 Color
+D02F,VICREG47,C128: Port A* for Extended Keyboard
+D030,VICREG48,C128: Switch to FAST-Mode
+D400,SIDREG01,Voice 1: Frequency Control - Low-Byte
+D401,SIDREG02,Voice 1: Frequency Control - High-Byte
+D402,SIDREG03,Voice 1: Pulse Waveform Width - Low-Byte
+D403,SIDREG04,Voice 1: Pulse Waveform Width - High-Nybble
+D404,SIDREG05,Voice 1: Control Register
+D405,SIDREG06,Voice 1: Attack / Decay Cycle Control
+D406,SIDREG07,Voice 1: Sustain / Release Cycle Control
+D407,SIDREG08,Voice 2: Frequency Control - Low-Byte
+D408,SIDREG09,Voice 2: Frequency Control - High-Byte
+D409,SIDREG10,Voice 2: Pulse Waveform Width - Low-Byte
+D40A,SIDREG11,Voice 2: Pulse Waveform Width - High-Nybble
+D40B,SIDREG12,Voice 2: Control Register
+D40C,SIDREG13,Voice 2: Attack / Decay Cycle Control
+D40D,SIDREG14,Voice 2: Sustain / Release Cycle Control
+D40E,SIDREG15,Voice 3: Frequency Control - Low-Byte
+D40F,SIDREG16,Voice 3: Frequency Control - High-Byte
+D410,SIDREG17,Voice 3: Pulse Waveform Width - Low-Byte
+D411,SIDREG18,Voice 3: Pulse Waveform Width - High-Nybble
+D412,SIDREG19,Voice 3: Control Register
+D413,SIDREG20,Voice 3: Attack / Decay Cycle Control
+D414,SIDREG21,Voice 3: Sustain / Release Cycle Control
+D415,SIDREG22,Filter Cutoff Frequency: Low-Nybble
+D416,SIDREG23,Filter Cutoff Frequency: High-Byte
+D417,SIDREG24,Filter Resonance Control / Voice Input Control
+D418,SIDREG25,Select Filter Mode and Volume
+D419,SIDREG26,Analog/Digital Converter: Game Paddle 1
+D41A,SIDREG26,Analog/Digital Converter: Game Paddle 2
+D41B,SIDREG28,Oscillator 3 Output
+D41C,SIDREG29,Envelope Generator 3 Output
+DC00,CIA1REG01,CIA1: Data Port Register A
+DC01,CIA1REG02,CIA1: Data Port Register B
+DC02,CIA1REG03,CIA1: Data Direction Register A
+DC03,CIA1REG04,CIA1: Data Direction Register B
+DC04,CIA1REG05,CIA1: Timer A: Low-Byte
+DC05,CIA1REG06,CIA1: Timer A: High-Byte
+DC06,CIA1REG07,CIA1: Timer B: Low-Byte
+DC07,CIA1REG08,CIA1: Timer B: High-Byte
+DC08,CIA1REG09,CIA1: Time-of-Day Clock: 1/10 Seconds
+DC09,CIA1REG10,CIA1: Time-of-Day Clock: Seconds
+DC0A,CIA1REG11,CIA1: Time-of-Day Clock: Minutes
+DC0B,CIA1REG12,CIA1: Time-of-Day Clock: Hours + AM/PM Flag
+DC0C,CIA1REG13,CIA1: Synchronous Serial I/O Data Buffer
+DC0D,CIA1REG14,CIA1: CIA Interrupt Control Register
+DC0E,CIA1REG15,CIA1: CIA Control Register A
+DC0F,CIA1REG16,CIA1: CIA Control Register B
+DD00,CIA1REG17,CIA2: Data Port Register A
+DD01,CIA1REG18,CIA2: Data Port Register B
+DD02,CIA1REG19,CIA2: Data Direction Register A
+DD03,CIA2REG01,CIA2: Data Direction Register B
+DD04,CIA2REG02,CIA2: Timer A: Low-Byte
+DD05,CIA2REG03,CIA2: Timer A: High-Byte
+DD06,CIA2REG04,CIA2: Timer B: Low-Byte
+DD07,CIA2REG05,CIA2: Timer B: High-Byte
+DD08,CIA2REG06,CIA2: Time-of-Day Clock: 1/10 Seconds
+DD09,CIA2REG07,CIA2: Time-of-Day Clock: Seconds
+DD0A,CIA2REG08,CIA2: Time-of-Day Clock: Minutes
+DD0B,CIA2REG09,CIA2: Time-of-Day Clock: Hours + AM/PM Flag
+DD0C,CIA2REG10,CIA2: Synchronous Serial I/O Data Buffer
+DD0D,CIA2REG11,CIA2: CIA Interrupt Control Register
+DD0E,CIA2REG12,CIA2: CIA Control Register A
+DD0F,CIA2REG13,CIA2: CIA Control Register B
+;---- KERNAL
+E500,IOBASEj,$E500 (jmp) - returns the addr of I/O devices
+E505,SCREENj,$E505 (jmp) - return screen size
+E50A,PLOTj,$E50A (jmp) - read/set cursor position
+EA87,SCNKEYj,$EA87 (jmp) - scan keyboard
+ED09,TALKj,$ED09 (jmp) - make SERIAL device talk
+ED0C,LISTENj,$ED0C (jmp) - make SERIAL device listen
+EDB9,SECONDj,$EDB9 (jmp) - send secondary addr after listen
+EDC7,TKSAj,$EDC7 (jmp) - send secondary addr after talk
+EDDD,CIOUTj,$EDDD (jmp) - output byte to SERIAL
+EDEF,UNTLKj,$EDEF (jmp) - untalk all SERIAL devices
+EDFE,UNLSNj,$EDFE (jmp) - unlisten all SERIAL devices
+EE13,ACPTRj,$EE13 (jmp) - input byte from SERIAL
+F13E,GETINj,$F13E (jmp) - get a byte from channel
+F157,CHRINj,$F157 (jmp) - input character
+F1CA,CHROUTj,$F1CA (jmp) - output character
+F20E,CHKINj,$F20E (jmp) - open channel for input
+F250,CHKOUTj,$F250 (jmp) - open channel for output
+F291,CLOSEj,$F291 (jmp) - close a logical file
+F32F,CLALLj,$F32F (jmp) - close or abort all files
+F333,CLRCHNj,$F333 (jmp) - restore default devices
+F34A,OPENj,$F34A (jmp) - open log.file after SETLFS,SETNAM
+F49E,LOADj,$F49E (jmp) - load after call SETLFS,SETNAM
+F5DD,SAVEj,$F5DD (jmp) - save after call SETLFS,SETNAM
+F69B,UDTIMj,$F69B (jmp) - update jiffy clock
+F6DD,RDTIMj,$F6DD (jmp) - read jiffy clock
+F6E4,SETTIMj,$F6E4 (jmp) - set jiffy clock
+F6ED,STOPj,$F6ED (jmp) - check stop key
+FCE2,RESET_VECTOR,
+FD15,RESTORj,$FD15 (jmp) - restore default I/O vectors
+FD1A,VECTORj,$FD1A (jmp) - read/set I/O vectors
+FD50,RAMTASj,$FD50 (jmp) - RAM test & search RAM end
+FDA3,IOINITj,$FDA3 (jmp) - initialize CIA & IRQ
+FDF9,SETNAMj,$FDF9 (jmp) - set file name
+FE00,SETLFSj,$FE00 (jmp) - set file parameters
+FE07,READSTj,$FE07 (jmp) - read I/O status byte
+FE18,SETMSGj,$FE18 (jmp) - enable/disable KERNAL messages
+FE21,SETTMOj,$FE21 (jmp) - set IEEE timeout
+FE25,MEMTOPj,$FE25 (jmp) - read/set top of memory
+FE34,MEMBOTj,$FE34 (jmp) - read/set bottom of memory
+FE43,NMI_VECTOR,
+FF48,IRQ_BRK_VECTOR,
+FF5B,CINTj,$FF5B (jmp) - init VIC & screen editor
+FF81,CINT,Init Editor & Display
+FF84,IOINIT,Init I/O Devices (ports
+FF87,RAMTAS,Initialize RAM And Buffers For System
+FF8A,RESTOR,Restore Vectors to Initial System
+FF8D,VECTOR,Change Vectors For USER
+FF90,SETMSG,Control O.S. Message
+FF93,SECND,Send SA After LISTEN
+FF96,TKSA,Send SA After TALK
+FF99,MEMTOP,Set/Read Top Of System RAM
+FF9C,MEMBOT,Set/Read Bottom Of System RAM
+FF9F,KEY,Scan Keyboard (Editor)
+FFA2,SETTMO,Set Timeout In IEEE (reserved)
+FFA5,ACPTR,Handshake Serial Byte In
+FFA8,CIOUT,Handshake Serial Byte Out
+FFAB,UNTLK,Send UNTALK Out Serial
+FFAE,UNLSN,Send UNLISTEN Out Serial
+FFB1,LISTN,Send LISTEN Out Serial
+FFB4,TALK,Send TALK Out Serial
+FFB7,READSS,Return I/O Status Byte
+FFBA,SETLFS,Set LA
+FFBD,SETNAM,Set Length And File Name Address
+FFC0,OPEN,OPEN Logical File
+FFC3,CLOSE,CLOSE Logical File
+FFC6,CHKIN,Set Channel In
+FFC9,CKOUT,Set Channel Out
+FFCC,CLRCH,Restore Default I/O Channel
+FFCF,CHRIN,INPUT From Channel
+FFD2,CHROUT,OUTPUT To Channel
+FFD5,LOADSP,LOAD From File
+FFD8,SAVESP,SAVE to File
+FFDB,SETTIM,Set Internal Clock
+FFDE,RDTIM,Read Internal Clock
+FFE1,STOP,Scan STOP Key
+FFE4,GETIN,Read Buffered Data
+FFE7,CLALL,Close All Files And Channels
+FFEA,UDTIM,Increment Internal Clock
+FFED,SCRORG,Return Screen Window Size (Editor)
+FFF0,PLOT,Read/Set X
+FFF3,IOBASE,Return I/O Base
+FFF8,SYSTEM,Operating System Vector (RAM1)
+FFFA,NMI,Processor NMI Vector
+FFFC,RESET,Processor RESET Vector
+FFFE,IRQ,Processor IRQ/BRK Vector

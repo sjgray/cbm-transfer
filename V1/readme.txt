@@ -1,4 +1,4 @@
-CBM-Transfer  (c)2007-2025 Steve J. Gray
+CBM-Transfer  (c)2007-2021 Steve J. Gray
 ============
 
 CBMX-Transfer is a front-end to several command-line utilities for transferring files
@@ -7,8 +7,7 @@ providing a familiar windows interface that removes the need to learn the comman
 syntax of each program. CBM-Transfer also includes a multi-format file and picture viewer.
 
 CBM-Transfer is written in VisualBASIC 6.
-CBM-Transfer (aka "CBMXfer") Version 1.00 marked the program's 10th Anniversary.
-CBM-Transfer V2.0 is a major overhaul to the GUI including themes. Released 2025.
+CBM-Transfer (aka "CBMXfer") Version 1.00 marks the program's 10th Anniversary.
 
 Command-line utilities supported:
 
@@ -26,6 +25,6 @@ source code you do not need all the files in the repository to use CBM-Transfer!
 
 For more information and downloads please go to the website:
 
-www.cbmsteve.ca/cbmxfer
+http://www.6502.org/users/sjgray/software/cbmxfer/cbmxfer.html
 
 Steve

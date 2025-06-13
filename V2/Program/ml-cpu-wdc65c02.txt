@@ -1,5 +1,5 @@
 CBM-Transfer Disassembler Opcode File
-Western Digital Corp WDC65C02
+Western Design Center WDC65C02
 0--- 1--- 2--- 3--- 4--- 5--- 6--- 7---- 8--- 9--- a--- b--- c--- d--- e--- f----
 brki,orak,nopb,nopi,tsbc,orac,aslc,rmb0c,phpi,orab,asla,nopi,tsbf,oraf,aslf,bbr0j
 bplj,oral,orap,nopi,trb-,orad,asld,rmb1c,clci,orah,inci,nopi,trbf,orag,aslg,bbr1j
