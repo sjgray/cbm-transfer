@@ -3024,7 +3024,7 @@ Dim FontBMPFlag     As Boolean          'Flag to indicate BMP font loaded
 
 '---- INFO: Display Program info and acknowlegements
 Private Sub cmdAbout_Click()
-    MyMsg "CBM-Transfer V2.0 RELEASE (Jun 13/2025)" & Cr & _
+    MyMsg "CBM-Transfer V2.02 (Jul 30/2025)" & Cr & _
           "(C)2007-2025 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -3926,13 +3926,14 @@ Private Sub drvLocal_Change(Index As Integer)
     Dim Tmp As String
     
     Tmp = Left(drvLocal(Index).Drive, 2)                                            'fix for drives that show up with volume label
+    If Tmp = "" Then Exit Sub
     
     On Local Error GoTo 0
     
     If DirExists(Tmp) = True Then
         dirLocal(Index).Path = Tmp                                                  'Set directory path.
     Else
-        MyMsg "The drive is not available)"
+        MyMsg "The path: " & drvLocal(Index).Drive & Cr & "Index=" & Str(Index) & Cr & "is not available!"
     End If
     
 End Sub
@@ -4735,10 +4736,11 @@ Public Sub GetXDir()
     Exit Sub
     
 GetXErr:
-    If Not (Err.Number = 53) Then
-        MyMsg "GetX Error: " & Err.Number & Cr & "[" & temp & "]"
-        ClearXDir
-    End If
+    If (Err.Number = 53) Or (Err.Number = 55) Then Exit Sub
+    
+    MyMsg "GetX Error: " & Err.Number & Cr & "[" & temp & "]"
+    ClearXDir
+    
     Exit Sub
     
 End Sub
@@ -6480,7 +6482,7 @@ End Sub
 '---- GENERAL: Save Source Path Drop-down list (Path History)
 Public Sub SaveHistory()
     Dim FIO As Integer, Tmp As String, a As Integer
-        
+      
     KillFile HistoryFile
     
     FIO = FreeFile
@@ -6488,6 +6490,7 @@ Public Sub SaveHistory()
     
     For a = 0 To txtLocalDir(0).ListCount - 1
         Print #FIO, txtLocalDir(0).List(a)
+        'Debug.Print "Path>>>" & txtLocalDir(0).List(a)
     Next
     Close FIO
     

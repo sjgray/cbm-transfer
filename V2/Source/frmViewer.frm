@@ -6374,7 +6374,7 @@ End Sub
 '---- FONT: Draws the Complete Character Set
 ' Uses offset, BorderFlag, OutlineFlag, Zoom, and selected colours
 Public Sub DrawChrSet()
-    Dim J As Integer, V As Integer, K As Integer
+    Dim J As Long, V As Integer, K As Integer
     Dim X As Integer, Y As Integer                                      'Co-ordinates
     Dim TopX As Integer, TopY As Integer                                'Top-left for character set
     Dim R As Integer, C As Integer                                      'Row and Col
@@ -6386,6 +6386,7 @@ Public Sub DrawChrSet()
     Dim CCZ As Integer, RRZ As Integer, YYZ As Integer                  'To help speed up drawing
     Dim FH As Integer
     
+    If VBuf = "" Then MsgBox "VBuf Empty!?": Exit Sub                   'Hide font and exit
     If VBuf = "" Then picV.Visible = False: Exit Sub                    'Hide font and exit
     
     FH = ChrHeight                                                      'Chr Height in pixels
@@ -6393,6 +6394,8 @@ Public Sub DrawChrSet()
     C = 0: R = 0: X = 0: Y = 0
     TopX = 0: TopY = 0                                                  'Top-Left Offset
     MaxR = 64                                                           'Max Row (Max Col is global)
+    
+    picV.Cls                                                            'Clear to background
     
     CW = 8: RW = FH                                                     'Chr width, Row width
     PZ = CW * ChrZoom                                                   'Scale factor for drawing one line of pixels
@@ -6466,8 +6469,10 @@ Public Sub DrawChrSet()
             CCZ = TopX + C * CZ: RRZ = TopY + R * RZ                    'Pre-calc to speed up draw
         End If
                 
-        If R > MaxR Then Exit For                                       'Exit if at bottom of visible area
+        'If R > MaxR Then Exit For                                       'Exit if at bottom of visible area
     Next J
+    
+    If C > 0 Then R = R + 1
     
     If R < MaxR Then
         If R = 0 Then R = 1                                             'Fix if single row
@@ -7123,6 +7128,8 @@ Private Sub picV_MouseDown(Button As Integer, Shift As Integer, X As Single, Y A
     C = Int(X / (CW * ChrZoom)): If C > ChrLineMax Then C = ChrLineMax          'Calculate Col
     T = R * ChrLineMax + C                                                      'Calculate Character
     
+    If ((T + 1) * FontH) > VLen Then Exit Sub                                   'If past end of file then abort
+    
     If (Shift > 0) Or (Button = 2) Then
        SelChr2 = T                                                              'Set Range End
        RangeFlag = True: UpdateFlag = True
@@ -7226,16 +7233,35 @@ End Sub
 
 '---- FONT: Toggle Edit Mode
 Private Sub ToggleEdit()
-
+    Dim N As Integer, X As Integer, Y As Integer
+    
     If ChrEditMode = False Then
         If shOverflow.Visible = True Then MyMsg "Sorry, font is too big to edit!": Exit Sub
     End If
     
     ChrEditMode = Not ChrEditMode                                   'Toggle the Edit Mode
-    frmMenu.mnuFont(1).Checked = ChrEditMode                        'Set the Checkmark
-    SetEditLayout                                                   'Set Edit Mode Layout
-    If ChrWIndex > 4 Then UpdateChrSetView
+    frmMenu.mnuFont(1).Checked = ChrEditMode                                    'Set the Checkmark
+   
+'-- Check if font contains some multiple of 128 characters (128 x 8=1024 bytes).
+'   If not ask to padd.
+
+    If ChrEditMode = True Then
+        N = Len(VBuf)
+        If (N Mod 1024) <> 0 Then
+            X = (Int(N / 1024) + 1) * 1024                                      'Calculate next biggest font size
+            Y = X - N
+            If MsgBox("This Font size is not a multiple of 128 characters." & Cr & "Do you want to fix this?" & Cr & "Bytes=" & Str(N) & " Expected=" & Str(X) & " Bytes to add=" & Str(Y), vbYesNo, "Pad Buffer") = vbYes Then
+                VBuf = VBuf & String(Y, Nu)                                     'Pad it
+                VLen = VLen + Y                                                 'Adjust size
+
+            End If
+        End If
+    End If
     
+'--
+    SetEditLayout                                                               'Set Edit Mode Layout
+    If ChrWIndex > 4 Then UpdateChrSetView
+
 End Sub
 
 '---- FONT: Set Layout according to Edit Mode
@@ -7802,7 +7828,7 @@ Private Sub ConvertFont(ByVal N As Integer)
     
     Select Case N
         ' Convert using parameters defined above
-        Case 0 - 6
+        Case 0 To 6
                 For J = 1 To Len(VBuf) Step H
                     Tmp = Mid(VBuf, J, B)                                       'Get 8 bytes
                     VBuf2 = VBuf2 & Tmp & Pad                                   'Copy them plus padding if needed
