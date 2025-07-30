@@ -43,7 +43,7 @@
   I found it lacking in some areas.
 
    As a VB6 programmer I wanted to fix it up. Then I found it had been converted to VB.NET.
-  Unfortunately I do not have VB.NET and I also find it too different and bulky for my tastes,
+  Unfortunately I do not have VB.NET and I also find it too different and bulky for my taste,
   so I decided to stay with VB6.
 
    Having two different development forks for G4C makes no sense so I decided to rename mine
@@ -54,7 +54,7 @@
   The Zoom Floppy allows you to connect your drives via USB. For new computer users this might
   be your only option. The parallel cable allows you to backup copy-protected disks very quickly.
 
-   I look forward to user feedback. Please email me your bug reports, and ideas to help me
+   I look forward to user feedback. Please email me your bug reports, and/or ideas to help me
   improve the program! Enjoy!
 
   Steve J. Gray
@@ -83,8 +83,8 @@
 		   > https://spiro.trikaliotis.net/opencbm
 		   > sourceforge.net/projects/opencbm/files/opencbm/
 		   
-	WinVice... Enulator and C1541 disk image utility - SEE NOTES!		
-		   Version 3.9 is latest as of Jun '2025 - Version2.3 or higher recommended.
+	WinVice... Emulator and C1541 disk image utility - SEE NOTES!		
+		   Version 3.9 is latest as of Jul '2025 - Version2.3 or higher recommended.
                    
 		   > vice-emu.sourceforge.net/
 
@@ -136,7 +136,7 @@
 
 	VICE:
 		At the DOS prompt CD to the VICE directory.
-		For VICE 3.5 and above next CD to the BIN directory
+		For VICE 3.5 and above, next CD to the BIN directory
 		Type: C1541
 		It should display the version#
 		Type: q 
@@ -150,11 +150,12 @@
   There are three different CBM-Transfer releases:
 
 	(1) Complete release with SETUP.EXE installer - for new installations.
+	    Version 1.x only! Version 2.x available in the future.
 
 		* Unzip and run setup.exe.
 		* Install into the default folder
 
-	(2) Complete release without installer. - for people that have installed previous releases.
+	(2) Complete release without installer - for people that have installed previous releases.
 
 		* Unzip and copy all files to the CBM-Transfer folder.
 
@@ -167,7 +168,7 @@
 
   ***** NOTES for users running CBM-Transfer in the OpenCBM folder:
   *
-  *	Starting from V1.22 any version of C1541 should work provided you have the correct
+  *	Starting from CBM-Transfer V1.22, any version of C1541 should work provided you have the correct
   *	support files in the OpenCBM folder. If you are unable to get a directory listing
   *	you may try downgrading to an older version (Version 3.2 native seems to work
   *	without problems):
@@ -221,7 +222,7 @@
 
   ** VICE:
 
-   I recommend that you install the latest release of VICE. As of Dec 2021 it is version 3.6. I do not recommend
+   I recommend that you install the latest release of VICE. As of Jul 2025 it is version 3.96. I do not recommend
   running VICE 2.2 or earlier as the "C1541.EXE" utility seems to have issues.
 
 
@@ -288,7 +289,7 @@
     Default Device Number..... Usually 8.
     Use First Detected Drive.. Checks which devices are available, and default to the first one.
     Mode...................... The protocol used to communicate (see OpenCBM manual).
-    Disable warp mode......... If you have trouble check this option (see opencbm manual).
+    Disable warp mode......... If you have trouble check this option (see OpenCBM manual).
 
 
   ** CBMLink:
@@ -304,7 +305,7 @@
 
     These are settings to control VICE emulation.
 
-    Enable for Dxx............ Enable if you want to run Vice for commodore files.
+    Enable for Dxx............ Enable if you want to run VICE for commodore files.
     
     For D64/D71/D80 (3 items). Specifies the emulator to run for specific image types. For example,
 		       	       D64's are probably C64 disks, but D80's are probably PET disks. Use the
@@ -320,7 +321,7 @@
 
     These are settings to control NIBTOOLS disk imaging.
 
-    Enable NibTools........... You will need a parallel cable or 1571 drive for these options
+    Enable NibTools........... You will need a parallel cable or 1571 drive for these options.
     Create NIB / NBZ.......... These are ALWAYS created since NIBREAD does not create G64/D64 directly.
  			       If not selected the NIB/NBZ file will be deleted after conversion.
     Create G64 / D64.......... These are created by NIBCONV using the NIB file.
@@ -385,7 +386,7 @@
    * SCREEN CODE.. PETSCII characters written to the screen. A different order than PETSCII.
    * ASCII........ The standard encoding system. Does not contain any special graphic symbols.
    * CBMDOS....... The operating system of the Commodore disk drives.
-   * MSDOS........ The operating system for command-line utilities (opencbm, c1541, nibtools)
+   * MSDOS........ The operating system for command-line utilities (OpenCBM, C1541, Nibtools)
    * FILE SYSTEM.. A system to store files, with folders (sub-directies) etc. A file system has limitations
                    on what characters can be used in filenames.
 
@@ -424,8 +425,6 @@
 	* ASCII   Upper - ASCII encoding but with Upper changed to Graphics symbols, Lower to Upper.
 	* ASCII   Lower - ASCII Standard. Upper and Lower unchanged.
 
-  BETA Note: I am still trying to lock down how to handle the ASCII Encoding. Suggestions are welcome!
-
 
   ======
   Themes
@@ -437,15 +436,15 @@
   (which is thicker than the PET) in true C64 colours to give you the feeling you are really using a C64.
   As well, some buttons and icons could be customized with different graphics to give a completely new look.
 
-  CBM-Transfer comes with a bunch of different Themes based on classic Commodore computers. You are free to
-  add additional themes of your own making, or by downloading Themes from other users. All Theme BMP files
+  CBM-Transfer comes with a bunch of different themes based on classic Commodore computers. You are free to
+  add additional themes of your own making, or by downloading Themes from other users. All theme BMP files
   should be placed in the Theme folder, which is read when the program starts.
 
-  Each Theme is defined using one main BMP file, and one optional (BIN or BMP) Font file:
+  Each theme is defined using one main BMP file, and one optional (BIN or BMP) Font file:
 
   MAIN File:
 
-	theme-nnnn.ffff.bmp -	The main Theme file. The filename format is important!
+	theme-nnnn.ffff.bmp -	The main theme file. The filename format is important!
 				'nnnn' is the Theme Name.
 				'ffff' is an optional Font file to load (see below).
 				The bitmap contains icons and colours.
@@ -467,12 +466,10 @@
   will look for a font with the same name as the theme (BIN or BMP extension). If a matching font is
   not available then the current font will be retained.
 
-  Feel free to rename the theme files if you don't like the theme name edit the 'nnnn' part. If you
-  want to use a different font with a theme just change the 'ffff' part. You can load the CXFONT files
+  Feel free to rename the theme files. If you don't like the theme name, edit the 'nnnn' part. If you
+  want to use a different font with a theme, just change the 'ffff' part. You can load the CXFONT files
   into the font editor to modify or create your own fonts. If you rename themes you don't like to
   "xtheme-blah.blah.bmp" then it will not be included. You can rename later to get it back.
-
-  NOTE!: The Theme BITMAP layout is currently in development and is subject to change!
 
 
   ===============
@@ -482,7 +479,7 @@
   The main window is divided into three areas;
 
    * Left.... Local/Source (PC) pane.
-   * Centre.. area for mode and transfer operations.
+   * Centre.. Area for mode and transfer operations.
    * Right... Remote/Destination (Commodore) pane.
 
    The LEFT side is where your "Local" PC files are, where you can work with Disk Image files,
@@ -620,7 +617,7 @@
   * Ren............ Renames selected file(s) in the image.
   * View........... Displays the file in the File Viewer. Files are extracted to a temporary file
                     in order to be viewed.
-  * Run............ Starts the appropriate Vice emulator, attaches the current image and autoruns
+  * Run............ Starts the appropriate VICE emulator, attaches the current image and autoruns
 		    the selected PRG file. 
 
    To return to the normal PC directory click on the "Local PC" button at the top. You can freely
@@ -649,12 +646,12 @@
 
    For most computers a Zoom Floppy adapter is recommended. It is a modern USB interface to both IEC and
   IEEE devices. The ZF adapter might be your only option if you have a newer computer with no
-  printer/parallel port. The ZF adapter also supports  "parallel cable", which is a modification to the
+  printer/parallel port. The ZF adapter also supports "parallel cable", which is a modification to the
   Commodore drive to add a fast parallel data connection. With the parallel cable you can backup many
   protected or non-standard disks using the NibTools utilities.
 
-	Note: Make sure you are using the latest release of OpenCBM that includes
-	      Zoom Floppy support! Version 4.99.103 is current as of this writing.
+	NOTE: Make sure you are using the latest release of OpenCBM that includes
+	      Zoom Floppy support! Version 4.99.104 is current as of this writing.
 
    For older computers without USB, your computer will need a printer/parallel port in order to use an
   "X-cable". The X-cable connects a Commodore IEC drive (1541, 1571, 1581 etc) or other drive (1541-III,
@@ -691,7 +688,7 @@
 	PETSCII, Screen, or ASCII. The encoding you select does not change the filenames, only the way they are
 	displayed. When you transfer a file it will always transfer using the real filename from the disk.
 
-   Below those is the directory files lising, Blocks free and Number of files, and drive status. On the
+   Below those is the directory files lising, Blocks free, Number of files, and Drive Status. On the
   right edge are action buttons.
 
    Generally you will first select the device to use from the device# menu, then press the DIRECTORY button
@@ -770,7 +767,7 @@
 
    Basically, you select the file or files you want to copy and click one of the arrow buttons in the
   centre section that points in the direction you want to copy. To select multiple files use the standard
-  windows convention of SHIFT to select a range, or CTRL to select individual files.
+  Windows convention of SHIFT to select a range, or CTRL to select individual files.
 
    To write D64 images (and others) to disk, select the image file in the LEFT pane and Commodore drive
   in the RIGHT (ie: X-Cable or CBMLink cable) then click the "->" button. If you select multiple images
@@ -815,11 +812,11 @@
     * BITMAP.. Displays supported CBM format picture formats such as KoalaPainter and GeoPaint files.
 
    Also on the top are the "LA" checkbox. This tells the various viewers that the first two bytes of the
-  file contains the Load Address. When checked these bytes will be skipped over, and any viewer that
+  file contains the Load Address. When checked, these bytes will be skipped over, and any viewer that
   needs a Load Address will use this. If the box is NOT checked then the bytes are not skipped, and you
-  must then supply an address for any Viewer that needs one. Moving right is the Load Address Entry box
-  followed by the file size. NOTE: The maximum viewable size is 32K. If a file is bigger than the max
-  it will be truncated and a red indicator will be displayed beside the size.
+  must then supply an address for any Viewer that needs one. To the right is the Load Address Entry box
+  followed by the file size. NOTE: The maximum viewable size is 32K. If a file is bigger than this it
+  will be truncated and a red indicator will be displayed beside the size.
 
    When a file is viewed it is loaded into memory, and changing the views will not require the file to
   be reloaded. The exception to this is the BITMAP viewer, which always re-reads the file as needed.
@@ -834,7 +831,7 @@
   application associated with the file extension.
 
    You can enable DUAL VIEW by clicking on the "+" button to the right of the VIEW MODE buttons. The button
-  will change to "-". Press the "-" button to return to SINGLE VIEW. When DUAL VIEW is enabled you can view
+  will change to "-". Pressing it again will return to SINGLE VIEW. When DUAL VIEW is enabled you can view
   the same file two different ways at the same time. Several new buttons will appear. The ">" button shows
   which side (left or right) will be changed when a VIEW MODE button is clicked. Clicking this button
   toggles it between "<" and ">".  To swap left and right views, look at this button then click on the tab
@@ -843,7 +840,7 @@
    There are a set of three buttons ( "<<" "|" and ">>" ) that change the sizing of the left and right
   frames from 20% to 80%. The "|" button returns it to 50%.
 
-   You may also drag and drop a file into the viewer window. Drag to an empty area of the viewer window
+   You may also Drag-and-Drop a file into the viewer window. Drag to an empty area of the viewer window
   until the pointer shows the drop symbol.
 
    The BASIC, SEQ, and HEX views all use the true CBM Fonts for output. This will show all the text and
@@ -869,7 +866,7 @@
     * Font Size............. Select Font sizes loosely following various screen widths/aspects
     * Line Wrap............. Menu selects how each BASIC line is displayed. The ONE LINE option shows
 			     the entire line without wrapping. The other options wrap at the specific
-			     column (80/40/22) just line on a real machine.
+			     column (80/40/22) just like on a real machine.
     * Reverse Text.......... Switches upper and lower case (needed for some early PET files)
     * Expand Special........ Converts 'special' formatting characters to readable descriptions.
 				IE: Reverse R = "[rvs]", Reverse Heart = "[cls]"
@@ -1004,7 +1001,7 @@
    Below the top line and on the left we have the Buffer selection buttons, "selected character" controls and
   an enlarged character editing area where the pixels that make up the currently select character are shown.
 
-   There are 4 Buffers you can view/edit. The font initially gets loaded into buffer#1. Buffer#2 is available
+   There are 4 Buffers you can view/edit. The font initially gets loaded into Buffer#1. Buffer#2 is available
   for a second set. The Clip buffer is the clipboard. Characters go there when you copy or cut from any of the
   other buffers. And lastly, is the "R.Pt" or Restore Point buffer which you can use as a backup area incase
   you make a mistake and want to restore the previous set.
@@ -1116,7 +1113,7 @@
 	* Convert 8x32 to 8x16.. Convert 32 to 16 tall. Some .FON files have 32 lines but characters with only 16.
 	* Convert 6x8 sideways.. Convert 6x8 sideways font to 8x8. You will still need to rotate characters.
 	* Convert 128 CHR..RVS.. Convert Font(s) with 128 Characters and adds 128 RVS characters to each set.
-	* Convert Galaksija..... Convert weird Galaksija RASTER ordered font to normal order.
+	* Convert Galaksija..... Convert Galaksija RASTER ordered font to normal order.
 
   ---------------
   SCREEN DESIGNER
