@@ -6386,7 +6386,7 @@ Public Sub DrawChrSet()
     Dim CCZ As Integer, RRZ As Integer, YYZ As Integer                  'To help speed up drawing
     Dim FH As Integer
     
-    If VBuf = "" Then MsgBox "VBuf Empty!?": Exit Sub                   'Hide font and exit
+    'If VBuf = "" Then MsgBox "VBuf Empty!?": Exit Sub                   'Hide font and exit
     If VBuf = "" Then picV.Visible = False: Exit Sub                    'Hide font and exit
     
     FH = ChrHeight                                                      'Chr Height in pixels
@@ -6652,9 +6652,17 @@ End Sub
 '---- FONT: Set Visible Buffer
 ' Makes the selected buffer the current buffer to edit/view
 Private Sub SetEditBuf(ByVal Index As Integer)
-    
+
+    ' Check if selected buffer is empty. If so then exit
+    Select Case Index
+        Case 0: If VBuf1 = "" Then Exit Sub
+        Case 1: If VBuf2 = "" Then Exit Sub
+        Case 2: If VClip = "" Then Exit Sub
+        Case 3: If VRestore = "" Then Exit Sub
+    End Select
+
     VBufNum = Index                                                             'Remember the Buffer number
-        
+    
     Select Case Index
         Case 0: VBuf = VBuf1                                                    'Make Buffer#1 Visible
         Case 1: VBuf = VBuf2                                                    'Make Buffer#2 Visible
@@ -7014,7 +7022,7 @@ Private Sub cmdChrSel_Click(Index As Integer)
     
     Select Case Index
         Case 0: ChrSetNum = ChrSetNum - 1: If ChrSetNum < 0 Then ChrSetNum = 0              'Set -
-        Case 1: ChrSetNum = ChrSetNum + 1: If ChrSetNum > MaxSet Then ChrSetNum = MaxSet    'Set +
+        Case 1: ChrSetNum = ChrSetNum + 1: If ChrSetNum > MaxSet Then ChrSetNum = MaxSet + 1  'Set +
         Case 2: ChrNum = ChrNum - 1: If ChrNum < 255 Then ChrNum = 0                        'Chr -
         Case 3: ChrNum = ChrNum + 1: If ChrNum > 255 Then ChrNum = 255                      'Chr +
         Case 4:
@@ -7062,9 +7070,10 @@ Public Sub ShowSelChr()
     Dim RW As Integer, CW As Integer
     Dim C1 As Long, C2 As Long, C3 As Long
     Dim Tmp As String, OutFlag As Boolean
-    'Dim ChrNum As Integer
+    
     
     If ChrLineMax < 8 Then Exit Sub
+    If SelChr < 0 Then SelChr = 0
     
     ShowSelChrInfo                                                                  'Display Character Info
     
@@ -7714,6 +7723,11 @@ SetRestorePoint:
     Return
     
 SwapSets:
+    If VBuf2 = "" Then
+        If MsgBox("Buffer 2 is empty. Would you like to copy Buffer 1?", vbYesNo) = vbNo Then Return
+        VBuf2 = VBuf1
+    End If
+    
     UpdateBuf                                                                   'Update the Edited Buffer
     Tmp = VBuf1                                                                 'Remember set 1
     VBuf1 = VBuf2                                                               'Swap set 1 and 2
