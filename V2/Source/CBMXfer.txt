@@ -1,5 +1,5 @@
   CBM-Transfer (C)2007-2025 Steve J. Gray (sjgray@rogers.com)  www.cbmsteve.ca
-  ============ V2.03 RELEASE - Jul 30,2025
+  ============ V2.04 RELEASE - Jul 31,2025
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -1270,7 +1270,7 @@
   Change Log
   ==========
 
-2.02 Jul 30,2025
+2.04 Jul 31,2025
    * Viewer: Font
 	* Now shows all characters in set. Was truncating for last line if not full.
 	* Editor will ask if you want to pad font to multiple of 128 characters.

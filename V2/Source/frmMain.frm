@@ -3024,7 +3024,7 @@ Dim FontBMPFlag     As Boolean          'Flag to indicate BMP font loaded
 
 '---- INFO: Display Program info and acknowlegements
 Private Sub cmdAbout_Click()
-    MyMsg "CBM-Transfer V2.03 (Jul 30/2025)" & Cr & _
+    MyMsg "CBM-Transfer V2.04 (Jul 31/2025)" & Cr & _
           "(C)2007-2025 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _

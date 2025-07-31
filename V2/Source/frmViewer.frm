@@ -6861,7 +6861,9 @@ End Sub
 
 '---- FONT: Click to Set Character Size
 Private Sub cbSetSize_Click()
-
+    
+    SelChr = 0: SelChr2 = 0: RangeFlag = False                          'Reset selected character and range
+    
     SetChrSize                                                          'Change the Character Set size
     CalcChrDisplay                                                      'Calculate selection
     ShowSelChr                                                          'Display the Selected Character
@@ -7203,9 +7205,12 @@ End Sub
 ' Set Range Start and End byte positions based on character positions
 Private Sub SetRange()
 
-       ChrPos = SelChr * ChrHeight + 1                                  'Set the Start byte
-       ChrPosEnd = SelChr2 * ChrHeight + ChrHeight                      'Set the End byte
-
+    ChrPos = SelChr * ChrHeight + 1                                  'Set the Start byte
+    ChrPosEnd = SelChr2 * ChrHeight + ChrHeight                      'Set the End byte
+    If (ChrPos = 0) Or (ChrPosEnd > VLen) Then ChrPos = 0: ChrPosEnd = 0  'If out of range then abort
+    
+    Debug.Print "SetRange: ChrPos=" & Str(ChrPos) & " ChrPosEnd=" & Str(ChrPosEnd)
+    
 End Sub
 
 '---- FONT: Clear the Range
@@ -7370,6 +7375,7 @@ End Sub
 ' Handles Character Insering and Deleting Rows or Columns
 ' Handles Clipboard Cut, Copy, Paste, Append
 ' Handles Set Selecting, Swapping, Copying, Restoring
+
 Private Sub FontOp(ByVal Index As Integer)
     Dim a As Integer, B As Integer, C As Integer, K As Integer
     Dim cc As Integer, cStart As Integer
@@ -7666,35 +7672,39 @@ DelCol:
     '-- delete
     For J = ChrPos To ChrPosEnd
         V = Asc(Mid(VBuf, J, 1))                                            'Get byte value
-        nv2 = V And a                                                       'mask left side
-        nv3 = (V And B) * 2                                                 'mask right side and shift
-        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                    'recombine and write
+        nv2 = V And a                                                       'Mask left side
+        nv3 = (V And B) * 2                                                 'Mask right side and shift
+        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                    'Recombine and write
     Next J
     Return
 
     
 '---------------------------- Clipboard subs
+EmptyClip:
+    MsgBox "Clipboard is empty!": Return                                        'Ignore if nothing to paste
 
 CopyClip:
-    VClip = Mid(VBuf, ChrPos, ChrPosEnd - ChrPos + 1)
+    If RangeFlag = True Then VClip = Mid(VBuf, ChrPos, ChrPosEnd - ChrPos + 1)
     Return
 
 PasteClip:
-    V = Len(VClip): If V = 0 Then Return                                        'Ignore if nothing to paste
-    For J = ChrPos To ChrPosEnd Step V
+    V = Len(VClip): If V = 0 Then GoTo EmptyClip
+    For J = ChrPos To ChrPosEnd Step V                                          'Single/Multiple copy as needed
         Mid(VBuf, J, V) = VClip                                                 'Paste it once
     Next J
     Return
     
 CutClip:
+    If RangeFlag = False Then Return
     GoSub CopyClip                                                              'Copy it
     Tmp = "": If ChrPos > 1 Then Tmp = Left(VBuf, ChrPos - 1)                   'Data before cut range
     Tmp2 = "": If ChrPosEnd < Len(VBuf) Then Tmp2 = Mid(VBuf, ChrPosEnd + 1)    'Data after  cut range
     VBuf = Tmp & Tmp2                                                           'Make new buffer without cut range
-    ClearRange                                                                   'Clear the Range
+    ClearRange                                                                  'Clear the Range
     Return
 
 InsClip:
+    V = Len(VClip): If V = 0 Then GoTo EmptyClip
     Tmp = "": If ChrPos > 1 Then Tmp = Left(VBuf, ChrPos - 1)                   'Data before insert point
     Tmp2 = "": If ChrPos < Len(VBuf) Then Tmp2 = Mid(VBuf, ChrPos)              'Data after  insert point
     VBuf = Tmp & VClip & Tmp2                                                   'Make new buffer with clip addeed
@@ -7702,6 +7712,7 @@ InsClip:
     Return
 
 AppendClip:
+    V = Len(VClip): If V = 0 Then GoTo EmptyClip
     VBuf = VBuf & VClip                                                         'Append VClip
     ClearRange                                                                  'Clear the Range
     Return
@@ -7772,7 +7783,7 @@ Compare:
     Next J
     Return
 
-'================================================================================== Manipulation Routines
+'=============================================================================== Manipulation Routines
 
 SetupMirrorArray:
     Tr(0) = 0: Tr(1) = 8: Tr(2) = 4: Tr(3) = 12
