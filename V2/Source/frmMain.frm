@@ -3024,7 +3024,7 @@ Dim FontBMPFlag     As Boolean          'Flag to indicate BMP font loaded
 
 '---- INFO: Display Program info and acknowlegements
 Private Sub cmdAbout_Click()
-    MyMsg "CBM-Transfer V2.04 (Jul 31/2025)" & Cr & _
+    MyMsg "CBM-Transfer V2.05 (Aug 1/2025)" & Cr & _
           "(C)2007-2025 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -6242,6 +6242,7 @@ Private Sub CheckSelected(Index As Integer, Target As Integer)
                     
                 Case Else
                     V = MsgBox("Unknown file type. Open with associated WINDOWS app?" & Cr & "YES=Windows, NO=CBM-Transfer Viewer", vbYesNoCancel, "Unknown File type")
+                    If V = vbCancel Then Exit Sub
                     If V = vbYes Then ViewFile Filename: Exit Sub
                     ViewSel = 0
                     

@@ -1036,6 +1036,17 @@ Begin VB.Form frmViewer
          TabIndex        =   204
          Top             =   420
          Width           =   1515
+         Begin VB.CommandButton cmdTool 
+            Appearance      =   0  'Flat
+            Caption         =   "XCut"
+            Height          =   315
+            Index           =   37
+            Left            =   60
+            TabIndex        =   333
+            ToolTipText     =   "Cut (no copy to clipboard)"
+            Top             =   5310
+            Width           =   675
+         End
          Begin VB.PictureBox cmdShift 
             Appearance      =   0  'Flat
             AutoRedraw      =   -1  'True
@@ -1462,7 +1473,7 @@ Begin VB.Form frmViewer
             Index           =   31
             Left            =   60
             TabIndex        =   207
-            ToolTipText     =   "Cut selection"
+            ToolTipText     =   "Cut selection to clipboard"
             Top             =   4980
             Width           =   675
          End
@@ -1479,14 +1490,14 @@ Begin VB.Form frmViewer
          End
          Begin VB.CommandButton cmdTool 
             Appearance      =   0  'Flat
-            Caption         =   "Append"
+            Caption         =   "Appnd"
             Height          =   315
             Index           =   33
-            Left            =   330
+            Left            =   750
             TabIndex        =   205
             ToolTipText     =   "Append clipboard to end of file"
             Top             =   5310
-            Width           =   795
+            Width           =   675
          End
          Begin VB.Label Label 
             AutoSize        =   -1  'True
@@ -1665,7 +1676,7 @@ Begin VB.Form frmViewer
             EndProperty
             ForeColor       =   &H80000008&
             Height          =   255
-            Left            =   -60
+            Left            =   60
             TabIndex        =   324
             Top             =   5430
             Width           =   1935
@@ -7427,6 +7438,7 @@ Private Sub FontOp(ByVal Index As Integer)
         Case 34: GoSub SelectSet                                        'Select current set
         Case 35: GoSub NewFont                                          'Create a new font
         Case 36: GoSub Compare                                          'Compare sets 1 and 2 with results in clipboard
+        Case 37: GoSub CutClip                                          'XCut range from set
     End Select
     
     If Len(VBuf) <> VLen Then
@@ -7652,29 +7664,29 @@ DelRow:
     
 InsCol:
     '-- calculate pixel masks
-    a = 0: For J = 7 To (8 - CrosshairC) Step -1: a = a + Pow(J): Next J     'LEFT side mask
-    B = 0: For J = (7 - CrosshairC) To 0 Step -1: B = B + Pow(J): Next J     'RIGHT side mask
+    a = 0: For J = 7 To (8 - CrosshairC) Step -1: a = a + Pow(J): Next J        'LEFT side mask
+    B = 0: For J = (7 - CrosshairC) To 0 Step -1: B = B + Pow(J): Next J        'RIGHT side mask
     
     '-- insert
     For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))                                            'Get byte value
-        nv2 = V And a                                                       'mask left side
-        nv3 = (V And B) \ 2                                                 'mask right side and shift
-        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                    'recombine and write
+        V = Asc(Mid(VBuf, J, 1))                                                'Get byte value
+        nv2 = V And a                                                           'mask left side
+        nv3 = (V And B) \ 2                                                     'mask right side and shift
+        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                        'recombine and write
     Next J
     Return
 
 DelCol:
     '-- calculate pixel masks
-    a = 0: For J = 7 To (8 - CrosshairC) Step -1: a = a + Pow(J): Next J     'LEFT side mask
-    B = 0: For J = (6 - CrosshairC) To 0 Step -1: B = B + Pow(J): Next J     'RIGHT side mask
+    a = 0: For J = 7 To (8 - CrosshairC) Step -1: a = a + Pow(J): Next J        'LEFT side mask
+    B = 0: For J = (6 - CrosshairC) To 0 Step -1: B = B + Pow(J): Next J        'RIGHT side mask
     
     '-- delete
     For J = ChrPos To ChrPosEnd
-        V = Asc(Mid(VBuf, J, 1))                                            'Get byte value
-        nv2 = V And a                                                       'Mask left side
-        nv3 = (V And B) * 2                                                 'Mask right side and shift
-        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                    'Recombine and write
+        V = Asc(Mid(VBuf, J, 1))                                                'Get byte value
+        nv2 = V And a                                                           'Mask left side
+        nv3 = (V And B) * 2                                                     'Mask right side and shift
+        Mid(VBuf, J, 1) = Chr(nv2 + nv3)                                        'Recombine and write
     Next J
     Return
 
@@ -7696,7 +7708,7 @@ PasteClip:
     
 CutClip:
     If RangeFlag = False Then Return
-    GoSub CopyClip                                                              'Copy it
+    If Index = 31 Then GoSub CopyClip                                           'Copy it
     Tmp = "": If ChrPos > 1 Then Tmp = Left(VBuf, ChrPos - 1)                   'Data before cut range
     Tmp2 = "": If ChrPosEnd < Len(VBuf) Then Tmp2 = Mid(VBuf, ChrPosEnd + 1)    'Data after  cut range
     VBuf = Tmp & Tmp2                                                           'Make new buffer without cut range
@@ -7763,13 +7775,15 @@ SelectSet:
 NewFont:
     Tmp = InputBox("How many characters in the font?", "New Font", Format(ChrSetSize))
     If Tmp = "" Then Return
-    nv = Val(Tmp)
+    nv = Val(Tmp): If nv = 0 Then Return                                        'skip if zero
     nv2 = nv * ChrHeight
     VBuf = String(nv2, Nu)                                                      'Make an empty font
+    VBuf1 = VBuf
     RedrawFlag = True
     Return
     
 Compare:
+    If VBuf2 = "" Then Return
     If MsgBox("This will compare Set#1 to Set#2 and place diff in clipboard", vbOKCancel) = vbCancel Then Return
     
     VClip = ""                                                                  'Clear the clipboard

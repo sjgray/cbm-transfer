@@ -1,5 +1,5 @@
   CBM-Transfer (C)2007-2025 Steve J. Gray (sjgray@rogers.com)  www.cbmsteve.ca
-  ============ V2.04 RELEASE - Jul 31,2025
+  ============ V2.05 RELEASE - Aug 1,2025
 
    CBM-Transfer (aka CBMXfer) is a freeware file transfer program for Windows which lets you
   transfer files to and from a Commodore IEC or IEEE drive attached to the PC via X-Cable
@@ -1074,6 +1074,7 @@
                     will be pasted. If you select a RANGE then the clipboard is pasted into that range. If the range
                     is bigger than the clipboard, the clipboard will be repeated (cloned) into that range.
   Cut.............. Cuts the range from the set and saves it in the Clipboard.
+  XCut............. Cuts the range but does not save to clipboard.
   Insert........... Inserts the Clibpard at the currently selected character.
   Append........... Appends the Clipboard to the end of all characters.
 
@@ -1270,12 +1271,13 @@
   Change Log
   ==========
 
-2.04 Jul 31,2025
+2.05 Aug 1,2025
    * Viewer: Font
 	* Now shows all characters in set. Was truncating for last line if not full.
 	* Editor will ask if you want to pad font to multiple of 128 characters.
 	* Fix buffer selection.
 	* Swap button now prompt to copy from Buffer 1 to 2 when buffer 2 is empty.
+	* Add XCut button which cuts but does not copy to clipboard.
 
 2.00 RELEASE - Jun 13,2025
    * Major New Features:
