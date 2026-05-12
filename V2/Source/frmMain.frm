@@ -2976,7 +2976,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-' CBM-Transfer - Copyright (C) 2007-2023 Steve J. Gray
+' CBM-Transfer - Copyright (C) 2007-2026 Steve J. Gray
 ' ====================================================
 '
 ' frmMain - The MAIN window. Code execution starts here!
@@ -3045,8 +3045,8 @@ Dim FontBMPFlag     As Boolean          'Flag to indicate BMP font loaded
 
 '---- INFO: Display Program info and acknowlegements
 Private Sub cmdAbout_Click()
-    MyMsg "CBM-Transfer V2.06, 2025-09-10" & Cr & _
-          "(C)2007-2025 Steve J. Gray" & Cr & Cr & _
+    MyMsg "CBM-Transfer V2.07, 2026-05-12" & Cr & _
+          "(C)2007-2026 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
           "by Leif Bloomquist, Wolfgang Moser and Spiro Trikaliotis." & Cr & _

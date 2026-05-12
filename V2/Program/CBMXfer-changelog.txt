@@ -1,7 +1,13 @@
-CBM-Transfer (C)2007-2025 Steve J. Gray (sjgray@rogers.com)  www.cbmsteve.ca
-============
+CBM-Transfer (C)2007-2026 Steve J. Gray (sjgray@rogers.com)  www.cbmsteve.ca
+============ http://www.cbmsteve.ca/cbmxfer/index.html
 
 Change Log
+
+2.07 - May 12,2026
+   * Viewer: Font
+	* Fix "Flip-V" translation array.
+	* Add/fix tooltips.
+	* Add double-click buffer button to load a font from file.
 
 2.06 - Sep 10,2025
    * Add Minimize-Up button to centre panel. Move expand-right button to top.
