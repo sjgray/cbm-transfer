@@ -3,6 +3,9 @@ CBM-Transfer (C)2007-2026 Steve J. Gray (sjgray@rogers.com)  www.cbmsteve.ca
 
 Change Log
 
+2.08 - Aug 25,2026
+   * Add support for D60 and D90 hard drive images.
+
 2.07 - May 12,2026
    * Viewer: Font
 	* Fix "Flip-V" translation array.

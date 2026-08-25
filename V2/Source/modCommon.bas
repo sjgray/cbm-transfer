@@ -297,7 +297,7 @@ End Function
 ' Flag: False=reading, True=writing
 Public Function SupportedImg(ByVal Ext As String, ByVal WriteFlag As Boolean) As Boolean
     Select Case UCase(Ext)
-        Case "D64", "D71", "D80", "D81", "D82", "G64", "G71", "X64": SupportedImg = True
+        Case "D64", "D71", "D80", "D81", "D82", "G64", "G71", "X64", "D60", "D90": SupportedImg = True
         Case "NIB", "NBZ": If WriteFlag = True Then SupportedImg = True Else SupportedImg = False
         Case "D1M", "D2M", "D4M": If WriteFlag = True Then SupportedImg = False Else SupportedImg = True
         Case Else: SupportedImg = False

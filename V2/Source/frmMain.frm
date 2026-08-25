@@ -3045,7 +3045,7 @@ Dim FontBMPFlag     As Boolean          'Flag to indicate BMP font loaded
 
 '---- INFO: Display Program info and acknowlegements
 Private Sub cmdAbout_Click()
-    MyMsg "CBM-Transfer V2.07, 2026-05-12" & Cr & _
+    MyMsg "CBM-Transfer V2.08, 2026-08-25" & Cr & _
           "(C)2007-2026 Steve J. Gray" & Cr & Cr & _
           "A front-end for: OpenCBM, VICE, NibTools, and CBMLink" & Cr & Cr & _
           "Based on GUI4CBM4WIN V0.4.1," & Cr & _
@@ -4960,7 +4960,7 @@ Private Sub DeviceXDrive(ByVal Model As String)
     Select Case Model
         Case "2031", "1540", "1581"
             LB = "119"                                                      'New-style drives
-        Case "2040", "4040", "8050", "8250", "D9060", "D909"
+        Case "2040", "4040", "8050", "8250", "D9060", "D9090"
             LB = "12"                                                       'Old-style IEEE drives
         Case Else
             MsgBox "Sorry, I do not recognize this drive model.": Exit Sub
@@ -6256,7 +6256,7 @@ Private Sub CheckSelected(Index As Integer, Target As Integer)
                         
             Ext = FileExtU(lstLocal(Index).List(T))
             Select Case Ext
-                Case "D64", "X64", "G64", "G71", "D71", "D80", "D81", "D82", "D2M", "D4M", "DNP"
+                Case "D64", "X64", "G64", "G71", "D71", "D80", "D81", "D82", "D60", "D90", "D2M", "D4M", "DNP"
                     SelectImage Filename, Target
                     
                 Case "NIB", "NBZ"
